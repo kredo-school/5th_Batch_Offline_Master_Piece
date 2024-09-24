@@ -40,3 +40,26 @@
 .profile-list{
     height: 650px;
 }
+.main-nav {
+    background-color: #80D89D;
+    height: 90px;
+}
+
+.sub-nav{
+    background-color: #E1FFEB;
+    height: 40px;
+}
+
+.sub-nav .text-menu{
+    color: #757B9D;
+}
+
+.logo-img{
+    width: 160px;
+    height: 160px;
+    margin-bottom: 15px;
+}
+
+.search-icon{
+    background-color: #FFB84C;
+}
