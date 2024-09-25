@@ -28,7 +28,7 @@
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
+    
 <body class="main-bg" style="background-color: #FFFCF2">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
@@ -181,6 +181,8 @@
         </nav>
 
 
+        @guest
+        @else
         <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
             <div class="row mx-auto">
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
@@ -192,6 +194,7 @@
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
             </div>
         </nav>
+        @endguest
 
         <main class="py-4">
             @yield('content')

@@ -14,7 +14,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    
     Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
         Route::get('/show',[ProfileController::class,'show'])->name('show');
         Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
