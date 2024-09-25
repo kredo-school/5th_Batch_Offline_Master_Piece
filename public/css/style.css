@@ -21,3 +21,12 @@
 .search-icon{
     background-color: #FFB84C;
 }
+
+.login-logo{
+    width: 160px;
+    height: 130px;
+}
+
+.card-header{
+    background-color: #E1FFEB;
+}

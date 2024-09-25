@@ -173,6 +173,8 @@
         </nav>
 
 
+        @guest
+        @else
         <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
             <div class="row mx-auto">
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
@@ -184,6 +186,7 @@
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
             </div>
         </nav>
+        @endguest
 
         <main class="py-4">
             @yield('content')
