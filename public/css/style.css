@@ -48,3 +48,68 @@
     color: #FFFFFF;
     border-radius: 10px;
 }
+*{
+    font-family: "Gothic A1", sans-serif;
+}
+
+.text-grey{
+    color: #757B9D;
+}
+.background{
+    background-color: #FFFCF2;
+}
+
+.back{
+    font-size: 36px;
+    color: #757B9D;
+}
+
+.avatar-lg{
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.fs-40{
+    font-size: 40px;
+}
+.fs-32{
+    font-size: 32px;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+.btn-orange{
+    color: white;
+    background-color:#FFB84C;
+}
+
+.profile-list{
+    height: 650px;
+}
+.main-nav {
+    background-color: #80D89D;
+    height: 90px;
+}
+
+.sub-nav{
+    background-color: #E1FFEB;
+    height: 40px;
+}
+
+.sub-nav .text-menu{
+    color: #757B9D;
+}
+
+.logo-img{
+    width: 160px;
+    height: 160px;
+    margin-bottom: 15px;
+}
+
+.search-icon{
+    background-color: #FFB84C;
+}
