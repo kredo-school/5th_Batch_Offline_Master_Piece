@@ -28,7 +28,7 @@ class ProfileController extends Controller
     public function comment(){
         return view('guest.profile.comment');
     }
-<<<<<<< HEAD
+
     public function edit(){
         return view('guest.profile.edit');
     }
@@ -36,12 +36,10 @@ class ProfileController extends Controller
         return view('guest.profile.welcome');
     }
     
-=======
 
     public function searchlist(){
         return view('guest.profile.search-list');
     }
 
->>>>>>> main
 
 }
