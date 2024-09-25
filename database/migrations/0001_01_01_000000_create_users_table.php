@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id')->default(2)->comment('1:admin 2:guest 3:store');
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
