@@ -29,5 +29,17 @@ class ProfileController extends Controller
         return view('guest.profile.comment');
     }
 
+    public function edit(){
+        return view('guest.profile.edit');
+    }
+    public function welcome(){
+        return view('guest.profile.welcome');
+    }
+    
+
+    public function searchlist(){
+        return view('guest.profile.search-list');
+    }
+
 
 }
