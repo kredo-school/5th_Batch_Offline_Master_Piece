@@ -28,6 +28,12 @@ class ProfileController extends Controller
     public function comment(){
         return view('guest.profile.comment');
     }
-
+    public function edit(){
+        return view('guest.profile.edit');
+    }
+    public function welcome(){
+        return view('guest.profile.welcome');
+    }
+    
 
 }

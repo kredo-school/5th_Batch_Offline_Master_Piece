@@ -48,6 +48,8 @@
     color: #FFFFFF;
     border-radius: 10px;
 }
+
+/* profile */
 *{
     font-family: "Gothic A1", sans-serif;
 }
@@ -71,6 +73,10 @@
     border-radius: 50%;
 }
 
+.icon-lg{
+    font-size: 10rem;
+}
+
 .fs-40{
     font-size: 40px;
 }
@@ -90,6 +96,10 @@
 .profile-list{
     height: 650px;
 }
+
+
+/* navbar */
+
 .main-nav {
     background-color: #80D89D;
     height: 90px;

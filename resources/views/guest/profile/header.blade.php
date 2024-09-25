@@ -3,7 +3,7 @@
 </div>
 
 <div class="row justify-content-center mt-3">
-    <div class="row col-9 bg-white rounded">
+    <div class="row col-9 bg-white rounded shadow">
         <div class="col-3 text-center pt-5">
             <img src="{{ asset('images/IMG_9633.jpg') }}" alt="$user->id" class="avatar-lg">
             <p class="fw-bolder fs-32">Username</p>

@@ -18,6 +18,8 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
         Route::get('/order',[ProfileController::class,'order'])->name('order');
         Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
+        Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
+        Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
     });
 
     Route::get('/suggestion',[AuthorController::class, 'index']);
