@@ -1,0 +1,29 @@
+.bg{
+    background-color: #FFFCF2;
+}
+
+.section{
+    font-family: "Gothic A1", sans-serif;
+    color: #757B9D;
+}
+
+*{
+    font-family: "Gothic A1", sans-serif;
+}
+
+.card-size{
+    height: 650px;
+}
+
+.fs-32{
+    font-size: 32px;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+img{
+    height: 181px;
+}
+
