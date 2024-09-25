@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
         Route::get('/order',[ProfileController::class,'order'])->name('order');
         Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
+        Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
