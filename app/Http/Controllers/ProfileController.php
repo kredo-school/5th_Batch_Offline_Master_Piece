@@ -29,5 +29,9 @@ class ProfileController extends Controller
         return view('guest.profile.comment');
     }
 
+    public function searchlist(){
+        return view('guest.profile.search-list');
+    }
+
 
 }

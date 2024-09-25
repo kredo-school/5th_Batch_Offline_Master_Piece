@@ -139,4 +139,10 @@ img{
 
 .card-header{
     background-color: #E1FFEB;
+} 
+
+.search-list-img{
+    width: 160px;
+    height: 260px;
+}
 }
