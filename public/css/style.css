@@ -1,3 +1,95 @@
+.main-bg{
+    background: #FFFCF2;
+}
+
+.main-text{
+    color: #757B9D;
+    font-family: 'Gothic A1', sans-serif;
+}
+
+.container-body{
+    margin: auto;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px gray;
+    background-color: #FFFFFF;
+    width: 75%;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+
+/* Font Awesome */
+.fa-star{
+    color: yellow;
+}
+
+.fa-bookmark{
+    float: right;
+    color: orange;
+}
+
+
+/* Table of books (suggetion ranking new) */
+.table-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.table-container table{
+    width: 15%;
+    margin: 10px;
+}
+
+/* Button */
+.btn-select-store{
+    background-color: #FFB84C;
+    color: #FFFFFF;
+    border-radius: 10px;
+}
+*{
+    font-family: "Gothic A1", sans-serif;
+}
+
+.text-grey{
+    color: #757B9D;
+}
+.background{
+    background-color: #FFFCF2;
+}
+
+.back{
+    font-size: 36px;
+    color: #757B9D;
+}
+
+.avatar-lg{
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.fs-40{
+    font-size: 40px;
+}
+.fs-32{
+    font-size: 32px;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+.btn-orange{
+    color: white;
+    background-color:#FFB84C;
+}
+
+.profile-list{
+    height: 650px;
+}
 .main-nav {
     background-color: #80D89D;
     height: 90px;
@@ -29,4 +121,4 @@
 
 .card-header{
     background-color: #E1FFEB;
-}
+} 
