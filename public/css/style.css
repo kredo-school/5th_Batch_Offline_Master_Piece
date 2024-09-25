@@ -1,3 +1,8 @@
+.section{
+    font-family: "Gothic A1", sans-serif;
+    color: #757B9D;
+}
+
 .main-bg{
     background: #FFFCF2;
 }
@@ -54,6 +59,10 @@
     font-family: "Gothic A1", sans-serif;
 }
 
+.card-size{
+    height: 650px;
+}
+
 .text-grey{
     color: #757B9D;
 }
@@ -88,9 +97,18 @@
     font-size: 24px;
 }
 
+img{
+    height: 181px;
+}
+
 .btn-orange{
     color: white;
     background-color:#FFB84C;
+}
+
+.btn-orange:hover{
+    color: #FF8B4A;
+    background-color: #FFE0B0;
 }
 
 .profile-list{
@@ -122,4 +140,19 @@
 
 .search-icon{
     background-color: #FFB84C;
+}
+
+.login-logo{
+    width: 160px;
+    height: 130px;
+}
+
+.card-header{
+    background-color: #E1FFEB;
+} 
+
+.search-list-img{
+    width: 160px;
+    height: 260px;
+}
 }
