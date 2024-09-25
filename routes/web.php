@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -8,9 +9,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-
-
 
 Route::group(['middleware' => 'auth'],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -22,9 +20,9 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
     });
 
+    Route::get('/suggestion',[AuthorController::class, 'index']);
 
-
-    });
+});
 
 
 
