@@ -28,7 +28,7 @@
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 </head>
-    
+
 <body class="main-bg" style="background-color: #FFFCF2">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
@@ -38,7 +38,7 @@
                         <img src="{{asset("images/white-logo.png")}}" alt="" class="logo-img ">
                     </div>
                 </a>
-                
+
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -50,10 +50,10 @@
                         {{-- if the url request is not admin/* (!request()->is(''))--}}
 
                             <ul class="navbar-nav ms-auto ">
-                                
+
                                 @guest
                                 @else
-                                    {{-- <form action="#" 
+                                    {{-- <form action="#"
                                     style="width: 300px" >
 
                                         <div class="row">
@@ -62,7 +62,7 @@
                                                 style="width: 250px;">
                                             </div>
                                             <div class="col-auto ps-1">
-                                            
+
                                                 <button type="submit" class="btn btn-warning btn-sm "><i class="fa-solid fa-magnifying-glass"></i></button>
                                             </div>
                                         </div>
@@ -82,11 +82,11 @@
                                             </div>
                                         </div>
                                     </form>
-                                    
+
                                     <script>
                                         const searchInput = document.getElementById('searchInput');
                                         const clearButton = document.getElementById('clearButton');
-                                    
+
                                         // 入力時にクリアボタンの表示・非表示を切り替える
                                         searchInput.addEventListener('input', function() {
                                             if (searchInput.value) {
@@ -95,7 +95,7 @@
                                                 clearButton.style.display = 'none';
                                             }
                                         });
-                                    
+
                                         // クリアボタンを押すと検索フィールドをクリア
                                         clearButton.addEventListener('click', function() {
                                             searchInput.value = '';
@@ -103,7 +103,7 @@
                                             searchInput.focus();  // フィールドにフォーカスを戻す
                                         });
                                     </script>
-                                    
+
                                 @endguest
                             </ul>
                     </ul>
@@ -153,7 +153,7 @@
                                         <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
                                         <p class="text-white">{{Auth::user()->name}}</p>
                                     @endif
-                                    
+
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
