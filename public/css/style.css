@@ -1,3 +1,12 @@
+.bg{
+    background-color: #FFFCF2;
+}
+
+.section{
+    font-family: "Gothic A1", sans-serif;
+    color: #757B9D;
+}
+
 .main-bg{
     background: #FFFCF2;
 }
@@ -52,6 +61,10 @@
     font-family: "Gothic A1", sans-serif;
 }
 
+.card-size{
+    height: 650px;
+}
+
 .text-grey{
     color: #757B9D;
 }
@@ -80,6 +93,10 @@
 
 .fs-24{
     font-size: 24px;
+}
+
+img{
+    height: 181px;
 }
 
 .btn-orange{
