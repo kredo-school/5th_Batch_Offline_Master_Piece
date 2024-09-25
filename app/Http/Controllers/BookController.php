@@ -8,11 +8,18 @@ use App\Models\Book;
 class BookController extends Controller
 {
     private $book;
-    public function __construct(Book $book){
+    public function __construct(Book $book)
+    {
         $this->book = $book;
     }
 
-    public function show(){
+    public function show()
+    {
         return view('order.show');
+    }
+
+    public function confirm()
+    {
+        return view('order.confirm');
     }
 }

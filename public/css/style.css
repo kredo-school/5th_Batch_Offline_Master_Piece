@@ -1,7 +1,3 @@
-.bg{
-    background-color: #FFFCF2;
-}
-
 .section{
     font-family: "Gothic A1", sans-serif;
     color: #757B9D;
@@ -104,6 +100,11 @@ img{
     background-color:#FFB84C;
 }
 
+.btn-orange:hover{
+    color: #FF8B4A;
+    background-color: #FFE0B0;
+}
+
 .profile-list{
     height: 650px;
 }
@@ -143,4 +144,5 @@ img{
 .search-list-img{
     width: 160px;
     height: 260px;
+}
 }
