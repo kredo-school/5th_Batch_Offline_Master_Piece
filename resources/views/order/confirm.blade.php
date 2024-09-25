@@ -3,10 +3,13 @@
 @section('title', 'order-confirm')
 
 @section('content')
-    <div class="ms-3">
-        <a href="#" class="fw-bold h1 text-decoration-none main-text">
-            <i class="fa-solid fa-caret-left"></i>
-            <div class="d-inline main-text">Back</div>
+    {{-- Back button --}}
+    <div>
+        <a href="#" class="fw-bold text-decoration-none main-text btn">
+            <div class="h2 fw-semibold">
+                <i class="fa-solid fa-caret-left"></i>
+                <div class="d-inline main-text">Back</div>
+            </div>
         </a>
     </div>
 

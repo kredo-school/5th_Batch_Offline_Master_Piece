@@ -140,3 +140,11 @@ img{
 .card-header{
     background-color: #E1FFEB;
 }
+
+.reserved-img{
+    height: 120px;
+}
+
+.text-green{
+    color: #32BF61;
+}
