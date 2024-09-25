@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="text-center mt-3">
+<div class="text-center mt-2">
     <img src="{{asset("images/logo2.png")}}" alt="" class="login-logo ">
 </div>
 
@@ -16,7 +16,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 mt-3">
                             <label for="email" class="form-label ">{{ __('Email Address') }}</label>
 
                             <div class="col">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 mt-2">
                             <label for="password" class="form-label">{{ __('Password') }}</label>
 
                             <div class="col">
@@ -44,16 +44,14 @@
                             </div>
                         </div>
 
-                       
-
-                        <div class="row my-4">
+                        <div class="row my-5 ">
                             <div class="col">
                                 <button type="submit" class="btn btn-warning text-white w-100">
                                     Login
                                 </button>
                             </div>
 
-                        <div class="row my-4">
+                        <div class="row mb-2 mt-5">
                             <div class="col">
                                 <div class="form-check">
                                     <label class="form-check-label" for="remember">
@@ -66,32 +64,6 @@
                                 <a href="#">Register</a>
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
-
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>
