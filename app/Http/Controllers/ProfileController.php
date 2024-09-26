@@ -17,28 +17,28 @@ class ProfileController extends Controller
 
 
     public function show(){
-        return view('guest.profile.show');
+        return view('guests.profile.show');
     }
     public function bookmark(){
-        return view('guest.profile.bookmark');
+        return view('guests.profile.bookmark');
     }
     public function order(){
-        return view('guest.profile.order');
+        return view('guests.profile.order');
     }
     public function comment(){
-        return view('guest.profile.comment');
+        return view('guests.profile.comment');
     }
 
     public function edit(){
-        return view('guest.profile.edit');
+        return view('guests.profile.edit');
     }
     public function welcome(){
-        return view('guest.profile.welcome');
+        return view('guests.profile.welcome');
     }
     
 
     public function searchlist(){
-        return view('guest.profile.search-list');
+        return view('guests.profile.search-list');
     }
 
 

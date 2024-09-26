@@ -13,7 +13,7 @@
             <p class="fs-24 fw-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim officia deserunt dolorem obcaecati sequi eveniet soluta, fugit, dolorum nam neque minima numquam? Accusamus, quos maxime. Distinctio officiis unde libero dolores.
             </p>
             <div class="text-end">
-                <a href="#" class="btn btn-orange ">Edit Profile</a>
+                <a href="{{route('profile.edit')}}" class="btn btn-orange ">Edit Profile</a>
 
             </div>
 

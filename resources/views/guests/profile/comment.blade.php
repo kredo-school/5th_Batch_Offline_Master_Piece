@@ -5,7 +5,7 @@
 
 @section('content')
 
-    @include('guest.profile.header')
+    @include('guests.profile.contents.header')
 
     <div class="row justify-content-center mt-2">
         <div class="col-8 mt-3">

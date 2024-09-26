@@ -22,6 +22,9 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
         Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
         Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
+
+
+
         Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
     });
 
