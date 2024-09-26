@@ -153,7 +153,7 @@
                     </div>
                 </div>
 
-                <form action="{{route('order.uploadImage')}}" method="post">
+                <form action="" method="post">
                     @csrf
                     <button type="submit" name="select-store" class="btn btn-warning w-100 p-2">Select Store <i class="fa-solid fa-arrow-right"></i></button>
                 </form>
