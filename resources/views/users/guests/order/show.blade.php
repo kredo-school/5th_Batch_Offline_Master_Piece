@@ -19,7 +19,7 @@
                                     <div class="col-3">
                                         {{-- book image--}}
                                         <div class="text-center">
-                                            <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border shadow"></a>
+                                            <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border w-100 shadow"></a>
                                         </div>
                                     </div>
                                     <div class="col-6 fs-32">
