@@ -33,6 +33,11 @@
 }
 
 
+.section{
+    font-family: "Gothic A1", sans-serif;
+    color: #757B9D;
+}
+
 .main-bg{
     background: #FFFCF2;
 }
@@ -83,8 +88,14 @@
     color: #FFFFFF;
     border-radius: 10px;
 }
+
+/* profile */
 *{
     font-family: "Gothic A1", sans-serif;
+}
+
+.card-size{
+    height: 650px;
 }
 
 .text-grey{
@@ -106,6 +117,10 @@
     border-radius: 50%;
 }
 
+.icon-lg{
+    font-size: 10rem;
+}
+
 .fs-40{
     font-size: 40px;
 }
@@ -117,14 +132,27 @@
     font-size: 24px;
 }
 
+img{
+    height: 181px;
+}
+
 .btn-orange{
     color: white;
     background-color:#FFB84C;
 }
 
+.btn-orange:hover{
+    color: #FF8B4A;
+    background-color: #FFE0B0;
+}
+
 .profile-list{
     height: 650px;
 }
+
+
+/* navbar */
+
 .main-nav {
     background-color: #80D89D;
     height: 90px;
@@ -182,3 +210,24 @@
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1); 
 }
 
+.login-logo{
+    width: 160px;
+    height: 130px;
+}
+
+.card-header{
+    background-color: #E1FFEB;
+}
+
+.search-list-img{
+    width: 160px;
+    height: 260px;
+}
+
+.reserved-img{
+    height: 120px;
+}
+
+.text-green{
+    color: #32BF61;
+}
