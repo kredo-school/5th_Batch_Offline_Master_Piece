@@ -22,4 +22,9 @@ class BookController extends Controller
     {
         return view('order.confirm');
     }
+
+    public function reserved()
+    {
+        return view('order.reserved');
+    }
 }

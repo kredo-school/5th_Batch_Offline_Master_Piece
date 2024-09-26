@@ -149,10 +149,17 @@ img{
 
 .card-header{
     background-color: #E1FFEB;
-} 
+}
 
 .search-list-img{
     width: 160px;
     height: 260px;
 }
 
+.reserved-img{
+    height: 120px;
+}
+
+.text-green{
+    color: #32BF61;
+}

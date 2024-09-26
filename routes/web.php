@@ -24,17 +24,12 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
         Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
     });
-
-    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
-        Route::get('/show', [BookController::class, 'show'])->name('show');
-        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
-    });
-
     Route::get('/suggestion',[AuthorController::class, 'index']);
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
         Route::get('/show', [BookController::class, 'show'])->name('show');
         Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
+        Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
     });
 });
 
