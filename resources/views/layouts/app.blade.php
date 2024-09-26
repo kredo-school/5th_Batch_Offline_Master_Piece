@@ -69,7 +69,7 @@
                                             <div class="col pe-0 position-relative">
                                                 <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search books..." style="width: 250px;">
                                                 <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
-                                                    ×
+                                                    x
                                                 </button>
                                             </div>
                                             <div class="col ps-1">
@@ -161,9 +161,9 @@
 
                                     {{-- Logout --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                       <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                    <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -197,5 +197,10 @@
             @yield('content')
         </main>
     </div>
+    {{-- footer here --}}
+        @auth
+            @include('layouts.footer')
+        @endauth
+
 </body>
 </html>

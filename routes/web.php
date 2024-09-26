@@ -5,12 +5,17 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
 Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
 
 Route::group(['middleware' => 'auth'],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -27,17 +32,12 @@ Route::group(['middleware' => 'auth'],function(){
 
         Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
     });
-
-    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
-        Route::get('/show', [BookController::class, 'show'])->name('show');
-        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
-    });
-
     Route::get('/suggestion',[AuthorController::class, 'index']);
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
         Route::get('/show', [BookController::class, 'show'])->name('show');
         Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
+        Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
     });
 });
 
