@@ -145,4 +145,8 @@ img{
     width: 160px;
     height: 260px;
 }
+
+.new-order-confirm-proceed{
+    color: #FFFFFF;
+    background-color: #CEDA41;
 }
