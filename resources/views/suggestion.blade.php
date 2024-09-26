@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','suggestion_book')
+
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
