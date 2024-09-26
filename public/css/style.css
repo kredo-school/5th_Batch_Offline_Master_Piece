@@ -1,3 +1,7 @@
+.bg{
+    background-color: #FFFCF2;
+}
+
 .register-img{
     width: 15%;
     /* height: auto; */
@@ -40,6 +44,9 @@
 
 .main-bg{
     background: #FFFCF2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .main-text{
@@ -141,6 +148,9 @@ img{
     background-color:#FFB84C;
 }
 
+.profile-list{
+    height: 650px;
+}
 .btn-orange:hover{
     color: #FF8B4A;
     background-color: #FFE0B0;
@@ -187,7 +197,7 @@ img{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    
+
 }
 
 .i-admin{
@@ -202,12 +212,12 @@ img{
     border: none; /* ボタンのデフォルトの枠線を削除 */
     outline: none; /* フォーカス時の枠線を消す */
     background-color: transparent; /* 背景色を透過に */
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .card-admin {
-    border-radius: 50px; 
-    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1); 
+    border-radius: 50px;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 .login-logo{
@@ -218,6 +228,121 @@ img{
 .card-header{
     background-color: #E1FFEB;
 }
+
+.store-home-button{
+    background-color:#D3DD53;
+    color: white;
+    font-size:2rem;
+    width: 80%;
+    height:200px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+}
+
+.store-home-button:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    background-color: #FFFCF2;
+    color: #D3DD53;
+    border: solid #D3DD53;
+}
+
+.store-home-button:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
+.store-search{
+    background-color:#FFB84C;
+}
+
+.store-search:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
+footer{
+    height: auto;
+    background-color: #357C4A;
+    color:white;
+    margin-top: auto;
+}
+
+.footer-logo{
+    width: 10rem;
+    height: 10rem;
+}
+
+footer a{
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    transition: transform 0.1s, text-shadow 0.3s;
+}
+footer a:hover{
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                        0 0 20px rgba(255, 255, 255, 0.6),
+                        0 0 30px rgba(255, 255, 255, 0.4),
+                        0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+footer a:active{
+    transform: translateY(2px);
+}
+
+footer .col {
+    text-align: center;
+}
+
+footer p{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-top: 10%;
+}
+
+footer li{
+    width: calc(100% / 10);
+    list-style: none;
+}
+
+.list-container {
+    display: grid;
+    gap: 10px;
+}
+
+#page-top {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    display: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.eraser-button {
+    width: 5rem;
+    height: 31px;
+    background-color: #FFB84C;
+    border-radius: 7px;
+    transition: transform 0.1s ease;
+}
+
+.eraser-button:hover {
+    transform: translateY(-2px);
+}
+
+.eraser-button:active {
+    transform: translateY(1px);
+}
+
+
+
 
 .search-list-img{
     width: 160px;

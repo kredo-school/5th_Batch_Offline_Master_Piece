@@ -197,5 +197,10 @@
             @yield('content')
         </main>
     </div>
+    {{-- footer here --}}
+        @auth
+            @include('layouts.footer')
+        @endauth
+
 </body>
 </html>
