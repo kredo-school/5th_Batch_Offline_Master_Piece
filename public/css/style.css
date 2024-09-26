@@ -349,6 +349,10 @@ footer li{
     height: 260px;
 }
 
+.new-order-confirm-proceed{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+}
 .reserved-img{
     height: 120px;
 }

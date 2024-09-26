@@ -177,20 +177,33 @@
             </div>
         </nav>
 
-
         @guest
         @else
-        <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-            <div class="row mx-auto">
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Ranking</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Suggestion</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
-            </div>
-        </nav>
+        @if(request()->is('thread/*'))  
+            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                <div class="row mx-auto text-center">
+                    <p class="col px-5 mt-3 fs-5 ">
+                        <a href="" class="text-menu text-decoration-none">Thread Home</a>
+                    </p>
+                    <p class="col px-5 mt-3 fs-5 ">
+                        <a href="" class="text-menu text-decoration-none">Post Thread</a>
+                    </p>
+                </div>
+            </nav>
+        @endif
+        @if(request()->is('guest/*'))
+            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                <div class="row mx-auto">
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Ranking</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Suggestion</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
+                </div>
+            </nav>
+        @endif
         @endguest
 
         <main class="py-4">
