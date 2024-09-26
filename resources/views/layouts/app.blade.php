@@ -12,14 +12,18 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    {{-- fontawesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- CSS Style --}}
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
-    <link rel="stylesheet" href="{{asset("css/style.css")}}">
+    {{-- Google font --}}
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
@@ -65,7 +69,7 @@
                                             <div class="col pe-0 position-relative">
                                                 <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search books..." style="width: 250px;">
                                                 <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
-                                                    ×
+                                                    x
                                                 </button>
                                             </div>
                                             <div class="col ps-1">
@@ -107,13 +111,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}"><p class="fs-4 text-white fw-bold pe-4">Login</p></a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}"><p class="fs-4 text-white fw-bold pe-3">Register</p></a>
                                 </li>
                             @endif
                         @else
@@ -157,9 +161,9 @@
 
                                     {{-- Logout --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                       <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                    <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -174,6 +178,8 @@
         </nav>
 
 
+        @guest
+        @else
         <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
             <div class="row mx-auto">
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
@@ -185,6 +191,7 @@
                 <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
             </div>
         </nav>
+        @endguest
 
         <main class="py-4">
             @yield('content')
