@@ -360,3 +360,8 @@ footer li{
 .text-green{
     color: #32BF61;
 }
+
+.order-confirm-button{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+}
