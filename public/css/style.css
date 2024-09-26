@@ -1,5 +1,6 @@
-.bg{
-    background-color: #FFFCF2;
+/* order-show */
+.card-size{
+    height: 650px;
 }
 
 .register-img{
@@ -29,18 +30,12 @@
 }
 
 
-.card{
+/* .card{
     width: 80%;
-    /* X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray */
-    box-shadow: 0 0 3px  gray; /* 下方向にのみ影を付ける */
+    X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray
+    box-shadow: 0 0 3px  gray; 下方向にのみ影を付ける
     border-radius: 10px;
-}
-
-
-.section{
-    font-family: "Gothic A1", sans-serif;
-    color: #757B9D;
-}
+} */
 
 .main-bg{
     background: #FFFCF2;
@@ -101,10 +96,6 @@
     font-family: "Gothic A1", sans-serif;
 }
 
-.card-size{
-    height: 650px;
-}
-
 .text-grey{
     color: #757B9D;
 }
@@ -137,10 +128,6 @@
 
 .fs-24{
     font-size: 24px;
-}
-
-img{
-    height: 181px;
 }
 
 .btn-orange{
@@ -225,9 +212,9 @@ img{
     height: 130px;
 }
 
-.card-header{
+/* .card-header{
     background-color: #E1FFEB;
-}
+} */
 
 .store-home-button{
     background-color:#D3DD53;
