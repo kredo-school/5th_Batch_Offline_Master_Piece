@@ -85,10 +85,10 @@
             <h1 class="h3 main-text fw-bold">Select Store</h1>
             @for($i = 0; $i < 8; $i++)
                 <div class="row ms-3">
-                    <div class="col-3">
-                        <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#">
+                    <div class="col-4">
+                        <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
                     </div>
-                    <div class="col-4 my-auto">
+                    <div class=" col-4 my-auto">
                         <h3>Store name</h3>
                         <h5>0120-123-456</h5>
                         <h4> Japan Tokyo 12345</h4>

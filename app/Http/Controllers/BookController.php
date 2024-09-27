@@ -15,17 +15,17 @@ class BookController extends Controller
 
     public function show()
     {
-        return view('order.show');
+        return view('users.guests.order.show');
     }
 
     public function confirm()
     {
-        return view('order.confirm');
+        return view('users.guests.order.confirm');
     }
 
     public function reserved()
     {
-        return view('order.reserved');
+        return view('users.guests.order.reserved');
     }
 
 

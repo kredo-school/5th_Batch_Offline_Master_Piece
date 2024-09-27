@@ -14,6 +14,10 @@ class StoreController extends Controller
     }
 
     public function newOrderConfirm(){
-        return view('store.new-order-confirm');
+        return view('users.store.new-order-confirm');
+    }
+
+    public function OrderConfirm(){
+        return view('users.store.order-confirm');
     }
 }
