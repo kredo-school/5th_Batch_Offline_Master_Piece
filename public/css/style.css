@@ -392,6 +392,19 @@ footer li{
     color: #32BF61;
 }
 
+/* thread */
+.thread-title
+{
+    font-family: "Gilda Display", serif;
+    font-size: 96px;
+}
+
+.thread-img
+{
+    width: 150px;
+    height: auto;
+}
+
 .order-confirm-button{
     color: #FFFFFF;
     background-color: #CEDA41;
