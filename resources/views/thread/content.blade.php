@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'thread-content')
+@section('title', 'ThreadContent')
 
 @section('content')
 <div class="container-fluid">
@@ -44,7 +44,8 @@
                                     </div>
                                 </button>
                             </div>
-                            @include('thread.delete-comment')
+                            @include('thread.modals.delete-comment')
+                            @include('thread.modals.report-comment')
                         </div>
                         <div class="px-4 fs-24">
                             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus in rerum ab ullam amet atque autem laudantium ducimus fuga reiciendis accusantium quaerat nam, blanditiis repudiandae id sed delectus fugit doloribus?</p>
