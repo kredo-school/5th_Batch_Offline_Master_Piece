@@ -27,6 +27,7 @@
                         </form>
                     </div>
                     <div class="col">
+                        {{-- not complete --}}
                         <form action="#" style="width: 500px" class="d-flex">
                             @csrf
                             <div class="row ms-auto">

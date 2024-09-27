@@ -15,6 +15,11 @@ class ThreadController extends Controller
         return view('thread.home');
     }
 
+    public function content()
+    {
+        return view('thread.content');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
