@@ -29,12 +29,12 @@
 }
 
 
-.card{
+/* .card{
     width: 80%;
-    /* X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray */
-    box-shadow: 0 0 3px  gray; /* 下方向にのみ影を付ける */
+    X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray
+    box-shadow: 0 0 3px  gray; 下方向にのみ影を付ける
     border-radius: 10px;
-}
+} */
 
 
 .section{
@@ -360,3 +360,17 @@ footer li{
 .text-green{
     color: #32BF61;
 }
+
+/* thread */
+.thread-title
+{
+    font-family: "Gilda Display", serif;
+    font-size: 96px;
+}
+
+.thread-img
+{
+    width: 150px;
+    height: auto;
+}
+
