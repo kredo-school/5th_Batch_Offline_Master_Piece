@@ -126,12 +126,24 @@
     color: gray;
 }
 
+/* store inventory */
+.img-store-inventory{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
 
 /* Button */
 .btn-select-store{
     background-color: #FFB84C;
     color: #FFFFFF;
     border-radius: 10px;
+}
+
+.btn-select-inventory{
+    width: 250px;
+    height: 50px;
 }
 
 
