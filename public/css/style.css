@@ -191,6 +191,52 @@
     height: 650px;
 }
 
+/* Home */
+.bg-grey{
+    background-color: #EEEBE2;
+}
+.h-thread{
+    height: 300px;
+}
+.bg-adv{
+    background: #7FA5D9;
+    width: 270px;
+    height: 270px;
+}
+
+.text-gold{
+    color: #F8E00A;
+
+}
+.text-silver{
+    color: #D3D2C7;
+
+}
+.text-copper{
+    color: #D9A965;
+
+}
+
+/* 左のボタンを左に移動 */
+.carousel-control-prev {
+    left: -80px; 
+}
+
+/* 右のボタンを右に移動 */
+.carousel-control-next {
+    right: -80px; 
+}
+
+/* 戻るボタンの矢印を黒色に変更 */
+.carousel-control-prev-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>');
+}
+
+/* 進むボタンの矢印を黒色に変更 */
+.carousel-control-next-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
+}
+
 
 /* navbar */
 
