@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','book_inventory')
+@section('title','show_store')
 
 @section('content')
     {{-- Back button --}}
@@ -15,7 +15,6 @@
     
     <form action="#" method="post">
         @csrf
-
         <div class="mb-5 d-flex justify-content-center mx-auto">
             <select name="area" id="area" class="form-control w-25">
                 <option value="" hidden>area</option>
@@ -81,30 +80,20 @@
                 </div>
             </div>
         </div>
-    
-        <div class="container-body" style="overflow-y: auto; height: 650px;">
-            <h1 class="h3 main-text fw-bold">Select Store</h1>
-            @for($i = 0; $i < 8; $i++)
-                <div class="row ms-3">
+    </form>
+        <div class="container-body">
+            <h1 class="h3 main-text fw-bold">Store Information</h1>
+                <div class="row ms-3 my-5">
                     <div class="col-4">
                         <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
                     </div>
-                    <div class=" col-4 my-auto">
-                        <h3>Store name</h3>
-                        <h5>0120-123-456</h5>
-                        <h4> Japan Tokyo 12345</h4>
-                    </div>
-                    <div class="col-4 my-auto">
-                        <h3>Inventory: number</h3>
-                        <h6>Receiving Date: Right now or 3days later </h6>
-                            <input type="number" name="inventory" id="inventory" class="form-control w-50" placeholder="Quantity">
+                    <div class=" col my-auto ms-5">
+                        <h2 class="fw-bold">Store name</h2>
+                        <h4>0120-123-456</h4>
+                        <h3> Japan Tokyo 12345</h3>
                     </div>
                 </div>
-                <hr>
-            @endfor
+                <h4 class="ms-3">Introduction:</h4>
+                <h5 class="ms-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente nemo pariatur sed libero voluptates ipsa est, aliquam nisi dolores, ducimus quis dolor officiis placeat nulla laudantium quas delectus debitis quam!</h5>
         </div>
-        <div class="text-end w-75 mx-auto">
-            <input type="submit" value="select" class="btn btn-primary btn-select-inventory">
-        </div>
-    </form>
 @endsection

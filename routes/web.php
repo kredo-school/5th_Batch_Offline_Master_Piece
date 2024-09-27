@@ -39,7 +39,9 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/new', [BookController::class, 'bookNew'])->name('new');
             Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
+            Route::get('/store/show', [BookController::class, 'bookStoreShow'])->name('store_show');
         });
+
         
         Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
 
