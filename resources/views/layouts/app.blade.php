@@ -24,6 +24,10 @@
 
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+
+    {{-- Java Script for Graph --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
