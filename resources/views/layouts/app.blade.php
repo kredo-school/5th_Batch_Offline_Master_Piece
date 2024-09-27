@@ -179,7 +179,7 @@
 
         @guest
         @else
-        @if(request()->is('thread/*'))  
+        @if(request()->is('thread/*'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
                 <div class="row mx-auto text-center">
                     <p class="col px-5 mt-3 fs-5 ">

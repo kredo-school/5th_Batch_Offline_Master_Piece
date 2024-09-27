@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ThreadController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -34,14 +35,6 @@ Route::group(['middleware' => 'auth'],function(){
 
         Route::get('/suggestion',[AuthorController::class, 'index']);
 
-        Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
-
-        });
-    });
-
-    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
-        Route::get('/show', [BookController::class, 'show'])->name('show');
-        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
@@ -53,6 +46,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+    });
+    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+        Route::get('/home', [ThreadController::class, 'home'])->name('home');
     });
 });
 
