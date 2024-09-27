@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+        Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
     });
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
