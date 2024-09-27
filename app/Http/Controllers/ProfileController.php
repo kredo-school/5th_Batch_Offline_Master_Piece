@@ -35,7 +35,6 @@ class ProfileController extends Controller
     public function welcome(){
         return view('users.guests.profile.welcome');
     }
-    
 
     public function searchlist(){
         return view('users.guests.profile.search-list');

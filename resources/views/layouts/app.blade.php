@@ -30,7 +30,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{route('home')}}">
                     <div class="text-center text-white pt-3">
                         <img src="{{asset("images/white-logo.png")}}" alt="" class="logo-img ">
                     </div>
