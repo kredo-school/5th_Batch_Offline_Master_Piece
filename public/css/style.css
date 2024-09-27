@@ -139,6 +139,11 @@
     border-radius: 10px;
 }
 
+.btn-select-inventory{
+    width: 250px;
+    height: 50px;
+}
+
 
 /* profile */
 *{

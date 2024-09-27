@@ -4,8 +4,19 @@
 
 @section('content')
 
+    {{-- Back button --}}
+    <div>
+        <a href="#" class="fw-bold text-decoration-none main-text btn">
+            <div class="h2 fw-semibold">
+                <i class="fa-solid fa-caret-left"></i>
+                <div class="d-inline main-text">Back</div>
+            </div>
+        </a>
+    </div>
+    
     <div class="container-body">
         <form action="#" method="post">
+            @csrf
             <div class="row">
                 <div class="col-4">
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
@@ -93,6 +104,7 @@
     </div>
     <div class="container-body">
         <form action="#" method="post">
+            @csrf
             <div class="d-flex align-items-center">
                 <div class="row w-100">
                     <div class="col">
@@ -143,6 +155,7 @@
             @endfor
         </form>
         <form action="#" method="post">
+            @csrf
             <div class="review-list">
                 <label for="write-review" class="form-label fw-bold">Write your review</label>
                 <div class="border border-1 border-black p-3">

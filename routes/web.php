@@ -32,8 +32,6 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
         });
 
-        Route::get('/suggestion',[AuthorController::class, 'index']);
-
         Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
 
         });
@@ -53,6 +51,15 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/show', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
     });
+
+    Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+        Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
+        Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
+        Route::get('/new', [BookController::class, 'bookNew'])->name('new');
+        Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
+        Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
+    });
+    
 });
 
 
