@@ -20,9 +20,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
 
 Route::group(['middleware' => 'auth'],function(){
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     
     Route::group(['prefix'=>'guest'],function(){
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/show',[ProfileController::class,'show'])->name('show');
             Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
             Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
             Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
+
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
         });
         
