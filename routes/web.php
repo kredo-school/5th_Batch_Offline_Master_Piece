@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'],function(){
     });
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/content', [ThreadController::class, 'content'])->name('content');
     });
 
     
