@@ -55,4 +55,9 @@ class BookController extends Controller
     {
         return view('users.guests.book.book_inventory');
     }
+
+    public function bookStoreShow()
+    {
+        return view('users.guests.show_store');
+    }
 }
