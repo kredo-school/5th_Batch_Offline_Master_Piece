@@ -19,7 +19,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return view('suggestion');
+        return view('show_book');
     }
 
     /**

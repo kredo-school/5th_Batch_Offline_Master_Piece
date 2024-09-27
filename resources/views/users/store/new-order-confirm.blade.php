@@ -44,7 +44,10 @@
             @endfor
         </div>
         <div class="text-end my-5 ">
-            <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to Next</button>
+            <form action="#" method="post">
+                @csrf
+                <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to Next</button>
+            </form>
         </div>
     </div>
 </div>

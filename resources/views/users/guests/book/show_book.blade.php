@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','show_book')
+
 @section('content')
 
     <div class="container-body">
@@ -9,12 +11,23 @@
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                 </div>
                 <div class="col-8">
-                    <h1>Title: <a href=""><i class="fa-solid fa-bookmark"></i></a></h1>
+                    <h1 class="fw-bold">Title: <a href="#"><i class="fa-regular fa-bookmark"></i></a></h1>
                     <h3>Author: </h3>
                     <h3>Publisher: </h3>
                     <h3>Publish year: </h3>
                     <h3>Description: </h3>
-                    <h3>Review: <i class="fa-solid fa-star"></i>4</h3>
+                    <h3 class="d-flex">Rate:   
+                        <a href="#" class="d-flex text-decoration-none text-dark">
+                            <div class="star-ration ms-2">
+                                <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                            </div>
+                            <div class="ms-2">X.X/5.0</div>
+                        </a>
+                    </h3>
                     <h3>Price: </h3>
                     <h3>Genre: </h3>
                     <div class="row">
@@ -79,7 +92,83 @@
         </form>
     </div>
     <div class="container-body">
-        sdfghjkl;
+        <form action="#" method="post">
+            <div class="d-flex align-items-center">
+                <div class="row w-100">
+                    <div class="col">
+                        <h2 class="main-text fw-bold">Review</h2>
+                    </div>
+                    <div class="col-3">
+                        <select name="sort" id="sort" class="form-control w-100">
+                            <option value=""hidden>sort</option>
+                            <option value="latest-arrives">Latest-arrives</option>
+                            <option value="highest-rating">Highest Rating</option>
+                            <option value="lowest-rating">Lowest Rating</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @for($i = 0; $i < 5; $i++)
+                <div class="review-list">
+                    <a href="#" class="text-decoration-none d-flex align-items-center">
+                        <div class="image-wrapper">
+                            <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-thumbnail rounded-circle">
+                        </div>
+                        <h4 class="text-black my-auto w-100 ms-4">username</h4>
+                    </a>
+                    
+                    <div class="d-flex mt-3">
+                        <h5 class="d-flex">Rate:   
+                            <a href="#" class="d-flex text-decoration-none text-dark">
+                                <div class="star-ration ms-2">
+                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                </div>
+                                <div class="ms-2">X.X/5.0</div>
+                            </a>
+                        </h5>
+                        <h3 class="ms-5 fw-bold">Title</h3>
+                    </div>
+                    <div class="post-time">month.day.year</div>
+                    <div class="d-flex">
+                        <h4 class="mt-3">comment</h4>
+                        <button class="fa-thumbs ms-auto d-flex"><i class="fa-regular fa-thumbs-up "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                        <button class="fa-thumbs d-flex"><i class="fa-regular fa-thumbs-down "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                    </div>
+                </div>
+                <hr>
+            @endfor
+        </form>
+        <form action="#" method="post">
+            <div class="review-list">
+                <label for="write-review" class="form-label fw-bold">Write your review</label>
+                <div class="border border-1 border-black p-3">
+                    <div class="row">
+                        <h6 class="d-flex ms-2">Rate:   
+                            <div class="star-ration ms-2">
+                                <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                            </div>
+                            <div class="ms-2">X.X/5.0</div>
+                        </h6>
+                    </div>
+                    <textarea name="review-title" id="review-title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
+                    <hr>
+                    <textarea name="review-content" id="review-content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
+                </div>
+            </div>
+            <div class="review-list text-end">
+                <input type="submit" value="Post Review" class="btn mt-3 btn-select-store px-5">
+            </div>
+        </form>
+
+        
     </div>
 
 @endsection
