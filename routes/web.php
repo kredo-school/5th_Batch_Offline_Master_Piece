@@ -33,9 +33,25 @@ Route::group(['middleware' => 'auth'],function(){
 
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
         });
+        
+        Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+            Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
+            Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
+            Route::get('/new', [BookController::class, 'bookNew'])->name('new');
+            Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
+            Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
+            Route::get('/store/show', [BookController::class, 'bookStoreShow'])->name('store_show');
+        });
 
-        Route::get('/suggestion',[AuthorController::class, 'index']);
+        
+        Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
 
+        });
+    });
+
+    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
+        Route::get('/show', [BookController::class, 'show'])->name('show');
+        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
@@ -51,6 +67,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
     });
+
+    
 });
 
 
