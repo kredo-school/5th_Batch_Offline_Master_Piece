@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+        Route::get('/ordered', [StoreController::class, 'Ordered'])->name('Ordered');
     });
 });
 

@@ -50,20 +50,7 @@
 
                                 @guest
                                 @else
-                                    {{-- <form action="#"
-                                    style="width: 300px" >
-
-                                        <div class="row">
-                                            <div class="col-auto pe-0">
-                                                <input type="search" name="search" class="form-control form-control-sm " placeholder="Search books..."
-                                                style="width: 250px;">
-                                            </div>
-                                            <div class="col-auto ps-1">
-
-                                                <button type="submit" class="btn btn-warning btn-sm "><i class="fa-solid fa-magnifying-glass"></i></button>
-                                            </div>
-                                        </div>
-                                    </form> --}}
+                                @if(request()->is('guest/*'))
                                     <form action="#" style="width: 500px" class="d-flex">
                                         <div class="row ms-auto">
                                             <div class="col pe-0 position-relative">
@@ -100,7 +87,7 @@
                                             searchInput.focus();  // フィールドにフォーカスを戻す
                                         });
                                     </script>
-
+                                @endif
                                 @endguest
                             </ul>
                     </ul>
