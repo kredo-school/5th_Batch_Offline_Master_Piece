@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -24,13 +24,17 @@
 
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+
+    {{-- Java Script for Graph --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{route('home')}}">
                     <div class="text-center text-white pt-3">
                         <img src="{{asset("images/white-logo.png")}}" alt="" class="logo-img ">
                     </div>

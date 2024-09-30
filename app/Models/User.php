@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const ADMIN_ROLE_ID = 1; #  Defines constant for admin role ID.
+    const GUEST_ROLE_ID = 2; #  Defines constant for guest role ID.
+    const STORE_ROLE_ID = 3; #  Defines constant for store role ID.
+
     /**
      * The attributes that are mass assignable.
      *
