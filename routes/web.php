@@ -65,7 +65,10 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
+        Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
+        Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
     });
+
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
         Route::get('/content', [ThreadController::class, 'content'])->name('content');
