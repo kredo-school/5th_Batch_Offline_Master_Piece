@@ -24,5 +24,11 @@ class StoreController extends Controller
         return view('users.store.analysis');
     }
 
-    
+    public function reservationList(){
+        return view('users.store.confirm-reservation-list');
+    }
+
+    public function reservationShow(){
+        return view('users.store.confirm-reservation-show');
+    }
 }
