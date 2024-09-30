@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','SUGGESTION_BOOK')
+@section('title','SUGGESTIONBOOK')
 
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">

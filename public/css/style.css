@@ -157,6 +157,52 @@
     height: 40px;
 }
 
+/* review rating */
+.rating-summary {
+    width: 400px;
+    padding: 20px;
+    margin: auto;
+}
+
+.overall-rating {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.rating-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.rating-details .rating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.bar {
+    width: 70%;
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar .fill {
+    height: 100%;
+    background-color: #f5b301;
+    border-radius: 4px;
+}
+
+.total-ratings {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
 
 /* profile */
 *{
@@ -478,3 +524,9 @@ footer li{
     color: #FFFFFF;
     background-color: #CEDA41;
 }
+
+
+
+
+
+

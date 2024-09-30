@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','BOOK_INVENTORY')
+@section('title','BOOKINVENTORY')
 
 @section('content')
     {{-- Back button --}}
