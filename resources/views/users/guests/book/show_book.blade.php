@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','SHOW_BOOK')
+@section('title','SHOWBOOK')
 
 @section('content')
 
@@ -28,17 +28,22 @@
                     <h3>Publish year: </h3>
                     <h3>Description: </h3>
                     <h3 class="d-flex">Rate:   
-                        <a href="#" class="d-flex text-decoration-none text-dark">
-                            <div class="star-ration ms-2">
-                                <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
-                            </div>
-                            <div class="ms-2">X.X/5.0</div>
-                        </a>
-                    </h3>
+                        <!-- Button trigger modal -->
+                        <h3 class="d-flex">Rate:
+                            <button type="button" class="btn d-flex" data-bs-toggle="modal" data-bs-target="#reviewBook">
+                                <div class="star-ration ms-2">
+                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                </div>
+                                <div class="ms-2">X.X/5.0</div>
+                            </button>
+                        </h3>
+
+                        @include('users.guests.book.modals.review_book')
+
                     <h3>Price: </h3>
                     <h3>Genre: </h3>
                     <div class="row">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','NEW_BOOK')
+@section('title','NEWBOOK')
 
 @section('content')
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
