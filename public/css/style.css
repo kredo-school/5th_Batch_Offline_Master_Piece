@@ -68,6 +68,10 @@
     color: rgb(255, 234, 0);
 }
 
+.star-ration-list{
+    font-size: 15px;
+}
+
 .fa-bookmark{
     float: right;
     color: orange;
@@ -144,6 +148,13 @@
 .btn-select-inventory{
     width: 250px;
     height: 50px;
+}
+
+.serch-button{
+    background-color: rgba(61, 68, 100, 0.719);
+    color: #FFFFFF;
+    width: 85px;
+    height: 40px;
 }
 
 

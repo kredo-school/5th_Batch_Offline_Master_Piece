@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','ranking_book')
+@section('title','RANKING_BOOK')
 
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
@@ -68,7 +68,14 @@
                                 <td><h5>Author</h5></td>
                             </tr>
                             <tr>
-                                <td><h5><i class="fa-solid fa-star"></i> 4</h5></td>
+                                <td class="star-ration-list d-flex">
+                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                    <div class="ms-2">X.X/5.0</div>
+                                </td>
                             </tr>
                             <tr>
                                 <td><h4 class="text-danger">¥20,000</h4></td>
