@@ -20,7 +20,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
 
 Route::group(['middleware' => 'auth'],function(){
-    
+
     Route::group(['prefix'=>'guest'],function(){
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'],function(){
 
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
         });
-        
+
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
             Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/store/show', [BookController::class, 'bookStoreShow'])->name('store_show');
         });
 
-        
+
         Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
 
         });
@@ -67,9 +67,10 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
         Route::get('/content', [ThreadController::class, 'content'])->name('content');
+        Route::get('/create', [ThreadController::class, 'create'])->name('create');
     });
 
-    
+
 });
 
 
