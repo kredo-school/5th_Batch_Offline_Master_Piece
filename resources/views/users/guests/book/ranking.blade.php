@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','RANKING_BOOK')
+@section('title','RANKINGBOOK')
 
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
