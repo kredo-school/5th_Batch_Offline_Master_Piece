@@ -35,8 +35,8 @@
                     <div class="row mt-5">
                         <hr>
                         <div class="col-10 fs-24">
-                            <h3>Thread: <a href="" class="text-decoration-none text-primary">Inochi no me omoshirosugi lol</a></h3>
-                            <p><?= $i ?> name: <span class="text-success fw-bold">Yama-D-Taro</span>: 19/9/2027 Thu.
+                            <h3>Thread: <a href="{{route('thread.content')}}" class="text-decoration-none text-primary">Inochi no me omoshirosugi lol</a></h3>
+                            <p><?= $i ?> name: <a href="{{route('profile.show')}}" class="text-decoration-none text-success fw-bold">Yama-D-Taro</a>: 19/9/2027 Thu.
                                 14:40:10</p>
                         </div>
                         <div class="col-2 fs-24 text-end">

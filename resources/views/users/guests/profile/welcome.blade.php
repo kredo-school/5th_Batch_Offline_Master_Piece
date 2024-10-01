@@ -42,6 +42,16 @@
                     <p class="text-danger small">{{ $message }}</p>
                 @enderror
 
+                <label for="gender" class="form-label mt-4">gender <span class="text-danger">*</span></label>
+                <select name="gender" id="gender" class="form-select">
+                    <option value="" hidden>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                @error('gender')
+                    <p class="text-danger small">{{ $message }}</p>
+                @enderror
+
                 <label for="birthday" class="form-label mt-4">Birthday <span class="text-danger">*</span></label>
                 <input type="date" name="birthday" id="birthday" placeholder="Birthday" class="form-control">
                 @error('birthday')

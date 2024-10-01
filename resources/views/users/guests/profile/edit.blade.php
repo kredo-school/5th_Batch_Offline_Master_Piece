@@ -6,7 +6,7 @@
 @section('content')
 
     <div>
-        <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label
+        <a href="{{ url()->previous() }}" class="text-decoration-none back ms-4 btn"><i class="fa-solid fa-caret-left"></i> <label
                 for="">Back</label></a>
     </div>
 
@@ -39,6 +39,16 @@
                 <label for="last_name" class="form-label mt-4">Last name <span class="text-danger">*</span></label>
                 <input type="text" name="last_name" id="last_name" placeholder="Last name" class="form-control">
                 @error('last_name')
+                    <p class="text-danger small">{{ $message }}</p>
+                @enderror
+
+                <label for="gender" class="form-label mt-4">gender <span class="text-danger">*</span></label>
+                <select name="gender" id="gender" class="form-select">
+                    <option value="" hidden>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                @error('gender')
                     <p class="text-danger small">{{ $message }}</p>
                 @enderror
 

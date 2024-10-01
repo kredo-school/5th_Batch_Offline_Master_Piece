@@ -118,7 +118,7 @@
 
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('home')}}" class="nav-link">
                                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
                                     <p class="text-white">Home</p>
                                 </a>
