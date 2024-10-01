@@ -46,7 +46,6 @@ Route::group(['middleware' => 'auth'],function(){
 
 
         Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
-
         });
     });
 
@@ -68,6 +67,15 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/home', function(){
+            return view('users.store.home');
+        });
+        Route::get('/cashier', function(){
+            return view('users.store.cashier');
+        });
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+
+
     });
 
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
@@ -76,7 +84,10 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
     });
 
-
-});
-
+    });
+    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+        Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/content', [ThreadController::class, 'content'])->name('content');
+        Route::get('/create', [ThreadController::class, 'create'])->name('create');
+    });
 
