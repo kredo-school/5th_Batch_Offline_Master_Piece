@@ -67,11 +67,9 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
-        Route::get('/home', function(){
-            return view('users.store.home');
-        });
-        Route::get('/cashier', function(){
-            return view('users.store.cashier');
+        Route::get('/home', [StoreController::class, 'home'])->name('home');
+        Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
+        Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         });
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
 
@@ -83,6 +81,11 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/home', [AdminController::class, 'index'])->name('home');
         Route::get('/add-book', [AdminController::class, 'create'])->name('create');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
-
     });
-});
+
+    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+        Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/content', [ThreadController::class, 'content'])->name('content');
+        Route::get('/create', [ThreadController::class, 'create'])->name('create');
+    });
+
