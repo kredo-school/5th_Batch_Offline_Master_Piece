@@ -22,7 +22,7 @@
                     <th>Image</th>
                     <th>Title</th>
                     <th>Author</th>
-w                    <th>Publisher</th>
+                    <th>Publisher</th>
                     <th>Publication Date</th>
                     <th>Price</th>
                     <th>ISBN</th>
