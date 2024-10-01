@@ -21,24 +21,27 @@
 
     {{-- CSS Style --}}
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    
+
+
+    {{-- fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
     {{-- Java Script for Graph --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
             <div class="container">
                 <a class="navbar-brand" href="{{route('home')}}">
-                    <div class="text-center text-white pt-3">
-                        <img src="{{asset("images/white-logo.png")}}" alt="" class="logo-img ">
-                    </div>
+                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden mb-0 p-0"style="height: 100px">
                 </a>
+                
 
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -54,20 +57,7 @@
 
                                 @guest
                                 @else
-                                    {{-- <form action="#"
-                                    style="width: 300px" >
-
-                                        <div class="row">
-                                            <div class="col-auto pe-0">
-                                                <input type="search" name="search" class="form-control form-control-sm " placeholder="Search books..."
-                                                style="width: 250px;">
-                                            </div>
-                                            <div class="col-auto ps-1">
-
-                                                <button type="submit" class="btn btn-warning btn-sm "><i class="fa-solid fa-magnifying-glass"></i></button>
-                                            </div>
-                                        </div>
-                                    </form> --}}
+                                @if(request()->is('guest/*'))
                                     <form action="#" style="width: 500px" class="d-flex">
                                         <div class="row ms-auto">
                                             <div class="col pe-0 position-relative">
@@ -104,7 +94,7 @@
                                             searchInput.focus();  // フィールドにフォーカスを戻す
                                         });
                                     </script>
-
+                                @endif
                                 @endguest
                             </ul>
                     </ul>
@@ -170,6 +160,11 @@
                                     <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
 
+                                    {{-- Store Page 仮置き --}}
+                                    <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                    </a>
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -184,16 +179,19 @@
         @guest
         @else
         @if(request()->is('thread/*'))
-            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-                <div class="row mx-auto text-center">
-                    <p class="col px-5 mt-3 fs-5 ">
-                        <a href="#" class="text-menu text-decoration-none">Thread Home</a>
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+            <div class="container">
+                <div class="row w-100 justify-content-center text-center">
+                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
+                        <a href="#" class="text-menu text-decoration-none ">Thread Home</a>
                     </p>
-                    <p class="col px-5 mt-3 fs-5 ">
+                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
                         <a href="#" class="text-menu text-decoration-none">Post Thread</a>
                     </p>
                 </div>
-            </nav>
+            </div>
+        </nav>
+        
         @endif
         @if(request()->is('guest/*'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">

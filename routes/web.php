@@ -17,8 +17,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-
 Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['prefix'=>'guest'],function(){
@@ -44,9 +42,10 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
         });
 
-
-        Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
-
+        Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+            Route::get('/home', [ThreadController::class, 'home'])->name('home');
+            Route::get('/content', [ThreadController::class, 'content'])->name('content');
+            Route::get('/create', [ThreadController::class, 'create'])->name('create');
         });
     });
 
@@ -64,15 +63,29 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+        Route::get('/ordered', [StoreController::class, 'Ordered'])->name('Ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
+        Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
+        Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/home', [StoreController::class, 'home'])->name('home');
+        Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
+        Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
+        });
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+
+
     });
+
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+        Route::get('/home', [AdminController::class, 'index'])->name('home');
+        Route::get('/add-book', [AdminController::class, 'create'])->name('create');
+        Route::get('/store', [AdminController::class, 'store'])->name('store');
+    });
+
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
         Route::get('/content', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
     });
-
-
-});
-
 

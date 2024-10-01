@@ -10,4 +10,14 @@ class AdminController extends Controller
     {
         return view('admin.home');
     }
+
+    public function create()
+    {
+        return view('admin.books.add');
+    }
+
+    public function store()
+    {
+        return view('admin.stores.register-store');
+    }
 }

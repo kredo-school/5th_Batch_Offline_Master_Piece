@@ -29,6 +29,15 @@
     text-decoration: none;
 }
 
+/* Back button */
+.back-button{
+    color: #757B9D;
+    font-weight: bold;
+    font-size: 2rem;
+    padding-left: 2rem;
+    text-decoration: none;
+}
+
 
 /* .card{
     width: 80%;
@@ -301,12 +310,12 @@
 
 /* 左のボタンを左に移動 */
 .carousel-control-prev {
-    left: -80px; 
+    left: -80px;
 }
 
 /* 右のボタンを右に移動 */
 .carousel-control-next {
-    right: -80px; 
+    right: -80px;
 }
 
 /* 戻るボタンの矢印を黒色に変更 */
@@ -337,8 +346,8 @@
 }
 
 .logo-img{
-    width: 160px;
-    height: 160px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 15px;
 }
 
@@ -391,21 +400,23 @@
 .store-home-button{
     background-color:#D3DD53;
     color: white;
-    font-size:2rem;
+    font-size: 2.5vw;
+    font-weight: bold;
     width: 80%;
-    height:200px;
+    height: 200px;
     border-radius: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     outline: none;
-    display: inline-block;
+    display: flex;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .store-home-button:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    background-color: #FFFCF2;
-    color: #D3DD53;
-    border: solid #D3DD53;
 }
 
 .store-home-button:active {
@@ -538,6 +549,17 @@ footer li{
     background-color: #CEDA41;
 }
 
+.ordered-img{
+    width: 200px;
+    height: 240px;
+}
+
+.Goto-inventory{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+    width: 250px;
+    height: 70px;
+}
 
 
 
