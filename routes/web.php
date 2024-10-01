@@ -77,6 +77,12 @@ Route::group(['middleware' => 'auth'],function(){
     });
 
 
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+        Route::get('/home', [AdminController::class, 'index'])->name('home');
+        Route::get('/add-book', [AdminController::class, 'create'])->name('create');
+        Route::get('/store', [AdminController::class, 'store'])->name('store');
+    });
+
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
         Route::get('/content', [ThreadController::class, 'content'])->name('content');
