@@ -6,7 +6,7 @@
 @section('content')
 
     <div>
-        <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label
+        <a href="{{url()->previous()}}" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label
                 for="">Back</label></a>
     </div>
 
@@ -15,16 +15,7 @@
         @csrf
         <div class="row justify-content-center mt-2">
             <div class="col-10 mt-3">
-                <div class="row">
-                    <div class="col-9">
-                        <h1 class="display-3">Analysis of $username</h1>
-                    </div>
-                    {{-- order list --}}
-                    <div class="col-3 pt-3">
-                        <button type="submit" name="btn-search" class="btn btn-orange form-control">Confirm</button>
-                    </div>
-                </div>
-
+                <h1 class="display-3">Analysis of $username</h1>
                 <div class="bg-white rounded mt-4 p-5 profile-list shadow">
                     <div class="row">
                         <div class="col-8">
@@ -90,14 +81,13 @@
                 <div class="bg-white rounded my-5 p-5 profile-list shadow">
                     <div class="row">
                         <div class="col-8">
-                            <h2 class="h1 fw-bold text-grey">Books(Genre)</h2>
+                            <h2 id="bookTitle" class="h1 fw-bold text-grey" >Books(Genre)</h2>
                         </div>
                         {{-- order list --}}
                         <div class="col-4">
-                            <select name="book" id="" class="form-select">
-                                <option value="" hidden>choose</option>
-                                <option value="">Genre</option>
-                                <option value="">Price</option>
+                            <select name="book" id="bookType" class="form-select">
+                                <option value="genre">Genre</option>
+                                <option value="title">Title</option>
                             </select>
                         </div>
                     </div>
@@ -142,31 +132,71 @@
     </script>
 
     <script>
-        var ctx = document.getElementById('bookChart').getContext('2d');
-        var genreChart = new Chart(ctx, {
-            type: 'bar', // 棒グラフ
-            data: {
-                labels: ['Comic', 'Fantasy', 'Horror', 'Mystery', 'History', 'Literature', 'Kids',
-                'Travel'], // X軸のラベル (ジャンル)
-                datasets: [{
-                    label: 'n=120', // グラフのラベル
-                    data: [25, 20, 18, 15, 14, 12, 10, 6], // ジャンルごとのn値 (降順)
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // 棒グラフの色
-                    borderColor: 'rgba(75, 192, 192, 1)', // 境界線の色
-                    borderWidth: 1 // 境界線の幅
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true // Y軸の開始点を0に設定
+        var bookChart;
+
+        // 初期表示のデータ (Genre)
+        var genreData = {
+            labels: ['Comic', 'Fantasy', 'Horror', 'Mystery', 'History', 'Literature', 'Kids', 'Travel', 'Science',
+                'Romance'
+            ],
+            datasets: [{
+                label: 'Genre',
+                data: [25, 20, 18, 15, 14, 12, 10, 6, 5, 2],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Titleのデータ
+        var titleData = {
+            labels: ['booktitle1', 'booktitle2', 'booktitle3', 'booktitle4', 'booktitle5', 'booktitle6', 'booktitle7',
+                'booktitle8', 'booktitle9', 'booktitle10'
+            ],
+            datasets: [{
+                label: 'Title',
+                data: [25, 20, 18, 15, 14, 12, 10, 6, 4, 1],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // グラフを生成する関数
+        function createChart(data) {
+            var ctx = document.getElementById('bookChart').getContext('2d');
+            if (bookChart) {
+                bookChart.destroy(); // 既存のグラフを削除
+            }
+            bookChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
+            });
+        }
+
+        // 初期状態でジャンルのグラフを表示
+        createChart(genreData);
+
+        // プルダウン選択時にデータを切り替える
+        document.getElementById('bookType').addEventListener('change', function() {
+            var selectedValue = this.value;
+            if (selectedValue === 'genre') {
+                createChart(genreData);
+            } else if (selectedValue === 'title') {
+                createChart(titleData);
             }
+
+            // タイトルの()内のテキストを変更
+            document.getElementById('bookTitle').textContent = 'Books(' + selectedValue.charAt(0).toUpperCase() +
+                selectedValue.slice(1) + ')';
         });
     </script>
-
-
-
 
 @endsection
