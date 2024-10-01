@@ -70,9 +70,9 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
-        Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
-        Route::get('/books/inventory', [StoreController::class, 'inventory'])->name('books.inventory');
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         });
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
     });
 
