@@ -107,6 +107,14 @@
     margin: 10px;
 }
 
+.link-book{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    object-fit: cover;
+    color: #000;
+}
+
 /* show-book */
 .review-list{
     padding-left: 50px;
@@ -137,6 +145,11 @@
 /* time stamp */
 .post-time{
     color: gray;
+}
+
+/* show book list padding */
+.list-top{
+    margin: 40px;
 }
 
 /* store inventory */
