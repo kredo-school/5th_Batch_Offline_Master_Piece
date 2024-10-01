@@ -23,6 +23,12 @@ class StoreController extends Controller
     {
         return view('users.store.order-confirm');
     }
+
+    public function Ordered()
+    {
+        return view('users.store.ordered');
+    }
+
     public function analysis()
     {
         return view('users.store.analysis');

@@ -63,9 +63,19 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+        Route::get('/ordered', [StoreController::class, 'Ordered'])->name('Ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/home', function(){
+            return view('users.store.home');
+        });
+        Route::get('/cashier', function(){
+            return view('users.store.cashier');
+        });
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+
+
     });
 
 
