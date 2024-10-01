@@ -29,7 +29,7 @@ class BookController extends Controller
     }
 
 
-    // show list 
+    // show list
     public function bookSuggestion()
     {
         return view('users.guests.book.suggestion');
@@ -45,7 +45,7 @@ class BookController extends Controller
         return view('users.guests.book.new');
     }
 
-    // 
+    //
     public function showBook()
     {
         return view('users.guests.book.show_book');
@@ -64,6 +64,21 @@ class BookController extends Controller
     public function bookStoreShow()
     {
         return view('users.guests.show_store');
+    }
+    
+    public function find(Request $request)
+    {
+            $isbnCode = $request->input('isbn_code');
+            $book = Book::where('isbn_code', $isbnCode)->first();
+
+            if ($book) {
+                return response()->json([
+                    'title' => $book->title,
+                    'price' => $book->price,
+                ]);
+            } else {
+                return response()->json(['message' => 'Book not found'], 404);
+            }
     }
 
 }
