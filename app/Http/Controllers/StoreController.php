@@ -48,4 +48,19 @@ class StoreController extends Controller
     {
         return view('users.store.book-list');
     }
+
+    public function home()
+    {
+        return view('users.store.home');
+    }
+
+    public function cashier()
+    {
+        return view('users.store.cashier');
+    }
+
+    public function receipt()
+    {
+        return view('users.store.receipt');
+    }
 }
