@@ -9,26 +9,32 @@ class StoreController extends Controller
 {
     private $store;
 
-    public function __construct(User $user){
+    public function __construct(User $user)
+    {
         $this->store = $user;
     }
 
-    public function newOrderConfirm(){
+    public function newOrderConfirm()
+    {
         return view('users.store.new-order-confirm');
     }
 
-    public function OrderConfirm(){
+    public function OrderConfirm()
+    {
         return view('users.store.order-confirm');
     }
-    public function analysis(){
+    public function analysis()
+    {
         return view('users.store.analysis');
     }
 
-    public function reservationList(){
+    public function reservationList()
+    {
         return view('users.store.confirm-reservation-list');
     }
 
-    public function reservationShow(){
+    public function reservationShow()
+    {
         return view('users.store.confirm-reservation-show');
     }
 }
