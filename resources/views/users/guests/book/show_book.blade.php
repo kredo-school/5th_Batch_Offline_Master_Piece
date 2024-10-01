@@ -124,37 +124,39 @@
                     </div>
                 </div>
             </div>
-            @for($i = 0; $i < 5; $i++)
-                <div class="review-list">
-                    <a href="#" class="text-decoration-none d-flex align-items-center">
-                        <div class="image-wrapper">
-                            <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-thumbnail rounded-circle">
+            <div style="overflow-y: auto; height: 650px;">
+                @for($i = 0; $i < 5; $i++)
+                    <div class="review-list">
+                        <a href="#" class="text-decoration-none d-flex align-items-center">
+                            <div class="image-wrapper">
+                                <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-thumbnail rounded-circle">
+                            </div>
+                            <h4 class="text-black my-auto w-100 ms-4">user->name</h4>
+                        </a>
+                        
+                        <div class="d-flex mt-3">
+                            <h5 class="d-flex">Rate:   
+                                    <div class="star-ration ms-2">
+                                        <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                    </div>
+                                    <div class="ms-2">X.X/5.0</div>
+                            </h5>
+                            <h3 class="ms-5 fw-bold">books->title</h3>
                         </div>
-                        <h4 class="text-black my-auto w-100 ms-4">user->name</h4>
-                    </a>
-                    
-                    <div class="d-flex mt-3">
-                        <h5 class="d-flex">Rate:   
-                                <div class="star-ration ms-2">
-                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
-                                </div>
-                                <div class="ms-2">X.X/5.0</div>
-                        </h5>
-                        <h3 class="ms-5 fw-bold">books->title</h3>
+                        <div class="post-time">month.day.year</div>
+                        <div class="d-flex">
+                            <h4 class="mt-3">book->comments</h4>
+                            <button class="fa-thumbs ms-auto d-flex"><i class="fa-regular fa-thumbs-up "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                            <button class="fa-thumbs d-flex"><i class="fa-regular fa-thumbs-down "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                        </div>
                     </div>
-                    <div class="post-time">month.day.year</div>
-                    <div class="d-flex">
-                        <h4 class="mt-3">book->comments</h4>
-                        <button class="fa-thumbs ms-auto d-flex"><i class="fa-regular fa-thumbs-up "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
-                        <button class="fa-thumbs d-flex"><i class="fa-regular fa-thumbs-down "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
-                    </div>
-                </div>
-                <hr>
-            @endfor
+                    <hr>
+                @endfor
+        </div>
         </form>
         <form action="#" method="post">
             @csrf
