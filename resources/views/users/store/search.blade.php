@@ -22,8 +22,8 @@
                     <th>Image</th>
                     <th>Title</th>
                     <th>Author</th>
+w                    <th>Publisher</th>
                     <th>Publication Date</th>
-                    <th>Publisher</th>
                     <th>Price</th>
                     <th>ISBN</th>
                 </thead>
@@ -34,8 +34,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
@@ -45,8 +45,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
@@ -56,8 +56,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
@@ -67,8 +67,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
@@ -78,8 +78,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
@@ -89,8 +89,8 @@
                         </td>
                         <td>Inochi no Me</td>
                         <td>Mitsho Ohe</td>
-                        <td>10.10.2020</td>
                         <td>Iwanami</td>
+                        <td>10.10.2020</td>
                         <td>¥ 800</td>
                         <td>1234567890123</td>
                     </tr>
