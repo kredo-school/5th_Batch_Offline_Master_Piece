@@ -536,6 +536,17 @@ footer li{
     background-color: #CEDA41;
 }
 
+.ordered-img{
+    width: 200px;
+    height: 240px;
+}
+
+.Goto-inventory{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+    width: 250px;
+    height: 70px;
+}
 
 
 
