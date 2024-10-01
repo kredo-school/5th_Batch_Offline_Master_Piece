@@ -43,4 +43,9 @@ class StoreController extends Controller
     {
         return view('users.store.confirm-reservation-show');
     }
+
+    public function bookList()
+    {
+        return view('users.store.book-list');
+    }
 }

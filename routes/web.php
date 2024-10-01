@@ -74,8 +74,7 @@ Route::group(['middleware' => 'auth'],function(){
             return view('users.store.cashier');
         });
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-
-
+        Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
     });
 
 
