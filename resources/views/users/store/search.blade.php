@@ -17,7 +17,7 @@
         </div>
 
         <div class="mt-5 d-flex justify-content-center align-items-center">
-            <table class="book-information-table table table-striped text-center bg-white shadow mb-5" style="">
+            <table class="book-information-table table table-striped text-center bg-white shadow mb-5" style="border-radius: 16px; overflow: hidden;">
                 <thead style="background-color: #D3DD53;">
                     <th>Image</th>
                     <th>Title</th>
@@ -102,7 +102,6 @@
     <style>
         .book-information-table {
             width: 80%;
-            border-radius: 16px;
             background-color: white;
         }
 

@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         });
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
     });
