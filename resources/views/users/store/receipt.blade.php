@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="justify-content-center">
-            <a href="{{ route('store.cashier') }}" class="back-button">
+            <a href="{{ url('/store/cashier/') }}" class="back-button">
                 <i class="fa-solid fa-caret-left"></i> Back
             </a>
         </div>
