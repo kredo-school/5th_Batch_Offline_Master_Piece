@@ -27,7 +27,7 @@
                     <div class="row ms-auto">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search" class="form-control rounded"
-                                style="width: 400px" placeholder="Search books..." style="width: 250px;">
+                                style="width: 400px" placeholder="Search threads..." style="width: 250px;">
                             <button type="button" id="clearButton"
                                 class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
                                 style="display: none; right: 30px;">
