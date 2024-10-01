@@ -20,10 +20,10 @@
         <div style="margin-inline-start: 5%;">
             <div class="row m-5">
                 <div class="col-4">
-                    <a href="{{ url('/store/cashier') }}" class="store-home-button">Cashier</a>
+                    <a href="{{ route('store.cashier') }}" class="store-home-button">Cashier</a>
                 </div>
                 <div class="col-4">
-                    <a href="{{ url('/store/reservation') }}" class="store-home-button">Reservations</a>
+                    <a href="{{ route('store.reservationList') }}" class="store-home-button">Reservations</a>
                 </div>
                 <div class="col-4">
                     <a href="{{ url('/store/book-list') }}" class="store-home-button">Book List</a>
@@ -31,7 +31,7 @@
             </div>
             <div class="row m-5">
                 <div class="col-4">
-                    <a href="{{ url('/store/analysis') }}" class="store-home-button">Analysis</a>
+                    <a href="{{ route('store.analysis') }}" class="store-home-button">Analysis</a>
                 </div>
                 <div class="col-4">
                     <a href="{{ url('/store/inventory') }}" class="store-home-button">Inventory</a>
