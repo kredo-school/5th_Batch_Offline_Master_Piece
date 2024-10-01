@@ -31,4 +31,14 @@ class StoreController extends Controller
     public function reservationShow(){
         return view('users.store.confirm-reservation-show');
     }
+
+    public function home(){
+        return view('users.store.home');
+    }
+    public function cashier(){
+        return view('users.store.cashier');
+    }
+    public function receipt(){
+        return view('users.store.receipt');
+    }
 }
