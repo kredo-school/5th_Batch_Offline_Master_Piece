@@ -26,7 +26,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-10 fs-24">
-                                <p><?= $i ?> name: <span class="text-success fw-bold">Yama-D-Taro</span>: 19/9/2027 Thu.
+                                <p><?= $i ?> name: <a href="{{route('profile.show')}}" class="text-decoration-none text-success fw-bold">Yama-D-Taro</a>: 19/9/2027 Thu.
                                     14:40:10</p>
                             </div>
                             <div class="col-2 text-end">

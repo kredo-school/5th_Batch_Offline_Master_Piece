@@ -24,11 +24,15 @@
                     <div class="row mt-4">
                         <p class="text-muted mb-0">Sep.12.2024</p>
                         <div class="col-3">
-                            <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                            <a href="{{route('book.show_book')}}" class="text-decoration-none">
+                                <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                            </a>
                         </div>
                         <div class="col-9 fs-32">
                             <p>
-                                <p class="fs-32">$book->name</p>
+                                <a href="{{route('book.show_book')}}" class="text-decoration-none">
+                                    <p class="fs-32">$book->name</p>
+                                </a>
                                 <i class="fa-solid fa-star text-warning"></i>
                                 <i class="fa-solid fa-star text-warning"></i>
                                 <i class="fa-solid fa-star text-warning"></i>
