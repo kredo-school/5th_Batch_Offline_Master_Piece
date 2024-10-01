@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title','BOOKINVENTORY')
+@section('title','Book Inventory')
 
 @section('content')
     {{-- Back button --}}
     <div>
-        <a href="#" class="fw-bold text-decoration-none main-text btn">
+        <a href="{{route('order.show')}}" class="fw-bold text-decoration-none main-text btn">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>
