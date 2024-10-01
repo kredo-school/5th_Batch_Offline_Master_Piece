@@ -74,7 +74,6 @@ Route::group(['middleware' => 'auth'],function(){
         });
         Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-        Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
     });
 
 
