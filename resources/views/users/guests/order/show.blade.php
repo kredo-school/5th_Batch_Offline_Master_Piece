@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'order-show')
+@section('title', 'Order Show')
 
 @section('content')
     <div class="container">
@@ -9,136 +9,45 @@
 
                 <div class="card ms-5">
                     <div class="card-header bg-white border-bottom-0">
-                        <h1 class="section fw-bold mb-3">Confirm Your Order</h1>
+                        <h1 class="main-text fw-bold mb-3">Order Status</h1>
                     </div>
-                    <div class="card-body card-size overflow-scroll bg-white">
+                    <div class="card-body card-size overflow-auto bg-white">
                         <div class="mx-3">
-
+                            @for ($i = 0; $i < 3; $i++)
                             {{-- foreach is here --}}
-                            <div class="row mb-3 object-fit-cover">
-                                <div class="col-3">
-                                    {{-- book image--}}
-                                    <div class="text-center">
-                                        <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border shadow"></a>
+                                <div class="row mb-3">
+                                    <div class="col-3">
+                                        {{-- book image--}}
+                                        <div class="text-center">
+                                            <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border w-100 shadow"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 fs-32">
+                                        {{-- book infomation --}}
+                                        <p class="fs-32"><a href="#" class="text-decoration-none text-dark">$book->name</a></p>
+                                        <p class="h4"><a href="#" class="text-decoration-none text-dark">$book->author->name</a></p>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        4.2/5.0
+                                        <p class="text-danger fs-32 mt-5">¥23,000</p>
+                                    </div>
+                                    <div class="col-3 text-end">
+                                        {{-- store,quantity,delete --}}
+                                        <h4>Store: <a href="#" class="text-decoration-none text-dark">Mito store</a></h4>
+                                        <h4>Inventory: 4</h4>
+                                        <form action="" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-4 w-50 text-center d-inline" value="1">
+                                            <input type="submit" value="Delete" class="btn btn-danger w-50">
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-6 ps-0">
-                                    {{-- book infomation --}}
-                                    <a href="#" class="text-decoration-none text-dark"><h2 class="fs-32">Book</h2></a>
-                                    <a href="#" class="text-decoration-none text-dark"><h3 class="fs-24">Author</h3></a>
-                                    <div class="text-warning fs-5 mt-4">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        3.2
-                                    </div>
-                                    <h2 class="text-danger fs-32 m-0">¥2,300</h2>
-                                </div>
-                                <div class="col-3 text-end">
-                                    {{-- store,quantity,delete --}}
-                                    <h4>Store: <a href="#" class="text-decoration-none text-dark">Mito store</a></h4>
-                                    <h4>Inventory: 4</h4>
-                                    <form action="" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-4 w-50 text-center d-inline" value="1">
-                                        <input type="submit" value="Delete" class="btn btn-danger w-50">
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mb-3 object-fit-cover">
-                                <div class="col-3">
-                                    {{-- book image--}}
-                                    <div class="text-center">
-                                        <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border"></a>
-                                    </div>
-                                </div>
-                                <div class="col-6 ps-0">
-                                    {{-- book infomation --}}
-                                    <a href="#" class="text-decoration-none text-dark"><h2 class="fs-32">Bookosjdhvodnflvisof</h2></a>
-                                    <a href="#" class="text-decoration-none text-dark"><h3 class="fs-24">Author</h3></a>
-                                    <div class="text-warning fs-5 mt-5">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        3.2
-                                    </div>
-                                    <h2 class="text-danger fs-32 m-0">¥2,300</h2>
-                                </div>
-                                <div class="col-3 text-end">
-                                    {{-- store,quantity,delete --}}
-                                    <h4>Store: <a href="#" class="text-decoration-none text-dark">Mito store</a></h4>
-                                    <h4>Inventory: 4</h4>
-                                    <form action="" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-5 w-50 text-center d-inline">
-                                        <input type="submit" value="Delete" class="btn btn-danger w-50">
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mb-3 object-fit-cover">
-                                <div class="col-3">
-                                    {{-- book image--}}
-                                    <div class="text-center">
-                                        <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border"></a>
-                                    </div>
-                                </div>
-                                <div class="col-6 ps-0">
-                                    {{-- book infomation --}}
-                                    <a href="#" class="text-decoration-none text-dark"><h2 class="fs-32">Bookosjdhvodnflvisof</h2></a>
-                                    <a href="#" class="text-decoration-none text-dark"><h3 class="fs-24">Author</h3></a>
-                                    <div class="text-warning fs-5 mt-5">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        3.2
-                                    </div>
-                                    <h2 class="text-danger fs-32 m-0">¥2,300</h2>
-                                </div>
-                                <div class="col-3 text-end">
-                                    {{-- store,quantity,delete --}}
-                                    <h4>Store: <a href="#" class="text-decoration-none text-dark">Mito store</a></h4>
-                                    <h4>Inventory: 4</h4>
-                                    <form action="" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-5 w-50 text-center d-inline">
-                                        <input type="submit" value="Delete" class="btn btn-danger w-50">
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mb-3 object-fit-cover">
-                                <div class="col-3">
-                                    {{-- book image--}}
-                                    <div class="text-center">
-                                        <a href="#"><img src="{{asset('/images/649634 copy.png')}}" alt="" class="border"></a>
-                                    </div>
-                                </div>
-                                <div class="col-6 ps-0">
-                                    {{-- book infomation --}}
-                                    <a href="#" class="text-decoration-none text-dark"><h2 class="fs-32">Bookosjdhvodnflvisof</h2></a>
-                                    <a href="#" class="text-decoration-none text-dark"><h3 class="fs-24">Author</h3></a>
-                                    <div class="text-warning fs-5 mt-5">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        3.2
-                                    </div>
-                                    <h2 class="text-danger fs-32 m-0">¥2,300</h2>
-                                </div>
-                                <div class="col-3 text-end">
-                                    {{-- store,quantity,delete --}}
-                                    <h4>Store: <a href="#" class="text-decoration-none text-dark">Mito store</a></h4>
-                                    <h4>Inventory: 4</h4>
-                                    <form action="" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-5 w-50 text-center d-inline">
-                                        <input type="submit" value="Delete" class="btn btn-danger w-50">
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-
+                                <hr>
+                            @endfor
                         </div>
                     </div>
                 </div>

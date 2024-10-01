@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
-@section('title','show_book')
+@section('title','SHOWBOOK')
 
 @section('content')
 
+    {{-- Back button --}}
+    <div>
+        <a href="#" class="fw-bold text-decoration-none main-text btn">
+            <div class="h2 fw-semibold">
+                <i class="fa-solid fa-caret-left"></i>
+                <div class="d-inline main-text">Back</div>
+            </div>
+        </a>
+    </div>
+    
     <div class="container-body">
         <form action="#" method="post">
+            @csrf
             <div class="row">
                 <div class="col-4">
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
@@ -17,17 +28,22 @@
                     <h3>Publish year: </h3>
                     <h3>Description: </h3>
                     <h3 class="d-flex">Rate:   
-                        <a href="#" class="d-flex text-decoration-none text-dark">
-                            <div class="star-ration ms-2">
-                                <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
-                                <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
-                            </div>
-                            <div class="ms-2">X.X/5.0</div>
-                        </a>
-                    </h3>
+                        <!-- Button trigger modal -->
+                        <h3 class="d-flex">Rate:
+                            <button type="button" class="btn d-flex" data-bs-toggle="modal" data-bs-target="#reviewBook">
+                                <div class="star-ration ms-2">
+                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                </div>
+                                <div class="ms-2">X.X/5.0</div>
+                            </button>
+                        </h3>
+
+                        @include('users.guests.book.modals.review_book')
+
                     <h3>Price: </h3>
                     <h3>Genre: </h3>
                     <div class="row">
@@ -93,6 +109,7 @@
     </div>
     <div class="container-body">
         <form action="#" method="post">
+            @csrf
             <div class="d-flex align-items-center">
                 <div class="row w-100">
                     <div class="col">
@@ -143,6 +160,7 @@
             @endfor
         </form>
         <form action="#" method="post">
+            @csrf
             <div class="review-list">
                 <label for="write-review" class="form-label fw-bold">Write your review</label>
                 <div class="border border-1 border-black p-3">

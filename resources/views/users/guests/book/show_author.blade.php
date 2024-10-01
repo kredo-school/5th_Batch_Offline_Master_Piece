@@ -1,26 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Guest Order')
-
+@section('title','SHOWSTORE')
 
 @section('content')
-
-    @include('users.guests.profile.contents.header')
-
-    <div class="row justify-content-center mt-2">
-        <div class="col-8 mt-3">
-            <div class="p-4 d-flex justify-content-around">
-                <a href="{{route('profile.show')}}" class="fw-bold text-decoration-none fs-40 text-grey">Review</a>
-                <a href="{{route('profile.bookmark')}}" class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                <a href="{{route('profile.order')}}" class="fw-bold text-decoration-none fs-40 text-dark">Order</a>
-                <a href="{{route('profile.comment')}}" class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
+    {{-- Back button --}}
+    <div>
+        <a href="#" class="fw-bold text-decoration-none main-text btn">
+            <div class="h2 fw-semibold">
+                <i class="fa-solid fa-caret-left"></i>
+                <div class="d-inline main-text">Back</div>
             </div>
-            <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list">
-                <h2 class="h1 fw-bold text-grey mt-3">Order</h2>
+        </a>
+    </div>
+
+    <form action="#" method="post">
+        @csrf
+        {{-- serch form --}}
+        <div class="row d-flex justify-content-center mb-5">
+            <input type="text" name="serch" id="serch" class="form-control w-25" placeholder="Search author...">
+            <input type="submit" value="Search" class="btn serch-button ms-3">
+        </div>
+    </form>
+
+    <form action="#" method="post">
+        @csrf
+        <div class="container-body" style="overflow-y: auto; height: 650px;">
+            <div class="ms-3">
+                <h2 class="h1 fw-bold text-grey mt-3">Authorname</h2>
 
                 @for ($i = 0; $i < 3; $i++)
-                <div class="row mt-4">
-                        <p class="text-muted">Sep.12.2024</p>
+                    <div class="row mt-4">
                         <div class="col-3">
                             <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
                         </div>
@@ -43,26 +52,13 @@
                                 <a href="#"><i class="fa-regular fa-bookmark text-warning h1"></i></a>
                             </div>
                             <div class="h-25 pt-3">
-                                <a href="#" class="btn btn-orange bottom-0 w-100">Select Store</a>
-                            </div>
-                            
-                            
+                                <a href="#" class="btn btn-orange bottom-0 w-100">Add to Cart</a>
+                            </div>                 
                         </div>
-
-
-
                     </div>
                     <hr>
                 @endfor
-
-
             </div>
         </div>
-
-
-    </div>
-
-
-
-
+    </form>
 @endsection

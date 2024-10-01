@@ -1,17 +1,18 @@
 @extends('layouts.app')
 
-@section('title','suggestion_book')
+@section('title','SUGGESTIONBOOK')
 
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
     <div class="container-body">
         <form action="#" method="post">
+            @csrf
             <div class="d-flex align-items-center">
                 <h1 class="h2 fw-bold main-text mt-5 ms-3">Suggestion</h1>
                 <select name="genre" id="genre" class="form-control w-25 ms-5 mt-5">
                     <option value="" hidden>Genre</option>
-                    <option value="comic">Comic</option>
+                    <option value="comic">Comics</option>
                     <option value="fantasy">Fantasy</option>
                     <option value="horror">Horror</option>
                     <option value="mystery">Mystery</option>
@@ -21,6 +22,20 @@
                     <option value="travel">Travel</option>
                     <option value="sports">Sports</option>
                     <option value="study">Study</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="biology">Biology</option>
+                    <option value="romance">Romance</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="art">Art</option>
+                    <option value="science">Science</option>
+                    <option value="physics">Physics</option>
+                    <option value="philosophy">Philosophy</option>
+                    <option value="qualification">Qualification</option>
+                    <option value="magazine">Magazine</option>
+                    <option value="music">Music</option>
+                    <option value="technology">Technoligy</option>
+                    <option value="geology">Geology</option>
+                    <option value="psychology">Psychology</option>
                     <option value="others">Others</option>
                 </select>
             </div>
@@ -40,7 +55,14 @@
                                 <td><h5>Author</h5></td>
                             </tr>
                             <tr>
-                                <td><h5><i class="fa-solid fa-star"></i> 4</h5></td>
+                                <td class="star-ration-list d-flex">
+                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                    <div class="ms-2">X.X/5.0</div>
+                                </td>
                             </tr>
                             <tr>
                                 <td><h4 class="text-danger">¥20,000</h4></td>

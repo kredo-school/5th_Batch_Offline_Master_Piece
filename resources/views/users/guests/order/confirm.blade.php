@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'order-confirm')
+@section('title', 'Order Confirm')
 
 @section('content')
     {{-- Back button --}}
     <div>
-        <a href="#" class="fw-bold text-decoration-none main-text btn">
+        <a href="#" class="fw-bold text-decoration-none main-text btn border-0">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>

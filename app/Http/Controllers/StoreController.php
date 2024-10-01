@@ -24,4 +24,16 @@ class StoreController extends Controller
     public function Ordered(){
         return view('users.store.ordered');
     }
+    
+    public function analysis(){
+        return view('users.store.analysis');
+    }
+
+    public function reservationList(){
+        return view('users.store.confirm-reservation-list');
+    }
+
+    public function reservationShow(){
+        return view('users.store.confirm-reservation-show');
+    }
 }

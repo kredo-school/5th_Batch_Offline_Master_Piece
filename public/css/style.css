@@ -1,5 +1,6 @@
-.bg{
-    background-color: #FFFCF2;
+/* order-show */
+.card-size{
+    height: 650px;
 }
 
 .register-img{
@@ -29,18 +30,12 @@
 }
 
 
-.card{
+/* .card{
     width: 80%;
-    /* X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray */
-    box-shadow: 0 0 3px  gray; /* 下方向にのみ影を付ける */
+    X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray
+    box-shadow: 0 0 3px  gray; 下方向にのみ影を付ける
     border-radius: 10px;
-}
-
-
-.section{
-    font-family: "Gothic A1", sans-serif;
-    color: #757B9D;
-}
+} */
 
 .main-bg{
     background: #FFFCF2;
@@ -71,6 +66,10 @@
 /* Font Awesome */
 .fa-star{
     color: rgb(255, 234, 0);
+}
+
+.star-ration-list{
+    font-size: 15px;
 }
 
 .fa-bookmark{
@@ -131,6 +130,13 @@
     color: gray;
 }
 
+/* store inventory */
+.img-store-inventory{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
 
 /* Button */
 .btn-select-store{
@@ -139,14 +145,68 @@
     border-radius: 10px;
 }
 
+.btn-select-inventory{
+    width: 250px;
+    height: 50px;
+}
+
+.serch-button{
+    background-color: rgba(61, 68, 100, 0.719);
+    color: #FFFFFF;
+    width: 85px;
+    height: 40px;
+}
+
+/* review rating */
+.rating-summary {
+    width: 400px;
+    padding: 20px;
+    margin: auto;
+}
+
+.overall-rating {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.rating-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.rating-details .rating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.bar {
+    width: 70%;
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar .fill {
+    height: 100%;
+    background-color: #f5b301;
+    border-radius: 4px;
+}
+
+.total-ratings {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
 
 /* profile */
 *{
     font-family: "Gothic A1", sans-serif;
-}
-
-.card-size{
-    height: 650px;
 }
 
 .text-grey{
@@ -183,10 +243,6 @@
     font-size: 24px;
 }
 
-img{
-    height: 181px;
-}
-
 .btn-orange{
     color: white;
     background-color:#FFB84C;
@@ -202,6 +258,52 @@ img{
 
 .profile-list{
     height: 650px;
+}
+
+/* Home */
+.bg-grey{
+    background-color: #EEEBE2;
+}
+.h-thread{
+    height: 300px;
+}
+.bg-adv{
+    background: #7FA5D9;
+    width: 270px;
+    height: 270px;
+}
+
+.text-gold{
+    color: #F8E00A;
+
+}
+.text-silver{
+    color: #D3D2C7;
+
+}
+.text-copper{
+    color: #D9A965;
+
+}
+
+/* 左のボタンを左に移動 */
+.carousel-control-prev {
+    left: -80px; 
+}
+
+/* 右のボタンを右に移動 */
+.carousel-control-next {
+    right: -80px; 
+}
+
+/* 戻るボタンの矢印を黒色に変更 */
+.carousel-control-prev-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>');
+}
+
+/* 進むボタンの矢印を黒色に変更 */
+.carousel-control-next-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
 }
 
 
@@ -269,9 +371,9 @@ img{
     height: 130px;
 }
 
-.card-header{
+/* .card-header{
     background-color: #E1FFEB;
-}
+} */
 
 .store-home-button{
     background-color:#D3DD53;
@@ -405,6 +507,19 @@ footer li{
     color: #32BF61;
 }
 
+/* thread */
+.thread-title
+{
+    font-family: "Gilda Display", serif;
+    font-size: 96px;
+}
+
+.thread-img
+{
+    width: 150px;
+    height: auto;
+}
+
 .order-confirm-button{
     color: #FFFFFF;
     background-color: #CEDA41;
@@ -421,3 +536,8 @@ footer li{
     width: 250px;
     height: 70px;
 }
+
+
+
+
+
