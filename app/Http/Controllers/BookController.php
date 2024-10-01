@@ -27,4 +27,58 @@ class BookController extends Controller
     {
         return view('order.reserved');
     }
+
+
+    // show list
+    public function bookSuggestion()
+    {
+        return view('users.guests.book.suggestion');
+    }
+
+    public function bookRanking()
+    {
+        return view('users.guests.book.ranking');
+    }
+
+    public function bookNew()
+    {
+        return view('users.guests.book.new');
+    }
+
+    //
+    public function showBook()
+    {
+        return view('users.guests.book.show_book');
+    }
+
+    public function bookInventory()
+    {
+        return view('users.guests.book.book_inventory');
+    }
+
+    public function authorShow()
+    {
+        return view('users.guests.book.show_author');
+    }
+
+    public function bookStoreShow()
+    {
+        return view('users.guests.show_store');
+    }
+
+    public function find(Request $request)
+    {
+            $isbnCode = $request->input('isbn_code');
+            $book = Book::where('isbn_code', $isbnCode)->first();
+
+            if ($book) {
+                return response()->json([
+                    'title' => $book->title,
+                    'price' => $book->price,
+                ]);
+            } else {
+                return response()->json(['message' => 'Book not found'], 404);
+            }
+    }
+
 }

@@ -21,10 +21,19 @@
 }
 .submit-button:hover:active {
     color:#FF8B4A;
-  }
+}
 
 .a1:hover,:visited{
     color: inherit;
+    text-decoration: none;
+}
+
+/* Back button */
+.back-button{
+    color: #757B9D;
+    font-weight: bold;
+    font-size: 2rem;
+    padding-left: 2rem;
     text-decoration: none;
 }
 
@@ -160,6 +169,52 @@ img{
     height: 650px;
 }
 
+/* Home */
+.bg-grey{
+    background-color: #EEEBE2;
+}
+.h-thread{
+    height: 300px;
+}
+.bg-adv{
+    background: #7FA5D9;
+    width: 270px;
+    height: 270px;
+}
+
+.text-gold{
+    color: #F8E00A;
+
+}
+.text-silver{
+    color: #D3D2C7;
+
+}
+.text-copper{
+    color: #D9A965;
+
+}
+
+/* 左のボタンを左に移動 */
+.carousel-control-prev {
+    left: -80px;
+}
+
+/* 右のボタンを右に移動 */
+.carousel-control-next {
+    right: -80px;
+}
+
+/* 戻るボタンの矢印を黒色に変更 */
+.carousel-control-prev-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>');
+}
+
+/* 進むボタンの矢印を黒色に変更 */
+.carousel-control-next-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
+}
+
 
 /* navbar */
 
@@ -232,21 +287,23 @@ img{
 .store-home-button{
     background-color:#D3DD53;
     color: white;
-    font-size:2rem;
+    font-size: 2.5vw;
+    font-weight: bold;
     width: 80%;
-    height:200px;
+    height: 200px;
     border-radius: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     outline: none;
-    display: inline-block;
+    display: flex;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .store-home-button:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    background-color: #FFFCF2;
-    color: #D3DD53;
-    border: solid #D3DD53;
 }
 
 .store-home-button:active {

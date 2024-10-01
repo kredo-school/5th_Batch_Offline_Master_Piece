@@ -22,8 +22,16 @@
     {{-- CSS Style --}}
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
+
+
+    {{-- fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+
+    {{-- Java Script for Graph --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
@@ -164,6 +172,11 @@
                                     onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                     <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    </a>
+
+                                    {{-- Store Page 仮置き --}}
+                                    <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

@@ -28,6 +28,37 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
         Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
         Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
+    Route::group(['prefix'=>'guest'],function(){
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
+            Route::get('/show',[ProfileController::class,'show'])->name('show');
+            Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
+            Route::get('/order',[ProfileController::class,'order'])->name('order');
+            Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
+            Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
+            Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
+
+            Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
+        });
+
+        Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+            Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
+            Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
+            Route::get('/new', [BookController::class, 'bookNew'])->name('new');
+            Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
+            Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
+            Route::get('/show/author', [BookController::class, 'authorShow'])->name('author_show');
+            Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
+        });
+
+
+        Route::group(['prefix'=>'thread','as'=>'thread.'],function(){
+        });
+    });
+
+    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
+        Route::get('/show', [BookController::class, 'show'])->name('show');
+        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
     });
     Route::get('/suggestion',[AuthorController::class, 'index']);
 
@@ -38,4 +69,34 @@ Route::group(['middleware' => 'auth'],function(){
     });
 });
 
+
+    Route::group(['prefix' => 'store', 'as' => 'store.'], function(){
+        Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
+        Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
+        Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
+        Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/home', function(){
+            return view('users.store.home');
+        });
+        Route::get('/cashier', function(){
+            return view('users.store.cashier');
+        });
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+
+
+    });
+
+    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+        Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/content', [ThreadController::class, 'content'])->name('content');
+        Route::get('/create', [ThreadController::class, 'create'])->name('create');
+    });
+
+    });
+    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
+        Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/content', [ThreadController::class, 'content'])->name('content');
+        Route::get('/create', [ThreadController::class, 'create'])->name('create');
+    });
 
