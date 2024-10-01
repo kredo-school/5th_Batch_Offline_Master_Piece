@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','NEWBOOK')
+@section('title','New Book')
 
 @section('content')
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
@@ -46,14 +46,24 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4>Title</h4></td>
+                                <td>
+                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                        <h4>Book->title</h4>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
-                                <td><h5>Author</h5></td>
+                                <td>
+                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                        <h5>book->author_book->authors</h5>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="star-ration-list d-flex">
@@ -66,7 +76,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4 class="text-danger">¥20,000</h4></td>
+                                <td><h4 class="text-danger">book->price</h4></td>
                             </tr>
                         </tbody>
                     </table>

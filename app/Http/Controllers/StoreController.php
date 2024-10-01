@@ -44,13 +44,23 @@ class StoreController extends Controller
         return view('users.store.confirm-reservation-show');
     }
 
-    public function home(){
+    public function bookList()
+    {
+        return view('users.store.book-list');
+    }
+
+    public function home()
+    {
         return view('users.store.home');
     }
-    public function cashier(){
+
+    public function cashier()
+    {
         return view('users.store.cashier');
     }
-    public function receipt(){
+
+    public function receipt()
+    {
         return view('users.store.receipt');
     }
     public function storeSearch()

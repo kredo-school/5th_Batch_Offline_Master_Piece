@@ -118,7 +118,7 @@
 
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('home')}}" class="nav-link">
                                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
                                     <p class="text-white">Home</p>
                                 </a>
@@ -196,10 +196,10 @@
         @if(request()->is('guest/*'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
                 <div class="row mx-auto">
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Ranking</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Suggestion</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
