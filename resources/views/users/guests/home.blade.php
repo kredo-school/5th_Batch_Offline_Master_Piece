@@ -373,10 +373,12 @@
             {{-- New thread list --}}
             <div class="row justify-content-center">
                 <div class="col-11 bg-white rounded shadow mt-5">
-                    <h3 class="text-grey fw-bold mt-3">New Thread</h3>
+                    <a href="{{route('thread.home')}}" class="text-decoration-none">
+                        <h3 class="text-grey fw-bold mt-3">New Thread</h3>
+                    </a>
                     @for ($i = 0; $i < 5; $i++)
                         <div class="mt-2">
-                            <a href="#" class="text-decoration-none text-primary h3">Hellow world. Hellow world.</a>
+                            <a href="{{route('thread.content')}}" class="text-decoration-none text-primary h3">Hellow world. Hellow world.</a>
 
                         </div>
                     @endfor

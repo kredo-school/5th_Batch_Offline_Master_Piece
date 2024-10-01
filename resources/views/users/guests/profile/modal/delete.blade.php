@@ -7,7 +7,7 @@
                 </h5>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete <span class="fw-bold">Comment</span>?
+                Are you sure you want to delete this <span class="fw-bold">Comment</span>?
             </div>
             <div class="modal-footer border-0">
                 <form action="#" method="post">

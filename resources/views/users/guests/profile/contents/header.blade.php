@@ -1,5 +1,5 @@
 <div>
-    <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a>
+    <a href="{{ url()->previous() }}" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a>
 </div>
 
 <div class="row justify-content-center mt-3">
