@@ -21,7 +21,7 @@
 
     {{-- CSS Style --}}
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    
+
 
 
     {{-- fontawesome --}}
@@ -41,7 +41,7 @@
                 <a class="navbar-brand" href="{{route('home')}}">
                     <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden mb-0 p-0"style="height: 100px">
                 </a>
-                
+
 
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -126,7 +126,7 @@
 
                             {{-- order --}}
                             <li class="nav-item me-3" title="Order">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('order.show')}}" class="nav-link">
                                     <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
                                     <p class="text-white">Order</p>
                                 </a>
@@ -183,15 +183,15 @@
             <div class="container">
                 <div class="row w-100 justify-content-center text-center">
                     <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="#" class="text-menu text-decoration-none ">Thread Home</a>
+                        <a href="{{route('thread.home')}}" class="text-menu text-decoration-none ">Thread Home</a>
                     </p>
                     <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="#" class="text-menu text-decoration-none">Post Thread</a>
+                        <a href="{{route('thread.create')}}" class="text-menu text-decoration-none">Post Thread</a>
                     </p>
                 </div>
             </div>
         </nav>
-        
+
         @endif
         @if(request()->is('guest/*'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
@@ -200,7 +200,7 @@
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
                 </div>

@@ -26,7 +26,7 @@
                     <a href="{{ route('store.reservationList') }}" class="store-home-button">Reservations</a>
                 </div>
                 <div class="col-4">
-                    <a href="{{ url('/store/book-list') }}" class="store-home-button">Book List</a>
+                    <a href="{{route('store.books.list')}}" class="store-home-button">Book List</a>
                 </div>
             </div>
             <div class="row m-5">
@@ -34,7 +34,7 @@
                     <a href="{{ route('store.analysis') }}" class="store-home-button">Analysis</a>
                 </div>
                 <div class="col-4">
-                    <a href="{{ url('/store/inventory') }}" class="store-home-button">Inventory</a>
+                    <a href="{{ route('store.books.inventory') }}" class="store-home-button">Inventory</a>
                 </div>
             </div>
         </div>
