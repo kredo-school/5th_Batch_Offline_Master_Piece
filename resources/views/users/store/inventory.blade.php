@@ -68,7 +68,11 @@
                                             <div class="fs24 text-danger">
                                                 Inventory: 0
                                             </div>
-                                            <input type="number" name="" id="" class="form-control w-25 float-end">
+                                            <input type="number" name="stock" id="stock" class="form-control w-25 float-end">
+                                            @error('stock')
+                                                <p class="text-danger small">{{$message}}</p>
+                                            @enderror
+
                                         </form>
                                     </div>
                                 </div>
