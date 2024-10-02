@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="mt-4 d-flex justify-content-center">
-    <form action="#" style="width: 500px;">
+    <form action="#" method="post" style="width: 500px;">
         @csrf
         <div class="row">
             <div class="col pe-0 position-relative">
@@ -48,7 +48,7 @@
                     <br><hr>
                 @endfor
             </div>
-        </div>  
+        </div>
     </div>
     
     <div class="text-end w-75">
@@ -61,7 +61,7 @@
 <script>
     const searchInput = document.getElementById('searchInput');
     const clearButton = document.getElementById('clearButton');
-    
+
     // 入力時にクリアボタンの表示・非表示を切り替える
     searchInput.addEventListener('input', function() {
         if (searchInput.value) {
@@ -70,7 +70,7 @@
             clearButton.style.display = 'none';
         }
     });
-    
+
     // クリアボタンを押すと検索フィールドをクリア
     clearButton.addEventListener('click', function() {
         searchInput.value = '';

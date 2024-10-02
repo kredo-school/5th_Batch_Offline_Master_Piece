@@ -62,9 +62,9 @@
         </div>
 
         <div class="col mt-2">
-            <p><a href="#">Thread</a></p>
+            <p><a href="{{route('thread.home')}}">Thread</a></p>
             {{-- thread.homeへ飛ぶ --}}
-                <a href="#">Post</a>
+                <a href="{{route('thread.create')}}">Post</a>
         </div>
 
         <div class="col mt-2" style="position: relative;">

@@ -3,16 +3,6 @@
 @section('title','Book Inventory')
 
 @section('content')
-    {{-- Back button --}}
-    <div>
-        <a href="{{route('order.show')}}" class="fw-bold text-decoration-none main-text btn">
-            <div class="h2 fw-semibold">
-                <i class="fa-solid fa-caret-left"></i>
-                <div class="d-inline main-text">Back</div>
-            </div>
-        </a>
-    </div>
-    
     <form action="#" method="post">
         @csrf
 
@@ -87,24 +77,22 @@
             @for($i = 0; $i < 8; $i++)
                 <div class="row ms-3">
                     <div class="col-4">
-                        <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                        <a href="{{route('book.store_show')}}" class="link-book">
+                            <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                        </a>
                     </div>
-                    <div class=" col-4 my-auto">
-                        <h3>Store name</h3>
-                        <h5>0120-123-456</h5>
-                        <h4> Japan Tokyo 12345</h4>
+                    <div class=" col-4 my-auto text-decoration-none text-black">
+                        <a href="{{route('book.store_show')}}" class="link-book">
+                            <h3>Store name</h3>
+                            <h5>0120-123-456</h5>
+                            <h4> Japan Tokyo 12345</h4>
+                        </a>
                     </div>
                     <div class="col-4 my-auto">
-                        <h3>Inventory: number</h3>
-                        <h6>Receiving Date: Right now or 3days later </h6>
-                            <input type="number" name="inventory" id="inventory" class="form-control w-50" placeholder="Quantity">
                     </div>
                 </div>
                 <hr>
             @endfor
-        </div>
-        <div class="text-end w-75 mx-auto">
-            <input type="submit" value="select" class="btn btn-primary btn-select-inventory">
         </div>
     </form>
 @endsection

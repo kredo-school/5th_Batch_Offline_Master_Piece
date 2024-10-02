@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title','SHOWBOOK')
+@section('title','Show Book')
 
 @section('content')
 
     {{-- Back button --}}
     <div>
-        <a href="#" class="fw-bold text-decoration-none main-text btn">
+        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>
@@ -22,30 +22,29 @@
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                 </div>
                 <div class="col-8">
-                    <h1 class="fw-bold">Title: <a href="#"><i class="fa-regular fa-bookmark"></i></a></h1>
-                    <h3>Author: </h3>
-                    <h3>Publisher: </h3>
-                    <h3>Publish year: </h3>
-                    <h3>Description: </h3>
+                    <h1 class="fw-bold">Title: books->title<a href="#"><i class="fa-regular fa-bookmark"></i></a></h1>
+                    <h3>Author: books->author_book->author</h3>
+                    <h3>Publisher: books->publisher</h3>
+                    <h3>Publish year: books->publication_date</h3>
+                    <h3>Description: books->description</h3>
                     <h3 class="d-flex">Rate:   
                         <!-- Button trigger modal -->
-                        <h3 class="d-flex">Rate:
                             <button type="button" class="btn d-flex" data-bs-toggle="modal" data-bs-target="#reviewBook">
-                                <div class="star-ration ms-2">
+                                <div class="star-ration ms-2 fa-lg">
                                     <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
                                     <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
                                     <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
                                     <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
                                     <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
                                 </div>
-                                <div class="ms-2">X.X/5.0</div>
+                                <div class="ms-2 fw-bold">X.X/5.0</div>
                             </button>
                         </h3>
 
                         @include('users.guests.book.modals.review_book')
 
-                    <h3>Price: </h3>
-                    <h3>Genre: </h3>
+                    <h3>Price: books->price</h3>
+                    <h3>Genre: books->genre_book->genre</h3>
                     <div class="row">
                         <div class="col gap-5">
                             <select name="area" id="area" class="form-control w-100">
@@ -125,39 +124,39 @@
                     </div>
                 </div>
             </div>
-            @for($i = 0; $i < 5; $i++)
-                <div class="review-list">
-                    <a href="#" class="text-decoration-none d-flex align-items-center">
-                        <div class="image-wrapper">
-                            <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-thumbnail rounded-circle">
+            <div style="overflow-y: auto; height: 650px;">
+                @for($i = 0; $i < 5; $i++)
+                    <div class="review-list">
+                        <a href="#" class="text-decoration-none d-flex align-items-center">
+                            <div class="image-wrapper">
+                                <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-thumbnail rounded-circle">
+                            </div>
+                            <h4 class="text-black my-auto w-100 ms-4">user->name</h4>
+                        </a>
+                        
+                        <div class="d-flex mt-3">
+                            <h5 class="d-flex">Rate:   
+                                    <div class="star-ration ms-2">
+                                        <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                        <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                    </div>
+                                    <div class="ms-2">X.X/5.0</div>
+                            </h5>
+                            <h3 class="ms-5 fw-bold">books->title</h3>
                         </div>
-                        <h4 class="text-black my-auto w-100 ms-4">username</h4>
-                    </a>
-                    
-                    <div class="d-flex mt-3">
-                        <h5 class="d-flex">Rate:   
-                            <a href="#" class="d-flex text-decoration-none text-dark">
-                                <div class="star-ration ms-2">
-                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
-                                </div>
-                                <div class="ms-2">X.X/5.0</div>
-                            </a>
-                        </h5>
-                        <h3 class="ms-5 fw-bold">Title</h3>
+                        <div class="post-time">month.day.year</div>
+                        <div class="d-flex">
+                            <h4 class="mt-3">book->comments</h4>
+                            <button class="fa-thumbs ms-auto d-flex"><i class="fa-regular fa-thumbs-up "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                            <button class="fa-thumbs d-flex"><i class="fa-regular fa-thumbs-down "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
+                        </div>
                     </div>
-                    <div class="post-time">month.day.year</div>
-                    <div class="d-flex">
-                        <h4 class="mt-3">comment</h4>
-                        <button class="fa-thumbs ms-auto d-flex"><i class="fa-regular fa-thumbs-up "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
-                        <button class="fa-thumbs d-flex"><i class="fa-regular fa-thumbs-down "></i><h5 class="my-auto fw-bold ms-2">999</h5></button>
-                    </div>
-                </div>
-                <hr>
-            @endfor
+                    <hr>
+                @endfor
+        </div>
         </form>
         <form action="#" method="post">
             @csrf
@@ -184,9 +183,388 @@
             <div class="review-list text-end">
                 <input type="submit" value="Post Review" class="btn mt-3 btn-select-store px-5">
             </div>
-        </form>
-
-        
+        </form>        
     </div>
 
+    {{-- Suggestion --}}
+    <div class="container-body">
+        <div class="row">
+            <div class="col">
+                <h2 class="h1 fw-bold text-grey mt-3">Suggestion</h2>
+            </div>
+            <div class="col text-end ">
+                <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
+                    <p class="text-end mt-3 mb-0">
+                        more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
+                                class="fa-solid fa-chevron-right"></i></span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        {{-- Booklist --}}
+        <div id="carouselSuggestionControls" class="carousel slide mt-2" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {{-- page1 --}}
+                <div class="carousel-item active">
+                    <div class="table-container mt-3">
+                        @for ($i = 1; $i < 5; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                {{-- page2 --}}
+                <div class="carousel-item">
+                    <div class="table-container mt-3">
+                        @for ($i = 5; $i < 9; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                {{-- page3 --}}
+                <div class="carousel-item">
+                    <div class="table-container mt-3">
+                        @for ($i = 9; $i < 13; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSuggestionControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSuggestionControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+
+    </div>
+    {{-- New --}}
+    <div class="container-body">
+        <div class="row ms-2">
+            <div class="col">
+                <h2 class="h1 fw-bold text-grey mt-3">Same genre</h2>
+            </div>
+            <div class="col text-end ">
+                <a href="{{route('book.new')}}" class="text-grey fs-24">
+                    <p class="text-end mt-3 mb-0">
+                        more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
+                                class="fa-solid fa-chevron-right"></i></span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        {{-- Booklist --}}
+        <div id="carouselNewControls" class="carousel slide mt-2" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {{-- page1 --}}
+                <div class="carousel-item active">
+                    <div class="table-container mt-3">
+                        @for ($i = 1; $i < 5; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                {{-- page2 --}}
+                <div class="carousel-item">
+                    <div class="table-container mt-3">
+                        @for ($i = 5; $i < 9; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                {{-- page3 --}}
+                <div class="carousel-item">
+                    <div class="table-container mt-3">
+                        @for ($i = 9; $i < 13; $i++)
+                            <div class="col-3">
+                                <div class="text-center ms-4">
+                                    <table class="mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                        <h4>Book->title</h4>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('book.author_show')}}" class="link-book">
+                                                        <h5>book->author_book->authors</h5>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="star-ration-list d-flex">
+                                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
+                                                    <div class="ms-2">X.X/5.0</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4 class="text-danger">book->price</h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselNewControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselNewControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+
+    </div>
+</div>
 @endsection

@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
+            Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
         });
 
         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
@@ -47,11 +48,8 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/content', [ThreadController::class, 'content'])->name('content');
             Route::get('/create', [ThreadController::class, 'create'])->name('create');
         });
-    });
 
-    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
-        Route::get('/show', [BookController::class, 'show'])->name('show');
-        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
+        Route::get('inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
@@ -70,10 +68,12 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
+        Route::get('/books/list',[StoreController::class, 'bookList'])->name('books.list');
+        Route::get('/books/inventory',[StoreController::class, 'inventory'])->name('books.inventory');
         });
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-
-
     });
 
 

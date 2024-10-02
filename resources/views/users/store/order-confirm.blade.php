@@ -3,6 +3,16 @@
 @section('title','order-confirm')
 
 @section('content')
+
+{{-- Back button --}}
+<div>
+    <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
+        <div class="h2 fw-semibold">
+            <i class="fa-solid fa-caret-left"></i>
+            <div class="d-inline main-text">Back</div>
+        </div>
+    </a>
+</div>
 <div class="row ">
     <div class="col-7 mt-1 ms-5">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">
@@ -32,7 +42,7 @@
                             <form action="#" method="post">
                                 @csrf
                                 @method('DELETE')
-            
+
                                 <p class="text-start mb-0">Quantity</p>
                                 <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-4 w-100 text-center d-inline" value="1">
                                 <input type="submit" value="Delete" class="btn btn-danger w-100 mt-5 mb-0">
@@ -43,7 +53,7 @@
                 <hr>
             @endfor
         </div>
-    </div>  
+    </div>
 
     <div class="col-4 mt-5 ">
         <div class="row mt-3">
@@ -60,6 +70,6 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection

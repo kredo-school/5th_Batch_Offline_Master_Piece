@@ -16,7 +16,7 @@
                         <h2 class="h1 fw-bold text-grey mt-3">Ranking</h2>
                     </div>
                     <div class="col text-end ">
-                        <a href="{{route('book.ranking')}}" class="text-grey fs-24">
+                        <a href="{{ route('book.ranking') }}" class="text-grey fs-24">
                             <p class="text-end mt-3 mb-0">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
@@ -36,28 +36,31 @@
                                             <div class="h1">
                                                 {{-- star color --}}
                                                 @if ($i == 1)
-                                                    <i class="fa-solid fa-star text-gold"></i>
+                                                    <i class="fa-solid fa-crown" style="color: gold"></i>
                                                     {{ $i }}
                                                 @elseif ($i == 2)
-                                                    <i class="fa-solid fa-star text-silver"></i>
+                                                    <i class="fa-solid fa-crown" style="color: silver"></i>
                                                     {{ $i }}
                                                 @elseif ($i == 3)
-                                                    <i class="fa-solid fa-star text-copper"></i>
+                                                    <i class="fa-solid fa-crown" style="color: #9A6229"></i>
                                                     {{ $i }}
                                                 @endif
                                             </div>
                                         @else
                                             <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                                <i class="fa-solid fa-star text-white"></i>
+                                                {{ $i }}
                                             </div>
                                         @endif
                                         <div class="text-center">
-                                            <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
+                                            <a href="{{route('book.show_book')}}">
+                                                <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                             </a>
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -114,13 +117,13 @@
                                             <div class="h1">
                                                 {{-- star color --}}
                                                 @if ($i == 1)
-                                                    <i class="fa-solid fa-star text-gold"></i>
+                                                    <i class="fa-solid fa-crown" style="color: gold"></i>
                                                     {{ $i }}
                                                 @elseif ($i == 2)
-                                                    <i class="fa-solid fa-star text-silver"></i>
+                                                    <i class="fa-solid fa-crown" style="color: silver"></i>
                                                     {{ $i }}
                                                 @elseif ($i == 3)
-                                                    <i class="fa-solid fa-star text-copper"></i>
+                                                    <i class="fa-solid fa-crown" style="color: #9A6229"></i>
                                                     {{ $i }}
                                                 @endif
                                             </div>
@@ -167,7 +170,7 @@
                         <h2 class="h1 fw-bold text-grey mt-3">Suggestion</h2>
                     </div>
                     <div class="col text-end ">
-                        <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
+                        <a href="{{ route('book.suggestion') }}" class="text-grey fs-24">
                             <p class="text-end mt-3 mb-0">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
@@ -183,9 +186,9 @@
                             <div class="row">
                                 @for ($i = 1; $i < 5; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
@@ -206,16 +209,18 @@
                             <div class="row">
                                 @for ($i = 5; $i < 9; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
-                                            <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
+                                            <a href="{{route('book.show_book')}}">
+                                                <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                             </a>
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -229,9 +234,9 @@
                             <div class="row">
                                 @for ($i = 9; $i < 13; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
@@ -270,7 +275,7 @@
                         <h2 class="h1 fw-bold text-grey mt-3">New</h2>
                     </div>
                     <div class="col text-end ">
-                        <a href="{{route('book.new')}}" class="text-grey fs-24">
+                        <a href="{{ route('book.new') }}" class="text-grey fs-24">
                             <p class="text-end mt-3 mb-0">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
@@ -286,16 +291,18 @@
                             <div class="row">
                                 @for ($i = 1; $i < 5; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
-                                            <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
+                                            <a href="{{route('book.show_book')}}">
+                                                <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                             </a>
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -309,9 +316,9 @@
                             <div class="row">
                                 @for ($i = 5; $i < 9; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
@@ -332,9 +339,9 @@
                             <div class="row">
                                 @for ($i = 9; $i < 13; $i++)
                                     <div class="col-3">
-                                            <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $i }}
-                                            </div>
+                                        <div class="h1">
+                                            <i class="fa-solid fa-star text-white"></i>{{ $i }}
+                                        </div>
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
@@ -373,10 +380,13 @@
             {{-- New thread list --}}
             <div class="row justify-content-center">
                 <div class="col-11 bg-white rounded shadow mt-5">
-                    <h3 class="text-grey fw-bold mt-3">New Thread</h3>
+                    <a href="{{ route('thread.home') }}" class="text-decoration-none">
+                        <h3 class="text-grey fw-bold mt-3">New Thread</h3>
+                    </a>
                     @for ($i = 0; $i < 5; $i++)
                         <div class="mt-2">
-                            <a href="#" class="text-decoration-none text-primary h3">Hellow world. Hellow world.</a>
+                            <a href="{{ route('thread.content') }}" class="text-decoration-none text-primary h3">Hellow
+                                world. Hellow world.</a>
 
                         </div>
                     @endfor
