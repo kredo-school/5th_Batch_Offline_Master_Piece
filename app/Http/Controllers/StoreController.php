@@ -63,4 +63,14 @@ class StoreController extends Controller
     {
         return view('users.store.receipt');
     }
+
+    public function storeSearch()
+    {
+        return view('users.store.search');
+    }
+
+    public function inventory()
+    {
+        return view('users.store.inventory');
+    }
 }

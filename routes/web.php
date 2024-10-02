@@ -54,11 +54,6 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
         Route::get('/show', [BookController::class, 'show'])->name('show');
-        Route::get('/upload', [HomeController::class, 'uploadImage'])->name('uploadImage');
-    });
-
-    Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
-        Route::get('/show', [BookController::class, 'show'])->name('show');
         Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
         Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
     });
@@ -73,9 +68,12 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
+        Route::get('/books/list',[StoreController::class, 'bookList'])->name('books.list');
+        Route::get('/books/inventory',[StoreController::class, 'inventory'])->name('books.inventory');
         });
+        Route::get('/search',[StoreController::class, 'storeSearch'])->name('search');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-        Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
     });
 
 

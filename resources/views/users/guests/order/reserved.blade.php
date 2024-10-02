@@ -20,7 +20,7 @@
                     <div class="card-body bg-white">
                         <div class="mx-3">
                             <div class="main-text fs-32 fw-semibold">Your order number: <span class="text-dark">09120912</span></div>
-                            <div class="main-text fs-32 fw-semibold">Received by: <span class="text-dark">Mito store</span></div>
+                            <div class="main-text fs-32 fw-semibold">Received by: <span class="text-dark">Mito store(Sep.12.2024)</span></div>
                             <div class="main-text fs-32 fw-semibold">Order total: <span class="text-dark">4 books - ¥13,800</span></div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
 
     {{-- Back button --}}
     <div>
-        <a href="#" class="fw-bold text-decoration-none main-text btn">
+        <a href="{{route('home')}}" class="fw-bold text-decoration-none main-text btn">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Go back to homepage</div>
