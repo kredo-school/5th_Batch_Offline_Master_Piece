@@ -16,6 +16,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
+Route::get('/admin/guest', [AdminController::class, 'guest'])->name('admin.guest');
+Route::get('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::get('/admin/genre', [AdminController::class, 'genre'])->name('admin.genre');
+Route::get('/admin/book', [AdminController::class, 'book'])->name('admin.book');
 
 Route::group(['middleware' => 'auth'],function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
