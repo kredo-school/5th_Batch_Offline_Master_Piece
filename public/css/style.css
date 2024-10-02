@@ -24,11 +24,6 @@
     color:#FF8B4A;
 }
 
-.a1:hover,:visited{
-    color: inherit;
-    text-decoration: none;
-}
-
 /* Back button */
 .back-button{
 

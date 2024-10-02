@@ -57,12 +57,19 @@
             <div class="card">
                 <div class="card-header bg-white p-0">
                     <textarea name="comment" id="comment" rows="5" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0"></textarea>
+                    @error('comment')
+                        <p class="text-danger small">{{$message}}</p>
+                    @enderror
                 </div>
-                <div class="card-body bg-white">
+                <div class="card-body bg-white" id="comment">
                     <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <label for="comment-image" class="form-label fw-bold">Image File</label>
                         <input type="file" name="comment_image" id="comment-image" class="form-control w-25 d-inline">
+                        @error('file')
+                            <p class="text-danger small">{{$message}}</p>
+                        @enderror
+
                         <input type="submit" value="Add comment" class="btn btn-orange float-end">
                     </form>
                 </div>

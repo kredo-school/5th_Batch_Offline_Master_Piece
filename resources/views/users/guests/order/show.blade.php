@@ -41,6 +41,10 @@
                                         <form action="" method="post">
                                             @csrf
                                             @method('DELETE')
+
+                                            @error('quantity')
+                                                <p class="text-danger small">{{$message}}</p>
+                                            @enderror
                                             <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-2 mt-4 w-50 text-center d-inline" value="1">
                                             <input type="submit" value="Delete" class="btn btn-danger w-50">
                                         </form>
