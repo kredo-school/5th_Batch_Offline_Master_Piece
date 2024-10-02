@@ -66,6 +66,12 @@ class BookController extends Controller
         return view('users.guests.show_store');
     }
     
+    public function listStoreShow()
+    {
+        return view('users.guests.store_list');
+    }
+
+
     public function find(Request $request)
     {
             $isbnCode = $request->input('isbn_code');

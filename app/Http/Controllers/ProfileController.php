@@ -51,5 +51,10 @@ class ProfileController extends Controller
         return view('users.guests.profile.search-list');
     }
 
+    public function inquiry()
+    {
+        return view('inquiry');
+    }
+
 
 }
