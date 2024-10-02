@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
             <div class="container">
                 <a class="navbar-brand" href="{{route('home')}}">
-                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden mb-0 p-0"style="height: 100px">
+                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
                 </a>
                 
 
@@ -118,17 +118,17 @@
 
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('home')}}" class="nav-link mb-0">
                                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                    <p class="text-white">Home</p>
+                                    <p class="text-white mb-0">Home</p>
                                 </a>
                             </li>
 
                             {{-- order --}}
                             <li class="nav-item me-3" title="Order">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('profile.order')}}" class="nav-link">
                                     <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
-                                    <p class="text-white">Order</p>
+                                    <p class="text-white mb-0">Order</p>
                                 </a>
                             </li>
 
@@ -139,35 +139,37 @@
                                 <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
                                     @if (Auth::user()->avatar)
                                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @else
                                         <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @endif
 
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     {{-- Profile --}}
-                                    <a href="" class="dropdown-item">
+                                    <a href="{{route('profile.edit')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
                                     {{-- Logout --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                    <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                       <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
 
                                     {{-- Store Page 仮置き --}}
                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
                                         <i class="fa-solid fa-shop"></i> Store page
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                                    
                                 </div>
                             </li>
                         @endguest
@@ -183,10 +185,10 @@
             <div class="container">
                 <div class="row w-100 justify-content-center text-center">
                     <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="#" class="text-menu text-decoration-none ">Thread Home</a>
+                        <a href="{{route('thread.home')}}" class="text-menu text-decoration-none ">Thread Home</a>
                     </p>
                     <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="#" class="text-menu text-decoration-none">Post Thread</a>
+                        <a href="{{route('thread.create')}}" class="text-menu text-decoration-none">Post Thread</a>
                     </p>
                 </div>
             </div>
@@ -196,11 +198,11 @@
         @if(request()->is('guest/*'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
                 <div class="row mx-auto">
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Ranking</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Suggestion</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
                 </div>

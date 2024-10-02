@@ -52,7 +52,7 @@
     </div>
     
     <div class="text-end w-75">
-        <a href="#" class="btn Goto-inventory pt-3 fs-4">Go to Inventory</a>
+        <a href="home" class="btn Goto-inventory pt-3 fs-4">Go to Inventory</a>
     </div><br><br>
 </div>
 @endsection
