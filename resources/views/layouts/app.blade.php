@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -22,19 +22,26 @@
     {{-- CSS Style --}}
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
+
+
+    {{-- fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+
+    {{-- Java Script for Graph --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <div class="text-center text-white pt-3">
-                        <img src="{{asset("images/white-logo.png")}}" alt="" class="logo-img ">
-                    </div>
+                <a class="navbar-brand" href="{{route('home')}}">
+                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
                 </a>
+
 
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -50,20 +57,7 @@
 
                                 @guest
                                 @else
-                                    {{-- <form action="#"
-                                    style="width: 300px" >
-
-                                        <div class="row">
-                                            <div class="col-auto pe-0">
-                                                <input type="search" name="search" class="form-control form-control-sm " placeholder="Search books..."
-                                                style="width: 250px;">
-                                            </div>
-                                            <div class="col-auto ps-1">
-
-                                                <button type="submit" class="btn btn-warning btn-sm "><i class="fa-solid fa-magnifying-glass"></i></button>
-                                            </div>
-                                        </div>
-                                    </form> --}}
+                                @if(request()->is('guest/*'))
                                     <form action="#" style="width: 500px" class="d-flex">
                                         <div class="row ms-auto">
                                             <div class="col pe-0 position-relative">
@@ -100,7 +94,7 @@
                                             searchInput.focus();  // フィールドにフォーカスを戻す
                                         });
                                     </script>
-
+                                @endif
                                 @endguest
                             </ul>
                     </ul>
@@ -124,17 +118,17 @@
 
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('home')}}" class="nav-link mb-0">
                                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                    <p class="text-white">Home</p>
+                                    <p class="text-white mb-0">Home</p>
                                 </a>
                             </li>
 
                             {{-- order --}}
                             <li class="nav-item me-3" title="Order">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('order.show')}}" class="nav-link">
                                     <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
-                                    <p class="text-white">Order</p>
+                                    <p class="text-white mb-0">Order</p>
                                 </a>
                             </li>
 
@@ -145,30 +139,37 @@
                                 <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
                                     @if (Auth::user()->avatar)
                                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @else
                                         <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @endif
 
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     {{-- Profile --}}
-                                    <a href="" class="dropdown-item">
+                                    <a href="{{route('profile.edit')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
                                     {{-- Logout --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                    <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                       <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
+                                    {{-- Store Page 仮置き --}}
+                                    <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                    </a>
+
+                                    
                                 </div>
                             </li>
                         @endguest
@@ -177,25 +178,46 @@
             </div>
         </nav>
 
-
         @guest
         @else
-        <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-            <div class="row mx-auto">
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">New</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Ranking</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Suggestion</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
-                <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
+        @if(request()->is('thread/*'))
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+            <div class="container">
+                <div class="row w-100 justify-content-center text-center">
+                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
+                        <a href="{{route('thread.home')}}" class="text-menu text-decoration-none ">Thread Home</a>
+                    </p>
+                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
+                        <a href="{{route('thread.create')}}" class="text-menu text-decoration-none">Post Thread</a>
+                    </p>
+                </div>
             </div>
         </nav>
+
+        @endif
+        @if(request()->is('guest/*'))
+            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                <div class="row mx-auto">
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.store_list')}}" class="text-menu text-decoration-none">Store</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('inquiry')}}" class="text-menu text-decoration-none">Inquiry</a></p>
+                </div>
+            </nav>
+        @endif
         @endguest
 
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    {{-- footer here --}}
+        @auth
+            @include('layouts.footer')
+        @endauth
+
 </body>
 </html>

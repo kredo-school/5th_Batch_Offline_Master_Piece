@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
-use App\Http\Controllers\Controller;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 
-class AuthorController extends Controller
+class ThreadController extends Controller
 {
-    private $author;
-
-    public function __construct(Author $author)
-    {
-        $this->author = $author;
-    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function home()
     {
-        
+        return view('thread.home');
+    }
+
+    public function content()
+    {
+        return view('thread.content');
     }
 
     /**
@@ -27,7 +25,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+        return view('thread.create');
     }
 
     /**
@@ -41,7 +39,7 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Author $author)
+    public function show(Thread $thread)
     {
         //
     }
@@ -49,7 +47,7 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Author $author)
+    public function edit(Thread $thread)
     {
         //
     }
@@ -57,7 +55,7 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, Thread $thread)
     {
         //
     }
@@ -65,7 +63,7 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Author $author)
+    public function destroy(Thread $thread)
     {
         //
     }

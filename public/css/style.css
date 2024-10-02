@@ -1,3 +1,8 @@
+/* order-show */
+.card-size{
+    height: 650px;
+}
+
 .register-img{
     width: 15%;
     /* height: auto; */
@@ -17,13 +22,15 @@
 }
 .submit-button:hover:active {
     color:#FF8B4A;
-  }
+}
 
 .a1:hover,:visited{
     color: inherit;
     text-decoration: none;
 }
 
+/* Back button */
+.back-button{
 
 .card-submit{
     width: 80%;
@@ -36,17 +43,34 @@
 .section{
     font-family: "Gothic A1", sans-serif;
     color: #757B9D;
+    font-weight: bold;
+    font-size: 2rem;
+    padding-left: 2rem;
+    text-decoration: none;
 }
+
+
+/* .card{
+    width: 80%;
+    X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray
+    box-shadow: 0 0 3px  gray; 下方向にのみ影を付ける
+    border-radius: 10px;
+} */
 
 .main-bg{
     background: #FFFCF2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
+/* title text */
 .main-text{
     color: #757B9D;
     font-family: 'Gothic A1', sans-serif;
 }
 
+/* body back-ground */
 .container-body{
     margin: auto;
     box-sizing: border-box;
@@ -61,7 +85,11 @@
 
 /* Font Awesome */
 .fa-star{
-    color: yellow;
+    color: rgb(255, 234, 0);
+}
+
+.star-ration-list{
+    font-size: 15px;
 }
 
 .fa-bookmark{
@@ -69,18 +97,79 @@
     color: orange;
 }
 
+.fa-thumbs{
+    font-size: 25px;
+    border-style: none;
+    margin-top: 16px;
+    background-color: white;
+}
+
+
 
 /* Table of books (suggetion ranking new) */
 .table-container{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
 .table-container table{
     width: 15%;
-    margin: 10px;
+    margin: 24px;
 }
+
+.link-book{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    object-fit: cover;
+    color: #000;
+}
+
+/* show-book */
+.review-list{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+/* show-book avatar*/
+.image-wrapper{
+    width: 80px;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.img-thumbnail{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* show_book text-area */
+.review-wide{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* time stamp */
+.post-time{
+    color: gray;
+}
+
+/* show book list padding */
+.list-top{
+    margin: 40px;
+}
+
+/* store inventory */
+.img-store-inventory{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
 
 /* Button */
 .btn-select-store{
@@ -89,13 +178,68 @@
     border-radius: 10px;
 }
 
+.btn-select-inventory{
+    width: 250px;
+    height: 50px;
+}
+
+.serch-button{
+    background-color: rgba(61, 68, 100, 0.719);
+    color: #FFFFFF;
+    width: 85px;
+    height: 40px;
+}
+
+/* review rating */
+.rating-summary {
+    width: 400px;
+    padding: 20px;
+    margin: auto;
+}
+
+.overall-rating {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.rating-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.rating-details .rating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.bar {
+    width: 70%;
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar .fill {
+    height: 100%;
+    background-color: #f5b301;
+    border-radius: 4px;
+}
+
+.total-ratings {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+
 /* profile */
 *{
     font-family: "Gothic A1", sans-serif;
-}
-
-.card-size{
-    height: 650px;
 }
 
 .text-grey{
@@ -132,15 +276,14 @@
     font-size: 24px;
 }
 
-img{
-    height: 181px;
-}
-
 .btn-orange{
     color: white;
     background-color:#FFB84C;
 }
 
+.profile-list{
+    height: 650px;
+}
 .btn-orange:hover{
     color: #FF8B4A;
     background-color: #FFE0B0;
@@ -148,6 +291,52 @@ img{
 
 .profile-list{
     height: 650px;
+}
+
+/* Home */
+.bg-grey{
+    background-color: #EEEBE2;
+}
+.h-thread{
+    height: 300px;
+}
+.bg-adv{
+    background: #7FA5D9;
+    width: 270px;
+    height: 270px;
+}
+
+.text-gold{
+    color: #F8E00A;
+
+}
+.text-silver{
+    color: #D3D2C7;
+
+}
+.text-copper{
+    color: #D9A965;
+
+}
+
+/* 左のボタンを左に移動 */
+.carousel-control-prev {
+    left: -80px;
+}
+
+/* 右のボタンを右に移動 */
+.carousel-control-next {
+    right: -80px;
+}
+
+/* 戻るボタンの矢印を黒色に変更 */
+.carousel-control-prev-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>');
+}
+
+/* 進むボタンの矢印を黒色に変更 */
+.carousel-control-next-icon {
+    background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
 }
 
 
@@ -168,8 +357,8 @@ img{
 }
 
 .logo-img{
-    width: 160px;
-    height: 160px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 15px;
 }
 
@@ -187,6 +376,7 @@ img{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+
 }
 
 .i-admin{
@@ -201,12 +391,12 @@ img{
     border: none; /* ボタンのデフォルトの枠線を削除 */
     outline: none; /* フォーカス時の枠線を消す */
     background-color: transparent; /* 背景色を透過に */
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .card-admin {
-    border-radius: 50px; 
-    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1); 
+    border-radius: 50px;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 .login-logo{
@@ -214,15 +404,136 @@ img{
     height: 130px;
 }
 
-.card-header{
+/* .card-header{
     background-color: #E1FFEB;
+} */
+
+.store-home-button{
+    background-color:#D3DD53;
+    color: white;
+    font-size: 2.5vw;
+    font-weight: bold;
+    width: 80%;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+
 }
+
+.store-home-button:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.store-home-button:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
+.store-search{
+    background-color:#FFB84C;
+}
+
+.store-search:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
+footer{
+    height: auto;
+    background-color: #357C4A;
+    color:white;
+    margin-top: auto;
+}
+
+.footer-logo{
+    width: 10rem;
+    height: 10rem;
+}
+
+footer a{
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    transition: transform 0.1s, text-shadow 0.3s;
+}
+footer a:hover{
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                        0 0 20px rgba(255, 255, 255, 0.6),
+                        0 0 30px rgba(255, 255, 255, 0.4),
+                        0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+footer a:active{
+    transform: translateY(2px);
+}
+
+footer .col {
+    text-align: center;
+}
+
+footer p{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-top: 10%;
+}
+
+footer li{
+    width: calc(100% / 10);
+    list-style: none;
+}
+
+.list-container {
+    display: grid;
+    gap: 10px;
+}
+
+#page-top {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    display: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.eraser-button {
+    width: 5rem;
+    height: 31px;
+    background-color: #FFB84C;
+    border-radius: 7px;
+    transition: transform 0.1s ease;
+}
+
+.eraser-button:hover {
+    transform: translateY(-2px);
+}
+
+.eraser-button:active {
+    transform: translateY(1px);
+}
+
+
+
 
 .search-list-img{
     width: 160px;
     height: 260px;
 }
 
+.new-order-confirm-proceed{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+}
 .reserved-img{
     height: 120px;
 }
@@ -230,6 +541,40 @@ img{
 .text-green{
     color: #32BF61;
 }
+
+/* thread */
+.thread-title
+{
+    font-family: "Gilda Display", serif;
+    font-size: 96px;
+}
+
+.thread-img
+{
+    width: 150px;
+    height: auto;
+}
+
+.order-confirm-button{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+}
+
+.ordered-img{
+    width: 200px;
+    height: 240px;
+}
+
+.Goto-inventory{
+    color: #FFFFFF;
+    background-color: #CEDA41;
+    width: 250px;
+    height: 70px;
+}
+
+
+
+
 
 .admin-image{
     width: 50px;

@@ -11,6 +11,11 @@ class AdminController extends Controller
         return view('admin.home');
     }
 
+    public function create()
+    {
+        return view('admin.books.add');
+    }    
+    
     public function guest()
     {
         return view('admin.guest');
@@ -18,7 +23,7 @@ class AdminController extends Controller
 
     public function store()
     {
-        return view('admin.store');
+        return view('admin.stores.register-store');
     }
 
     public function genre()

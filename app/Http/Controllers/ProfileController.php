@@ -11,34 +11,49 @@ class ProfileController extends Controller
     //
     private $profile;
 
-    public function __construct(User $user){
+    public function __construct(User $user)
+    {
         $this->profile = $user;
     }
 
-
-    public function show(){
-        return view('guest.profile.show');
-    }
-    public function bookmark(){
-        return view('guest.profile.bookmark');
-    }
-    public function order(){
-        return view('guest.profile.order');
-    }
-    public function comment(){
-        return view('guest.profile.comment');
+    public function show()
+    {
+        return view('users.guests.profile.show');
     }
 
-    public function edit(){
-        return view('guest.profile.edit');
+    public function bookmark()
+    {
+        return view('users.guests.profile.bookmark');
     }
-    public function welcome(){
-        return view('guest.profile.welcome');
-    }
-    
 
-    public function searchlist(){
-        return view('guest.profile.search-list');
+    public function order()
+    {
+        return view('users.guests.profile.order');
+    }
+
+    public function comment()
+    {
+        return view('users.guests.profile.comment');
+    }
+
+    public function edit()
+    {
+        return view('users.guests.profile.edit');
+    }
+
+    public function welcome()
+    {
+        return view('users.guests.profile.welcome');
+    }
+
+    public function searchlist()
+    {
+        return view('users.guests.profile.search-list');
+    }
+
+    public function inquiry()
+    {
+        return view('inquiry');
     }
 
 
