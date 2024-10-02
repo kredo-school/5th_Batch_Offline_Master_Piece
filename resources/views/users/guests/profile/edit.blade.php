@@ -5,10 +5,12 @@
 
 @section('content')
 
-    <div>
-        <a href="{{ url()->previous() }}" class="text-decoration-none back ms-4 btn"><i class="fa-solid fa-caret-left"></i> <label
-                for="">Back</label></a>
-    </div>
+    <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+        <div class="h2 fw-semibold">
+            <i class="fa-solid fa-caret-left"></i>
+            <div class="d-inline main-text">Back</div>
+        </div>
+    </a>
 
     <div class="row justify-content-center mt-2">
         <div class="col-7 row  mt-2 p-5 shadow bg-white rounded">
@@ -16,7 +18,7 @@
                 <div class="mx-auto text-center">
                     <i class="fa-solid fa-circle-user icon-lg"></i>
                 </div>
-                <form action="#" method="post">
+                <form action="#" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <label for="avatar" class="form-label mt-4">Image File</label>
@@ -120,7 +122,8 @@
                 @enderror
             </div>
             <label for="introduction" class="form-label mt-4">Introduction</label>
-            <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Introduction"></textarea>
+            <textarea name="" id="" cols="30" rows="10" class="form-control"
+                placeholder="Introduction"></textarea>
 
             <button type="submit" class="btn btn-orange mt-4">Update</button>
 

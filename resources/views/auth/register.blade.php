@@ -9,8 +9,8 @@
 <div class="container">
     <img src="{{ asset('/images/BB2BB7F8-CA14-4C2A-8606-2DA9E432FEB0.png') }}" alt="" class="register-img mx-auto d-block">
     <div class="row justify-content-center mt-5">
-        <div class="col-5"> 
-            <div class="card mt-3 mx-auto">
+        <div class="col-5">
+            <div class="card card-submit mt-3 mx-auto">
                 {{-- <div class="card-header">{{ __('Register') }}</div> --}}
 
                 <div class="card-body mx-auto  w-100 t-4">
@@ -54,9 +54,7 @@
 
                         <div class="mt-4 mb-4 px-3 ">
                             <button type="submit" class=" btn submit-button w-100">
-                                <a href="#" class="a1 text-decoration-none">
                                 {{ __('Register') }}
-                                </a>
                             </button>
                         </div>
                     </form>

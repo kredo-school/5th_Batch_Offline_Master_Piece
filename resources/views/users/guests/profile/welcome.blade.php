@@ -16,9 +16,8 @@
                 <div class="mx-auto text-center">
                     <i class="fa-solid fa-circle-user icon-lg"></i>
                 </div>
-                <form action="#" method="post">
+                <form action="#" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
                     <label for="avatar" class="form-label mt-4">Image File</label>
                     <input type="file" name="avatar" id="avatar" placeholder="File" class="form-control">
                     <div id="avatar-info" class="form-text">

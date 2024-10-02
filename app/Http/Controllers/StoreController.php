@@ -73,4 +73,12 @@ class StoreController extends Controller
     {
         return view('users.store.inventory');
     }
+    public function profile()
+    {
+        return view('users.store.profile');
+    }
+    public function edit()
+    {
+        return view('users.store.edit');
+    }
 }
