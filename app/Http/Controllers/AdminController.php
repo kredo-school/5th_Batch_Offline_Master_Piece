@@ -18,7 +18,7 @@ class AdminController extends Controller
     
     public function guest()
     {
-        return view('admin.guest');
+        return view('admin.guests.guest');
     }
 
     public function store()

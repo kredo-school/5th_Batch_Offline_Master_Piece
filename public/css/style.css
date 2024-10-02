@@ -25,7 +25,6 @@
 }
 
 /* Back button */
-.back-button{
 
 .card-submit{
     width: 80%;
@@ -587,7 +586,7 @@ footer li{
 .group-admin-button {
    background-color: #FFFFFF; 
     /* border: gray;
-    color: gray; */ */
+    color: gray; */ 
     background: transparent;
   /* 枠線を消す */
   border: none;
@@ -603,7 +602,6 @@ footer li{
 }
 
 .disabled-admin{
-    color:;
     border: none;
     outline: none;
 }

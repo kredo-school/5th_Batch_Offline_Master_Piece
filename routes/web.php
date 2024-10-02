@@ -18,11 +18,6 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-Route::get('/admin/guest', [AdminController::class, 'guest'])->name('admin.guest');
-Route::get('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-Route::get('/admin/genre', [AdminController::class, 'genre'])->name('admin.genre');
-Route::get('/admin/book', [AdminController::class, 'book'])->name('admin.book');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -88,18 +83,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/add-book', [AdminController::class, 'create'])->name('create');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
         Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
-        Route::get('/home', [AdminController::class, 'home'])->name('home');
         Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
         Route::get('/book', [AdminController::class, 'book'])->name('book');
     });
-    
 
-
-// Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-// Route::get('/admin/guest', [AdminController::class, 'guest'])->name('admin.guest');
-// Route::get('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-// // Route::get('/admin/genre', [AdminController::class, 'genre'])->name('admin.genre');
-// Route::get('/admin/book', [AdminController::class, 'book'])->name('admin.book');
 
 
 
