@@ -81,6 +81,30 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-body">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                </div>
+                <div class="col-1"></div>
+                <div class="col-7 fs-32">
+                    <p>
+                        <p class="fs-32">$book->name</p>
+                        <p class="h4">$book->author->name
+                        </p>
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <i class="fa-regular fa-star text-warning"></i>
+                        4.2/5.0
+                    </p>
+                    <p class="text-danger fs-32 mt-5">¥23,000</p>
+                </div>
+            </div>
+        </div>
     
         <div class="container-body" style="overflow-y: auto; height: 650px;">
             <h1 class="h3 main-text fw-bold">Select Store</h1>
