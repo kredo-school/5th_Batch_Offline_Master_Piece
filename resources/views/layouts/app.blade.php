@@ -94,6 +94,43 @@
                                             searchInput.focus();  // フィールドにフォーカスを戻す
                                         });
                                     </script>
+                                    @elseif(request()->is('/'))
+                                    <form action="#" style="width: 500px" class="d-flex">
+                                        <div class="row ms-auto">
+                                            <div class="col pe-0 position-relative">
+                                                <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search books..." style="width: 250px;">
+                                                <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
+                                                    x
+                                                </button>
+                                            </div>
+                                            <div class="col ps-1">
+                                                <button type="submit" class="btn btn-warning btn-sm search-icon">
+                                                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <script>
+                                        const searchInput = document.getElementById('searchInput');
+                                        const clearButton = document.getElementById('clearButton');
+
+                                        // 入力時にクリアボタンの表示・非表示を切り替える
+                                        searchInput.addEventListener('input', function() {
+                                            if (searchInput.value) {
+                                                clearButton.style.display = 'inline';
+                                            } else {
+                                                clearButton.style.display = 'none';
+                                            }
+                                        });
+
+                                        // クリアボタンを押すと検索フィールドをクリア
+                                        clearButton.addEventListener('click', function() {
+                                            searchInput.value = '';
+                                            clearButton.style.display = 'none';
+                                            searchInput.focus();  // フィールドにフォーカスを戻す
+                                        });
+                                    </script>
                                 @endif
                                 @endguest
                             </ul>
@@ -115,7 +152,73 @@
                                 </li>
                             @endif
                         @else
+                        @if(request()->is('store/*'))
+                        <div class="pt-2 me-4">
+                            <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
+                            onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket  d-block fs-1"></i><p class="mt-1">{{ __('Logout') }}</p>
+                            </a>
 
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+
+                            <li class="nav-item dropdown">
+
+                                <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
+                                    @if (Auth::user()->avatar)
+                                        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
+                                    @else
+                                        <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
+                                    @endif
+
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                    {{-- Profile --}}
+                                    <a href="{{route('store.profile')}}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                </div>
+                            </li>
+                        @elseif(request()->is('admin/*'))
+                        <div class="pt-2 me-4">
+                            <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
+                            onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket  d-block fs-1"></i><p class="mt-1">{{ __('Logout') }}</p>
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+
+                            <li class="nav-item dropdown">
+
+                                <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
+                                    @if (Auth::user()->avatar)
+                                        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
+                                    @else
+                                        <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
+                                    @endif
+
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                    {{-- Profile --}}
+                                    <a href="{{route('store.profile')}}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                </div>
+                            </li>
+                        @else
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
                                 <a href="{{route('home')}}" class="nav-link mb-0">
@@ -149,7 +252,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     {{-- Profile --}}
-                                    <a href="{{route('profile.edit')}}" class="dropdown-item">
+                                    <a href="{{route('profile.show')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
@@ -168,10 +271,10 @@
                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
                                         <i class="fa-solid fa-shop"></i> Store page
                                     </a>
-
-                                    
+                                
                                 </div>
                             </li>
+                        @endif
                         @endguest
                     </ul>
                 </div>
@@ -193,9 +296,22 @@
                 </div>
             </div>
         </nav>
-
         @endif
+
+        
         @if(request()->is('guest/*'))
+            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                <div class="row mx-auto">
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.store_list')}}" class="text-menu text-decoration-none">Store</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('inquiry')}}" class="text-menu text-decoration-none">Inquiry</a></p>
+                </div>
+            </nav>
+            @elseif(request()->is('/'))
             <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
                 <div class="row mx-auto">
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>

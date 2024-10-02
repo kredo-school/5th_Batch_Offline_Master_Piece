@@ -16,6 +16,9 @@
                     @csrf
                     <label for="title" class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
                     <input type="text" name="title" id="title" class="form-control mb-3" placeholder="Title">
+                    @error('title')
+                            <p class="text-danger small">{{$message}}</p>
+                    @enderror
 
                     <label for="genre" class="form-label fw-semibold">Select Genre</label>
                     <div class="mb-3">
@@ -29,9 +32,15 @@
 
                     <label for="genre" class="form-label fw-semibold">First comment <span class="text-danger">*</span></label>
                     <textarea name="comment" id="comment" cols="" rows="8" placeholder="Add comment" class="form-control mb-3"></textarea>
+                    @error('comment')
+                        <p class="text-danger small">{{$message}}</p>
+                    @enderror
 
                     <label for="genre" class="form-label fw-semibold">Image file <span class="text-danger">*</span></label>
                     <input type="file" name="image" id="image" class="form-control w-25 mb-5">
+                    @error('image')
+                        <p class="text-danger small">{{$message}}</p>
+                    @enderror
 
                     <input type="submit" value="POST" class="btn btn-orange w-50 mx-auto d-block mb-5">
                 </form>

@@ -78,4 +78,12 @@ class StoreController extends Controller
     {
         return view('users.store.books.book-information');
     }
+    public function profile()
+    {
+        return view('users.store.profile');
+    }
+    public function edit()
+    {
+        return view('users.store.edit');
+    }
 }
