@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
             <div class="container">
                 <a class="navbar-brand" href="{{route('home')}}">
-                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden mb-0 p-0"style="height: 100px">
+                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
                 </a>
 
 
@@ -118,9 +118,9 @@
 
                             {{-- Home --}}
                             <li class="nav-item me-3" title="Home">
-                                <a href="{{route('home')}}" class="nav-link">
+                                <a href="{{route('home')}}" class="nav-link mb-0">
                                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                    <p class="text-white">Home</p>
+                                    <p class="text-white mb-0">Home</p>
                                 </a>
                             </li>
 
@@ -128,7 +128,7 @@
                             <li class="nav-item me-3" title="Order">
                                 <a href="{{route('order.show')}}" class="nav-link">
                                     <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
-                                    <p class="text-white">Order</p>
+                                    <p class="text-white mb-0">Order</p>
                                 </a>
                             </li>
 
@@ -139,35 +139,37 @@
                                 <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
                                     @if (Auth::user()->avatar)
                                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @else
                                         <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                        <p class="text-white">{{Auth::user()->name}}</p>
+                                        <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @endif
 
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     {{-- Profile --}}
-                                    <a href="" class="dropdown-item">
+                                    <a href="{{route('profile.edit')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
                                     {{-- Logout --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                    <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                       <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
                                     </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
 
                                     {{-- Store Page 仮置き --}}
                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
                                         <i class="fa-solid fa-shop"></i> Store page
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                                    
                                 </div>
                             </li>
                         @endguest
