@@ -3,6 +3,12 @@
 @section('title','order-confirm')
 
 @section('content')
+<div class="justify-content-center">
+    <a href="{{ url()->previous() }}" class="back-button">
+        <i class="fa-solid fa-caret-left"></i> Back
+    </a>
+</div>
+
 <div class="row ">
     <div class="col-7 mt-1 ms-5">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">

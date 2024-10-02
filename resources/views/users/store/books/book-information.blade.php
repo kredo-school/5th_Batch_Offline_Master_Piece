@@ -5,7 +5,7 @@
 @section('content')
 
 <div>
-    <a href="{{ url('/store/home') }}" class="back-button">
+    <a href="{{ url()->previous() }}" class="back-button">
         <i class="fa-solid fa-caret-left"></i> Back
     </a>
 </div>
