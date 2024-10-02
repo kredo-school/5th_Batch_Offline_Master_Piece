@@ -16,7 +16,7 @@
 </div>
 
 <div class="container mt-5 mx-auto bg-white w-50 p-5">
-    <form action="#" method="post">
+    <form action="#" method="post" enctype="multipart/form-data">
     @csrf
 
     <div class="row pt-5">
