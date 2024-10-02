@@ -18,6 +18,7 @@
 <div class="container mt-5 mx-auto bg-white w-50 p-5">
     <form action="#" method="post">
     @csrf
+    @method('PATCH')
 
     <div class="row pt-5">
         <div class="col">
@@ -30,13 +31,13 @@
         </div>
     
         <div class="col">
-            <label for="name" class="form-label">Store Name</label>
+            <label for="name" class="form-label">Store Name <span class="text-danger">*</span></label>
             <input type="text" name="name" id="name" placeholder="Input Name" class="form-control" required><br>
 
-            <label for="phone" class="form-label">Phone number(without hyphens)</label>
+            <label for="phone" class="form-label">Phone number(without hyphens) <span class="text-danger">*</span></label>
             <input type="number" name="phone" id="phone" placeholder="Phone number" class="form-control" required><br>
 
-            <label for="adress" class="form-label">Adress</label>
+            <label for="adress" class="form-label">Adress <span class="text-danger">*</span></label>
             <select name="prefecture" id="prefecture" class="form-select">
                 <option value="" hidden>prefecture</option>
                 <option value="hokkaido">Hokkaido</option>
@@ -97,7 +98,7 @@
         <textarea name="introduction" id="introduction" cols="30" rows="10" placeholder="Intoroduction"></textarea>
     </div>
     <div class="row w-75 mx-auto mt-5">
-        <button type="submit" class="btn btn-warning text-white mb-5">Register</button>
+        <button type="submit" class="btn btn-warning text-white mb-5">Update</button>
     </div>
 </div><br><br><br>
 </form>
