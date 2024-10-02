@@ -26,6 +26,17 @@
 
 /* Back button */
 .back-button{
+
+.card-submit{
+    width: 80%;
+    /* X軸方向: 2px, Y軸方向: 4px, ぼかし: 2px, 広がり: 2px, 色: gray */
+    box-shadow: 0 0 3px  gray; /* 下方向にのみ影を付ける */
+    border-radius: 10px;
+}
+
+
+.section{
+    font-family: "Gothic A1", sans-serif;
     color: #757B9D;
     font-weight: bold;
     font-size: 2rem;
@@ -560,3 +571,102 @@ footer li{
 
 
 
+.admin-image{
+    width: 50px;
+    height: 40px;
+}
+
+.card-admin-guest {
+    width: 90%; 
+    height: 100%;
+    margin: 0 auto; /* カードを中央に配置 */
+    border-radius: 15px; /* カードの角を丸くする（任意） */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 軽い影を付ける（任意） */
+}
+
+.group-admin-button {
+   background-color: #FFFFFF; 
+    /* border: gray;
+    color: gray; */ */
+    background: transparent;
+  /* 枠線を消す */
+  border: none;
+  /* クリックした際に枠線をnone消す */
+  outline: none;
+  /* 影を消す */
+  box-shadow: 2px 2px 4px 1px gray;
+  height: 60px;
+  margin: 0;  /* 不要なマージンをリセット */
+    padding: 0; /* 不要なパディングをリセット */
+    gap: 0;     /* ボタン間の隙間がある場合 */
+  
+}
+
+.disabled-admin{
+    color:;
+    border: none;
+    outline: none;
+}
+
+
+.row-1{
+    border-bottom: 3px solid gray;
+    border-width:thin;
+    min-height: 50px; /* 各rowの最小の高さを設定 */
+    line-height: 50px; /* 縦方向の中央揃え */
+}
+
+.row-2 {
+    min-height: 50px; /* 各rowの最小の高さを設定 */
+    line-height: 50px; /* 縦方向の中央揃え */
+}
+
+
+.search-input {
+    border: none;
+    height: 35px;
+}
+
+.manage{
+    font-size: 20px;
+    color: gray;
+    font-weight: bold;
+}
+
+/* Manage Guestボタンの背景色と上部ボーダーを強制適用 */
+.manage-guest-btn {
+    background-color: #80D89D !important; /* 背景色を強制適用 */
+    /* border: none; 余分なボーダーを消す */
+    /* outline: none; フォーカス時の枠線を消す */
+    box-shadow: none; /* 押した時の影を消す */
+}
+
+/* ボタンが押された時にボーダーを消す */
+.manage-group-button {
+    border-radius: 2%;
+    border: none; /* ボーダーを消す */
+}
+
+.manage-group-button:focus {
+    outline: 2px solid #FFB84C; /* フォーカス時のアウトラインを適用 */
+    box-shadow: none; /* 必要に応じて影を無くす */
+}
+
+.upper-container {
+    width: 80%; /* 必要に応じて幅を変更 */
+    max-width: 1200px; /* 最大幅の設定 */
+    margin: 0 auto; /* 中央揃え */
+}
+
+.paginate-bar  {
+    border-radius: 30px; /* ボタンを丸く */
+    width: 50px;
+    
+}
+
+.manage-store-btn {
+    background-color: #80D89D !important; /* 背景色を強制適用 */
+    /* border: none; 余分なボーダーを消す */
+    /* outline: none; フォーカス時の枠線を消す */
+    box-shadow: none; /* 押した時の影を消す */
+}
