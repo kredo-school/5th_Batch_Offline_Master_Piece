@@ -32,7 +32,7 @@
                             <form action="" method="post">
                                 @csrf
                                 @method('DELETE')
-            
+
                                 <p class="text-start mb-0">Quantity</p>
                                 <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-4 w-100 text-center d-inline" value="1">
                                 <input type="submit" value="Delete" class="btn btn-danger w-100 mt-5 mb-0">
@@ -44,7 +44,7 @@
             @endfor
         </div>
         <div class="text-end my-5 ">
-            <form action="#" method="post">
+            <form action="{{ route('store.orderConfirm') }}" method="get">
                 @csrf
                 <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to Next</button>
             </form>

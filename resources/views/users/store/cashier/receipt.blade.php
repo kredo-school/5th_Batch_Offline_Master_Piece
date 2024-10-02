@@ -4,12 +4,12 @@
 
 @section('content')
 
+<div class="justify-content-center">
+    <a href="{{ url('/store/cashier/') }}" class="back-button">
+        <i class="fa-solid fa-caret-left"></i> Back
+    </a>
+</div>
     <div class="container">
-        <div class="justify-content-center">
-            <a href="{{ url('/store/cashier/') }}" class="back-button">
-                <i class="fa-solid fa-caret-left"></i> Back
-            </a>
-        </div>
         <div class="container d-flex justify-content-center mb-5">
             <div class="bg-white shadow" style="display: inline-block; border: solid black; padding: 0 20px;">
                 <div class="mt-3 mx-5 text-center sansita-extrabold-italic" style="font-size: 4vw;">{{Auth::user()->name}}</div>

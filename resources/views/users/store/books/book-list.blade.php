@@ -8,7 +8,7 @@
                 @csrf
                 <div class="row align-items-center">
                     <div class="col-4">
-                        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
+                        <a href="#" class="fw-bold text-decoration-none main-text btn border-0">
                             <div class="h2 fw-semibold">
                                 <i class="fa-solid fa-caret-left"></i>
                                 <div class="d-inline main-text">Back</div>

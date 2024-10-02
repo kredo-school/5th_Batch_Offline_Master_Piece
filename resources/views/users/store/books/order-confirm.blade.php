@@ -3,16 +3,6 @@
 @section('title','order-confirm')
 
 @section('content')
-
-{{-- Back button --}}
-<div>
-    <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
-        <div class="h2 fw-semibold">
-            <i class="fa-solid fa-caret-left"></i>
-            <div class="d-inline main-text">Back</div>
-        </div>
-    </a>
-</div>
 <div class="row ">
     <div class="col-7 mt-1 ms-5">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">
@@ -63,7 +53,7 @@
             </div>
 
             <div class="text-center my-5 ">
-                <form action="#" method="post">
+                <form action="{{ route('store.ordered') }}" method="get">
                     @csrf
                     <button type="submit" class="me-3 p-3 border-0 rounded order-confirm-button w-75">Order</button>
                 </form>
