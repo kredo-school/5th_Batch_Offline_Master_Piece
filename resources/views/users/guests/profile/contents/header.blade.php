@@ -1,6 +1,9 @@
-<div>
-    <a href="{{ url()->previous() }}" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a>
-</div>
+<a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
+    <div class="h2 fw-semibold">
+        <i class="fa-solid fa-caret-left"></i>
+        <div class="d-inline main-text">Back</div>
+    </div>
+</a>
 
 <div class="row justify-content-center mt-3">
     <div class="row col-9 bg-white rounded shadow">
