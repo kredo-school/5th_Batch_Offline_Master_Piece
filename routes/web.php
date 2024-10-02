@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
+            Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
         });
 
         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
@@ -47,6 +48,8 @@ Route::group(['middleware' => 'auth'],function(){
             Route::get('/content', [ThreadController::class, 'content'])->name('content');
             Route::get('/create', [ThreadController::class, 'create'])->name('create');
         });
+
+        Route::get('inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function(){
