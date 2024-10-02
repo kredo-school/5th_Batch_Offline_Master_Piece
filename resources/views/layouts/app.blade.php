@@ -200,12 +200,9 @@
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Genre</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Thread</a></p>
+                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.store_list')}}" class="text-menu text-decoration-none">Store</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('inquiry')}}" class="text-menu text-decoration-none">Inquiry</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Store</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none">Inquiry</a></p>
                 </div>
             </nav>
         @endif
