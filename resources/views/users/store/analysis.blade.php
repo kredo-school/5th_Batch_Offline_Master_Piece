@@ -5,10 +5,12 @@
 
 @section('content')
 
-    <div>
-        <a href="{{url()->previous()}}" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label
-                for="">Back</label></a>
-    </div>
+    <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+        <div class="h2 fw-semibold">
+            <i class="fa-solid fa-caret-left"></i>
+            <div class="d-inline main-text">Back</div>
+        </div>
+    </a>
 
 
     <form action="#" method="post">
@@ -81,7 +83,7 @@
                 <div class="bg-white rounded my-5 p-5 profile-list shadow">
                     <div class="row">
                         <div class="col-8">
-                            <h2 id="bookTitle" class="h1 fw-bold text-grey" >Books(Genre)</h2>
+                            <h2 id="bookTitle" class="h1 fw-bold text-grey">Books(Genre)</h2>
                         </div>
                         {{-- order list --}}
                         <div class="col-4">
