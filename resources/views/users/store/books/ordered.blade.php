@@ -3,9 +3,14 @@
 @section('title','ordered')
 
 @section('content')
+<div class="justify-content-center">
+    <a href="{{ route('store.orderConfirm') }}" class="back-button">
+        <i class="fa-solid fa-caret-left"></i> Back
+    </a>
+</div>
 
 <div class="mt-4 d-flex justify-content-center">
-    <form action="#" method="post" style="width: 500px;">
+    <form action="{{ route('store.search') }}" method="get" style="width: 500px;">
         @csrf
         <div class="row">
             <div class="col pe-0 position-relative">
@@ -15,7 +20,7 @@
                 </button>
             </div>
             <div class="col ps-1">
-                <button type="submit" class="btn btn-warning btn-sm search-icon">
+                <button type="submit" class="btn btn-warning search-icon">
                     <i class="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
             </div>
@@ -50,9 +55,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="text-end w-75">
-        <a href="home" class="btn Goto-inventory pt-3 fs-4">Go to Inventory</a>
+        <a href="{{ route('store.inventory') }}" class="btn Goto-inventory pt-3 fs-4">Go to Inventory</a>
     </div><br><br>
 </div>
 @endsection
