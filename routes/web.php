@@ -15,10 +15,6 @@ use App\Http\Controllers\ThreadController;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'guest'], function () {
@@ -81,11 +77,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        Route::get('/add-book', [AdminController::class, 'create'])->name('create');
+        Route::get('/add-book', [AdminController::class, 'addBook'])->name('addBook');
+        Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
         Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
         Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
         Route::get('/book', [AdminController::class, 'book'])->name('book');
+        Route::get('/register', [AdminController::class, 'register'])->name('register');
     });
 
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){

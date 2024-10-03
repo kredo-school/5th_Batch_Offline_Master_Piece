@@ -11,28 +11,38 @@ class AdminController extends Controller
         return view('admin.home');
     }
 
-    public function create()
+    public function addBook()
     {
         return view('admin.books.add');
-    }    
-    
+    }
+
     public function guest()
     {
         return view('admin.guests.guest');
     }
 
-    public function store()
+    public function registerStore()
     {
         return view('admin.stores.register-store');
     }
 
+    public function store()
+    {
+        return view('admin.stores.store');
+    }
+
     public function genre()
     {
-        return view('admin.genre');
+        return view('admin.genres.genre');
     }
 
     public function book()
     {
-        return view('admin.book');
+        return view('admin.books.book');
+    }
+
+    public function register()
+    {
+        return view('admin.stores.register-store');
     }
 }

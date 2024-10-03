@@ -191,25 +191,29 @@
     margin: auto;
 }
 
-.overall-rating {
+.overall-rating
+{
     text-align: center;
     margin-bottom: 15px;
 }
 
-.rating-value {
+.rating-value
+{
     font-size: 18px;
     font-weight: bold;
     margin-left: 10px;
 }
 
-.rating-details .rating-row {
+.rating-details .rating-row
+{
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 5px 0;
 }
 
-.bar {
+.bar
+{
     width: 70%;
     background-color: #e0e0e0;
     height: 20px;
@@ -217,13 +221,15 @@
     overflow: hidden;
 }
 
-.bar .fill {
+.bar .fill
+{
     height: 100%;
     background-color: #f5b301;
     border-radius: 4px;
 }
 
-.total-ratings {
+.total-ratings
+{
     text-align: center;
     margin-top: 10px;
     font-size: 14px;
@@ -232,154 +238,195 @@
 
 
 /* profile */
-*{
+*
+{
     font-family: "Gothic A1", sans-serif;
 }
 
-.text-grey{
+.text-grey
+{
     color: #757B9D;
 }
-.background{
+
+.background
+{
     background-color: #FFFCF2;
 }
 
-.back{
+.back
+{
     font-size: 36px;
     color: #757B9D;
 }
 
-.avatar-lg{
+.avatar-lg
+{
     width: 10rem;
     height: 10rem;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.icon-lg{
+.icon-lg
+{
     font-size: 10rem;
 }
 
-.fs-40{
+.fs-40
+{
     font-size: 40px;
 }
-.fs-32{
+.fs-32
+{
     font-size: 32px;
 }
 
-.fs-24{
+.fs-24
+{
     font-size: 24px;
 }
 
-.btn-orange{
+.btn-orange
+{
     color: white;
     background-color:#FFB84C;
 }
 
-.profile-list{
+.profile-list
+{
     height: 650px;
 }
-.btn-orange:hover{
+.btn-orange:hover
+{
     color: #FF8B4A;
     background-color: #FFE0B0;
 }
 
-.profile-list{
+.profile-list
+{
     height: 650px;
 }
 
 /* Home */
-.bg-grey{
+.bg-grey
+{
     background-color: #EEEBE2;
 }
-.h-thread{
+.h-thread
+{
     height: 300px;
 }
-.bg-adv{
+.bg-adv
+{
     background: #7FA5D9;
     width: 270px;
     height: 270px;
 }
 
-.text-gold{
+.text-gold
+{
     color: #F8E00A;
 
 }
-.text-silver{
+.text-silver
+{
     color: #D3D2C7;
 
 }
-.text-copper{
+.text-copper
+{
     color: #D9A965;
 
 }
 
 /* 左のボタンを左に移動 */
-.carousel-control-prev {
+.carousel-control-prev
+{
     left: -80px;
 }
 
 /* 右のボタンを右に移動 */
-.carousel-control-next {
+.carousel-control-next
+{
     right: -80px;
 }
 
 /* 戻るボタンの矢印を黒色に変更 */
-.carousel-control-prev-icon {
+.carousel-control-prev-icon
+{
     background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>');
 }
 
 /* 進むボタンの矢印を黒色に変更 */
-.carousel-control-next-icon {
+.carousel-control-next-icon
+{
     background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
 }
 
 
 /* navbar */
 
-.main-nav {
+.main-nav
+{
     background-color: #80D89D;
     height: 90px;
 }
 
-.sub-nav{
+.sub-nav
+{
     background-color: #E1FFEB;
     height: 40px;
 }
 
-.sub-nav .text-menu{
+.sub-nav .text-menu
+{
     color: #757B9D;
 }
 
-.logo-img{
+.logo-img
+{
     width: 100px;
     height: 100px;
     margin-bottom: 15px;
 }
 
-.search-icon{
+.search-icon
+{
     background-color: #FFB84C;
 }
 
 
 /* admin page */
 
-.admin-home-btn{
+.admin-home-btn
+{
     background-color: #80D89D;
     width: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-
 }
 
-.i-admin{
+.admin-home-btn:hover{
+    background-color: #E1FFEB;
+    border-radius: 10px;
+}
+
+.admin-home-btn:active {
+    background-color:#E1FFEB;
+    transform: scale(0.98); /* 押した時に若干縮小 */
+}
+
+.i-admin
+{
     width: auto;
     height: auto;
     font-size:70px;
 }
 
-.btn-admin{
+.btn-admin
+{
     /* width: 100%;
     height: 100%; */
     border: none; /* ボタンのデフォルトの枠線を削除 */
@@ -388,21 +435,24 @@
     cursor: pointer;
 }
 
-.card-admin {
+.card-admin
+{
     border-radius: 50px;
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.login-logo{
+.login-logo
+{
     width: 160px;
     height: 130px;
 }
 
-/* .card-header{
+.card-header{
     background-color: #E1FFEB;
-} */
+}
 
-.store-home-button{
+.store-home-button
+{
     background-color:#D3DD53;
     color: white;
     font-size: 2.5vw;
@@ -420,38 +470,141 @@
 
 }
 
-.store-home-button:hover {
+.store-home-button:hover
+{
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
-.store-home-button:active {
+.store-home-button:active
+{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }
 
-.store-search{
+.store-search
+{
     background-color:#FFB84C;
 }
 
-.store-search:active {
+.store-search:active
+{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }
 
-.search-list-img{
+footer
+{
+    height: auto;
+    background-color: #357C4A;
+    color:white;
+    margin-top: auto;
+}
+
+.footer-logo
+{
+    width: 10rem;
+    height: 10rem;
+}
+
+footer a
+{
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    transition: transform 0.1s, text-shadow 0.3s;
+}
+
+footer a:hover
+{
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                        0 0 20px rgba(255, 255, 255, 0.6),
+                        0 0 30px rgba(255, 255, 255, 0.4),
+                        0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+footer a:active
+{
+    transform: translateY(2px);
+}
+
+footer .col
+{
+    text-align: center;
+}
+
+footer p
+{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-top: 10%;
+}
+
+footer li
+{
+    width: calc(100% / 10);
+    list-style: none;
+}
+
+.list-container
+{
+    display: grid;
+    gap: 10px;
+}
+
+#page-top
+{
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    display: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.eraser-button
+{
+    width: 5rem;
+    height: 31px;
+    background-color: #FFB84C;
+    border-radius: 7px;
+    transition: transform 0.1s ease;
+}
+
+.eraser-button:hover
+{
+    transform: translateY(-2px);
+}
+
+.eraser-button:active
+{
+    transform: translateY(1px);
+}
+
+
+
+
+.search-list-img
+{
     width: 160px;
     height: 260px;
 }
 
-.new-order-confirm-proceed{
+.new-order-confirm-proceed
+{
     color: #FFFFFF;
     background-color: #CEDA41;
 }
-.reserved-img{
+.reserved-img
+{
     height: 120px;
 }
 
-.text-green{
+.text-green
+{
     color: #32BF61;
 }
 
@@ -468,17 +621,20 @@
     height: auto;
 }
 
-.order-confirm-button{
+.order-confirm-button
+{
     color: #FFFFFF;
     background-color: #CEDA41;
 }
 
-.ordered-img{
+.ordered-img
+{
     width: 200px;
     height: 240px;
 }
 
-.Goto-inventory{
+.Goto-inventory
+{
     color: #FFFFFF;
     background-color: #CEDA41;
     width: 250px;
@@ -561,12 +717,7 @@
 /* ボタンが押された時にボーダーを消す */
 .manage-group-button {
     border-radius: 2%;
-    border: none; /* ボーダーを消す */
-}
 
-.manage-group-button:focus {
-    outline: 2px solid #FFB84C; /* フォーカス時のアウトラインを適用 */
-    box-shadow: none; /* 必要に応じて影を無くす */
 }
 
 .upper-container {
@@ -603,3 +754,68 @@
     color: #333;
 }
 
+
+/* Super Admin */
+.manage-table th
+{
+    background-color: #E1FFEB !important;
+    color: #757B9D;
+}
+
+.manage-table th, .manage-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.manage-table tr:first-child th:first-child
+{
+    border-top-left-radius: 15px;
+}
+
+.manage-table tr:first-child th:last-child
+{
+    border-top-right-radius: 15px;
+}
+
+.manage-table tr:last-child td:first-child
+{
+    border-bottom-left-radius: 15px;
+}
+
+.manage-table tr:last-child td:last-child
+{
+    border-bottom-right-radius: 15px;
+}
+
+.manage-table
+{
+    border-spacing: 0;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 30px;
+    box-sizing: border-box;
+    border-collapse: separate;
+    box-shadow: 0 4px 10px gray;
+    background-color: #FFFFFF;
+    width: 90%;
+    margin-bottom: 30px;
+}
+
+
+.genre-modal-bg
+{
+    background-color: #E1FFEB!important;
+}
+
+.admin-list.active
+{
+    background-color: #E1FFEB;
+    color: #757B9D;
+    border-color: #ced4da;
+}
+
+.img-admin-store
+{
+    width: 50px;
+    height: 50px;
+}
