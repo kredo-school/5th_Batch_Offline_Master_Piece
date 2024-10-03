@@ -3,12 +3,12 @@
 @section('title','ordered')
 
 @section('content')
-<div class="justify-content-center">
-    <a href="{{ route('store.orderConfirm') }}" class="back-button">
-        <i class="fa-solid fa-caret-left"></i> Back
-    </a>
-</div>
-
+<a href="{{ route('store.orderConfirm') }}" class="fw-bold text-decoration-none main-text btn border-0">
+    <div class="h2 fw-semibold">
+        <i class="fa-solid fa-caret-left"></i>
+        <div class="d-inline main-text">Back</div>
+    </div>
+</a>
 <div class="mt-4 d-flex justify-content-center">
     <form action="{{ route('store.search') }}" method="get" style="width: 500px;">
         @csrf

@@ -75,8 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
-        });
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        });
     });
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
