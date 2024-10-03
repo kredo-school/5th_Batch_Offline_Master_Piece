@@ -1,20 +1,16 @@
 @extends('layouts.app')
 
-@section('title','order-confirm')
+@section('title','new-order-confirm')
 
 @section('content')
-
-{{-- Back button --}}
-<div>
-    <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
-        <div class="h2 fw-semibold">
-            <i class="fa-solid fa-caret-left"></i>
-            <div class="d-inline main-text">Back</div>
-        </div>
-    </a>
-</div>
-<div class="row ">
-    <div class="col-7 mt-1 ms-5">
+<a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+    <div class="h2 fw-semibold">
+        <i class="fa-solid fa-caret-left"></i>
+        <div class="d-inline main-text">Back</div>
+    </div>
+</a>
+<div class="row justify-content-center">
+    <div class="col-8 mt-1">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">
             <h2 class="h1 fw-bold text-grey mt-3">Confirm and Add New Order Books</h2><br>
 
@@ -39,7 +35,7 @@
                     </div>
                     <div class="col-3 pb-0 pt-5 mt-5 mb-0">
                         <div class="text-end w-75">
-                            <form action="#" method="post">
+                            <form action="" method="post">
                                 @csrf
                                 @method('DELETE')
 
@@ -53,23 +49,12 @@
                 <hr>
             @endfor
         </div>
-    </div>
-
-    <div class="col-4 mt-5 ">
-        <div class="row mt-3">
-            <div class="bg-white rounded mt-1 mx-auto text-center w-75 p-3 pt-5 fs-2 fs-32">
-                <p>Secected - 4</p>
-                <p>¥3,000</p>
-            </div>
-
-            <div class="text-center my-5 ">
-                <form action="#" method="post">
-                    @csrf
-                    <button type="submit" class="me-3 p-3 border-0 rounded order-confirm-button w-75">Order</button>
-                </form>
-            </div>
+        <div class="text-end my-5 ">
+            <form action="{{ route('store.orderConfirm') }}" method="get">
+                @csrf
+                <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to Next</button>
+            </form>
         </div>
     </div>
-
 </div>
 @endsection

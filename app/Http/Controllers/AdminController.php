@@ -18,7 +18,7 @@ class AdminController extends Controller
     
     public function guest()
     {
-        return view('admin.guest');
+        return view('admin.guests.guest');
     }
 
     public function store()
@@ -33,6 +33,11 @@ class AdminController extends Controller
 
     public function book()
     {
-        return view('admin.book');
+        return view('admin.books.book');
+    }
+
+    public function register()
+    {
+        return view('admin.stores.register-store');
     }
 }

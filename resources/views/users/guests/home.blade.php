@@ -390,7 +390,7 @@
 
                         </div>
                     @endfor
-                    <a href="#" class="text-grey fs-24 text-decoration-none">
+                    <a href="{{route('thread.home')}}" class="text-grey fs-24 text-decoration-none">
                         <p class="text-end">
                             more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                     class="fa-solid fa-chevron-right"></i></span>

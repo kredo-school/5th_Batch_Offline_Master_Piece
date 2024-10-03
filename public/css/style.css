@@ -24,13 +24,7 @@
     color:#FF8B4A;
 }
 
-.a1:hover,:visited{
-    color: inherit;
-    text-decoration: none;
-}
-
 /* Back button */
-.back-button{
 
 .card-submit{
     width: 80%;
@@ -453,87 +447,6 @@
     transform: translateY(2px);
 }
 
-footer{
-    height: auto;
-    background-color: #357C4A;
-    color:white;
-    margin-top: auto;
-}
-
-.footer-logo{
-    width: 10rem;
-    height: 10rem;
-}
-
-footer a{
-    text-decoration: none;
-    color: white;
-    display: inline-block;
-    transition: transform 0.1s, text-shadow 0.3s;
-}
-footer a:hover{
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                        0 0 20px rgba(255, 255, 255, 0.6),
-                        0 0 30px rgba(255, 255, 255, 0.4),
-                        0 0 40px rgba(255, 255, 255, 0.2);
-}
-
-footer a:active{
-    transform: translateY(2px);
-}
-
-footer .col {
-    text-align: center;
-}
-
-footer p{
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-top: 10%;
-}
-
-footer li{
-    width: calc(100% / 10);
-    list-style: none;
-}
-
-.list-container {
-    display: grid;
-    gap: 10px;
-}
-
-#page-top {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    display: none;
-    padding: 10px 15px;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.eraser-button {
-    width: 5rem;
-    height: 31px;
-    background-color: #FFB84C;
-    border-radius: 7px;
-    transition: transform 0.1s ease;
-}
-
-.eraser-button:hover {
-    transform: translateY(-2px);
-}
-
-.eraser-button:active {
-    transform: translateY(1px);
-}
-
-
-
-
 .search-list-img{
     width: 160px;
     height: 260px;
@@ -591,7 +504,7 @@ footer li{
 }
 
 .card-admin-guest {
-    width: 90%; 
+    width: 90%;
     height: 100%;
     margin: 0 auto; /* カードを中央に配置 */
     border-radius: 15px; /* カードの角を丸くする（任意） */
@@ -599,9 +512,9 @@ footer li{
 }
 
 .group-admin-button {
-   background-color: #FFFFFF; 
+   background-color: #FFFFFF;
     /* border: gray;
-    color: gray; */ */
+    color: gray; */
     background: transparent;
   /* 枠線を消す */
   border: none;
@@ -613,11 +526,10 @@ footer li{
   margin: 0;  /* 不要なマージンをリセット */
     padding: 0; /* 不要なパディングをリセット */
     gap: 0;     /* ボタン間の隙間がある場合 */
-  
+
 }
 
 .disabled-admin{
-    color:;
     border: none;
     outline: none;
 }
@@ -670,7 +582,7 @@ footer li{
 .paginate-bar  {
     border-radius: 30px; /* ボタンを丸く */
     width: 50px;
-    
+
 }
 
 .manage-store-btn {
@@ -678,4 +590,56 @@ footer li{
     /* border: none; 余分なボーダーを消す */
     /* outline: none; フォーカス時の枠線を消す */
     box-shadow: none; /* 押した時の影を消す */
+}
+
+
+/* Super Admin */
+.manage-table th
+{
+    background-color: #E1FFEB !important;
+    color: #757B9D;
+}
+
+.manage-table th, .manage-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.manage-table tr:first-child th:first-child 
+{ 
+    border-top-left-radius: 15px; 
+} 
+
+.manage-table tr:first-child th:last-child
+{ 
+    border-top-right-radius: 15px;
+} 
+
+.manage-table tr:last-child td:first-child
+{ 
+    border-bottom-left-radius: 15px;
+} 
+
+.manage-table tr:last-child td:last-child
+{ 
+    border-bottom-right-radius: 15px; 
+} 
+
+.manage-table
+{
+    border-spacing: 0;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 30px;
+    box-sizing: border-box;
+    border-collapse: separate;
+    box-shadow: 0 4px 10px gray;
+    background-color: #FFFFFF;
+    width: 90%;
+    margin-bottom: 30px;
+}
+
+
+.genre-modal-bg{
+    background-color: #E1FFEB!important; 
 }
