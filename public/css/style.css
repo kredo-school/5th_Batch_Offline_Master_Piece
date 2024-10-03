@@ -668,3 +668,7 @@ footer li{
     /* outline: none; フォーカス時の枠線を消す */
     box-shadow: none; /* 押した時の影を消す */
 }
+
+.genre-modal-bg{
+    background-color: #E1FFEB!important; 
+}
