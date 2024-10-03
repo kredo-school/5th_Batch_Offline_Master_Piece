@@ -7,8 +7,8 @@
                         <div class="row  row align-items-center">
                                 <div class="col-4">
                                     <button type="button" class="btn btn-lg">
-                                        <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a> 
-                                    </button>    
+                                        <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a>
+                                    </button>
                                 </div>
                                 <div class="col-5">
                                     <div class="row">
@@ -29,23 +29,8 @@
                                         </select>
                                     </div>
                         </div>
-            
-                        <div class="row mt-4 text-center justify-content-center">
-                            <div class="btn-group group-admin-button text-decoration-none" role="group" aria-label="group">
-                                <button type="button" class="btn col-3  d-flex align-items-center justify-content-center manage-guest-btn-1">
-                                    <p class="manage m-0">Manage Guest</p>
-                                </button>
-                                <button type="button" class="btn btn-outline col-3 d-flex align-items-center justify-content-center manage-group-button ">
-                                    <p class="manage m-0">Manage Store</p>
-                                </button>
-                                <button type="button" class="btn btn-outline col-3 d-flex align-items-center justify-content-center  manage-group-button disabled disabled-admin manage-store-btn">
-                                    <p class="manage m-0">Manage Genre</p>
-                                </button>
-                                <button type="button" class="btn btn-outline col-3 d-flex align-items-center justify-content-center ">
-                                    <p class="manage m-0">Manage Book</p>
-                                </button>
-                            </div>
-                        </div>  
+
+                        @include('admin.button')
                 </div>
         {{-- 以下 --}}
         <div class="genre-container mt-4">
@@ -60,7 +45,7 @@
             </div>
         </div>
         {{-- 間の追加オプション --}}
-                
+
             <div class="card mt-3 card-admin-guest">
                 <div class="card-header">
                     <div class="row">
@@ -72,7 +57,7 @@
             </div>
                 <div class="card-body ">
                     <div class="row row-1 ">
-                        
+
                         <div class="col">
                             shoki
                         </div>
@@ -154,12 +139,12 @@
 @endsection
 
 
-{{-- 
+{{--
     上部分はrowで分けて作る
     backはrowでくくる
     カードで作れるか
     下はcolで分ければいい
-    パジネーとはその下に    
+    パジネーとはその下に
     ステータスのアイコンが変わるようにする
     バーはボタンにする
 --}}
