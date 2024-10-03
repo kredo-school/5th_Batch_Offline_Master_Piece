@@ -348,7 +348,7 @@
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=" Mystey" id="defaultCheck4">
+                                        <input class="form-check-input" type="checkbox" value="Mystey" id="defaultCheck4">
                                         <label class="form-check-label" for="defaultCheck4">
                                             Mystey
                                         </label>
@@ -366,35 +366,35 @@
                                 <div class="col"></div>
                                 <div class="col me-5">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=" Comic" id="defaultCheck6">
+                                        <input class="form-check-input" type="checkbox" value="Literature" id="defaultCheck6">
                                         <label class="form-check-label" for="defaultCheck6">
-                                            Comic
+                                            Literature
                                         </label>
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Fantasy" id="defaultCheck7">
+                                        <input class="form-check-input" type="checkbox" value="Kids" id="defaultCheck7">
                                         <label class="form-check-label" for="defaultCheck7">
-                                            Fantasy
+                                            Kids
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck8">
+                                        <input class="form-check-input" type="checkbox" value="Travel" id="defaultCheck8">
                                         <label class="form-check-label" for="defaultCheck8">
-                                            Horror
+                                            Travel
                                         </label>
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck9">
+                                        <input class="form-check-input" type="checkbox" value="Sports" id="defaultCheck9">
                                         <label class="form-check-label" for="defaultCheck9">
-                                            Mystey
+                                            Sports
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck10">
+                                        <input class="form-check-input" type="checkbox" value="Study" id="defaultCheck10">
                                         <label class="form-check-label" for="defaultCheck10">
-                                            History
+                                            Study
                                         </label>
                                     </div>
                                 </div>
