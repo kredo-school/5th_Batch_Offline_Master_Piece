@@ -1,39 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-
-{{-- <div class="container"> --}}
-                <div class="upper-container">
-                        <div class="row  row align-items-center">
-                                <div class="col-4">
-                                    <button type="button" class="btn btn-lg">
-                                        <a href="" class="text-decoration-none back ms-4"><i class="fa-solid fa-caret-left"></i> <label for="">Back</label></a>
-                                    </button>
-                                </div>
-                                <div class="col-5">
-                                    <div class="row">
-                                        <div class="input-search search-bar  ">
-                                            {{-- <button type="button" id="clearButton" class="btn btn-sm position-absolute start- rounded text-decoration-none">
-                                                x
-                                            </button> --}}
-                                            <input type="text" class="col-8 rounded search-input" placeholder="  search users">
-                                                <button type="submit" class="btn btn-warning btn-sm search-icon col">
-                                                    <i class="fa-solid fa-magnifying-glass text-white"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="col-3">
-                                        <select class="form-select" aria-label="admin-sort">
-                                            <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
+    <div>
+        <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+            <div class="h2 fw-semibold">
+                <i class="fa-solid fa-caret-left"></i>
+                <div class="d-inline main-text">Back</div>
+            </div>
+        </a>
+    </div>
+    <div class="upper-container">
+        <div class="row align-items-center">
+            <div class="col"></div>
+            <div class="col-auto">
+                <form action="" method="post">
+                    @csrf
+                    <div class="row align-items-center">
+                        <div class="col pe-0 position-relative">
+                            <input type="text" id="searchInput" name="search"
+                                class="form-control form-control-sm rounded" placeholder=" Search guest..."
+                                style="width: 400px;">
+                            <button type="button" id="clearButton"
+                                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
+                                style="display: none; right: 30px;">
+                                x
+                            </button>
                         </div>
-                        @include('admin.button')
-                </div>
+                        <div class="col ps-1">
+                            <button type="submit" class="btn btn-warning btn-sm search-icon">
+                                <i class="fa-solid fa-magnifying-glass text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form action="" method="post">
+                    @csrf
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </form>
+
+            </div>
+        </div>
+        @include('admin.button')
+    </div>
 
     </div>
 
