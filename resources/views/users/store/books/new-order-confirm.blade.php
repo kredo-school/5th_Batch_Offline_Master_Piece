@@ -3,11 +3,12 @@
 @section('title','new-order-confirm')
 
 @section('content')
-<div class="justify-content-center">
-    <a href="{{ url()->previous() }}" class="back-button">
-        <i class="fa-solid fa-caret-left"></i> Back
-    </a>
-</div>
+<a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+    <div class="h2 fw-semibold">
+        <i class="fa-solid fa-caret-left"></i>
+        <div class="d-inline main-text">Back</div>
+    </div>
+</a>
 <div class="row justify-content-center">
     <div class="col-8 mt-1">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">

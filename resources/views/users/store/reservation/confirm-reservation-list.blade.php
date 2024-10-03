@@ -3,13 +3,14 @@
 @section('title', 'Store Confirm Reservation List')
 
 @section('content')
-    <div>
-        <a href="{{ route('store.home') }}" class="back-button">
-            <i class="fa-solid fa-caret-left"></i> Back
-        </a>
+<a href="{{ route('store.home') }}" class="fw-bold text-decoration-none main-text btn border-0">
+    <div class="h2 fw-semibold">
+        <i class="fa-solid fa-caret-left"></i>
+        <div class="d-inline main-text">Back</div>
     </div>
+</a>
 
-    <div class="container">
+<div class="container">
         <div class="w-50 mx-auto">
             <table class="table">
                 <thead class="fw-semibold">
