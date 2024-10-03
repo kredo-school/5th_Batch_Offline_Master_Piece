@@ -1,8 +1,3 @@
-
-
-
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -64,199 +59,59 @@
             </div>
         </div>
         {{-- 間の追加オプション --}}
-                
-            <div class="card mt-3 card-admin-guest">
-                <div class="card-header">
-                    <div class="row fw-bold">
-                        <div class="col text-nowrap ">Title</div>
-                        <div class="col-2 text-nowrap">Author</div>
-                        <div class="col-2 text-nowrap">Publisher</div>
-                        <div class="col-1 text-nowrap">Publish Year</div>
-                        <div class="col-1 text-nowrap text-center">Review</div>
-                        <div class="col-1 text-nowrap text-center">Price</div>
-                        <div class="col-1 text-nowrap text-center">Genre</div>
-                        <div class="col-1 text-nowrap text-center">Status</div>
-                </div>
-            </div>
-                <div class="card-body ">
-                    <div class="row row-1 ">
-                        
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
+        
+            
+            <table class="table manage-table border-rounded">
+                <thead>
+                    <tr >
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                        <th>Public Year</th>
+                        <th>Review</th>
+                        <th>Price</th>
+                        <th>Genre</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 5; $i++)
+                        <tr>
+                            <td>shoki</td>
+                            <td>motohashi@email</td>
+                            <td>21212121</td>
+                            <td><i class="fa-regular fa-face-smile"></i></td>
+                            <td><i class="fa-regular fa-face-smile"></i></td>
+                            <td><i class="fa-regular fa-face-smile"></i></td>
+                            <td><i class="fa-regular fa-face-smile"></i></td>
+                            <td><i class="fa-regular fa-face-smile"></i></td>
+                        </tr>
+                    @endfor
+                </tbody>
+            </table>
+        
 
-                    </div>
-                    <div class="row row-1 ">
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                    </div>
-                    <div class="row row-1 ">
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                    </div>
-                    <div class="row row-1 ">
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                    </div>
-                    <div class="row row-1 ">
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                    </div>
-                    <div class="row row-2 ">
-                        <div class="col">
-                            shoki
-                        </div>
-                        <div class="col-2" style="border-left: 1px solid;">
-                            motohashi@email
-                        </div>
-                        <div class="col-2 " style="border-left: 1px solid;">
-                            21212121
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                        <div class="col-1 text-center" style="border-left: 1px solid;">
-                            <i class="fa-regular fa-face-smile"></i>
-                        </div>
-                    </div>
-                </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="under-container mt-5">
-            <nav aria-label="Page navigation  ">
-                <ul class="pagination justify-content-center paginate-bar mx-auto">
-                  <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                  </li>
+        <div class="under-container mt-5">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled" aria-disabled="true">
+                        <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            Next
+                        </a>
+                    </li>
                 </ul>
-              </nav>
-            </div>
+            </nav>
+        </div>
+        
 
 
 

@@ -588,6 +588,54 @@
     box-shadow: none; /* 押した時の影を消す */
 }
 
+
+/* Super Admin */
+.manage-table th
+{
+    background-color: #E1FFEB !important;
+    color: #757B9D;
+}
+
+.manage-table th, .manage-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.manage-table tr:first-child th:first-child 
+{ 
+    border-top-left-radius: 15px; 
+} 
+
+.manage-table tr:first-child th:last-child
+{ 
+    border-top-right-radius: 15px;
+} 
+
+.manage-table tr:last-child td:first-child
+{ 
+    border-bottom-left-radius: 15px;
+} 
+
+.manage-table tr:last-child td:last-child
+{ 
+    border-bottom-right-radius: 15px; 
+} 
+
+.manage-table
+{
+    border-spacing: 0;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 30px;
+    box-sizing: border-box;
+    border-collapse: separate;
+    box-shadow: 0 4px 10px gray;
+    background-color: #FFFFFF;
+    width: 90%;
+    margin-bottom: 30px;
+}
+
+
 .genre-modal-bg{
     background-color: #E1FFEB!important; 
 }
