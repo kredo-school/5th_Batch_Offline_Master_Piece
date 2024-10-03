@@ -739,6 +739,21 @@ footer li
     box-shadow: none; /* 押した時の影を消す */
 }
 
+.clearButton {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #757B9D;
+}
+
+.clearButton:hover {
+    color: #333;
+}
+
 
 /* Super Admin */
 .manage-table th
