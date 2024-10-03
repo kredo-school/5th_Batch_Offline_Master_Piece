@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'SHOW_STORE')
+@section('title', 'Profile Store')
 
 @section('content')
     {{-- Back button --}}

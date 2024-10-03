@@ -260,6 +260,13 @@
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                    {{-- Admin --}}
+                                    @can('admin')
+                                    <a  class="dropdown-item" href="{{ route('admin.home') }}">
+                                        <i class="fa-solid fa-user-gear"></i> Admin
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
                                     {{-- Profile --}}
                                     <a href="{{route('profile.show')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
