@@ -40,4 +40,9 @@ class AdminController extends Controller
     {
         return view('admin.books.book');
     }
+
+    public function register()
+    {
+        return view('admin.stores.register-store');
+    }
 }
