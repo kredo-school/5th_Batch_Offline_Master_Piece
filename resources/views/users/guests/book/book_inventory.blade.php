@@ -86,13 +86,19 @@
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-3">
-                    <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                    <a href="{{route('book.show_book')}}">
+                        <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                    </a>
                 </div>
                 <div class="col-1"></div>
                 <div class="col-7 fs-32">
                     <p>
-                        <p class="fs-32">$book->name</p>
-                        <p class="h4">$book->author->name
+                        <a href="{{route('book.show_book')}}" class="link-book">
+                            <p class="fs-32">$book->name</p>
+                        </a>
+                        <a href="{{route('book.author_show')}}" class="link-book">
+                            <p class="h4">$book->author->name
+                        </a>
                         </p>
                         <i class="fa-solid fa-star text-warning"></i>
                         <i class="fa-solid fa-star text-warning"></i>
