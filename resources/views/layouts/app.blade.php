@@ -160,19 +160,19 @@
                                 <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
                                 <p class="text-white mb-0">Home</p>
                             </a>
-                        
+
                             <!-- Logout Link -->
                             <a class="nav-link d-flex flex-column align-items-center mb-0 me-4" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
                                 <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
                             </a>
-                        
+
                             <!-- Logout Form (Hidden) -->
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                        
+
                             <!-- User Profile Dropdown -->
                             <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
                                 <button id="account-dropdown" class="btn shadow-none nav-link d-flex flex-column align-items-center" data-bs-toggle="dropdown">
@@ -184,7 +184,7 @@
                                         <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @endif
                                 </button>
-                        
+
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     <!-- Profile -->
                                     <a href="{{route('store.profile')}}" class="dropdown-item">
@@ -193,7 +193,7 @@
                                 </div>
                             </li>
                         </div>
-                        
+
                         @elseif(request()->is('admin/*'))
                         <div class="pt-2 me-4">
                             <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
@@ -280,7 +280,7 @@
                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
                                         <i class="fa-solid fa-shop"></i> Store page
                                     </a>
-                                
+
                                 </div>
                             </li>
                         @endif
@@ -326,7 +326,7 @@
                                             Comic
                                         </label>
                                     </div>
-                                
+
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="Fantasy" id="defaultCheck2">
                                         <label class="form-check-label" for="defaultCheck2">
@@ -339,7 +339,7 @@
                                             Horror
                                         </label>
                                     </div>
-                                
+
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="Mystey" id="defaultCheck4">
                                         <label class="form-check-label" for="defaultCheck4">
@@ -364,7 +364,7 @@
                                             Literature
                                         </label>
                                     </div>
-                                
+
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="Kids" id="defaultCheck7">
                                         <label class="form-check-label" for="defaultCheck7">
@@ -377,7 +377,7 @@
                                             Travel
                                         </label>
                                     </div>
-                                
+
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="Sports" id="defaultCheck9">
                                         <label class="form-check-label" for="defaultCheck9">
@@ -392,11 +392,11 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                        
+
+
                             <button type="submit" class="btn btn-warning text-white mx-auto mt-5 w-100">Search</button>
                         </form>
-        
+
                     </div>
                 </div>
             </div>
@@ -409,7 +409,7 @@
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
 
                     <p class="col px-5 mt-3 fs-5 "><a type ="buttom" class="text-menu text-decoration-none" data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
-                   
+
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
@@ -422,7 +422,7 @@
                 <div class="row mx-auto">
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none" data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
-                   
+
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
