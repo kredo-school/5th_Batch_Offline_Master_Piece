@@ -33,6 +33,6 @@ class AdminController extends Controller
 
     public function book()
     {
-        return view('admin.book');
+        return view('admin.books.book');
     }
 }
