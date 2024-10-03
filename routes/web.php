@@ -61,22 +61,23 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'store', 'as' => 'store.'], function () {
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
-        Route::get('/confirm', [StoreController::class, 'OrderConfirm'])->name('OrderConfirm');
-        Route::get('/ordered', [StoreController::class, 'Ordered'])->name('Ordered');
+        Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
+        Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
+        Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
+        Route::get('/book/information',[StoreController::class, 'bookInformation'])->name('bookInformation');
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-        Route::get('/books/list', [StoreController::class, 'bookList'])->name('books.list');
-        Route::get('/books/inventory', [StoreController::class, 'inventory'])->name('books.inventory');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        });
     });
-    Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-    Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
@@ -87,16 +88,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/book', [AdminController::class, 'book'])->name('book');
     });
 
-
-
-
-
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
         Route::get('/content', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
     });
-});
 
 
 
