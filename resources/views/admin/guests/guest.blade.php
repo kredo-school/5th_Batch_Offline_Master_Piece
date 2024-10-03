@@ -32,50 +32,8 @@
                                         </select>
                                     </div>
                         </div>
-                        {{-- <div class="row  mt-4 text-center justify-content-center">
-                            <div class="btn-group group-admin-button text-decoration-none " role="group" aria-label="group">
-                                <button type="button" class="btn disabled col-3 disabled-admin"><p class="manage text-center">Manage Guest</p></button>
-                                <button type="button" class="btn  btn-outline col-3"><p class="manage text-center">Manage Store</button>
-                                <button type="button" class="btn  btn-outline col-3"><p class="manage text-center">Manage Genre</button>
-                                <button type="button" class="btn  btn-outline col-3"><p class="manage text-center">Manage Book</button>
-                            </div>
-                        </div> --}}
                         @include('admin.button')
-
                 </div>
-
-            <div class="card mt-5 card-admin-guest">
-                <div class="card-header">
-                    <div class="row">
-                    <div class="col-2 " ></div>
-                    <div class="col-2 " >Name</div>
-                    <div class="col-4 " >Email</div>
-                    <div class="col-2 text-center" >Report</div>
-                    <div class="col-2 text-center" >Status</div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row">
-                    <div class="input-search search-bar  ">
-
-                        <input type="text" class="col-8 rounded search-input" placeholder="  search users">
-                        <button type="submit" class="btn btn-warning btn-sm search-icon col">
-                            <i class="fa-solid fa-magnifying-glass text-white"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-                <select class="form-select" aria-label="admin-sort">
-                    <option selected>Open this select menu</option>
-                    <option value="1">New</option>
-                    <option value="2">report</option>
-                    <option value="3">status</option>
-                </select>
-            </div>
-        </div>
-
-        @include('admin.button')
 
     </div>
 
