@@ -33,7 +33,7 @@ class AdminController extends Controller
 
     public function genre()
     {
-        return view('admin.genre');
+        return view('admin.genres.genre');
     }
 
     public function book()
