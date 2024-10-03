@@ -10,25 +10,27 @@
         <div class="col">
             <div class="card card-admin mt-3 mx-auto w-75">
                 {{-- <div class="card-header text-center"> --}}
-                    <h2 class="text-center mt-5 display-2 ">Welcome Admin</h2>
+                    <h2 class="text-center mt-5 display-2 ">Welcome $User</h2>
                 {{-- </div> --}}
 
                 <div class="card-body mx-auto w-75 mt-3">
-                    <div class="row border">
-                            <div class="admin-home-btn col-3">
-                                <button type="button" class="btn btn-admin">
+                    <div class="row border"  style="border-radius: 15px;">
+                            <button type="button" class="admin-home-btn col-3 btn ">
                                 <i class="i-admin fa-solid fa-shop"></i>
-                                </button>
-                            </div>
+                            </button>
                                 <div class="col-9">
                                     <row><h2>Store</h2></row>
-                                    <row>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus expedita, quisquam eos id quod distinctio sunt reprehenderit, ipsam aliquam ab natus. Rem illo, fuga consectetur consequuntur dolorem veniam eligendi eius.</row>
-                                    <row></row>
+                                    <row class="fw-bold">
+                                        <p>You can check registerd store and status.</p>
+                                        <p>You can add the store on this page.</p>
+                                        <p>You can move to the store page, push the store icon.</p>
+                                    </row>
                                 </div>
                     </div>
                 </div>
+
                 <div class="card-body mx-auto w-75">
-                    <div class="row border">
+                    <div class="row border" style="border-radius: 15px;">
                             <div class="admin-home-btn col-3">
                                 <button type="button" class="btn btn-admin">
                                 <i class="i-admin fa-solid fa-book-open"></i>
@@ -36,12 +38,16 @@
                             </div>
                                 <div class="col-9">
                                     <row><h2>Book</h2></row>
-                                    <row>Lorem ipsum dolor sit amet consectetur adipisicing elit. In, voluptate nostrum illo id modi voluptatibus repellendus suscipit eveniet placeat debitis quo labore cupiditate quas recusandae excepturi facere reprehenderit minus sapiente.</row>
+                                    <row class="fw-bold">
+                                        <p>You can check registerd book and status.</p>
+                                        <p>You can add the book on this page.</p>
+                                        <p>You can move to the book page, push the book icon.</p>
+                                    </row>
                                 </div>
                     </div>
                 </div>
                 <div class="card-body mx-auto w-75">
-                    <div class="row border">
+                    <div class="row border" style="border-radius: 15px;">
                             <div class="admin-home-btn col-3">
                                 <button type="button" class="btn btn-admin">
                                 <i class="i-admin fa-regular fa-user"></i>
@@ -49,12 +55,16 @@
                             </div>
                                 <div class="col-9">
                                     <row><h2>Guest</h2></row>
-                                    <row>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde commodi, quidem, cum accusamus quis facere quisquam veniam asperiores sit aut eum voluptate laudantium cupiditate? Soluta recusandae sapiente harum quidem molestias?</row>
+                                    <row class="fw-bold">
+                                        <p>You can check registerd guest and status.</p>
+                                        <p>You can delete the guest on this page.</p>
+                                        <p>You can move to guest page, push the guest icon.</p>
+                                    </row>
                                 </div>
                     </div>
                 </div>
                 <div class="card-body mx-auto w-75 mb-5">
-                    <div class="row border">
+                    <div class="row border" style="border-radius: 15px;">
                             <div class="admin-home-btn col-3">
                                 <button type="button" class="btn btn-admin">
                                 <i class="i-admin fa-solid fa-table-cells-large"></i>
@@ -62,7 +72,11 @@
                             </div>
                                 <div class="col-9">
                                     <row><h2>Genre</h2></row>
-                                    <row>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea velit quos cum eligendi accusamus, voluptates dicta illum necessitatibus nesciunt provident suscipit et exercitationem temporibus, veritatis, a totam. Doloremque, obcaecati vitae.</row>
+                                    <row class="fw-bold">
+                                        <p>You can check registerd genre and status.</p>
+                                        <p>You can add the genre on this page.</p>
+                                        <p>You can move to genre page, push the genre icon.</p>
+                                    </row>
                                 </div>
                     </div>
                 </div>
