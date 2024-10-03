@@ -13,7 +13,7 @@
     </div>
 
     <div class="container">
-        <div class="card">
+        <div class="card mb-5">
             <form action="" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-header bg-white">
