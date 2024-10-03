@@ -370,7 +370,16 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+}
 
+.admin-home-btn:hover{
+    background-color: #E1FFEB;
+    border-radius: 10px;
+}
+
+.admin-home-btn:active {
+    background-color:#E1FFEB; 
+    transform: scale(0.98); /* 押した時に若干縮小 */
 }
 
 .i-admin{
@@ -398,9 +407,9 @@
     height: 130px;
 }
 
-/* .card-header{
+.card-header{
     background-color: #E1FFEB;
-} */
+} 
 
 .store-home-button{
     background-color:#D3DD53;
@@ -561,12 +570,7 @@
 /* ボタンが押された時にボーダーを消す */
 .manage-group-button {
     border-radius: 2%;
-    border: none; /* ボーダーを消す */
-}
 
-.manage-group-button:focus {
-    outline: 2px solid #FFB84C; /* フォーカス時のアウトラインを適用 */
-    box-shadow: none; /* 必要に応じて影を無くす */
 }
 
 .upper-container {
