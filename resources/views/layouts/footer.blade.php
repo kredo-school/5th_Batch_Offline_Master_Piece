@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col mt-3">
             <p>Genre</p>
             <ul class="list-container" style="grid-template-columns: repeat(3, 1fr);">
             {{-- @foreach ($all_genres as $genre)
@@ -38,43 +38,117 @@
                 <li><a href="#">Psychology</a></li>
                 <li><a href="#">Education</a></li>
                 <li><a href="#">Qualification</a></li>
-                <li><a href="#">Othrers</a></li>
+                <li><a href="#">Others</a></li>
             </ul>
         </div>
 
-        <div class="col mt-2">
-            <p><a href="#">Store</a></p>
-            {{-- show.storeへ飛ぶ --}}
-            <ul class="list-container" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="col" style="flex-grow: 1.2; margin-top: 18px; margin-left: 80px;">
+            <p><a href="{{ route('book.store_list') }}">Store</a></p>
+            <ul class="list-container" style="grid-template-columns: repeat(3, 1fr);">
                 {{--　store nameを直接載せる場合
-                @foreach ($all_stores as $store )
-                    <li><a href="{{ route('guest.show.store', $store->id) }}">{{ $store->name }}</a></li>
-                @endforeach --}}
+                    @foreach ($all_stores as $store )
+                        <li><a href="{{ route('guest.show.store', $store->id) }}">{{ $store->name }}</a></li>
+                    @endforeach --}}
+
                 <li><a href="#">Hokkaido</a></li>
-                <li><a href="#">Tohoku</a></li>
-                <li><a href="#">Kanto</a></li>
-                <li><a href="#">Chubu</a></li>
-                <li><a href="#">Kansai</a></li>
-                <li><a href="#">Chugoku</a></li>
-                <li><a href="#">Shikoku</a></li>
-                <li><a href="#">Kyushu</a></li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Tohoku</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Aomori</a></li>
+                        <li><a href="#">Iwate</a></li>
+                        <li><a href="#">Miyagi</a></li>
+                        <li><a href="#">Akita</a></li>
+                        <li><a href="#">Yamagata</a></li>
+                        <li><a href="#">Fukushima</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Kanto</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Ibaraki</a></li>
+                        <li><a href="#">Tochigi</a></li>
+                        <li><a href="#">Gunma</a></li>
+                        <li><a href="#">Saitama</a></li>
+                        <li><a href="#">Chiba</a></li>
+                        <li><a href="#">Tokyo</a></li>
+                        <li><a href="#">Kanagawa</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Chubu</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Niigata</a></li>
+                        <li><a href="#">Toyama</a></li>
+                        <li><a href="#">Ishikawa</a></li>
+                        <li><a href="#">Fukui</a></li>
+                        <li><a href="#">Yamanashi</a></li>
+                        <li><a href="#">Nagano</a></li>
+                        <li><a href="#">Gifu</a></li>
+                        <li><a href="#">Shizuoka</a></li>
+                        <li><a href="#">Aichi</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Kansai</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Mie</a></li>
+                        <li><a href="#">Shiga</a></li>
+                        <li><a href="#">Kyoto</a></li>
+                        <li><a href="#">Osaka</a></li>
+                        <li><a href="#">Hyogo</a></li>
+                        <li><a href="#">Nara</a></li>
+                        <li><a href="#">Wakayama</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Chugoku</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Tottori</a></li>
+                        <li><a href="#">Shimane</a></li>
+                        <li><a href="#">Okayama</a></li>
+                        <li><a href="#">Hiroshima</a></li>
+                        <li><a href="#">Yamaguchi</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Shikoku</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Tokushima</a></li>
+                        <li><a href="#">Kagawa</a></li>
+                        <li><a href="#">Ehime</a></li>
+                        <li><a href="#">Kochi</a></li>
+                    </ul>
+                </li>
+                <li class="has-area-menu">
+                    <span class="d-inline-block">Kyushu</span>
+                    <ul class="area-menu">
+                        <li><a href="#">Fukuoka</a></li>
+                        <li><a href="#">Saga</a></li>
+                        <li><a href="#">Nagasaki</a></li>
+                        <li><a href="#">Kumamoto</a></li>
+                        <li><a href="#">Oita</a></li>
+                        <li><a href="#">Miyazaki</a></li>
+                        <li><a href="#">Kagoshima</a></li>
+                        <li><a href="#">Okinawa</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
 
-        <div class="col mt-2">
+        <div class="col" style="margin-top: 22px;">
             <p><a href="{{route('thread.home')}}">Thread</a></p>
             {{-- thread.homeへ飛ぶ --}}
                 <a href="{{route('thread.create')}}">Post</a>
         </div>
 
-        <div class="col mt-2" style="position: relative;">
+        <div class="col" style="position: relative; margin-top: 22px;">
             <p><a href="#">Our Policy</a></p>
             <p style="position: absolute; top: 30%; left: 30%;">
-                <a href="#">Inquiry</a>
+                <a href="{{ route('inquiry') }}">Inquiry</a>
             </p>
 
         </div>
-        <div class="col mt-2" style="position: relative">
+        <div class="col" style="position: relative; margin-top: 22px;">
             <p id="page-top">Page Top <i class="fa-regular fa-circle-up"></i></p>
             <script>
                 // スクロールボタンを取得
@@ -106,6 +180,169 @@
         </a>
     </div>
 </footer>
+
+<style>
+    footer{
+        height: auto;
+        background-color: #357C4A;
+        color:white;
+        margin-top: auto;
+    }
+
+    .footer-logo{
+        width: 10rem;
+        height: 10rem;
+    }
+
+    footer a{
+        text-decoration: none;
+        color: white;
+        display: inline-block;
+        transition: transform 0.1s, text-shadow 0.3s;
+    }
+
+    footer a:hover{
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                            0 0 20px rgba(255, 255, 255, 0.6),
+                            0 0 30px rgba(255, 255, 255, 0.4),
+                            0 0 40px rgba(255, 255, 255, 0.2);
+    }
+
+    footer a:active{
+        transform: translateY(2px);
+    }
+
+    footer .col {
+        text-align: center;
+    }
+
+    footer p{
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        margin-top: 10%;
+    }
+
+    footer li{
+        width: calc(100% / 10);
+        list-style: none;
+    }
+
+    /* .list-container {
+        display: grid;
+        gap: 10px;
+    } */
+
+    #page-top {
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        display: none;
+        padding: 10px 15px;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .eraser-button {
+        width: 5rem;
+        height: 31px;
+        background-color: #FFB84C;
+        border-radius: 7px;
+        transition: transform 0.1s ease;
+    }
+
+    .eraser-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .eraser-button:active {
+        transform: translateY(1px);
+    }
+
+    .list-container {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-gap: 10px;
+    }
+
+    .list-container li{
+        position: relative;
+    }
+
+    .area-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #E1FFEB;
+        border: 1px solid #ccc;
+        border-radius: 16px;
+        box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        grid-template-columns: repeat(3, 1fr);
+        transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+        z-index: 1000;
+        display: grid;
+    }
+
+    .area-menu::before {
+        content: "";
+        position: absolute;
+        top: -7px;
+        left: 25px;
+        border-width: 0 8px 7px 8px;
+        border-style: solid;
+        border-color: transparent transparent #E1FFEB transparent;
+    }
+
+    .area-menu::after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 25px;
+        border-width: 0 8px 7px 8px;
+        border-style: solid;
+        border-color: transparent transparent #ccc transparent;
+        z-index: -1;
+    }
+
+    .has-area-menu:hover .area-menu {
+        opacity: 0.9;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .has-area-menu:hover span{
+        transform: translateY(-2px);
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .area-menu li {
+        padding:  10px;
+    }
+
+    .area-menu li a {
+        text-decoration: none;
+        color: #757B9D;
+        font-weight: bold;
+    }
+
+    .area-menu li a:hover {
+        transform: translateY(-2px) !important;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+
+    }
+    .area-menu li a:active {
+        transform: translateY(2px) !important;
+        text-shadow: 0 0 0 !important;
+    }
+</style>
 
 
 

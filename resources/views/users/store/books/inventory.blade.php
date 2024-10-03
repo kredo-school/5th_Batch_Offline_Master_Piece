@@ -4,7 +4,7 @@
 
 @section('content')
         <div>
-            <form action="#" method="post">
+            <form action="{{ route('store.search') }}" method="get">
                 @csrf
                 <div class="row align-items-center">
                     <div class="col-4">
@@ -33,7 +33,7 @@
 
                     <div class="col-4">
                         <div class="text-end w-75">
-                            <a href="#" class="btn Goto-inventory pt-3 fs-4"><i class="fa-solid fa-plus"></i> Add</a>
+                            <a href="{{ route('store.orderConfirm') }}" class="btn Goto-inventory pt-3 fs-4"><i class="fa-solid fa-plus"></i> Add</a>
                         </div>
                         {{-- <br><br> --}}
                     </div>

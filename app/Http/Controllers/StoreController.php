@@ -16,37 +16,37 @@ class StoreController extends Controller
 
     public function newOrderConfirm()
     {
-        return view('users.store.new-order-confirm');
+        return view('users.store.books.new-order-confirm');
     }
 
-    public function OrderConfirm()
+    public function orderConfirm()
     {
-        return view('users.store.order-confirm');
+        return view('users.store.books.order-confirm');
     }
 
-    public function Ordered()
+    public function ordered()
     {
-        return view('users.store.ordered');
+        return view('users.store.books.ordered');
     }
 
     public function analysis()
     {
-        return view('users.store.analysis');
+        return view('users.store.analysis.analysis');
     }
 
     public function reservationList()
     {
-        return view('users.store.confirm-reservation-list');
+        return view('users.store.reservation.confirm-reservation-list');
     }
 
     public function reservationShow()
     {
-        return view('users.store.confirm-reservation-show');
+        return view('users.store.reservation.confirm-reservation-show');
     }
 
     public function bookList()
     {
-        return view('users.store.book-list');
+        return view('users.store.books.book-list');
     }
 
     public function home()
@@ -56,22 +56,27 @@ class StoreController extends Controller
 
     public function cashier()
     {
-        return view('users.store.cashier');
+        return view('users.store.cashier.cashier');
     }
 
     public function receipt()
     {
-        return view('users.store.receipt');
+        return view('users.store.cashier.receipt');
     }
 
     public function storeSearch()
     {
-        return view('users.store.search');
+        return view('users.store.books.search');
     }
 
     public function inventory()
     {
-        return view('users.store.inventory');
+        return view('users.store.books.inventory');
+    }
+
+    public function bookInformation()
+    {
+        return view('users.store.books.book-information');
     }
     public function profile()
     {
