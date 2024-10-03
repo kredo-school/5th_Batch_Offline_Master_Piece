@@ -31,11 +31,15 @@
                 @for ($i = 0; $i < 3; $i++)
                     <div class="row mt-4">
                         <div class="col-3">
-                            <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                            <a href="{{route('book.show_book')}}">
+                                <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="w-100 shadow">
+                            </a>
                         </div>
                         <div class="col-6 fs-32">
                             <p>
-                                <p class="fs-32">$book->name</p>
+                                <a href="{{route('book.show_book')}}" class="link-book">
+                                    <p class="fs-32">$book->name</p>
+                                </a>
                                 <p class="h4">$book->author->name
                                 </p>
                                 <i class="fa-solid fa-star text-warning"></i>

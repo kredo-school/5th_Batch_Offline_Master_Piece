@@ -14,16 +14,21 @@ class AdminController extends Controller
     public function create()
     {
         return view('admin.books.add');
-    }    
-    
+    }
+
     public function guest()
     {
         return view('admin.guests.guest');
     }
 
-    public function store()
+    public function registerStore()
     {
         return view('admin.stores.register-store');
+    }
+
+    public function store()
+    {
+        return view('admin.stores.store');
     }
 
     public function genre()
