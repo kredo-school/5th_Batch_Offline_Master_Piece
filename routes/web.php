@@ -75,7 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
         Route::get('/add-book', [AdminController::class, 'create'])->name('create');
         Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
