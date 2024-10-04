@@ -18,7 +18,7 @@
                     <div class="row align-items-center">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search"
-                                class="form-control form-control-sm rounded" placeholder=" Search genres..."
+                                class="form-control form-control-sm rounded" placeholder=" Search guest..."
                                 style="width: 400px;">
                             <button type="button" id="clearButton"
                                 class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
@@ -37,17 +37,20 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort">
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-genre-select">
                         <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">name</option>
+                        <option value="2">count</option>
+                        <option value="3">update_at</option>
+                        <option value="4">status</option>
                     </select>
                 </form>
+
             </div>
         </div>
-
         @include('admin.button')
+    </div>
+
     </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
@@ -66,7 +69,7 @@
         </form>
     </div>
     {{-- 間の追加オプション --}}
-    <table class="table manage-table border-rounded">
+    <table class="table manage-table border-rounded" id="manage-genre-table">
         <thead>
             <tr>
                 <th>Name</th>
@@ -96,6 +99,51 @@
             @endfor
         </tbody>
     </table>
+    
+
+    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+    {{-- jQuery ライブラリ  --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    document.getElementById('manage-genre-select').addEventListener('change', function() {
+        var table = document.getElementById('manage-genre-table').getElementsByTagName('tbody')[0];
+        var rows = Array.from(table.rows);
+        var sortBy = this.value;
+
+        rows.sort(function(rowA, rowB) {
+            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+
+            if (sortBy === 'report') {
+                // レポート数は数値で比較する
+                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
+            } else {
+                // その他は文字列でアルファベット順に並べる
+                return cellA.localeCompare(cellB);
+            }
+        });
+
+        // Sort後にテーブルを再描画
+        rows.forEach(function(row) {
+            table.appendChild(row);
+        });
+    });
+
+    function getColumnIndex(sortBy) {
+        switch (sortBy) {
+            case 'name':
+                return 0;
+            case 'count':
+                return 1;
+            case 'update_at':
+                return 2;
+            case 'status':
+                return 3;
+            default:
+                return 1; // デフォルトはnameカラム
+        }
+    }
+</script>
 
     @include('admin.genres.modal.status')
 
@@ -117,13 +165,3 @@
     </div>
 @endsection
 
-
-{{--
-    上部分はrowで分けて作る
-    backはrowでくくる
-    カードで作れるか
-    下はcolで分ければいい
-    パジネーとはその下に
-    ステータスのアイコンが変わるようにする
-    バーはボタンにする
---}}
