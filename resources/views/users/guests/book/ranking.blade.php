@@ -10,7 +10,7 @@
             @csrf
             <div class="d-flex align-items-center">
                 <h1 class="h2 fw-bold main-text mt-5 ms-3">Ranking</h1>
-                <select name="genre" id="genre" class="form-control w-25 ms-5 mt-5">
+                <select name="genre" id="genre" class="form-select w-25 ms-5 mt-5">
                     <option value="" hidden>Genre</option>
                     <option value="comic">Comics</option>
                     <option value="fantasy">Fantasy</option>
