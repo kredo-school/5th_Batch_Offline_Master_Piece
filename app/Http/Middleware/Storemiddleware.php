@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
-class AdminMiddleware
+class StoreMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,11 +18,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        # Checks if the user is authenticated and has admin role.
-        if(Auth::check() && Auth::user()->role_id == User::ADMIN_ROLE_ID) {
+        if(Auth::check() && Auth::user()->role_id == User::STORE_ROLE_ID) {
             return $next($request); # Proceeds with the request.
        }
-       return redirect()->route('login'); 
+       return redirect()->route('index'); 
        # Redirects unauthorized users to index route.
+    
     }
 }

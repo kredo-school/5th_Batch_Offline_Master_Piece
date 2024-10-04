@@ -4,7 +4,7 @@
 
 @section('content')
     <div>
-        <a href="#" class="fw-bold text-decoration-none main-text btn border-0">
+        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>
@@ -13,7 +13,7 @@
     </div>
 
     <div class="container">
-        <div class="card">
+        <div class="card mb-5">
             <form action="" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-header bg-white">

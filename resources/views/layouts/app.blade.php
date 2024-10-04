@@ -267,6 +267,13 @@
                                     </a>
                                     <hr class="dropdown-divider">
                                     @endcan
+                                     {{-- Store Page 仮置き --}}
+                                     @can('store')
+                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                         <i class="fa-solid fa-shop"></i> Store page
+                                     </a>
+                                     @endcan
+                                    <hr>
                                     {{-- Profile --}}
                                     <a href="{{route('profile.show')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
@@ -283,10 +290,7 @@
                                         @csrf
                                     </form>
 
-                                    {{-- Store Page 仮置き --}}
-                                    <a class="dropdown-item" href="{{ url('/store/home') }}">
-                                        <i class="fa-solid fa-shop"></i> Store page
-                                    </a>
+                                   
 
                                 </div>
                             </li>

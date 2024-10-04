@@ -9,18 +9,17 @@
         <div class="d-inline main-text">Back</div>
     </div>
 </a>
-<div class="mt-4 d-flex justify-content-center">
-    <form action="{{ route('store.search') }}" method="get" style="width: 500px;">
+<div class="d-flex justify-content-center">
+    <form action="{{ route('store.search') }}" class="d-flex">
         @csrf
-        <div class="row">
+        <div class="row ms-auto">
             <div class="col pe-0 position-relative">
-                <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" placeholder=" Search books..." style="width: 400px;">
-                <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
-                    x
-                </button>
+                <input type="text" id="searchInput" name="search" class="form-control rounded"
+                    style="width: 400px" placeholder="Search books...">
+                <span id="clearButton" class="clearButton" style="display: none;">&times;</span>
             </div>
             <div class="col ps-1">
-                <button type="submit" class="btn btn-warning search-icon">
+                <button type="submit" class="btn btn-warning search-icon" style="height: 37.3px;">
                     <i class="fa-solid fa-magnifying-glass text-white"></i>
                 </button>
             </div>
@@ -28,6 +27,28 @@
     </form>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');  // 正しいIDを使用
+        const clearBtn = document.getElementById('clearButton');
+
+        // 入力フィールドのイベントリスナーを設定
+        searchInput.addEventListener('input', function() {
+            if (searchInput.value.length > 0) {
+                clearBtn.style.display = 'inline';  // テキストがあるときはバツ印を表示
+            } else {
+                clearBtn.style.display = 'none';    // テキストがないときは非表示
+            }
+        });
+
+        // バツ印をクリックしたときの処理
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';  // 入力フィールドをクリア
+            clearBtn.style.display = 'none';  // バツ印を非表示
+            searchInput.focus();  // フィールドにフォーカスを戻す
+        });
+    });
+</script>
 {{--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー--}}
 <div class="container">
     <div class="row">
@@ -61,25 +82,3 @@
     </div><br><br>
 </div>
 @endsection
-
-
-<script>
-    const searchInput = document.getElementById('searchInput');
-    const clearButton = document.getElementById('clearButton');
-
-    // 入力時にクリアボタンの表示・非表示を切り替える
-    searchInput.addEventListener('input', function() {
-        if (searchInput.value) {
-            clearButton.style.display = 'inline';
-        } else {
-            clearButton.style.display = 'none';
-        }
-    });
-
-    // クリアボタンを押すと検索フィールドをクリア
-    clearButton.addEventListener('click', function() {
-        searchInput.value = '';
-        clearButton.style.display = 'none';
-        searchInput.focus();  // フィールドにフォーカスを戻す
-    });
-    </script>

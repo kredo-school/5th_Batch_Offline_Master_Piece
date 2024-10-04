@@ -11,7 +11,7 @@ class AdminController extends Controller
         return view('admin.home');
     }
 
-    public function create()
+    public function addBook()
     {
         return view('admin.books.add');
     }
@@ -33,7 +33,7 @@ class AdminController extends Controller
 
     public function genre()
     {
-        return view('admin.genre');
+        return view('admin.genres.genre');
     }
 
     public function book()

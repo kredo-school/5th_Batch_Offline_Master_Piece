@@ -52,13 +52,36 @@
                             </div>
 
                             <div class="m-4">
-                                <div class="d-flex justify-content-center">
+                                <div class="d-flex justify-content-center position-relative">
                                     <form id="isbn-form" class="d-flex w-75">
                                         @csrf
                                         <input type="text" id="isbn_code" name="isbn_code" class="form-control rounded-pill" placeholder="ISBN code..." style="margin-right: 8px;">
+                                        <span id="clear-button" class="clear-button fw-light" >&times;</span>
                                         <button type="submit" class="btn btn-orange rounded-pill">Add</button>
                                     </form>
                                 </div>
+
+                                <script>
+                                    // 正しいIDを取得
+                                    const searchInput = document.getElementById('isbn_code');  // IDを変更
+                                    const clearBtn = document.getElementById('clear-button');
+
+                                    // 入力フィールドのイベントリスナーを設定
+                                    searchInput.addEventListener('input', function() {
+                                        if (searchInput.value.length > 0) {
+                                            clearBtn.style.display = 'inline';  // テキストがあるときはバツ印を表示
+                                        } else {
+                                            clearBtn.style.display = 'none';    // テキストがないときは非表示
+                                        }
+                                    });
+
+                                    // バツ印をクリックしたときの処理
+                                    clearBtn.addEventListener('click', function() {
+                                        searchInput.value = '';  // 入力フィールドをクリア
+                                        clearBtn.style.display = 'none';  // バツ印を非表示
+                                        searchInput.focus();  // フィールドにフォーカスを戻す
+                                    });
+                                </script>
 
                                 <ul id="book-list" class="table-list mt-3"></ul>
 
@@ -332,6 +355,22 @@
                     font-weight: bold;
                     font-size: 1.5rem;
                 }
+
+                .clear-button {
+                    position: absolute;
+                    right: 145px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    color: #757B9D;
+                    font-size: 1rem;
+                    display: none;
+                }
+
+                .clear-button:hover {
+                    color: #333;
+                }
+
             </style>
 
         </main>

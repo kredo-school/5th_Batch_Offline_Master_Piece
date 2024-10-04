@@ -88,7 +88,7 @@
                         <option value="okinawa">Okinawa</option>
                     </select><br>
 
-                    <input type="text" name="address" id="address" placeholder="Address" class="form-control" >
+                    <input type="text" name="address" id="address" placeholder="Address" class="form-control">
 
                 </div>
             </div>

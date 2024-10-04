@@ -31,5 +31,10 @@ class AppServiceProvider extends ServiceProvider
             # Checks if user has admin role ID.
             return $user->role_id === User::ADMIN_ROLE_ID;
         });
+
+        Gate::define('store', function ($user) {
+            # Checks if user has store role ID.
+            return $user->role_id === User::STORE_ROLE_ID;
+        });
     }
 }
