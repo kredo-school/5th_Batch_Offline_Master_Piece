@@ -33,8 +33,6 @@
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
-    {{-- Java Script for Graph --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="main-bg" style="background-color: #FFFCF2">
@@ -313,28 +311,29 @@
 
                                 </div>
                             </li>
-                        @else
-                            {{-- Home --}}
-                            <li class="nav-item me-3" title="Home">
-                                <a href="{{route('home')}}" class="nav-link mb-0">
-                                    <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                    <p class="text-white mb-0">Home</p>
-                                </a>
-                            </li>
+                        @elseif(request()->is('guest/*'))
+                        <div class="d-flex pt-2 me-4 mb-4 align-items-center">
+                            <!-- Home Link -->
+                            <a href="{{route('store.home')}}" class="nav-link d-flex flex-column align-items-center mb-0 me-4">
+                                <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
+                                <p class="text-white mb-0">Home</p>
+                            </a>
 
-                            {{-- order --}}
-                            <li class="nav-item me-3" title="Order">
-                                <a href="{{route('order.show')}}" class="nav-link">
-                                    <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
-                                    <p class="text-white mb-0">Order</p>
-                                </a>
-                            </li>
+                            <!-- Logout Link -->
+                            <a class="nav-link d-flex flex-column align-items-center mb-0 me-4" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
+                                <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
+                            </a>
 
-                            {{-- user profile--}}
-                            {{-- Account --}}
-                            <li class="nav-item dropdown">
+                            <!-- Logout Form (Hidden) -->
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
 
-                                <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
+                            <!-- User Profile Dropdown -->
+                            <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
+                                <button id="account-dropdown" class="btn shadow-none nav-link d-flex flex-column align-items-center" data-bs-toggle="dropdown">
                                     @if (Auth::user()->avatar)
                                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
                                         <p class="text-white mb-0">{{Auth::user()->name}}</p>
@@ -342,9 +341,9 @@
                                         <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
                                         <p class="text-white mb-0">{{Auth::user()->name}}</p>
                                     @endif
-
                                 </button>
 
+                                
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                                     {{-- Admin --}}
                                     @can('admin')
@@ -353,18 +352,17 @@
                                     </a>
                                     <hr class="dropdown-divider">
                                     @endcan
-                                     {{-- Store Page 仮置き --}}
-                                     
-                                     @can('store')
-                                     <a class="dropdown-item" href="{{ route('store.home') }}">
-                                         <i class="fa-solid fa-shop"></i> Store page
-                                     </a>
-                                     <hr class="dropdown-divider">
+                                    {{-- Store Page 仮置き --}}
+                                 
+                                    @can('store')
+                                    <a class="dropdown-item" href="{{ route('store.home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                    </a>
+                                    <hr class="dropdown-divider">
                                     @endcan
-                                   
-                                    
+
                                     {{-- Profile --}}
-                                    <a href="{{route('profile.show')}}" class="dropdown-item">
+                                    <a href="{{route('store.profile')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
@@ -405,6 +403,10 @@
                                         </div>
                                     </li>
                                 </div>
+                            </li>
+                        </div>
+
+                        @endif
                             @elseif(request()->is('admin/*'))
                                 <div class="pt-2 me-4">
                                     <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
@@ -673,6 +675,11 @@
         @include('layouts.footer')
     @endauth
 
+         {{-- Java Script for Graph --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- java script for popup --}}
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 
 </html>
