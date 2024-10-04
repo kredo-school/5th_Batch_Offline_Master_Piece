@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
     });
 
-    Route::group(['prefix' => 'store', 'as' => 'store.'], function () {
+    Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
         Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
         Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
