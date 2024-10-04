@@ -38,7 +38,7 @@
                                     <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
                                 </div>
                                 <div class="ms-2 fw-bold">X.X/5.0</div>
-                            </button>
+                            </button> 
                         </h3>
 
                         @include('users.guests.book.modals.review_book')
