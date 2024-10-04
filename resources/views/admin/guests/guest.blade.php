@@ -39,9 +39,9 @@
                     @csrf
                     <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
                         <option selected>Open this select menu</option>
-                        <option value="1">latest order</option>
-                        <option value="2">alphabet order of name</option>
-                        <option value="3">report</option>
+                        <option value="name">name</option>
+                        <option value="report">report</option>
+                        <option value="status">status</option>
                     </select>
                 </form>
 
@@ -115,15 +115,13 @@
     function getColumnIndex(sortBy) {
         switch (sortBy) {
             case 'name':
-                return 1;
-            case 'email':
                 return 2;
             case 'report':
-                return 3;
-            case 'status':
                 return 4;
+            case 'status':
+                return 5;
             default:
-                return 1; // デフォルトはnameカラム
+                return 2; // デフォルトはnameカラム
         }
     }
 </script>
@@ -150,13 +148,3 @@
     </div>
 @endsection
 
-
-{{--
-    上部分はrowで分けて作る
-    backはrowでくくる
-    カードで作れるか
-    下はcolで分ければいい
-    パジネーとはその下に
-    ステータスのアイコンが変わるようにする
-    バーはボタンにする
---}}

@@ -18,7 +18,7 @@
                     <div class="row align-items-center">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search"
-                                class="form-control form-control-sm rounded" placeholder=" Search books..."
+                                class="form-control form-control-sm rounded" placeholder=" Search guest..."
                                 style="width: 400px;">
                             <button type="button" id="clearButton"
                                 class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
@@ -37,16 +37,22 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-book-select">
-                        <option selected>Open sort menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
+                        <option selected>Open this select menu</option>
+                        <option value="title">title</option>
+                        <option value="author">author</option>
+                        <option value="publisher">publisher</option>
+                        <option value="year">publication_year</option>
+                        <option value="price">price</option>
+                        <option value="genre">genre</option>
                     </select>
                 </form>
-                </div>
-        
+
+            </div>
+        </div>
         @include('admin.button')
+    </div>
+
     </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
@@ -100,44 +106,53 @@
         </tbody>
     </table>
 
-    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+        {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
     {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#manage-book-select').change(function() {
-                var selectedData = $(this).val();
-                var tableBody = $('#manage-book-table tbody');
-    
-                tableBody.empty(); // 既存の行をクリア
-    
+<script>
+    document.getElementById('manage-book-select').addEventListener('change', function() {
+        var table = document.getElementById('manage-book-table').getElementsByTagName('tbody')[0];
+        var rows = Array.from(table.rows);
+        var sortBy = this.value;
 
-               // 選択されたデータが存在する場合、そのデータを表示
-            if (selectedData in data) {
-                data[selectedData].forEach(function(entry) {
-                    tableBody.append(`
-                        <tr>
-                            <td>${entry.title}</td>
-                            <td>${entry.author}</td>
-                            <td>${entry.publisher}</td>
-                            <td>${entry.public_year}</td>
-                            <td>${entry.review}</td>
-                            <td>${entry.price}</td>
-                            <td>${entry.genre}</td>
-                            <td>${entry.status}</td>
-                        </tr>
-                    `);
-                });
+        rows.sort(function(rowA, rowB) {
+            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+
+            if (sortBy === 'report') {
+                // レポート数は数値で比較する
+                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
             } else {
-                tableBody.append(`
-                    <tr>
-                        <td colspan="2">データを選択してください</td>
-                    </tr>
-                `);
+                // その他は文字列でアルファベット順に並べる
+                return cellA.localeCompare(cellB);
             }
-            });
         });
-    </script>
+
+        // Sort後にテーブルを再描画
+        rows.forEach(function(row) {
+            table.appendChild(row);
+        });
+    });
+
+    function getColumnIndex(sortBy) {
+        switch (sortBy) {
+            case 'title':
+                return 1;
+            case 'author':
+                return 2;
+            case 'publisher':
+                return 3;
+            case 'publication_year':
+                return 4;
+            case 'price':
+                return 5;
+            case 'genre':
+                return 6;
+            default:
+                return 1; // デフォルトはnameカラム
+        }
+    }
+</script>
 
 
 
