@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
-class StoreMiddleware
+class Storemiddleware
 {
     /**
      * Handle an incoming request.

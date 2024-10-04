@@ -87,19 +87,24 @@
                     <td><i class="fa-regular fa-face-smile"></i></td>
                     <td><i class="fa-regular fa-face-smile"></i></td>
                     <td><i class="fa-regular fa-face-smile"></i></td>
-                    <td><a class="text-danger btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                            data-bs-target="#delete-book-test">
-                            <i class="fa-regular fa-face-frown"></i>
-                        </a>
-                        <a class="text-primary btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                            data-bs-target="#active-book-test">
-                            <i class="fa-regular fa-face-frown"></i>
-                        </a>
+                    <td>
+                        @if (1)
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-book-test">
+                                <i class="fa-regular fa-face-smile text-primary"></i> Active
+                            </a>
+                        @else
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-book-test">
+                                <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                            </a>
+                        @endif
                     </td>
                 </tr>
             @endfor
         </tbody>
     </table>
+
+    @include('admin.books.modal.status')
+
 
 
 
