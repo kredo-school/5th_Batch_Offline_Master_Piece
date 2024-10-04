@@ -37,11 +37,11 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort">
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
                         <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="name">name</option>
+                        <option value="report">report</option>
+                        <option value="status">status</option>
                     </select>
                 </form>
 
@@ -52,7 +52,7 @@
 
     </div>
 
-    <table class="table manage-table border-rounded">
+    <table class="table manage-table border-rounded" id="manage-guest-table">
         <thead>
             <tr>
                 <th></th>
@@ -83,6 +83,50 @@
         </tbody>
     </table>
 
+
+    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+    {{-- jQuery ライブラリ  --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    document.getElementById('manage-guest-select').addEventListener('change', function() {
+        var table = document.getElementById('manage-guest-table').getElementsByTagName('tbody')[0];
+        var rows = Array.from(table.rows);
+        var sortBy = this.value;
+
+        rows.sort(function(rowA, rowB) {
+            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
+
+            if (sortBy === 'report') {
+                // レポート数は数値で比較する
+                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
+            } else {
+                // その他は文字列でアルファベット順に並べる
+                return cellA.localeCompare(cellB);
+            }
+        });
+
+        // Sort後にテーブルを再描画
+        rows.forEach(function(row) {
+            table.appendChild(row);
+        });
+    });
+
+    function getColumnIndex(sortBy) {
+        switch (sortBy) {
+            case 'name':
+                return 2;
+            case 'report':
+                return 4;
+            case 'status':
+                return 5;
+            default:
+                return 2; // デフォルトはnameカラム
+        }
+    }
+</script>
+
+
     @include('admin.guests.modal.status')
 
     <div class="under-container mt-5">
@@ -104,13 +148,3 @@
     </div>
 @endsection
 
-
-{{--
-    上部分はrowで分けて作る
-    backはrowでくくる
-    カードで作れるか
-    下はcolで分ければいい
-    パジネーとはその下に
-    ステータスのアイコンが変わるようにする
-    バーはボタンにする
---}}

@@ -19,7 +19,7 @@
         <div class="mb-5 d-flex justify-content-center mx-auto">
             <select name="area" id="area" class="form-control w-25">
                 <option value="" hidden>area</option>
-                <option value="hokkaido">Hokkaido</option>
+                <<option value="hokkaido">Hokkaido</option>
                 <option value="aomori">Aomori</option>
                 <option value="iwate">Iwate</option>
                 <option value="miyagi">Miyagi</option>
