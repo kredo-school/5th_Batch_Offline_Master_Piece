@@ -38,7 +38,7 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort">
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-store-select">
                         <option value="" hidden>area</option>
                         <option value="hokkaido">Hokkaido</option>
                         <option value="aomori">Aomori</option>
@@ -98,7 +98,7 @@
     </div>
     {{-- 以下 --}}
 
-    <table class="table manage-table border-rounded ">
+    <table class="table manage-table border-rounded " id="manege-store-table">
         <thead>
             <tr>
                 <th></th>
@@ -132,6 +132,42 @@
             @endfor
         </tbody>
     </table>
+
+    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+    {{-- jQuery ライブラリ  --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#manage-store-select').change(function() {
+                var selectedData = $(this).val();
+                var tableBody = $('#manage-store-table tbody');
+    
+                tableBody.empty(); // 既存の行をクリア
+    
+
+               // 選択されたデータが存在する場合、そのデータを表示
+            if (selectedData in data) {
+                data[selectedData].forEach(function(entry) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${entry.name}</td>
+                            <td>${entry.email}</td>
+                            <td>${entry.phone}</td>
+                            <td>${entry.address}</td>
+                            <td>${entry.status}</td>
+                        </tr>
+                    `);
+                });
+            } else {
+                tableBody.append(`
+                    <tr>
+                        <td colspan="2">データを選択してください</td>
+                    </tr>
+                `);
+            }
+        });
+    });
+</script>
 
     <div class="under-container mt-5">
         <nav aria-label="Page navigation">

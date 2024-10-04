@@ -37,16 +37,15 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort">
+                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-book-select">
                         <option selected>Open sort menu</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                     </select>
                 </form>
-            </div>
-        </div>
-
+                </div>
+        
         @include('admin.button')
     </div>
     {{-- 以下 --}}
@@ -64,7 +63,7 @@
     {{-- 間の追加オプション --}}
 
 
-    <table class="table manage-table border-rounded">
+    <table class="table manage-table border-rounded " id="manage-book-table">
         <thead>
             <tr>
                 <th>Title</th>
@@ -101,6 +100,45 @@
         </tbody>
     </table>
 
+    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+    {{-- jQuery ライブラリ  --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#manage-book-select').change(function() {
+                var selectedData = $(this).val();
+                var tableBody = $('#manage-book-table tbody');
+    
+                tableBody.empty(); // 既存の行をクリア
+    
+
+               // 選択されたデータが存在する場合、そのデータを表示
+            if (selectedData in data) {
+                data[selectedData].forEach(function(entry) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${entry.title}</td>
+                            <td>${entry.author}</td>
+                            <td>${entry.publisher}</td>
+                            <td>${entry.public_year}</td>
+                            <td>${entry.review}</td>
+                            <td>${entry.price}</td>
+                            <td>${entry.genre}</td>
+                            <td>${entry.status}</td>
+                        </tr>
+                    `);
+                });
+            } else {
+                tableBody.append(`
+                    <tr>
+                        <td colspan="2">データを選択してください</td>
+                    </tr>
+                `);
+            }
+            });
+        });
+    </script>
+
 
 
     <div class="under-container mt-5">
@@ -124,19 +162,3 @@
     </div>
 @endsection
 
-
-{{--
-    上部分はrowで分けて作る
-    backはrowでくくる
-    カードで作れるか
-    下はcolで分ければいい
-    パジネーとはその下に
-    ステータスのアイコンが変わるようにする
-    バーはボタンにする
-
-    admin book
-    admin store
-    これらに飛ぶボタンも作る必要があるか
-   　bookのみ rowの行を狭めた方がいいか
-   for each使い忘れた。
---}}
