@@ -185,11 +185,42 @@
                                     @endif
                                 </button>
 
+                                
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
-                                    <!-- Profile -->
+                                    {{-- Admin --}}
+                                    @can('admin')
+                                    <a  class="dropdown-item" href="{{ route('admin.home') }}">
+                                        <i class="fa-solid fa-user-gear"></i> Admin
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
+                                    {{-- Store Page 仮置き --}}
+                                 
+                                    @can('store')
+                                    <a class="dropdown-item" href="{{ route('store.home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
+
+                                    {{-- Profile --}}
                                     <a href="{{route('store.profile')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
+
+                                    {{-- Logout --}}
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+
+                                   
+
                                 </div>
                             </li>
                         </div>
@@ -221,10 +252,39 @@
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                    {{-- Admin --}}
+                                    @can('admin')
+                                    <a  class="dropdown-item" href="{{ route('admin.home') }}">
+                                        <i class="fa-solid fa-user-gear"></i> Admin
+                                    </a>
+                                    <hr class="dropdown-divider">
+
+                                    @endcan
+                                     {{-- Store Page 仮置き --}}
+                                   
+                                     @can('store')
+                                     <a class="dropdown-item" href="{{ route('store.home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                     </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
+                                   
                                     {{-- Profile --}}
                                     <a href="{{route('store.profile')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
+
+                                    {{-- Logout --}}
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+
                                 </div>
                             </li>
                         @else
@@ -268,12 +328,15 @@
                                     <hr class="dropdown-divider">
                                     @endcan
                                      {{-- Store Page 仮置き --}}
+                                     
                                      @can('store')
-                                     <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                     <a class="dropdown-item" href="{{ route('store.home') }}">
                                          <i class="fa-solid fa-shop"></i> Store page
                                      </a>
-                                     @endcan
-                                    <hr>
+                                     <hr class="dropdown-divider">
+                                    @endcan
+                                   
+                                    
                                     {{-- Profile --}}
                                     <a href="{{route('profile.show')}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
@@ -420,19 +483,6 @@
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
 
                     <p class="col px-5 mt-3 fs-5 "><a type ="buttom" class="text-menu text-decoration-none" data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
-
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('thread.home')}}" class="text-menu text-decoration-none">Thread</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.store_list')}}" class="text-menu text-decoration-none">Store</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('inquiry')}}" class="text-menu text-decoration-none">Inquiry</a></p>
-                </div>
-            </nav>
-            @elseif(request()->is('/'))
-            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-                <div class="row mx-auto">
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
-                    <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none" data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
 
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
