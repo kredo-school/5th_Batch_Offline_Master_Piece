@@ -96,10 +96,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -135,10 +135,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -192,10 +192,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -240,10 +240,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -322,10 +322,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>
@@ -345,10 +345,10 @@
                                         <div class="text-center">
                                             <img src="{{ asset('images/649634.png') }}" class="w-75 shadow"
                                                 alt="Image {{ $i }}">
-                                            <a href="#" class="text-decoration-none text-primary fs-24 fw-bold">
+                                            <a href="{{route('book.show_book')}}" class="text-decoration-none text-primary fs-24 fw-bold">
                                                 <p class="mt-4">Book{{ $i }}</p>
                                             </a>
-                                            <a href="#" class="text-decoration-none h4 fw-bold">
+                                            <a href="{{route('book.author_show')}}" class="text-decoration-none h4 fw-bold">
                                                 <p>Author</p>
                                             </a>
                                         </div>

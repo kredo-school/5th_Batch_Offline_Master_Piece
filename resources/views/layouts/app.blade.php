@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,19 +14,21 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     {{-- CSS Style --}}
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 
 
     {{-- fontawesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Google font --}}
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
@@ -38,31 +41,46 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
             <div class="container">
-                <a class="navbar-brand" href="{{route('home')}}">
-                    <img src="{{asset("images/final-logo.png")}}" alt="" class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
-                </a>
+
+                @if (request()->is('store/*'))
+                    <a class="navbar-brand" href="{{ route('store.home') }}">
+                        <img src="{{ asset('images/final-logo.png') }}" alt=""
+                            class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
+                    </a>
+                @else
+                    <a class="navbar-brand" href="{{ route('home') }}">
+                        <img src="{{ asset('images/final-logo.png') }}" alt=""
+                            class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
+                    </a>
+                @endif
 
 
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mx-auto">
-                        {{-- if the url request is not admin/* (!request()->is(''))--}}
+                        {{-- if the url request is not admin/* (!request()->is('')) --}}
 
-                            <ul class="navbar-nav ms-auto ">
+                        <ul class="navbar-nav ms-auto ">
 
-                                @guest
-                                @else
-                                @if(request()->is('guest/*'))
+                            @guest
+                            @else
+                                @if (request()->is('guest/*'))
                                     <form action="#" style="width: 500px" class="d-flex">
                                         <div class="row ms-auto">
                                             <div class="col pe-0 position-relative">
-                                                <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search books..." style="width: 250px;">
-                                                <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
+                                                <input type="text" id="searchInput" name="search"
+                                                    class="form-control form-control-sm rounded" style="width: 400px"
+                                                    placeholder="Search books..." style="width: 250px;">
+                                                <button type="button" id="clearButton"
+                                                    class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
+                                                    style="display: none; right: 30px;">
                                                     x
                                                 </button>
                                             </div>
@@ -91,15 +109,19 @@
                                         clearButton.addEventListener('click', function() {
                                             searchInput.value = '';
                                             clearButton.style.display = 'none';
-                                            searchInput.focus();  // フィールドにフォーカスを戻す
+                                            searchInput.focus(); // フィールドにフォーカスを戻す
                                         });
                                     </script>
-                                    @elseif(request()->is('/'))
+                                @elseif(request()->is('/'))
                                     <form action="#" style="width: 500px" class="d-flex">
                                         <div class="row ms-auto">
                                             <div class="col pe-0 position-relative">
-                                                <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search books..." style="width: 250px;">
-                                                <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
+                                                <input type="text" id="searchInput" name="search"
+                                                    class="form-control form-control-sm rounded" style="width: 400px"
+                                                    placeholder="Search books..." style="width: 250px;">
+                                                <button type="button" id="clearButton"
+                                                    class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
+                                                    style="display: none; right: 30px;">
                                                     x
                                                 </button>
                                             </div>
@@ -128,12 +150,12 @@
                                         clearButton.addEventListener('click', function() {
                                             searchInput.value = '';
                                             clearButton.style.display = 'none';
-                                            searchInput.focus();  // フィールドにフォーカスを戻す
+                                            searchInput.focus(); // フィールドにフォーカスを戻す
                                         });
                                     </script>
                                 @endif
-                                @endguest
-                            </ul>
+                            @endguest
+                        </ul>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -142,13 +164,17 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}"><p class="fs-4 text-white fw-bold pe-4">Login</p></a>
+                                    <a class="nav-link" href="{{ route('login') }}">
+                                        <p class="fs-4 text-white fw-bold pe-4">Login</p>
+                                    </a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}"><p class="fs-4 text-white fw-bold pe-3">Register</p></a>
+                                    <a class="nav-link" href="{{ route('register') }}">
+                                        <p class="fs-4 text-white fw-bold pe-3">Register</p>
+                                    </a>
                                 </li>
                             @endif
                         @else
@@ -342,22 +368,151 @@
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
 
-                                    {{-- Logout --}}
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        <i class="fa-solid fa-right-from-bracket"></i>  {{ __('Logout') }}
+                                    <!-- Logout Link -->
+                                    <a class="nav-link d-flex flex-column align-items-center mb-0 me-4"
+                                        href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
+                                        <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <!-- Logout Form (Hidden) -->
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
 
-                                   
+                                    <!-- User Profile Dropdown -->
+                                    <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
+                                        <button id="account-dropdown"
+                                            class="btn shadow-none nav-link d-flex flex-column align-items-center"
+                                            data-bs-toggle="dropdown">
+                                            @if (Auth::user()->avatar)
+                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
+                                                    class="rounded-circle avatar-sm">
+                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                            @else
+                                                <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                            @endif
+                                        </button>
 
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                            <!-- Profile -->
+                                            <a href="{{ route('store.profile') }}" class="dropdown-item">
+                                                <i class="fa-solid fa-circle-user"></i> Profile
+                                            </a>
+                                        </div>
+                                    </li>
                                 </div>
-                            </li>
-                        @endif
+                            @elseif(request()->is('admin/*'))
+                                <div class="pt-2 me-4">
+                                    <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-right-from-bracket  d-block fs-1"></i>
+                                        <p class="mt-1">{{ __('Logout') }}</p>
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+
+                                <li class="nav-item dropdown">
+
+                                    <button id="account-dropdown" class="btn shadow-none nav-link"
+                                        data-bs-toggle="dropdown">
+                                        @if (Auth::user()->avatar)
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
+                                                class="rounded-circle avatar-sm">
+                                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                        @endif
+
+                                    </button>
+
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                        {{-- Profile --}}
+                                        <a href="{{ route('profile.show') }}" class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+                                    </div>
+                                </li>
+                            @else
+                                {{-- Home --}}
+                                <li class="nav-item me-3" title="Home">
+                                    <a href="{{ route('home') }}" class="nav-link mb-0">
+                                        <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
+                                        <p class="text-white mb-0">Home</p>
+                                    </a>
+                                </li>
+
+                                {{-- order --}}
+                                <li class="nav-item me-3" title="Order">
+                                    <a href="{{ route('order.show') }}" class="nav-link">
+                                        <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
+                                        <p class="text-white mb-0">Order</p>
+                                    </a>
+                                </li>
+
+                                {{-- user profile --}}
+                                {{-- Account --}}
+                                <li class="nav-item dropdown">
+
+                                    <button id="account-dropdown" class="btn shadow-none nav-link"
+                                        data-bs-toggle="dropdown">
+                                        @if (Auth::user()->avatar)
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
+                                                class="rounded-circle avatar-sm">
+                                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                                        @endif
+
+                                    </button>
+
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                                        {{-- Admin --}}
+                                        @can('admin')
+                                            <a class="dropdown-item" href="{{ route('admin.home') }}">
+                                                <i class="fa-solid fa-user-gear"></i> Admin
+                                            </a>
+                                            <hr class="dropdown-divider">
+                                        @endcan
+                                        {{-- Store Page 仮置き --}}
+                                        @can('store')
+                                            <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                                <i class="fa-solid fa-shop"></i> Store page
+                                            </a>
+                                            <hr>
+                                        @endcan
+                                        {{-- Profile --}}
+                                        <a href="{{ route('profile.show') }}" class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+
+                                        {{-- Logout --}}
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+
+
+
+                                    </div>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>
@@ -366,123 +521,138 @@
 
         @guest
         @else
-        @if(request()->is('thread/*'))
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-            <div class="container">
-                <div class="row w-100 justify-content-center text-center">
-                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="{{route('thread.home')}}" class="text-menu text-decoration-none ">Thread Home</a>
-                    </p>
-                    <p class="col-auto px-5 mt-3 fs-5 mx-auto">
-                        <a href="{{route('thread.create')}}" class="text-menu text-decoration-none">Post Thread</a>
-                    </p>
-                </div>
-            </div>
-        </nav>
-        @endif
-        {{-- genera modal --}}
-        <div class="modal fade" id="genre-modal">
-            <div class="modal-dialog ">
-                <div class="modal-content border-0  genre-modal-bg w-75">
-                    <div class="modal-header border-secoondaryr">
-                        <h5 class="modal-title text-secondary ps-4 p-0">
-                            Select Genre
-                        </h5>
+            @if (request()->is('thread/*'))
+                <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                    <div class="container">
+                        <div class="row w-100 justify-content-center text-center">
+                            <p class="col-auto px-5 mt-3 fs-5 mx-auto">
+                                <a href="{{ route('thread.home') }}" class="text-menu text-decoration-none ">Thread
+                                    Home</a>
+                            </p>
+                            <p class="col-auto px-5 mt-3 fs-5 mx-auto">
+                                <a href="{{ route('thread.create') }}" class="text-menu text-decoration-none">Post
+                                    Thread</a>
+                            </p>
+                        </div>
                     </div>
-                    <div class="modal-body text-secondary mx-auto">
-                        <form action="#" method="post" class="ms-0 mt-3 p-0">
-                            @csrf
-                            <div class="row ms-0">
-                                <div class="col">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Comic" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            Comic
-                                        </label>
-                                    </div>
+                </nav>
+            @endif
+            {{-- genera modal --}}
+            <div class="modal fade" id="genre-modal">
+                <div class="modal-dialog ">
+                    <div class="modal-content border-0  genre-modal-bg w-75">
+                        <div class="modal-header border-secoondaryr">
+                            <h5 class="modal-title text-secondary ps-4 p-0">
+                                Select Genre
+                            </h5>
+                        </div>
+                        <div class="modal-body text-secondary mx-auto">
+                            <form action="#" method="post" class="ms-0 mt-3 p-0">
+                                @csrf
+                                <div class="row ms-0">
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Comic"
+                                                id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Comic
+                                            </label>
+                                        </div>
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Fantasy" id="defaultCheck2">
-                                        <label class="form-check-label" for="defaultCheck2">
-                                            Fantasy
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Horror" id="defaultCheck3">
-                                        <label class="form-check-label" for="defaultCheck3">
-                                            Horror
-                                        </label>
-                                    </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Fantasy"
+                                                id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Fantasy
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Horror"
+                                                id="defaultCheck3">
+                                            <label class="form-check-label" for="defaultCheck3">
+                                                Horror
+                                            </label>
+                                        </div>
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Mystey" id="defaultCheck4">
-                                        <label class="form-check-label" for="defaultCheck4">
-                                            Mystey
-                                        </label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Mystey"
+                                                id="defaultCheck4">
+                                            <label class="form-check-label" for="defaultCheck4">
+                                                Mystey
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="History"
+                                                id="defaultCheck5">
+                                            <label class="form-check-label" for="defaultCheck5">
+                                                History
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="History" id="defaultCheck5">
-                                        <label class="form-check-label" for="defaultCheck5">
-                                            History
-                                        </label>
+                                    <div class="col"></div>
+                                    <div class="col"></div>
+                                    <div class="col"></div>
+                                    <div class="col"></div>
+                                    <div class="col me-5">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Literature"
+                                                id="defaultCheck6">
+                                            <label class="form-check-label" for="defaultCheck6">
+                                                Literature
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Kids"
+                                                id="defaultCheck7">
+                                            <label class="form-check-label" for="defaultCheck7">
+                                                Kids
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Travel"
+                                                id="defaultCheck8">
+                                            <label class="form-check-label" for="defaultCheck8">
+                                                Travel
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Sports"
+                                                id="defaultCheck9">
+                                            <label class="form-check-label" for="defaultCheck9">
+                                                Sports
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Study"
+                                                id="defaultCheck10">
+                                            <label class="form-check-label" for="defaultCheck10">
+                                                Study
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col"></div>
-                                <div class="col"></div>
-                                <div class="col"></div>
-                                <div class="col"></div>
-                                <div class="col me-5">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Literature" id="defaultCheck6">
-                                        <label class="form-check-label" for="defaultCheck6">
-                                            Literature
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Kids" id="defaultCheck7">
-                                        <label class="form-check-label" for="defaultCheck7">
-                                            Kids
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Travel" id="defaultCheck8">
-                                        <label class="form-check-label" for="defaultCheck8">
-                                            Travel
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Sports" id="defaultCheck9">
-                                        <label class="form-check-label" for="defaultCheck9">
-                                            Sports
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Study" id="defaultCheck10">
-                                        <label class="form-check-label" for="defaultCheck10">
-                                            Study
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
 
 
-                            <button type="submit" class="btn btn-warning text-white mx-auto mt-5 w-100">Search</button>
-                        </form>
+                                <button type="submit"
+                                    class="btn btn-warning text-white mx-auto mt-5 w-100">Search</button>
+                            </form>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        @if(request()->is('guest/*'))
-            <nav  class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-                <div class="row mx-auto">
-                    <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.new')}}" class="text-menu text-decoration-none">New</a></p>
+            @if (request()->is('guest/*'))
+                <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
+                    <div class="row mx-auto">
+                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('book.new') }}"
+                                class="text-menu text-decoration-none">New</a></p>
 
-                    <p class="col px-5 mt-3 fs-5 "><a type ="buttom" class="text-menu text-decoration-none" data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
+                        <p class="col px-5 mt-3 fs-5 "><a type ="buttom" class="text-menu text-decoration-none"
+                                data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
 
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.ranking')}}" class="text-menu text-decoration-none">Ranking</a></p>
                     <p class="col px-5 mt-3 fs-5 "><a href="{{route('book.suggestion')}}" class="text-menu text-decoration-none">Suggestion</a></p>
@@ -499,9 +669,10 @@
         </main>
     </div>
     {{-- footer here --}}
-        @auth
-            @include('layouts.footer')
-        @endauth
+    @auth
+        @include('layouts.footer')
+    @endauth
 
 </body>
+
 </html>
