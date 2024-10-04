@@ -18,10 +18,10 @@ class StoreMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() && Auth::user()->role_id == User::STORE_ROLE_ID) {
+        if(Auth::check() && Auth::user()->role_id == User::STORE_ROLE_ID||Auth::user()->role_id == User::ADMIN_ROLE_ID) {
             return $next($request); # Proceeds with the request.
        }
-       return redirect()->route('index'); 
+       return redirect()->route('login'); 
        # Redirects unauthorized users to index route.
     
     }
