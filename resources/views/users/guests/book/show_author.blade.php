@@ -57,7 +57,7 @@
                             </div>
                             <div class="h-25 pt-3">
                                 <a href="#" class="btn btn-orange bottom-0 w-100">Add to Cart</a>
-                            </div>                 
+                            </div>
                         </div>
                     </div>
                     <hr>

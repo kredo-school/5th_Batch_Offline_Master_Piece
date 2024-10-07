@@ -12,7 +12,7 @@
             </div>
         </a>
     </div>
-    
+
     <form action="#" method="post">
         @csrf
 
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="container-body" style="overflow-y: auto; height: 650px;">
             <h1 class="h3 main-text fw-bold">Select Store</h1>
             @for($i = 0; $i < 8; $i++)
