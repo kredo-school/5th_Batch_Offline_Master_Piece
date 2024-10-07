@@ -21,18 +21,14 @@
                 </form>
             </div>
             <div class="col">
-                {{-- not complete --}}
                 <form action="#" style="width: 500px" class="d-flex">
                     @csrf
                     <div class="row ms-auto">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search" class="form-control rounded"
-                                style="width: 400px" placeholder="Search threads..." style="width: 250px;">
-                            <button type="button" id="clearButton"
-                                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
-                                style="display: none; right: 30px;">
-                                x
-                            </button>
+                                style="width: 400px" placeholder="Search threads...">
+                                <span id="clearButton" class="clearButton">&times;</span>
+                                @include('layouts.searchbar')
                         </div>
                         <div class="col ps-1">
                             <button type="submit" class="btn btn-warning search-icon">

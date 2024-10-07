@@ -6,14 +6,14 @@
 
     {{-- Back button --}}
     <div>
-        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn">
+        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>
             </div>
         </a>
     </div>
-    
+
     <div class="container-body">
         <form action="#" method="post">
             @csrf
@@ -27,7 +27,7 @@
                     <h3>Publisher: books->publisher</h3>
                     <h3>Publish year: books->publication_date</h3>
                     <h3>Description: books->description</h3>
-                    <h3 class="d-flex">Rate:   
+                    <h3 class="d-flex">Rate:
                         <!-- Button trigger modal -->
                             <button type="button" class="btn d-flex" data-bs-toggle="modal" data-bs-target="#reviewBook">
                                 <div class="star-ration ms-2 fa-lg">
@@ -99,7 +99,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <input type="submit" value="Select Store" class="btn btn-select-store w-100">
+                            <input type="submit" value="Select Store" class="btn btn-orange w-100">
                         </div>
                     </div>
                 </div>
@@ -133,9 +133,9 @@
                             </div>
                             <h4 class="text-black my-auto w-100 ms-4">user->name</h4>
                         </a>
-                        
+
                         <div class="d-flex mt-3">
-                            <h5 class="d-flex">Rate:   
+                            <h5 class="d-flex">Rate:
                                     <div class="star-ration ms-2">
                                         <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
                                         <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
@@ -164,7 +164,7 @@
                 <label for="write-review" class="form-label fw-bold">Write your review</label>
                 <div class="border border-1 border-black p-3">
                     <div class="row">
-                        <h6 class="d-flex ms-2">Rate:   
+                        <h6 class="d-flex ms-2">Rate:
                             <div class="star-ration ms-2">
                                 <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
                                 <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
@@ -181,9 +181,9 @@
                 </div>
             </div>
             <div class="review-list text-end">
-                <input type="submit" value="Post Review" class="btn mt-3 btn-select-store px-5">
+                <input type="submit" value="Post Review" class="btn mt-3 btn-orange px-5">
             </div>
-        </form>        
+        </form>
     </div>
 
     {{-- Suggestion --}}
