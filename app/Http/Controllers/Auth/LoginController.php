@@ -22,6 +22,9 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+    const ADMIN_ROLE_ID = 1; #  Defines constant for admin role ID.
+    const GUEST_ROLE_ID = 2; #  Defines constant for guest role ID.
+    const STORE_ROLE_ID = 3; #  Defines constant for store role ID.
 
     /**
      * Where to redirect users after login.
@@ -30,14 +33,15 @@ class LoginController extends Controller
      */
     // protected $redirectTo = '/guest/home';
 
+
     protected function authenticated(Request $request, $user)
     {
         switch ($user->role_id) {
-            case 1: // Admin
+            case self::ADMIN_ROLE_ID: // Admin
                 return redirect()->route('home');
-            case 2: // Guest
+            case self::GUEST_ROLE_ID: // Guest
                 return redirect()->route('home');
-            case 3: // Store
+            case self::STORE_ROLE_ID: // Store
                 return redirect()->route('store.home');
             default:
                 return redirect()->route('home');
