@@ -95,6 +95,20 @@
     @include('admin.button')
 </div>
 
+ {{-- 以下 --}}
+ <div class="genre-container mt-4">
+    <div class="row align-items-center">
+        <div class="col-8"></div>
+        <div class="col">
+        </div>
+        <div class="col-2">
+            <a href="{{ route('admin.registerStore') }}" class="btn btn-success" id="addBookBtn"><i
+                    class="fa-solid fa-plus"></i> Add Store</a>
+        </div>
+    </div>
+</div>
+{{-- 間の追加オプション --}}
+
 <table class="table manage-table border-rounded" id="manage-store-table">
     <thead>
         <tr>
