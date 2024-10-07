@@ -13,26 +13,25 @@
     <div class="row align-items-center">
         <div class="col"></div>
         <div class="col-auto">
-            <form action="#" method="post"> <!-- action属性を追加 -->
-                @csrf
-                <div class="row align-items-center">
-                    <div class="col pe-0 position-relative">
-                        <input type="text" id="searchInput" name="search"
-                            class="form-control form-control-sm rounded" placeholder=" Search stores..."
-                            style="width: 400px;">
-                        <button type="button" id="clearButton"
-                            class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded"
-                            style="display: none; right: 30px;">
-                            x
-                        </button>
-                    </div>
-                    <div class="col ps-1">
-                        <button type="submit" class="btn btn-warning btn-sm search-icon">
-                            <i class="fa-solid fa-magnifying-glass text-white"></i>
-                        </button>
-                    </div>
+            <div class="row ms-3">
+                <div class="col">
+                    <form action="#" style="width: 500px" class="d-flex">
+                        @csrf
+                        <div class="row ms-auto">
+                            <div class="col pe-0 position-relative">
+                                <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput"
+                                    style="width: 400px" placeholder="Search stores...">
+                                    <span id="clearButton" class="clearButton">&times;</span>
+                            </div>
+                            <div class="col ps-1">
+                                <button type="submit" class="btn btn-warning search-icon btn-sm">
+                                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class="col-4">
