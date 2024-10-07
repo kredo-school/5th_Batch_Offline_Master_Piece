@@ -17,8 +17,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
     Route::group(['prefix' => 'guest'], function () {
+        Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/show',[ProfileController::class,'show'])->name('show');
