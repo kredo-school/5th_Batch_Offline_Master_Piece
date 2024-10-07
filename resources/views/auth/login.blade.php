@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="col text-end">
-                                <a href="#">Register</a>
+                                <a href="{{route('register')}}">Register</a>
                             </div>
 
                         </form>
