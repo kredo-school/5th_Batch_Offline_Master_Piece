@@ -30,12 +30,14 @@
                                     14:40:10</p>
                             </div>
                             <div class="col-2 text-end">
-                                <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-postid">
-                                    <div class="fs-24">
-                                        <i class="fa-regular fa-trash-can text-danger"></i>
-                                        <label class="text-danger">3</label>
-                                    </div>
-                                </button>
+                                @can('admin')
+                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-postid">
+                                        <div class="fs-24">
+                                            <i class="fa-regular fa-trash-can text-danger"></i>
+                                            <label class="text-danger">3</label>
+                                        </div>
+                                    </button>
+                                @endcan
 
                                 <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#report-comment-postid">
                                     <div class="fs-24">

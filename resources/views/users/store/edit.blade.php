@@ -4,7 +4,7 @@
 
 @section('content')
 <div>
-    <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn">
+    <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
         <div class="h2 fw-semibold">
             <i class="fa-solid fa-caret-left"></i>
             <div class="d-inline main-text">Back</div>
@@ -29,7 +29,7 @@
             <label for="avatar" class="form-label">Image File</label>
             <input type="file" name="avatar" id="avatar" class="form-control" >
         </div>
-    
+
         <div class="col">
             <label for="name" class="form-label">Store Name <span class="text-danger">*</span></label>
             <input type="text" name="name" id="name" placeholder="Input Name" class="form-control" required><br>

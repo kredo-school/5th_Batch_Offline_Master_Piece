@@ -37,7 +37,7 @@
                 <textarea name="details" id="details" cols="30" rows="5" class="form-control mt-2" placeholder="Please fill in the details"></textarea>
 
                 <div class="d-flex justify-content-end mt-2">
-                    <input type="submit" value="Send" class="btn btn-select-store px-4">
+                    <input type="submit" value="Send" class="btn btn-orange px-4">
                 </div>
             </div>
         </form>
