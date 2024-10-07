@@ -174,7 +174,9 @@
                             </div>
                             <div class="ms-2">X.X/5.0</div>
                         </h6>
+                        <input type="hidden" name="rating" id="ration-value" value="">
                     </div>
+
                     <textarea name="review-title" id="review-title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
                     <hr>
                     <textarea name="review-content" id="review-content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
@@ -193,12 +195,12 @@
                 <h2 class="h1 fw-bold text-grey mt-3">Suggestion</h2>
             </div>
             <div class="col text-end ">
-                <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
-                    <p class="text-end mt-3 mb-0">
+                <p class="text-end mt-3 mb-0">
+                    <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
                         more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                 class="fa-solid fa-chevron-right"></i></span>
-                    </p>
-                </a>
+                    </a>
+                </p>
             </div>
         </div>
         {{-- Booklist --}}
@@ -383,12 +385,12 @@
                 <h2 class="h1 fw-bold text-grey mt-3">Same genre</h2>
             </div>
             <div class="col text-end ">
-                <a href="{{route('book.new')}}" class="text-grey fs-24">
-                    <p class="text-end mt-3 mb-0">
+                <p class="text-end mt-3 mb-0">
+                        <a href="{{route('book.new')}}" class="text-grey fs-24">
                         more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                 class="fa-solid fa-chevron-right"></i></span>
+                        </a>
                     </p>
-                </a>
             </div>
         </div>
         {{-- Booklist --}}
