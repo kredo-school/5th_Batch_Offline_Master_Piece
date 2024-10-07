@@ -281,12 +281,35 @@
                                     </button>
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
-                                        {{-- Profile --}}
-                                        <a href="{{ route('profile.show') }}" class="dropdown-item">
-                                            <i class="fa-solid fa-circle-user"></i> Profile
-                                        </a>
-                                    </div>
+                                    
+
+                                         {{-- Admin --}}
+                                    @can('admin')
+                                    <a  class="dropdown-item" href="{{ route('admin.home') }}">
+                                        <i class="fa-solid fa-user-gear"></i> Admin Home
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
+                                    {{-- Store Page 仮置き --}}
+                                 
+                                    @can('admin')
+                                    <a class="dropdown-item" href="{{ route('store.home') }}">
+                                        <i class="fa-solid fa-shop"></i> Store page
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    @endcan
+
+                                    {{-- Profile --}}
+                                    <a href="{{ route('home') }}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Guest page
+                                    </a>
+                                   
+                                    </div> 
                                 </li>
+
+
+
+
                             @else
                                 {{-- Home --}}
                                 <li class="nav-item me-3" title="Home">
