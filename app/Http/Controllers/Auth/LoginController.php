@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Auth;
 
+
 class LoginController extends Controller
 {
     /*
@@ -27,7 +28,21 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/guest/home';
+    // protected $redirectTo = '/guest/home';
+
+    protected function authenticated(Request $request, $user)
+    {
+        switch ($user->role_id) {
+            case 1: // Admin
+                return redirect()->route('home');
+            case 2: // Guest
+                return redirect()->route('home');
+            case 3: // Store
+                return redirect()->route('store.home');
+            default:
+                return redirect()->route('home');
+        }
+    }
 
     /**
      * Create a new controller instance.
