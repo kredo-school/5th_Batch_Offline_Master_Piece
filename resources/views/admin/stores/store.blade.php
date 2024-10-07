@@ -116,45 +116,24 @@
                 <td>motohashi@email</td>
                 <td>0120-***-***</td>
                 <td>Ibaraki</td>
-                <td><a class="text-danger btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                        data-bs-target="#delete-store-test">
-                        <i class="fa-regular fa-face-frown"></i>
-                    </a>
-                    <a class="text-primary btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                        data-bs-target="#active-store-test">
-                        <i class="fa-regular fa-face-frown"></i>
-                    </a>
+                <td>
+                    @if (1) <!-- 仮の条件 -->
+                        <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-store-test">
+                            <i class="fa-regular fa-face-smile text-primary"></i> Active
+                        </a>
+                    @else
+                        <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-store-test">
+                            <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                        </a>
+                    @endif
                 </td>
             </tr>
-        </thead>
-        <tbody>
-            @for ($i = 0; $i < 5; $i++)
-                <tr class="align-middle">
-                    <td class="text-center"><img
-                            src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7"
-                            alt="" class="img-admin-store"></td>
-                    <td>shoki</td>
-                    <td>motohashi@email</td>
-                    <td>0120-***-***</td>
-                    <td>Ibaraki</td>
-                    <td>
-                        @if (1)
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-store-test">
-                                <i class="fa-regular fa-face-smile text-primary"></i> Active
-                            </a>
-                        @else
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-store-test">
-                                <i class="fa-regular fa-face-frown text-danger"></i> Inactive
-                            </a>
-                        @endif
-                    </td>
-                </tr>
-            @endfor
-        </tbody>
-    </table>
+        @endfor
+    </tbody>
+</table>
 
-{{-- jQuery ライブラリ  --}}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+
 <script>
     $(document).ready(function() {
         var data = {
