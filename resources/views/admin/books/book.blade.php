@@ -122,8 +122,8 @@
             var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
             var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
 
-            if (sortBy === 'report') {
-                // レポート数は数値で比較する
+            if (sortBy === 'report') { --}}
+                {{-- // レポート数は数値で比較する
                 return parseInt(cellB) - parseInt(cellA); // 降順に並べる
             } else {
                 // その他は文字列でアルファベット順に並べる
@@ -131,7 +131,7 @@
             }
         });
 
-        // Sort後にテーブルを再描画
+        Sort後にテーブルを再描画
         rows.forEach(function(row) {
             table.appendChild(row);
         });

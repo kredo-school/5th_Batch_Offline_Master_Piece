@@ -87,6 +87,7 @@
                         <option value="kagoshima">Kagoshima</option>
                         <option value="okinawa">Okinawa</option>
                     </select>
+
             </form>
         </div>
     </div>
