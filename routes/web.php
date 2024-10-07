@@ -86,12 +86,3 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
     });
-
-    Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
-        Route::get('/home', [ThreadController::class, 'home'])->name('home');
-        Route::get('/content', [ThreadController::class, 'content'])->name('content');
-        Route::get('/create', [ThreadController::class, 'create'])->name('create');
-    });
-
-
-

@@ -184,6 +184,10 @@
     height: 40px;
 }
 
+.serch-button:hover{
+
+}
+
 /* review rating */
 .rating-summary {
     width: 400px;
@@ -342,13 +346,15 @@
 /* 左のボタンを左に移動 */
 .carousel-control-prev
 {
-    left: -80px;
+    left: -30px;
+    top: 150px;
 }
 
 /* 右のボタンを右に移動 */
 .carousel-control-next
 {
-    right: -80px;
+    right: -30px;
+    top: 150px;
 }
 
 /* 戻るボタンの矢印を黒色に変更 */
@@ -363,6 +369,18 @@
     background-image: url('data:image/svg+xml;charset=UTF8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 16 16"><path d="M4.646 1.646a.5.5 0 0 0 0 .708L10.293 8 4.646 13.646a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/></svg>');
 }
 
+.carousel-control-prev,
+.carousel-control-next {
+    width: 30px; /* 自動的にコンテンツに合わせる */
+    height: 30px; /* 自動的にコンテンツに合わせる */
+    padding: 0; /* 余白をなくす */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 30px; /* アイコンの幅を調整 */
+    height: 30px; /* アイコンの高さを調整 */
+}
 
 /* navbar */
 
@@ -748,6 +766,7 @@ footer li
     transform: translateY(-50%);
     font-size: 18px;
     color: #757B9D;
+    z-index: 1;
 }
 
 .clearButton:hover {
