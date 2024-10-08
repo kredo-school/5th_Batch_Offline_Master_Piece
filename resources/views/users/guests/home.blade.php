@@ -399,7 +399,7 @@
         </div>
 
         {{-- sub --}}
-        <div class="col-3  bg-grey">
+        <div class="col-3  bg-grey ">
             {{-- New thread list --}}
             <div class="row justify-content-center">
                 <div class="col-11 bg-white rounded shadow mt-5">
