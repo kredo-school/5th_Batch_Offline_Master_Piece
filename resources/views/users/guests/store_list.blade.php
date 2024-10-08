@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="container-body" style="overflow-y: auto; height: 650px;">
             <h1 class="h3 main-text fw-bold">Select Store</h1>
             @for($i = 0; $i < 8; $i++)
@@ -81,13 +81,15 @@
                             <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
                         </a>
                     </div>
-                    <div class=" col-4 my-auto text-decoration-none text-black">
-                        <a href="{{route('book.store_show')}}" class="link-book">
-                            <h3>Store name</h3>
-                            <h5>0120-123-456</h5>
-                            <h4> Japan Tokyo 12345</h4>
-                        </a>
-                    </div>
+
+                        <div class="col-4 my-auto text-decoration-none text-black">
+                            <a href="{{route('book.store_show')}}" class="link-book">
+                                <h3>Store name</h3>
+                                <h5>0120-123-456</h5>
+                                <h4>Japan Tokyo 12345</h4>
+                            </a>
+                        </div>
+
                     <div class="col-4 my-auto">
                     </div>
                 </div>
