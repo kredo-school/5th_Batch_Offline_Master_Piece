@@ -142,7 +142,7 @@
         </div>
 
         <div class="col" style="position: relative; margin-top: 22px;">
-            <p><a href="#">Our Policy</a></p>
+            <p><a href="{{ route('policy') }}">Our Policy</a></p>
             <p style="position: absolute; top: 30%; left: 30%;">
                 <a href="{{ route('inquiry') }}">Inquiry</a>
             </p>

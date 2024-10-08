@@ -22,6 +22,7 @@
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                 </div>
                 <div class="col-8">
+                    {{-- aタグを追加する --}}
                     <h1 class="fw-bold">Title: books->title<a href="#"><i class="fa-regular fa-bookmark"></i></a></h1>
                     <h3>Author: books->author_book->author</h3>
                     <h3>Publisher: books->publisher</h3>
@@ -38,7 +39,7 @@
                                     <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
                                 </div>
                                 <div class="ms-2 fw-bold">X.X/5.0</div>
-                            </button> 
+                            </button>
                         </h3>
 
                         @include('users.guests.book.modals.review_book')
@@ -174,7 +175,9 @@
                             </div>
                             <div class="ms-2">X.X/5.0</div>
                         </h6>
+                        <input type="hidden" name="rating" id="ration-value" value="">
                     </div>
+
                     <textarea name="review-title" id="review-title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
                     <hr>
                     <textarea name="review-content" id="review-content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
@@ -193,12 +196,12 @@
                 <h2 class="h1 fw-bold text-grey mt-3">Suggestion</h2>
             </div>
             <div class="col text-end ">
-                <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
-                    <p class="text-end mt-3 mb-0">
+                <p class="text-end mt-3 mb-0">
+                    <a href="{{route('book.suggestion')}}" class="text-grey fs-24">
                         more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                 class="fa-solid fa-chevron-right"></i></span>
-                    </p>
-                </a>
+                    </a>
+                </p>
             </div>
         </div>
         {{-- Booklist --}}
@@ -221,16 +224,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                                        <h4>Book->title</h4>
-                                                    </a>
+                                                    <h4>
+                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                    </h4>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.author_show')}}" class="link-book">
-                                                        <h5>book->author_book->authors</h5>
-                                                    </a>
+                                                    <h5>
+                                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                                    </h5>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -273,16 +276,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                                        <h4>Book->title</h4>
-                                                    </a>
+                                                    <h4>
+                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                    </h4>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.author_show')}}" class="link-book">
-                                                        <h5>book->author_book->authors</h5>
-                                                    </a>
+                                                    <h5>
+                                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                                    </h5>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -383,12 +386,12 @@
                 <h2 class="h1 fw-bold text-grey mt-3">Same genre</h2>
             </div>
             <div class="col text-end ">
-                <a href="{{route('book.new')}}" class="text-grey fs-24">
-                    <p class="text-end mt-3 mb-0">
+                <p class="text-end mt-3 mb-0">
+                        <a href="{{route('book.new')}}" class="text-grey fs-24">
                         more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                 class="fa-solid fa-chevron-right"></i></span>
+                        </a>
                     </p>
-                </a>
             </div>
         </div>
         {{-- Booklist --}}

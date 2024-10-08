@@ -16,7 +16,9 @@ use App\Http\Controllers\ThreadController;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::group(['prefix' => 'guest'], function () {
+        Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/show',[ProfileController::class,'show'])->name('show');
@@ -84,12 +86,3 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
     });
-
-    // Route::group(['prefix' => 'thread', 'as' => 'thread.'], function(){
-    //     Route::get('/home', [ThreadController::class, 'home'])->name('home');
-    //     Route::get('/content', [ThreadController::class, 'content'])->name('content');
-    //     Route::get('/create', [ThreadController::class, 'create'])->name('create');
-    // });
-
-
-

@@ -72,10 +72,9 @@
                                     <div class="row">
                                         <div class="col pe-0 position-relative">
                                             <input type="text" id="searchInput" name="search"
-                                                class="form-control form-control-sm rounded" style="width: 400px;"
+                                                class="form-control form-control-sm rounded searchInput" style="width: 400px;"
                                                 placeholder="Search books...">
                                             <span id="clearButton" class="clearButton">&times;</span>
-                                            {{-- @include('layouts.searchbar') --}}
                                         </div>
                                         <div class="col ps-1">
                                             <button type="submit" class="btn btn-sm btn-warning search-icon">
@@ -377,32 +376,37 @@
         @include('layouts.footer')
     @endauth
 
+    {{-- search bar --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearButton');
+            const searchInputs = document.querySelectorAll('.searchInput');
+            const clearButtons = document.querySelectorAll('.clearButton');
 
-            searchInput.addEventListener('input', function() {
-                clearBtn.style.display = searchInput.value.length > 0 ? 'inline-block' : 'none';
-            });
+            searchInputs.forEach((input, index) => {
+                const clearBtn = clearButtons[index];  // inputと対応するclearButtonを取得
 
-            clearBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                clearBtn.style.display = 'none';
-                searchInput.focus();
+                input.addEventListener('input', function() {
+                    clearBtn.style.display = input.value.length > 0 ? 'inline-block' : 'none';
+                });
+
+                clearBtn.addEventListener('click', function() {
+                    input.value = '';
+                    clearBtn.style.display = 'none';
+                    input.focus();
+                });
             });
         });
     </script>
 
 
-         {{-- Java Script for Graph --}}
+    {{-- Java Script for Graph --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     {{-- java script for popup --}}
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
-        {{-- jQuery ライブラリ  --}}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    {{-- jQuery ライブラリ  --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </body>
 
 </html>

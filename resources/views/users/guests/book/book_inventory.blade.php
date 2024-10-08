@@ -5,7 +5,7 @@
 @section('content')
     {{-- Back button --}}
     <div>
-        <a href="{{route(url()->previous())}}" class="fw-bold text-decoration-none main-text btn border-0">
+        <a href="{{url()->previous()}}" class="fw-bold text-decoration-none main-text btn border-0">
             <div class="h2 fw-semibold">
                 <i class="fa-solid fa-caret-left"></i>
                 <div class="d-inline main-text">Back</div>
@@ -17,7 +17,7 @@
         @csrf
 
         <div class="mb-5 d-flex justify-content-center mx-auto">
-            <select name="area" id="area" class="form-control w-25">
+            <select name="area" id="area" class="form-select w-25">
                 <option value="" hidden>area</option>
                 <<option value="hokkaido">Hokkaido</option>
                 <option value="aomori">Aomori</option>
@@ -68,16 +68,22 @@
                 <option value="okinawa">Okinawa</option>
             </select>
             <div class="row ms-3">
-                <div class="col pe-0 position-relative">
-                    <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded" style="width: 400px" placeholder="Search store..." style="width: 250px;">
-                    <button type="button" id="clearButton" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y rounded" style="display: none; right: 30px;">
-                        x
-                    </button>
-                </div>
-                <div class="col ps-1">
-                    <button type="submit" class="btn btn-warning btn-sm search-icon">
-                        <i class="fa-solid fa-magnifying-glass text-white"></i>
-                    </button>
+                <div class="col">
+                    <form action="#" style="width: 500px" class="d-flex">
+                        @csrf
+                        <div class="row ms-auto">
+                            <div class="col pe-0 position-relative">
+                                <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
+                                    style="width: 400px" placeholder="Search books...">
+                                    <span id="clearButton" class="clearButton">&times;</span>
+                            </div>
+                            <div class="col ps-1">
+                                <button type="submit" class="btn btn-warning search-icon">
+                                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

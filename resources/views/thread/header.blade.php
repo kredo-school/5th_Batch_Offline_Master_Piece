@@ -25,7 +25,7 @@
                     @csrf
                     <div class="row ms-auto">
                         <div class="col pe-0 position-relative">
-                            <input type="text" id="searchInput" name="search" class="form-control rounded"
+                            <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
                                 style="width: 400px" placeholder="Search threads...">
                                 <span id="clearButton" class="clearButton">&times;</span>
                                 @include('layouts.searchbar')

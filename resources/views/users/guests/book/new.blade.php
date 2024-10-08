@@ -53,16 +53,16 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                        <h4>Book->title</h4>
-                                    </a>
+                                    <h4>
+                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                    </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="{{route('book.author_show')}}" class="link-book">
-                                        <h5>book->author_book->authors</h5>
-                                    </a>
+                                    <h5>
+                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                    </h5>
                                 </td>
                             </tr>
                             <tr>

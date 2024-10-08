@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('users.guests.home');
     }
+
+    public function policy()
+    {
+        return view('policy');
+    }
 }

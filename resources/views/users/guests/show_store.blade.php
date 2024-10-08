@@ -16,7 +16,7 @@
     <form action="#" method="post">
         @csrf
         <div class="mb-5 d-flex justify-content-center mx-auto">
-            <select name="area" id="area" class="form-control w-25">
+            <select name="area" id="area" class="form-select w-25">
                 <option value="" hidden>area</option>
                 <option value="hokkaido">Hokkaido</option>
                 <option value="aomori">Aomori</option>
@@ -72,10 +72,9 @@
                         @csrf
                         <div class="row ms-auto">
                             <div class="col pe-0 position-relative">
-                                <input type="text" id="searchInput" name="search" class="form-control rounded"
-                                    style="width: 400px" placeholder="Search threads...">
+                                <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
+                                    style="width: 400px" placeholder="Search stores...">
                                     <span id="clearButton" class="clearButton">&times;</span>
-                                    @include('layouts.searchbar')
                             </div>
                             <div class="col ps-1">
                                 <button type="submit" class="btn btn-warning search-icon">
