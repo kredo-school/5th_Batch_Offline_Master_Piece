@@ -22,6 +22,7 @@
                     <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                 </div>
                 <div class="col-8">
+                    {{-- aタグを追加する --}}
                     <h1 class="fw-bold">Title: books->title<a href="#"><i class="fa-regular fa-bookmark"></i></a></h1>
                     <h3>Author: books->author_book->author</h3>
                     <h3>Publisher: books->publisher</h3>
@@ -38,7 +39,7 @@
                                     <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
                                 </div>
                                 <div class="ms-2 fw-bold">X.X/5.0</div>
-                            </button> 
+                            </button>
                         </h3>
 
                         @include('users.guests.book.modals.review_book')
@@ -223,16 +224,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                                        <h4>Book->title</h4>
-                                                    </a>
+                                                    <h4>
+                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                    </h4>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.author_show')}}" class="link-book">
-                                                        <h5>book->author_book->authors</h5>
-                                                    </a>
+                                                    <h5>
+                                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                                    </h5>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -275,16 +276,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                                        <h4>Book->title</h4>
-                                                    </a>
+                                                    <h4>
+                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                    </h4>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.author_show')}}" class="link-book">
-                                                        <h5>book->author_book->authors</h5>
-                                                    </a>
+                                                    <h5>
+                                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                                    </h5>
                                                 </td>
                                             </tr>
                                             <tr>
