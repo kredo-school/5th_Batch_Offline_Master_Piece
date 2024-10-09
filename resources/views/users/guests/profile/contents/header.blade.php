@@ -8,15 +8,17 @@
 <div class="row justify-content-center mt-3">
     <div class="row col-9 bg-white rounded shadow">
         <div class="col-3 text-center pt-5">
-            <img src="{{ asset('images/IMG_9633.jpg') }}" alt="$user->id" class="avatar-lg">
-            <p class="fw-bolder fs-32">Username</p>
+            @if (optional($user->profile)->avatar)
+                <img src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}"
+                    class="rounded-circle shadow p-1 avatar-lg d-block mx-auto ">
+            @else
+                <i class="fa-solid fa-circle-user text-secondary icon-lg"></i>
+            @endif
+            <p class="fw-bolder fs-32">{{$user->name}}</p>
         </div>
         <div class="col-9 p-5">
             <p class="fs-24 fw-bold">Introduction</p>
-            <p class="fs-24 fw-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim officia deserunt
-                dolorem obcaecati sequi eveniet soluta, fugit, dolorum nam neque minima numquam? Accusamus, quos maxime.
-                Distinctio officiis unde libero dolores.
-            </p>
+            <p class="fs-24 fw-light wrap-text">{{ optional($user->profile)->introduction }}</p>
 
             @if (Auth::user()->id === $user->id)
                 <div class="text-end">
