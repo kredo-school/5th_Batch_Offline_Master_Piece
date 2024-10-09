@@ -40,27 +40,27 @@
                 </select>
             </div>
             <div class="table-container mt-3">
-                @for ($i = 0; $i < 18; $i++)
+                @foreach($suggestionedBooks as $book)
                     <table class="mt-3">
                         <tbody>
                             <tr>
                                 <td>
-                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                        <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
+                                    <a href="{{route('book.show_book', $book->id)}}" class="link-book">
+                                        <img src="{{$book->img}}" alt="book image {{$book->id}}" class="img-fluid">
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h5>
-                                        <a href="{{route('book.author_show')}}" class="link-book">book->author_book->authors</a>
+                                        <a href="{{route('book.author_show', $book->authors_books->id)}}" class="link-book">{{$book->authors_books->author}}</a>
                                     </h5>
                                 </td>
                             </tr>
@@ -76,12 +76,12 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h4 class="text-danger">book->price</h4>
+                                    <h4 class="text-danger">{{number_format($book->price)}}</h4>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                @endfor
+                @endforeach
             </div>
         </form>
     </div>
