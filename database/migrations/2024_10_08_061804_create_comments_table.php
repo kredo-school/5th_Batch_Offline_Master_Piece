@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('body');
             $table->unsignedBigInteger('thread_id');
             $table->unsignedBigInteger('guest_id');
+            $table->longText('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

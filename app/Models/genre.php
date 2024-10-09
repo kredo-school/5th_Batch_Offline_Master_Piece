@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class genre extends Model
 {
     use HasFactory;
+
+    public function thread_genres()
+    {
+        return $this->hasMany(ThreadGenre::class);
+    }
 }

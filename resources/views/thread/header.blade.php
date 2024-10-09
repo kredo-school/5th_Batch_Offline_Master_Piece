@@ -28,7 +28,6 @@
                             <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
                                 style="width: 400px" placeholder="Search threads...">
                                 <span id="clearButton" class="clearButton">&times;</span>
-                                @include('layouts.searchbar')
                         </div>
                         <div class="col ps-1">
                             <button type="submit" class="btn btn-warning search-icon">
