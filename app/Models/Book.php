@@ -19,6 +19,7 @@ class Book extends Model
     {
         return $this->hasMany(Book::class)->where('genre_id', $this->genre_id);
     }
+
     public function reviews()
     {
     return $this->hasMany(Review::class);
