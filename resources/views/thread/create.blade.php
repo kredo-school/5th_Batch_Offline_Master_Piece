@@ -12,7 +12,7 @@
                 @endfor
             </div>
             <div class="col-8">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{route('thread.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <label for="title" class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
                     <input type="text" name="title" id="title" class="form-control mb-3" placeholder="Title">
@@ -22,27 +22,33 @@
 
                     <label for="genre" class="form-label fw-semibold">Select Genre</label>
                     <div class="mb-3">
-                        @for($i = 0; $i < 20; $i++)
+                        @foreach ($all_genres as $genre)
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="fantasy" id="genre" class="form-check-input">
-                                <label for="fantasy" class="form-check-label main-text fw-semibold">Fantasy</label>
+                                <input type="checkbox" name="genre[]" id="{{$genre->name}}" value="{{$genre->id}}" class="form-check-input">
+                                <label for="{{$genre->name}}" class="form-check-label main-text fw-semibold">{{$genre->name}}</label>
                             </div>
-                        @endfor
+                        @endforeach
+                        @error('genre')
+                            <p class="text-danger small">{{$message}}</p>
+                        @enderror
                     </div>
 
                     <label for="genre" class="form-label fw-semibold">First comment <span class="text-danger">*</span></label>
-                    <textarea name="comment" id="comment" cols="" rows="8" placeholder="Add comment" class="form-control mb-3"></textarea>
-                    @error('comment')
+                    <textarea name="body" id="comment" cols="" rows="8" placeholder="Add comment" class="form-control mb-3"></textarea>
+                    @error('body')
                         <p class="text-danger small">{{$message}}</p>
                     @enderror
 
-                    <label for="genre" class="form-label fw-semibold">Image file <span class="text-danger">*</span></label>
+                    <label for="genre" class="form-label fw-semibold">Image file</label>
                     <input type="file" name="image" id="image" class="form-control w-25 mb-5">
                     @error('image')
                         <p class="text-danger small">{{$message}}</p>
                     @enderror
 
-                    <input type="submit" value="POST" class="btn btn-orange w-50 mx-auto d-block mb-5">
+                    <input type="submit" value="POST" name="btn_submit" class="btn btn-orange w-50 mx-auto d-block mb-5">
+                    @error('btn_submit')
+                        <p class="text-danger small">{{$message}}</p>
+                    @enderror
                 </form>
             </div>
             {{-- advertisement --}}
