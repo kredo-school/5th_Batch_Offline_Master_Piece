@@ -17,16 +17,18 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
-            Route::get('/show',[ProfileController::class,'show'])->name('show');
+            Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
             Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
             Route::get('/order',[ProfileController::class,'order'])->name('order');
             Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
+            Route::post('/store',[ProfileController::class,'store'])->name('store');
             Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
-            Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
+            Route::patch('/update',[ProfileController::class,'update'])->name(name: 'update');
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
         });
 

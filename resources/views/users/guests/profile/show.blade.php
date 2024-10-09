@@ -10,7 +10,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-8 mt-3">
             <div class="p-4 d-flex justify-content-around">
-                <a href="{{route('profile.show')}}" class="fw-bold text-decoration-none fs-40 text-dark">Review</a>
+                <a href="{{route('profile.show',$user->id)}}" class="fw-bold text-decoration-none fs-40 text-dark">Review</a>
                 {{-- @can('admin') --}}
                     <a href="{{route('profile.bookmark')}}" class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
                     <a href="{{route('profile.order')}}" class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
