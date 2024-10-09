@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Book;
+use App\Models\User;
+use App\Models\Review;
+
+
 
 class BookController extends Controller
 {
@@ -29,12 +35,39 @@ class BookController extends Controller
     }
 
 
-    // show list
+    // book suggestion
     public function bookSuggestion()
-    {
-        return view('users.guests.book.suggestion');
-    }
+{
+    $userId = Auth::id();
+    $purchasedBooks = DB::table('reserves')
+        ->where('guest_id', $userId)
+        ->pluck('book_id')
+        ->toArray();
 
+    // Guestが以前購入した本のジャンルを取得
+    $genres = DB::table('genre_books')
+        ->whereIn('book_id', $purchasedBooks)
+        ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
+        ->pluck('genres.id')
+        ->toArray();
+
+    // 購入履歴によるおすすめ本の取得
+    $suggestionedBooks = Book::whereIn('books.id', function($query) use($genres) {
+        $query->select('book_id')
+              ->from('genre_books')
+              ->whereIn('genre_id', $genres);
+    })
+    ->join('reviews', 'books.id', '=', 'reviews.book_id') // joinを追加
+    ->orderBy('reviews.star_count', 'desc')
+    ->limit(20)
+    ->get()
+    ->toArray();
+
+    return view('users.guests.book.suggestion', compact('suggestionedBooks'));
+}
+
+
+    // show list
     public function bookRanking()
     {
         return view('users.guests.book.ranking');
@@ -45,7 +78,6 @@ class BookController extends Controller
         return view('users.guests.book.new');
     }
 
-    //
     public function showBook()
     {
         return view('users.guests.book.show_book');
