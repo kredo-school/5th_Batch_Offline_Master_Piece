@@ -247,6 +247,12 @@
     font-family: "Gothic A1", sans-serif;
 }
 
+.wrap-text
+{
+    white-space: normal;
+    word-wrap: break-word;
+}
+
 .text-grey
 {
     color: #757B9D;

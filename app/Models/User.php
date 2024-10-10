@@ -53,7 +53,20 @@ class User extends Authenticatable
         ];
     }
 
-    public function profile(){
+    public function profile()
+    {
         return $this->hasOne(Profile::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class,'guest_id');
+    }
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class,'guest_id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(History::class);
     }
 }
