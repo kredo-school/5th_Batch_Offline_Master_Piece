@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
         Route::get('/home', [ThreadController::class, 'home'])->name('home');
+        Route::get('/home/search', [ThreadController::class, 'search'])->name('search');
         Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
