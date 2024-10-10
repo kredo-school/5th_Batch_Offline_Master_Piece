@@ -60,21 +60,32 @@
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
 
-                            {{ number_format($averageStarCount, 1)}}/5.0
+                            {{ number_format($averageStarCount, 1) }}/5.0
                             <p class="text-danger fs-32 mt-5">¥ {{ floor($bookmark->book->price) }}</p>
                         </div>
                         <div class="col-3">
                             <div class="h-75 text-end">
-                                <form action="{{route('bookmark.destroy',$bookmark->book->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn p-0">
-                                        <i class="fa-solid fa-bookmark text-warning h1"></i>
-                                    </button>
-                                </form>
+                                @if ($bookmark->book->isBookmarked())
+                                    <form action="{{ route('bookmark.destroy', $bookmark->book->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn p-0">
+                                            <i class="fa-solid fa-bookmark text-warning h1"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('bookmark.store', $bookmark->book->id) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn p-0">
+                                            <i class="fa-regular fa-bookmark text-warning h1"></i>
+                                        </button>
+                                    </form>
+                                @endif
+
                             </div>
                             <div class="h-25 pt-3">
-                                <a href="{{route('book.store_list')}}" class="btn btn-orange bottom-0 w-100">Select Store</a>
+                                <a href="{{ route('book.store_list') }}" class="btn btn-orange bottom-0 w-100">Select
+                                    Store</a>
                             </div>
 
 

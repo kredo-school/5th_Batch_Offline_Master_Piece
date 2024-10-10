@@ -35,4 +35,9 @@ class Book extends Model
         return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
 
+    public function histories()
+    {
+    return $this->hasMany(History::class);
+    }
+
 }

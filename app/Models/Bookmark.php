@@ -9,6 +9,8 @@ class Bookmark extends Model
 {
     use HasFactory;
 
+    public $timestamps = false; 
+
     public function user()
     {
         return $this->belongsTo(User::class,'guest_id');
