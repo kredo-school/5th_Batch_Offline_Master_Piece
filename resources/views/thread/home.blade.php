@@ -8,28 +8,20 @@
 
         <div class="row ms-3">
             <div class="col-10">
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="card w-100 fs-24 mb-3">
-                        <a href="#" class="text-decoration-none text-dark">
-                            <div class="card-header bg-white">
-                                <div class="row mx-2 align-items-center">
-                                    <div class="col-8 ps-0">
-                                        <span class="fw-bold">Title: </span>This book is masterpiece!!!!
-                                    </div>
-                                    <div class="col-2 pe-0 text-end text-secondary h5 mb-0">Comment: 21</div>
-                                    <div class="col-2 h5 text-secondary text-end mb-0">Sep.12.2024</div>
-                                </div>
-                            </div>
-                            <div class="card-body bg-white">
-                                <div class="mx-2">
-                                    <span class="fw-bold">Comment: </span>Lorem, ipsum dolor sit amet consectetur
-                                    adipisicing elit. Aspernatur quos dolorum sed suscipit et eligendi error voluptatibus,
-                                    quo placeat sit illo, facilis reprehenderit quam facere est nemo, harum officiis autem!
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endfor
+                @if ($search_threads->isNotEmpty())
+
+                    @foreach($search_threads as $thread)
+                        @include('thread.one-thread')
+                    @endforeach
+
+                @elseif($threads->isNotEmpty())
+
+                    @foreach($threads as $thread)
+                        @include('thread.one-thread')
+                    @endforeach
+
+                @endif
+
             </div>
 
             {{-- advertisement --}}

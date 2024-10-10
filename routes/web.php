@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
-            Route::get('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
+            Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
             Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
         });
 
