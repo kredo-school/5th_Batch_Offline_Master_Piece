@@ -10,12 +10,12 @@
     <div class="row justify-content-center mt-2">
         <div class="col-8 mt-3">
             <div class="p-4 d-flex justify-content-around">
-                <a href="{{ route('profile.show', $user->id) }}"
+                <a href="{{ route('profile.show',$user->id) }}"
                     class="fw-bold text-decoration-none fs-40 text-dark">Review</a>
                 {{-- @can('admin') --}}
-                <a href="{{ route('profile.bookmark') }}" class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                <a href="{{ route('profile.order') }}" class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
-                <a href="{{ route('profile.comment') }}" class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
+                <a href="{{ route('profile.bookmark',$user->id)}}" class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
+                <a href="{{ route('profile.order',$user->id) }}" class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
+                <a href="{{ route('profile.comment',$user->id) }}" class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
                 {{-- @endcan --}}
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list shadow">
@@ -36,7 +36,7 @@
                                 </a>
                                 @php
                                     $fullStars = floor($review->star_count); // 満点の数
-                                    $halfStar = $review->star_count - $fullStars >= 0.5; // 半点があるか
+                                    $halfStar = $review->star_count - $fullStars >= 0.1; // 半点があるか
                                     $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
                                 @endphp
 

@@ -29,19 +29,25 @@ class ProfileController extends Controller
         return view('users.guests.profile.show')->with(compact('user'));
     }
 
-    public function bookmark()
+    public function bookmark($id)
     {
-        return view('users.guests.profile.bookmark');
+        $user = $this->user->findOrfail($id);
+
+        return view('users.guests.profile.bookmark')->with(compact('user'));
     }
 
-    public function order()
+    public function order($id)
     {
-        return view('users.guests.profile.order');
+        $user = $this->user->findOrfail($id);
+
+        return view('users.guests.profile.order')->with(compact('user'));
     }
 
-    public function comment()
+    public function comment($id)
     {
-        return view('users.guests.profile.comment');
+        $user = $this->user->findOrfail($id);
+
+        return view('users.guests.profile.comment')->with(compact('user'));
     }
 
     public function edit()
