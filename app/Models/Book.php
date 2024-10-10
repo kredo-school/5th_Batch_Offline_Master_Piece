@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Book extends Model
 {
@@ -23,6 +24,15 @@ class Book extends Model
     public function reviews()
     {
     return $this->hasMany(Review::class);
+    }
+    public function bookmarks()
+    {
+    return $this->hasMany(Bookmark::class);
+    }
+
+    public function isBookmarked()
+    {
+        return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
 
 }
