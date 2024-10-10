@@ -60,7 +60,9 @@
                             <tr>
                                 <td>
                                     <h5>
-                                        <a href="{{route('book.author_show', $book->authors_books->id)}}" class="link-book">{{$book->authors_books->author}}</a>
+                                        @foreach ($book->authors as $author)
+                                            <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
+                                        @endforeach
                                     </h5>
                                 </td>
                             </tr>
@@ -76,7 +78,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h4 class="text-danger">{{number_format($book->price)}}</h4>
+                                    <h4 class="text-danger">{{$book->price}}</h4>
                                 </td>
                             </tr>
                         </tbody>

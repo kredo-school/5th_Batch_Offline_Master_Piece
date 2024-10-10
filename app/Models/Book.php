@@ -12,7 +12,7 @@ class Book extends Model
 
     public function authors()
     {
-        return $this->belongsToMany(Book::class);
+        return $this->belongsToMany(Author::class, 'author_books');
     }
 
     //suggestion index
@@ -25,6 +25,7 @@ class Book extends Model
     {
     return $this->hasMany(Review::class);
     }
+
     public function bookmarks()
     {
     return $this->hasMany(Bookmark::class);
@@ -34,6 +35,13 @@ class Book extends Model
     {
         return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
+
+    //author_books との conection
+    public function author_books()
+    {
+        return $this->hasMany(AuthorBook::class); 
+    }
+
 
     public function histories()
     {
