@@ -15,4 +15,18 @@ class Comment extends Model
         'guest_id',
         'image',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'guest_id');
+    }
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

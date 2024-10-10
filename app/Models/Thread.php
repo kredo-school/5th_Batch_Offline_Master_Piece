@@ -18,4 +18,8 @@ class Thread extends Model
     {
         return $this->hasMany(ThreadGenre::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
