@@ -115,12 +115,6 @@ class ThreadController extends Controller
         }
     }
 
-    public function search(ThreadSearch $request)
-    {
-        $search_thread = $this->thread->where('title', 'like', '%'.$request->search.'%')->get();
-        return redirect()->route('thread.home');
-    }
-
     /**
      * Display the specified resource.
      */
