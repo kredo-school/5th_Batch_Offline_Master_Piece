@@ -57,8 +57,11 @@ class BookController extends Controller
               ->from('genre_books')
               ->whereIn('genre_id', $genres);
     })
-    ->join('reviews', 'books.id', '=', 'reviews.book_id') // joinを追加
-    ->orderBy('reviews.star_count', 'desc')
+    ->join('author_books', 'books.id', '=', 'author_books.book_id')
+    ->join('authors', 'author_books.author_id', "=", 'authors.id')
+    ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
+    ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
+    ->orderBy('average_rating', 'desc')
     ->limit(20)
     ->get()
     ->toArray();
@@ -70,7 +73,17 @@ class BookController extends Controller
     // show list
     public function bookRanking()
     {
-        return view('users.guests.book.ranking');
+    $rankedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
+            // ピボットテーブルと著者テーブルを結合
+            ->join('author_books', 'books.id', '=', 'author_books.book_id')
+            ->join('authors', 'author_books.author_id', '=', 'authors.id')
+            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
+            ->orderBy('average_rating', 'desc')
+            ->limit(20)
+            ->get();
+
+    return view('users.guests.book.ranking', compact('rankedBooks'));
     }
 
     public function bookNew()
