@@ -40,25 +40,25 @@
                 </select>
             </div>
             <div class="table-container mt-3">
-                @foreach($rankedBooks as $book)
+                @foreach($rankedBooks as $index => $book)
                     <table class="mt-3">
                         <tbody>
                             <tr>
                                 <td>
                                     <h4>
-                                        @if($i + 1 <= 3)
-                                            @if($i + 1 === 1)
+                                        @if($index + 1 <= 3)
+                                            @if($index + 1 === 1)
                                                 <i class="fa-solid fa-crown" style="color: gold"></i>  1
-                                            @elseif($i + 1 === 2)
+                                            @elseif($index + 1 === 2)
                                                 <i class="fa-solid fa-crown" style="color: silver"></i>  2
                                             @else
                                                 <i class="fa-solid fa-crown" style="color: #9A6229"></i>  3
                                             @endif
-                                        @elseif($i + 1 > 3)
-                                            {{$i + 1}}
+                                        @elseif($index + 1 > 3)
+                                            {{$index + 1}}
                                         @endif
                                     </h4>
-                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                    <a href="{{route('book.show_book', $book->id)}}" class="link-book">
                                         <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
                                     </a>
                                 </td>
@@ -66,14 +66,16 @@
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book')}}" class="link-book">{{$book->title}}</a>
+                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h5>
-                                        <a href="{{route('book.author_show')}}" class="link-book">{{$book->author_name}}</a>
+                                        @foreach ($book->authors as $author)
+                                            <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
+                                        @endforeach
                                     </h5>
                                 </td>
                             </tr>

@@ -12,4 +12,9 @@ class ThreadGenre extends Model
     protected $table = 'thread_genres';
     protected $fillable = ['thread_id', 'genre_id'];
     public $timestamps = false;
+
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
 }

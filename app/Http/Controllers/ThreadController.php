@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thread;
-use App\Models\Genre;
+use App\Models\genre;
 use App\Models\Comment;
+use App\Models\ThreadGenre;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ThreadRequest;
+use App\Http\Requests\ThreadSearch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +19,7 @@ class ThreadController extends Controller
     private $thread;
     private $genre;
     private $comment;
-    public function __construct(Thread $thread, Genre $genre, Comment $comment)
+    public function __construct(Thread $thread, genre $genre, Comment $comment)
     {
         $this->thread = $thread;
         $this->genre = $genre;
@@ -26,12 +28,38 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function home()
+    public function home(ThreadSearch $request)
     {
-        return view('thread.home');
+        // genre
+        $genre_id = $request->genre_id;
+
+        if($genre_id){
+            $thread_ids = ThreadGenre::where('genre_id', $genre_id)->pluck('thread_id');
+
+            if($thread_ids){
+                $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
+            }
+        }else{
+            $threads = $this->thread->latest()->get();
+        }
+
+
+        // search
+        $validated = $request->validated();
+        if(isset($validated['search'])){
+            $search_threads = $this->thread->where('title', 'like', '%'.$validated['search'].'%')->get();
+        }else{
+            $search_threads = collect();
+        }
+
+
+        // other
+        $all_comments =  $this->comment->latest()->get();
+        $all_genres =  $this->genre->all();
+        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads'));
     }
 
-    public function content($thread)
+    public function content(Thread $thread)
     {
         return view('thread.content')->with(compact('thread'));
     }
@@ -55,10 +83,9 @@ class ThreadController extends Controller
         try
         {
             $validated = $request->validated();
+            $validated['user_id'] = Auth::id();
 
-            $thread = $this->thread->create(array_merge($validated,[
-                'user_id' => Auth::id(),
-            ]));
+            $thread = $this->thread->create($validated);
 
             $this->comment->body = $validated['body'];
             $this->comment->thread_id = $thread->id;
