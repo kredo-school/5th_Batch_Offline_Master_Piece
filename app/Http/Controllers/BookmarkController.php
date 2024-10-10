@@ -28,7 +28,10 @@ class BookmarkController extends Controller
         $this->bookmark->guest_id = Auth::user()->id;
         $this->bookmark->book_id = $book_id;
 
+        $this->bookmark->save();
+
         return redirect()->back();
+        // return 'testtest';
     }
 
     /**
