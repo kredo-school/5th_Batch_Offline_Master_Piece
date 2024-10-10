@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\BookmarkController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -23,9 +24,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
-            Route::get('/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
-            Route::get('/order',[ProfileController::class,'order'])->name('order');
-            Route::get('/comment',[ProfileController::class,'comment'])->name('comment');
+            Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
+            Route::get('/{id}/order',[ProfileController::class,'order'])->name('order');
+            Route::get('/{id}/comment',[ProfileController::class,'comment'])->name('comment');
             Route::post('/store',[ProfileController::class,'store'])->name('store');
             Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
             Route::patch('/update',[ProfileController::class,'update'])->name(name: 'update');
@@ -77,6 +78,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         });
+
+        Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
+            Route::get('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
+            Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
+        });
+
+
+
     });
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
