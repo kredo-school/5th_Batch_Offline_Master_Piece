@@ -12,4 +12,16 @@ class Profile extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'last_name',
+        'gender',
+        'birthday',
+        'phone_number',
+        'address',
+        'introduction',
+        'avatar'
+    ];
 }

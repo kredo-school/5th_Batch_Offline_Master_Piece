@@ -11,24 +11,24 @@
 
         <div class="row mb-5">
             <div class="col">
-                <form action="" method="post">
+                <form id="genreForm" method="get">
                     @csrf
-                    <select name="genre" id="genre" class="form-select w-50">
+                    <select name="genre" id="genreSelect" class="form-select w-50">
                         <option value="" hidden>Genre</option>
-                        <option value="1">genre</option>
-                        <option value="2">genre</option>
+                        @foreach ($all_genres as $genre)
+                            <option value="{{$genre->id}}">{{$genre->name}}</option>
+                        @endforeach
                     </select>
                 </form>
             </div>
             <div class="col">
-                <form action="#" style="width: 500px" class="d-flex">
+                <form action="{{route('thread.home')}}" method="get" style="width: 500px" class="d-flex">
                     @csrf
                     <div class="row ms-auto">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
                                 style="width: 400px" placeholder="Search threads...">
                                 <span id="clearButton" class="clearButton">&times;</span>
-                                @include('layouts.searchbar')
                         </div>
                         <div class="col ps-1">
                             <button type="submit" class="btn btn-warning search-icon">

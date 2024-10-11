@@ -62,4 +62,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Book::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class,'guest_id');
+    }
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class,'guest_id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'guest_id');
+    }
 }

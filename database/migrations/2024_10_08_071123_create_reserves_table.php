@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->text('body');
-            $table->unsignedBigInteger('thread_id');
+        Schema::create('reserves', function (Blueprint $table) {
             $table->unsignedBigInteger('guest_id');
-            $table->longText('image')->nullable();
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('store_id');
+            $table->integer('amount');
+            $table->string('reservation_number');
             $table->timestamps();
-            $table->softDeletes();
 
-            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
             $table->foreign('guest_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('store_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('reserves');
     }
 };

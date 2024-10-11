@@ -410,7 +410,7 @@
 
                     @for ($i = 0; $i < 5; $i++)
                         <div class="mt-2 h3">
-                            <a href="{{ route('thread.content') }}" class="text-decoration-none">Hellow
+                            <a href="#" class="text-decoration-none">Hellow
                                 world. Hellow world.</a>
                         </div>
                     @endfor

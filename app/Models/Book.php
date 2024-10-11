@@ -55,6 +55,12 @@ class Book extends Model
 
     public function inventory()
     {
-        return $this->hasMany(Inventory::class);
+        return $this->belongsToMany(Author::class, 'author_books');
+    }
+
+    //author_books との conection
+    public function author_books()
+    {
+        return $this->hasMany(AuthorBook::class);
     }
 }

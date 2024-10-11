@@ -10,7 +10,7 @@
                 Are you sure you want to delete this <span class="fw-bold">Comment</span>?
             </div>
             <div class="modal-footer border-0">
-                <form action="#" method="post">
+                <form action="{{route('comment.destroy',$comment->id)}}" method="post">
                     @csrf
                     @method('DELETE')
 

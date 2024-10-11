@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class genre extends Model
+class Reserve extends Model
 {
     use HasFactory;
-
-    public function thread_genres()
-    {
-        return $this->hasMany(ThreadGenre::class);
-    }
 }

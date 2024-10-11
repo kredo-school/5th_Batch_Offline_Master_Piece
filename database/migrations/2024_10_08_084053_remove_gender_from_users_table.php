@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
-            $table->foreignId('comment_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('guest_id');
-            $table->timestamps();
-
-            $table->foreign('guest_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('gender');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('gender')->nullable()->after('password')->comment('Male, Female');
+        });
     }
 };

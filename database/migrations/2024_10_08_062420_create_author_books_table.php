@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
-            $table->foreignId('comment_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('guest_id');
-            $table->timestamps();
-
-            $table->foreign('guest_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('author_books', function (Blueprint $table) {
+            $table->foreignId('author_id')->constrained()->onDelete('cascade');
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('author_books');
     }
 };
