@@ -9,6 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CommentController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -53,6 +54,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
     });
+    Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
+        Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
+        Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+    });
+
+
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
         Route::get('/show', [BookController::class, 'show'])->name('show');

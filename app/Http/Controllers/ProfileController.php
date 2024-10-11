@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\StoreProfileRequest;
@@ -43,11 +44,20 @@ class ProfileController extends Controller
         return view('users.guests.profile.order')->with(compact('user'));
     }
 
-    public function comment($id)
+    public function comment($user_id)
     {
-        $user = $this->user->findOrfail($id);
 
-        return view('users.guests.profile.comment')->with(compact('user'));
+                 // 指定されたユーザーを取得
+                 $user = $this->user->findOrFail($user_id);
+             
+                 // コメントの基本クエリ
+                 $commentsQuery = Comment::where('guest_id', $user->id);
+             
+                 // 最終的なコメントの結果を取得
+                 $comments = $commentsQuery->orderBy('created_at', 'desc')->get();
+             
+                 // ビューにデータを渡す
+                 return view('users.guests.profile.comment', compact('user', 'comments'));
     }
 
     public function edit()
