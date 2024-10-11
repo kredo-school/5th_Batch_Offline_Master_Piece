@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use app\Models\User;
-
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('store', function ($user) {
             # Checks if user has store role ID.
             return $user->role_id === User::STORE_ROLE_ID ||$user->role_id === User::ADMIN_ROLE_ID;
+        });
+
+        Blade::directive('highlightKeyword', function ($expression) {
+            return "<?php echo highlightKeyword($expression); ?>";
         });
     }
 }

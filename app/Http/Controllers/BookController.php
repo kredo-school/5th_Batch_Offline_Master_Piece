@@ -65,12 +65,11 @@ class BookController extends Controller
     {
         return view('users.guests.show_store');
     }
-    
+
     public function listStoreShow()
     {
         return view('users.guests.store_list');
     }
-
 
     public function find(Request $request)
     {
@@ -87,4 +86,28 @@ class BookController extends Controller
             }
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+
+        if ($query) {
+            $books = Book::where('title', 'LIKE', '%' . $query . '%')
+                        ->orWhereHas('authors', function ($q) use ($query) {
+                            $q->where('name', 'LIKE', '%' . $query . '%');
+                        })
+                        ->orWhere('publisher', 'LIKE', '%' . $query . '%')
+                        ->orWhere('publication_date', 'LIKE', '%' . $query . '%')
+                        ->orWhere('isbn_code', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description', 'LIKE', '%' . $query . '%')
+                        ->get();
+            $bookCount = $books->count();
+        } else {
+            $books = Book::all();
+            $bookCount = $books->count();
+        }
+
+        return view('users.store.books.search')->with('books', $books)
+                                                ->with('bookCount', $bookCount)
+                                                ->with('searchQuery', $query);
+    }
 }

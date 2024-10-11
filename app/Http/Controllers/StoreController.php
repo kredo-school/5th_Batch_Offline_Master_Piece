@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Book;
 
 class StoreController extends Controller
 {
     private $store;
+    private $book;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Book $book)
     {
         $this->store = $user;
+        $this->book = $book;
     }
 
     public function newOrderConfirm()
@@ -74,9 +77,10 @@ class StoreController extends Controller
         return view('users.store.books.inventory');
     }
 
-    public function bookInformation()
+    public function bookInformation($id)
     {
-        return view('users.store.books.book-information');
+        $book = $this->book->findOrFail($id);
+        return view('users.store.books.book-information')->with('book', $book);
     }
     public function profile()
     {
@@ -85,5 +89,16 @@ class StoreController extends Controller
     public function edit()
     {
         return view('users.store.edit');
+    }
+
+    public function getBookStock($book_id)
+    {
+        // $user = Auth::user();
+        // $book = Book::with(['stores' => function ($query) use ($user) {
+        //     $query->where('id', $user->id);
+        // }])->find($book_id);
+        // return view('users.store.books.book-information', compact('book'));
+        $book = Book::with('stores')->find($book_id); // stores リレーションをロード
+    return view('users.store.books.book-information', compact('book'));
     }
 }
