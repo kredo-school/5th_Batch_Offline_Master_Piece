@@ -12,7 +12,7 @@ class Book extends Model
 
     public function authors()
     {
-        return $this->belongsToMany(Author::class, 'author_books');
+        return $this->belongsToMany(Author::class, 'authors_books', 'author_id', 'book_id');
     }
 
     //suggestion index
@@ -36,10 +36,10 @@ class Book extends Model
         return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
 
-    //author_books との conection
-    public function author_books()
+    //authors_books との conection
+    public function authors_books()
     {
-        return $this->hasMany(AuthorBook::class); 
+        return $this->hasMany(AuthorBook::class);
     }
 
 
@@ -48,4 +48,19 @@ class Book extends Model
     return $this->hasMany(History::class);
     }
 
+    public function stores()
+    {
+        return $this->belongsToMany(User::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
+    }
+
+    public function inventory()
+    {
+        return $this->belongsToMany(Author::class, 'author_books');
+    }
+
+    //author_books との conection
+    public function author_books()
+    {
+        return $this->hasMany(AuthorBook::class);
+    }
 }

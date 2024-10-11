@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
@@ -79,11 +80,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
-        Route::get('/book/information',[StoreController::class, 'bookInformation'])->name('bookInformation');
+        Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+        Route::get('/book/information/stock/{book_id}', [StoreController::class, 'getBookStock'])->name('getBookStock');
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
