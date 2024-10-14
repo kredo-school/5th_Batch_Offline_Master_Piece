@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ThreadSearch extends FormRequest
+class ThreadCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,14 @@ class ThreadSearch extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'min:1|max:50',
+            'body' => 'required|max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|max:1048',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $redirectUrl = url()->previous() . '#add-comment';
+        throw new \Illuminate\Validation\ValidationException($validator, redirect($redirectUrl)->withInput()->withErrors($validator));
     }
 }

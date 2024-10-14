@@ -10,7 +10,8 @@ use App\Models\ThreadGenre;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ThreadRequest;
-use App\Http\Requests\ThreadSearch;
+use App\Http\Requests\ThreadSearchRequest;
+use App\Http\Requests\ThreadCommentRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +29,7 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function home(ThreadSearch $request)
+    public function home(ThreadSearchRequest $request)
     {
         // genre
         $genre_id = $request->genre_id;
@@ -56,12 +57,9 @@ class ThreadController extends Controller
         // other
         $all_comments =  $this->comment->latest()->get();
         $all_genres =  $this->genre->all();
-        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads'));
-    }
 
-    public function content(Thread $thread)
-    {
-        return view('thread.content')->with(compact('thread'));
+
+        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads'));
     }
 
     /**
@@ -86,6 +84,7 @@ class ThreadController extends Controller
             $validated['user_id'] = Auth::id();
 
             $thread = $this->thread->create($validated);
+
 
             $this->comment->body = $validated['body'];
             $this->comment->thread_id = $thread->id;
@@ -118,9 +117,31 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function content(Thread $thread)
     {
-        //
+        $genres = $thread->genre_threads()->get();
+        $comments = $thread->comments()->paginate(100);
+        $all_genres =  $this->genre->all();
+        $latestPage = ceil(count($thread->comments) / 100);
+        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage'));
+    }
+
+    public function addComment(ThreadCommentRequest $request, Thread $thread)
+    {
+        $validated = $request->validated();
+
+        $this->comment->body = $validated['body'];
+        $this->comment->thread_id = $thread->id;
+        $this->comment->guest_id = Auth::id();
+        if(!empty($validated['image'])){
+            $this->comment->image = 'data:image/'.$validated['image']->extension().';base64,'.base64_encode(file_get_contents($validated['image']));
+        }
+        $this->comment->save();
+
+        $latestPage = ceil(count($thread->comments) / 100);
+
+        $url = url()->route('thread.content', ['thread' => $thread, 'page'  => $latestPage]). '#comment-' .count($thread->comments);
+        return redirect($url);
     }
 
     /**
@@ -142,8 +163,15 @@ class ThreadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Thread $thread)
+    public function destroyComment(Comment $comment)
     {
-        //
+        $comment->delete();
+        return redirect()->back();
+    }
+
+    public function destroyThread(Thread $thread)
+    {
+        $thread->delete();
+        return redirect()->route('thread.home');
     }
 }

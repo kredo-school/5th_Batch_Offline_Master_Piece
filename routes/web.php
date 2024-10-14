@@ -9,6 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReportController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -17,7 +18,6 @@ use App\Http\Controllers\BookmarkController;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
+        Route::post('/add-comment/{thread}', [ThreadController::class, 'addComment'])->name('addComment');
+        Route::delete('/comment/destroy/{comment}', [ThreadController::class, 'destroyComment'])->name('destroyComment');
+        Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
+        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
