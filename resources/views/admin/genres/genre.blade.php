@@ -53,16 +53,16 @@
     </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
-        <form action="" method="post">
+        <form action="{{route('admin.genres.create')}}" method="post">
             @csrf
 
             <div class="row align-items-center">
                 <div class="col-8"></div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Add new genre" id="genreInput">
+                    <input type="text" name="name" class="form-control" placeholder="Add new genre" id="genreInput">
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-success" id="addGenreBtn">Add Genre</button>
+                    <button type="submit" class="btn btn-success" id="addGenreBtn">Add Genre</button>
                 </div>
             </div>
         </form>
