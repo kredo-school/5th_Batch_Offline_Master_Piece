@@ -68,7 +68,7 @@ class BooksController extends Controller
             $author = $storeBookRequest->getAuthor();
 
             // 著者と書籍のピボットテーブルに保存
-            $book->author_books()->attach($author->id);
+            $book->authors_books()->attach($author->id);
 
             // GenreとBookの関連付け (genre_bookテーブルにデータを挿入)
             foreach ($validated['genres'] as $genreId) {

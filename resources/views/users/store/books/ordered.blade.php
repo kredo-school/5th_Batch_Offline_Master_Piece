@@ -10,7 +10,7 @@
     </div>
 </a>
 <div class="d-flex justify-content-center">
-    <form action="{{ route('store.search') }}" class="d-flex">
+    <form action="{{ route('store.books.search') }}" class="d-flex">
         @csrf
         <div class="row ms-auto">
             <div class="col pe-0 position-relative">
