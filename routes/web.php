@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Admin\GenresController;
+use App\Http\Controllers\Admin\BooksController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -97,11 +99,17 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        Route::get('/add-book', [AdminController::class, 'addBook'])->name('addBook');
         Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
         Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
         Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
+        // genres
+        Route::post('/create',[GenresController::class,'create'])->name('genres.create');
+        // Books
+        Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
+        Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
+
+
     });

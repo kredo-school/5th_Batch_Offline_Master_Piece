@@ -98,6 +98,11 @@
     background-color: white;
 }
 
+.book-lg{
+    font-size: 15rem;
+    color: grey;
+}
+
 
 
 /* Table of books (suggetion ranking new) */
@@ -474,6 +479,8 @@
 .card-header{
     background-color: #E1FFEB;
 }
+
+
 
 .store-home-button
 {

@@ -9,6 +9,10 @@ class genre extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function thread_genres()
     {
         return $this->hasMany(ThreadGenre::class);
