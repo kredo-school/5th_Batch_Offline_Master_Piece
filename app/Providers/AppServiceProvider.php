@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->role_id === User::STORE_ROLE_ID ||$user->role_id === User::ADMIN_ROLE_ID;
         });
 
+        Paginator::useBootstrap();
+        
         Blade::directive('highlightKeyword', function ($expression) {
             return "<?php echo highlightKeyword($expression); ?>";
         });
