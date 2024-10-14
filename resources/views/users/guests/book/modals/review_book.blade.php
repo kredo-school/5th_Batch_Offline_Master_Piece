@@ -71,7 +71,7 @@
         
         </div>
         <div class="modal-footer border-0">
-          <a href="{{route('book.show_book')}}">
+          <a href="{{route('book.show_book',$book->id)}}">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </a>
         </div>

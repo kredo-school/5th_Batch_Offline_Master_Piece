@@ -22,9 +22,9 @@ class Book extends Model
         'image'
     ];
 
-    public function author()
+    public function authors()
     {
-        return $this->belongsToMany(Author::class, 'authors_books', 'author_id', 'book_id');
+        return $this->belongsToMany(Author::class, 'author_books', 'author_id', 'book_id');
     }
 
     //suggestion index
