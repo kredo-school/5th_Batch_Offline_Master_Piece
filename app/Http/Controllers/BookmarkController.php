@@ -31,7 +31,6 @@ class BookmarkController extends Controller
         $this->bookmark->save();
 
         return redirect()->back();
-        // return 'testtest';
     }
 
     /**

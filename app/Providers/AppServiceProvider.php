@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use app\Models\User;
-
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,5 +38,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useBootstrap();
+        
+        Blade::directive('highlightKeyword', function ($expression) {
+            return "<?php echo highlightKeyword($expression); ?>";
+        });
     }
 }

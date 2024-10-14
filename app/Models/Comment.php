@@ -20,6 +20,10 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
+    }
 
     public function reports()
     {

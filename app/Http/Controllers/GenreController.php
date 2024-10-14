@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\genre;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreGenreRequest;
+
 
 class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    private $genre;
+
+    public function __construct(Genre $genre)
+    {
+        $this->genre = $genre;
+    }
     public function index()
     {
         //
@@ -18,9 +27,10 @@ class GenreController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(StoreGenreRequest $request)
     {
         //
+
     }
 
     /**

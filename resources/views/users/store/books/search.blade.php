@@ -12,7 +12,7 @@
 
     <div class="container">
         <div class="d-flex justify-content-center" >
-            <form action="{{ route('store.search') }}" class="d-flex">
+            <form action="{{ route('store.books.search') }}" class="d-flex">
                 @csrf
                 <div class="row ms-auto">
                     <div class="col pe-0 position-relative">
@@ -64,158 +64,57 @@
                     });
                 });
             </script>
+        @if ($books->isEmpty())
+            <div class="mt-5 fw-bold text-center"><h4>No books found.</h4></div>
+        @else
+            <div class="mt-4 h5" style="margin-left: 5%;">Search results: <span class="fw-bold">{{ $bookCount }}</span> books found.</div>
 
-        <div class="mt-4 h5" style="margin-left: 5%;">Search results: <span class="fw-bold">10</span> books</div>
-
-        <div class="d-flex justify-content-center align-items-center m-auto" style="width: 90%;">
-            <table class="book-information-table table table-striped text-center shadow mb-5">
-                <thead>
-                    <th style="width: 5%;">No.</th>
-                    <th style="width: 10%;">Image</th>
-                    <th style="width: 15%;">Title</th>
-                    <th style="width: 15%;">Author</th>
-                    <th style="width: 15%;">Publisher</th>
-                    <th style="width: 15%;">Publication Date</th>
-                    <th style="width: 10%;">Price</th>
-                    <th style="width: 15%;">ISBN</th>
-                </thead>
-                <tbody>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">1</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">2</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">3</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">4</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">5</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">6</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">7</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">8</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">9</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                    <tr onclick="window.location='{{ route('store.bookInformation') }}';" style="cursor: pointer;">
-                        <td style="width: 5%;">10</td>
-                        <td style="width: 10%;">
-                            <img src={{ asset("images/649634.png") }} style="width: 50px;">
-                        </td>
-                        <td style="width: 15%;">Inochi no Me</td>
-                        <td style="width: 15%;">Mitsho Ohe</td>
-                        <td style="width: 15%;">Iwanami</td>
-                        <td style="width: 15%;">10.10.2020</td>
-                        <td style="width: 10%;">¥ 800</td>
-                        <td style="width: 15%;">1234567890123</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="d-flex justify-content-center align-items-center m-auto" style="width: 90%;">
+                <table class="book-information-table table table-striped text-center shadow mb-5">
+                    <thead>
+                        <th style="width: 5%;">No.</th>
+                        <th style="width: 10%;">Image</th>
+                        <th style="width: 15%;">Title</th>
+                        <th style="width: 15%;">Author</th>
+                        <th style="width: 15%;">Publisher</th>
+                        <th style="width: 15%;">Publication Date</th>
+                        <th style="width: 10%;">Price</th>
+                        <th style="width: 15%;">ISBN</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($books as $book)
+                            <tr onclick="window.location='{{ route('store.bookInformation', $book->id) }}';" style="cursor: pointer;">
+                                <td style="width: 5%;">{{ $loop->iteration }}</td>
+                                <td style="width: 10%;">
+                                    <img src={{ $book->image }} style="width: 50px;">
+                                </td>
+                                <td style="width: 15%;">{!! highlightKeyword($book->title, $searchQuery) !!}</td>
+                                <td style="width: 15%;">
+                                    @foreach ($book->authors_books as $authors_books)
+                                        {!! highlightKeyword($authors_books->author->name, $searchQuery) !!}
+                                    @endforeach
+                                </td>
+                                <td style="width: 15%;">{!! highlightKeyword($book->publisher, $searchQuery) !!}</td>
+                                <td style="width: 15%;">{!! highlightKeyword($book->publication_date, $searchQuery) !!}</td>
+                                <td style="width: 10%;">{!! highlightKeyword($book->price, $searchQuery) !!}</td>
+                                <td style="width: 15%;">{!! highlightKeyword($book->isbn_code, $searchQuery) !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 
     <style>
         .book-information-table {
             width: 100%;
             table-layout: fixed;"
-
         }
         .book-information-table thead {
             display: table;
             width: 100%;
             background-color: #D3DD53;
-
         }
 
         .book-information-table td {

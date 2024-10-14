@@ -46,22 +46,24 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <a href="{{route('book.show_book')}}" class="link-book">
-                                        <img src="{{$books->image}}" alt="book image {{$book->id}}" class="img-fluid">
+                                    <a href="{{route('book.show_book', $book->id)}}" class="link-book">
+                                        <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book')}}" class="link-book">{{$books->title}}</a>
+                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h5>
-                                        <a href="{{route('book.author_show')}}" class="link-book">{{$book->author_name}}</a>
+                                        @foreach ($book->authors as $author)
+                                            <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
+                                        @endforeach
                                     </h5>
                                 </td>
                             </tr>
