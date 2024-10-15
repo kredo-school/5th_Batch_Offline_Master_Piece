@@ -114,7 +114,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
         // genres
-        Route::post('/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
+        Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
+        Route::delete('/genre/{id}/destroy',[GenresController::class,'destroy'])->name('genres.destroy');
+        Route::post('/genre/{id}/restore',[GenresController::class,'restore'])->name('genres.restore');
+
         // Books
         Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
         Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');

@@ -20,6 +20,14 @@ class GenresController extends Controller
         $this->genre = $genre;
     }
 
+    public function index()
+    {
+        $genres = $this->genre->withTrashed()->latest()->paginate(5);
+
+        return view('admin.genres.genre',compact('genres'));
+
+    }
+
     public function create(StoreGenreRequest $request)
     {
         //
@@ -27,5 +35,31 @@ class GenresController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search');
+
+        $genres = $this->genre->where('name', 'LIKE', "%{$searchTerm}%")->paginate(5);
+
+        return view('admin.genres.genre', compact('genres'));
+    }
+
+    public function destroy($id)
+    {
+        $this->genre->destroy($id);
+
+        return redirect()->back();
+
+
+    }
+
+    public function restore($id) {
+        $this->genre->onlyTrashed()->findOrFail($id)->restore();
+        # ->onlyTrashed(): Filters only soft deleted user records.
+        # ->restore(): Restores the soft deleted user record.
+
+        return redirect()->back();
     }
 }

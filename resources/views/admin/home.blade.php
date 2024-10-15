@@ -59,7 +59,7 @@
                 <div class="card-body mx-auto w-75 mb-5">
                     <div class="row border" style="border-radius: 15px;">
                         <!-- Genre Button -->
-                        <a href="{{ route('admin.genre') }}" class="admin-home-btn col-3 btn">
+                        <a href="{{ route('admin.genres.show') }}" class="admin-home-btn col-3 btn">
                             <i class="i-admin fa-solid fa-table-cells-large"></i>
                         </a>
                         <div class="col-9">

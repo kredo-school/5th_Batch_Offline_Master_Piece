@@ -43,7 +43,7 @@ class BooksController extends Controller
 
         $validated = $storeBookRequest->validated();
 
-        Log::info('Validated Data: ', $validated);
+        Log::info('Validated Data: ', context: $validated);
 
         DB::beginTransaction();  // トランザクション開始
 

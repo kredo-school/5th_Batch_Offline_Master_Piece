@@ -15,13 +15,15 @@
             <div class="col-auto">
                 <div class="row ms-3">
                     <div class="col">
-                        <form action="#" style="width: 500px" class="d-flex">
+                        <form action="{{ route('admin.genres.search') }}" style="width: 500px" class="d-flex"
+                            method="get">
                             @csrf
                             <div class="row ms-auto">
                                 <div class="col pe-0 position-relative">
-                                    <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput"
-                                        style="width: 400px" placeholder="Search genres...">
-                                        <span id="clearButton" class="clearButton">&times;</span>
+                                    <input type="text" id="searchInput" name="search"
+                                        class="form-control form-control-sm rounded searchInput" style="width: 400px"
+                                        placeholder="Search genres...">
+                                    <span id="clearButton" class="clearButton">&times;</span>
                                 </div>
                                 <div class="col ps-1">
                                     <button type="submit" class="btn btn-warning search-icon btn-sm">
@@ -36,13 +38,20 @@
             <div class="col-4">
                 <form action="" method="post">
                     @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-genre-select">
-                        <option selected>Open this select menu</option>
-                        <option value="1">name</option>
-                        <option value="2">count</option>
-                        <option value="3">update_at</option>
-                        <option value="4">status</option>
-                    </select>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-genre-select">
+                            <option selected>Open this select menu</option>
+                            <option value="name">Name</option>
+                            <option value="count">Count</option>
+                            <option value="updated_at">Last Update</option>
+                            <option value="status">Status</option>
+                        </select>
+
+                        <select class="form-select w-50" aria-label="sort-order" id="sort-order-select">
+                            <option value="asc">↑ Ascending</option>
+                            <option value="desc">↓ Descending</option>
+                        </select>
+                    </div>
                 </form>
 
             </div>
@@ -53,7 +62,7 @@
     </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
-        <form action="{{route('admin.genres.create')}}" method="post">
+        <form action="{{ route('admin.genres.create') }}" method="post">
             @csrf
 
             <div class="row align-items-center">
@@ -65,6 +74,7 @@
                     <button type="submit" class="btn btn-success" id="addGenreBtn">Add Genre</button>
                 </div>
             </div>
+
         </form>
     </div>
     {{-- 間の追加オプション --}}
@@ -78,76 +88,106 @@
             </tr>
         </thead>
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+            @if ($genres->isEmpty())
                 <tr>
-                    <td>shoki</td>
-                    <td>21</td>
-                    <td>19/2/2023</td>
-                    <td>
-                        @if (1)
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-genre-test">
-                                <i class="fa-regular fa-face-smile text-primary"></i> Active
-                            </a>
-                        @else
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-genre-test">
-                                <i class="fa-regular fa-face-frown text-danger"></i> Inactive
-                            </a>
-                        @endif
-                    </td>
+                    <td colspan="4" class="text-center">No genres found</td>
                 </tr>
-            @endfor
+            @else
+                @foreach ($genres as $genre)
+                    <tr>
+                        <td>{{ $genre->name }}</td>
+                        <td>{{ $genre->genre_book->count() }}</td>
+                        <td>{{ $genre->updated_at }}</td>
+                        <td>
+                            @if ($genre->trashed())
+                                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal"
+                                    data-bs-target="#active-genre-test">
+                                    <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                                </a>
+                            @else
+                                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal"
+                                    data-bs-target="#delete-genre-test">
+                                    <i class="fa-regular fa-face-smile text-primary"></i> Active
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
 
 
-    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
+    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード}}
     {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script>
-    document.getElementById('manage-genre-select').addEventListener('change', function() {
-        var table = document.getElementById('manage-genre-table').getElementsByTagName('tbody')[0];
-        var rows = Array.from(table.rows);
-        var sortBy = this.value;
-
-        rows.sort(function(rowA, rowB) {
-            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-
-            if (sortBy === 'report') {
-                // レポート数は数値で比較する
-                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
-            } else {
-                // その他は文字列でアルファベット順に並べる
-                return cellA.localeCompare(cellB);
-            }
+    <script>
+        document.getElementById('manage-genre-select').addEventListener('change', function() {
+            applySorting();
         });
 
-        // Sort後にテーブルを再描画
-        rows.forEach(function(row) {
-            table.appendChild(row);
+        document.getElementById('sort-order-select').addEventListener('change', function() {
+            applySorting();
         });
-    });
 
-    function getColumnIndex(sortBy) {
-        switch (sortBy) {
-            case 'name':
-                return 0;
-            case 'count':
-                return 1;
-            case 'update_at':
-                return 2;
-            case 'status':
-                return 3;
-            default:
-                return 1; // デフォルトはnameカラム
+        function applySorting() {
+            var table = document.getElementById('manage-genre-table').getElementsByTagName('tbody')[0];
+            var rows = Array.from(table.rows);
+            var sortBy = document.getElementById('manage-genre-select').value;
+            var sortOrder = document.getElementById('sort-order-select').value;
+
+            rows.sort(function(rowA, rowB) {
+                var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText
+                    .toLowerCase();
+                var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText
+                    .toLowerCase();
+
+                if (sortBy === 'count') {
+                    // Count は数値で比較する
+                    return sortOrder === 'asc' ? parseInt(cellA) - parseInt(cellB) : parseInt(cellB) - parseInt(
+                        cellA);
+                } else if (sortBy === 'updated_at') {
+                    // 日付を比較する
+                    return sortOrder === 'asc' ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(
+                        cellA);
+                } else {
+                    // その他は文字列でアルファベット順に並べる
+                    return sortOrder === 'asc' ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                }
+            });
+
+            // Sort後にテーブルを再描画
+            rows.forEach(function(row) {
+                table.appendChild(row);
+            });
         }
-    }
-</script>
+
+        function getColumnIndex(sortBy) {
+            switch (sortBy) {
+                case 'name':
+                    return 1; // Name列
+                case 'count':
+                    return 2; // Count列
+                case 'updated_at':
+                    return 3; // Last Update列
+                case 'status':
+                    return 4; // Status列
+                default:
+                    return 1; // デフォルトはName列
+            }
+        }
+    </script>
 
     @include('admin.genres.modal.status')
 
 
-    <div class="under-container mt-5">
+    {{-- ページネーションリンクを表示 --}}
+    <div class="d-flex justify-content-center">
+        {{ $genres->links() }}
+    </div>
+
+
+    {{-- <div class="under-container mt-5">
         <nav aria-label="Page navigation mt-5 ">
             <ul class="pagination justify-content-center paginate-bar mx-auto">
                 <li class="page-item disabled">
@@ -161,6 +201,5 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> --}}
 @endsection
-
