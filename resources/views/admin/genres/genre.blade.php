@@ -15,15 +15,13 @@
             <div class="col-auto">
                 <div class="row ms-3">
                     <div class="col">
-                        <form action="{{ route('admin.genres.search') }}" style="width: 500px" class="d-flex"
-                            method="get">
-                            @csrf
+                        <form action="{{ route('admin.genres.search') }}" style="width: 500px" class="d-flex" method="get">
                             <div class="row ms-auto">
                                 <div class="col pe-0 position-relative">
                                     <input type="text" id="searchInput" name="search"
                                         class="form-control form-control-sm rounded searchInput" style="width: 400px"
-                                        placeholder="Search genres...">
-                                    <span id="clearButton" class="clearButton">&times;</span>
+                                        value="{{ request('search') }}" placeholder="Search genres...">
+                                        <span id="clearButton" class="clearButton">&times;</span>
                                 </div>
                                 <div class="col ps-1">
                                     <button type="submit" class="btn btn-warning search-icon btn-sm">
@@ -36,24 +34,21 @@
                 </div>
             </div>
             <div class="col-4">
-                <form action="" method="post">
-                    @csrf
+                <form id="sortForm" action="{{ route('admin.genres.show') }}" method="get">
                     <div class="d-flex justify-content-center align-items-center">
-                        <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-genre-select">
-                            <option selected>Open this select menu</option>
-                            <option value="name">Name</option>
-                            <option value="count">Count</option>
-                            <option value="updated_at">Last Update</option>
-                            <option value="status">Status</option>
+                        <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-genre-select" name="sort">
+                            <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
+                            <option value="count" {{ request('sort') == 'count' ? 'selected' : '' }}>Count</option>
+                            <option value="updated_at" {{ request('sort') == 'updated_at' ? 'selected' : '' }}>Last Update</option>
+                            <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
                         </select>
 
-                        <select class="form-select w-50" aria-label="sort-order" id="sort-order-select">
-                            <option value="asc">↑ Ascending</option>
-                            <option value="desc">↓ Descending</option>
+                        <select class="form-select w-50" aria-label="sort-order" id="sort-order-select" name="order">
+                            <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
+                            <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
                         </select>
                     </div>
                 </form>
-
             </div>
         </div>
         @include('admin.button')
@@ -101,105 +96,43 @@
                         <td>
                             @if ($genre->trashed())
                                 <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                                    data-bs-target="#active-genre-test">
+                                    data-bs-target="#active-genre-modal-{{ $genre->id }}">
                                     <i class="fa-regular fa-face-frown text-danger"></i> Inactive
                                 </a>
                             @else
                                 <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal"
-                                    data-bs-target="#delete-genre-test">
+                                    data-bs-target="#delete-genre-modal-{{ $genre->id }}">
                                     <i class="fa-regular fa-face-smile text-primary"></i> Active
                                 </a>
                             @endif
                         </td>
                     </tr>
+                    @include('admin.genres.modal.status')
                 @endforeach
             @endif
         </tbody>
     </table>
-
-
-    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード}}
-    {{-- jQuery ライブラリ  --}}
+    
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
+        // セレクトメニューが変更されたときに自動的にフォームを送信
         document.getElementById('manage-genre-select').addEventListener('change', function() {
-            applySorting();
+            document.getElementById('sortForm').submit();
         });
-
+        
         document.getElementById('sort-order-select').addEventListener('change', function() {
-            applySorting();
+            document.getElementById('sortForm').submit();
         });
+        
+        </script>
 
-        function applySorting() {
-            var table = document.getElementById('manage-genre-table').getElementsByTagName('tbody')[0];
-            var rows = Array.from(table.rows);
-            var sortBy = document.getElementById('manage-genre-select').value;
-            var sortOrder = document.getElementById('sort-order-select').value;
 
-            rows.sort(function(rowA, rowB) {
-                var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText
-                    .toLowerCase();
-                var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText
-                    .toLowerCase();
-
-                if (sortBy === 'count') {
-                    // Count は数値で比較する
-                    return sortOrder === 'asc' ? parseInt(cellA) - parseInt(cellB) : parseInt(cellB) - parseInt(
-                        cellA);
-                } else if (sortBy === 'updated_at') {
-                    // 日付を比較する
-                    return sortOrder === 'asc' ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(
-                        cellA);
-                } else {
-                    // その他は文字列でアルファベット順に並べる
-                    return sortOrder === 'asc' ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-                }
-            });
-
-            // Sort後にテーブルを再描画
-            rows.forEach(function(row) {
-                table.appendChild(row);
-            });
-        }
-
-        function getColumnIndex(sortBy) {
-            switch (sortBy) {
-                case 'name':
-                    return 1; // Name列
-                case 'count':
-                    return 2; // Count列
-                case 'updated_at':
-                    return 3; // Last Update列
-                case 'status':
-                    return 4; // Status列
-                default:
-                    return 1; // デフォルトはName列
-            }
-        }
-    </script>
-
-    @include('admin.genres.modal.status')
 
 
     {{-- ページネーションリンクを表示 --}}
     <div class="d-flex justify-content-center">
-        {{ $genres->links() }}
+        {{ $genres->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
     </div>
 
-
-    {{-- <div class="under-container mt-5">
-        <nav aria-label="Page navigation mt-5 ">
-            <ul class="pagination justify-content-center paginate-bar mx-auto">
-                <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div> --}}
 @endsection
