@@ -13,6 +13,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\GuestsController;
+use App\Http\Controllers\Admin\StoresController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -125,6 +127,12 @@ Route::group(['middleware' => 'auth'], function () {
         // Books
         Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
         Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
+
+        //guests
+        
+
+        //stores
+
 
 
     });
