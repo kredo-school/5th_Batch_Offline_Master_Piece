@@ -217,7 +217,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
@@ -225,7 +225,7 @@
                                             <tr>
                                                 <td>
                                                     <h4>
-                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                        <a href="#" class="link-book">Book->title</a>
                                                     </h4>
                                                 </td>
                                             </tr>
@@ -269,7 +269,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
@@ -277,7 +277,7 @@
                                             <tr>
                                                 <td>
                                                     <h4>
-                                                        <a href="{{route('book.show_book')}}" class="link-book">Book->title</a>
+                                                        <a href="#" class="link-book">Book->title</a>
                                                     </h4>
                                                 </td>
                                             </tr>
@@ -321,14 +321,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <h4>Book->title</h4>
                                                     </a>
                                                 </td>
@@ -407,14 +407,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <h4>Book->title</h4>
                                                     </a>
                                                 </td>
@@ -459,14 +459,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <h4>Book->title</h4>
                                                     </a>
                                                 </td>
@@ -511,14 +511,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <img src="https://th.bing.com/th/id/OIP.23rdUcI-az1chMeR7unEFQHaHa?w=150&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-fluid">
                                                     </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('book.show_book')}}" class="link-book">
+                                                    <a href="#" class="link-book">
                                                         <h4>Book->title</h4>
                                                     </a>
                                                 </td>

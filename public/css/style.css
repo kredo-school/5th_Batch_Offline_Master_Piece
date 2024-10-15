@@ -98,6 +98,11 @@
     background-color: white;
 }
 
+.book-lg{
+    font-size: 15rem;
+    color: grey;
+}
+
 
 
 /* Table of books (suggetion ranking new) */
@@ -247,6 +252,12 @@
     font-family: "Gothic A1", sans-serif;
 }
 
+.wrap-text
+{
+    white-space: normal;
+    word-wrap: break-word;
+}
+
 .text-grey
 {
     color: #757B9D;
@@ -341,6 +352,16 @@
 {
     color: #D9A965;
 
+}
+
+.img-list{
+    width: 150px;
+    height: 200px; 
+    object-fit: cover; 
+}
+
+.list-board{
+    height: 550px;
 }
 
 /* 左のボタンを左に移動 */
@@ -468,6 +489,8 @@
 .card-header{
     background-color: #E1FFEB;
 }
+
+
 
 .store-home-button
 {
@@ -837,4 +860,12 @@ footer li
 {
     width: 50px;
     height: 50px;
+}
+
+.comment-img
+{
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    max-height: 300px;
 }

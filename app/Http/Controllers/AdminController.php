@@ -14,6 +14,8 @@ class AdminController extends Controller
         $this->user = $user;
     }
 
+
+    
     public function index()
     {
         return view('admin.home');

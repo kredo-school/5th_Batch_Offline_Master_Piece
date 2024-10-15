@@ -70,10 +70,7 @@
                     </table>
                 </div>
             </div>
-
-
         </div>
-
     </div>
 
         <style>

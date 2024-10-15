@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
-            $table->foreignId('comment_id')->constrained();
+            $table->foreignId('comment_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('guest_id');
             $table->timestamps();
 

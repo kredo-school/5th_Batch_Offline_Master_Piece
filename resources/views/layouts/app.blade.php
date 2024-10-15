@@ -294,7 +294,7 @@
                                             <hr>
                                         @endcan
                                         {{-- Profile --}}
-                                        <a href="{{ route('profile.show') }}" class="dropdown-item">
+                                        <a href="{{ route('profile.show',Auth::user()->id) }}" class="dropdown-item">
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
 
@@ -367,9 +367,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer>
-            @yield('footer')
-        </footer>
     </div>
     {{-- footer here --}}
     @auth
@@ -407,6 +404,18 @@
 
     {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    {{-- sort in the same page --}}
+    <script>
+        document.getElementById('genreSelect').addEventListener('change', function() {
+            const genreId = this.value;
+            if (genreId) {
+                window.location.href = `/thread/home?genre_id=${genreId}`;  // ジャンルIDをクエリパラメータに追加してURLを生成
+            } else {
+                window.location.href = '/thread/home';  // ジャンルが未選択の場合は全ての本を表示するページに戻る
+            }
+        });
+    </script>
 </body>
 
 </html>
