@@ -58,11 +58,72 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Report</th>
-                <th>Status</th>
+                <th class="text-center">Status</th>
+                {{-- <th>Actions</th> --}}
             </tr>
         </thead>
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+            @foreach ($all_users as $user)
+            <tr>
+                <td>
+                    @if ($user->profile)
+                        <img src="{{ $user->profile->avatar }}" alt="{{ $user->id }}" class="rounded-circle d-block mx-auto avatar-md">
+                    @else
+                        <i class="fa-solid fa-circle-user d-block text-center icon-md"></i>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('profile.show', $user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $user->name }}</a>
+                </td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->created_at }}</td>
+                
+                <td class="text-center">
+                        @if ($user->trashed())
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-guest-test">
+                                <i class="fa-regular fa-face-smile text-primary"></i> Active
+                            </a>
+                        @else
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-guest-test">
+                                <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                            </a>
+                        @endif
+                    {{-- @if ($user->trashed())
+                        <i class="fa-regular fa-face-frown text-danger"></i>&nbsp; 
+                    @else
+                        <i class="fa-regular fa-face-smile text-primary"></i>&nbsp; 
+                    @endif --}}
+                </td>
+
+                {{-- <td>
+                    @if (Auth::user()->id !== $user->id)
+                        <div class="dropdown">
+                            <button class="btn btn-sm" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                @if ($user->trashed())
+                                    <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#activate-user-{{ $user->id }}">
+                                        <i class="fa-solid fa-user-check"></i> Activate {{ $user->id }}
+                                    </button>
+                                @else
+                                    <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deactivate-user-{{ $user->id }}">
+                                        <i class="fa-solid fa-user-slash"></i> Deactivate {{ $user->id }}
+                                    </button>
+                                @endif
+                            </div>
+                        </div> --}}
+
+                        {{-- Include the modal here --}}
+                        {{-- @include('admin.users.modals', ['user' => $user])
+                    @endif --}}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
+            {{-- @for ($i = 0; $i < 5; $i++)
                 <tr>
                     <td></td>
                     <td>shoki</td>
@@ -80,9 +141,8 @@
                         @endif
                     </td>
                 </tr>
-            @endfor
-        </tbody>
-    </table>
+            @endfor --}}
+        
 
 
     {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}

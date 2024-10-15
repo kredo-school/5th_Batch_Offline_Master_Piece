@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
             Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
+            Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
         });
 
         Route::group(['prefix' => 'book', 'as' => 'book.'], function () {
@@ -79,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
         Route::get('/add-book', [AdminController::class, 'addBook'])->name('addBook');
+        
         Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
         Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
