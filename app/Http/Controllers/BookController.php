@@ -154,4 +154,9 @@ class BookController extends Controller
             }
     }
 
+    public function storeBookList(){
+        $all_books = $this->book->all();
+        return view('users.store.books.book-list')->with(compact('all_books'));
+    }
+
 }

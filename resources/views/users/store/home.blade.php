@@ -64,7 +64,7 @@
                     <a href="{{ route('store.inventory') }}" class="store-home-button">Inventory</a>
                 </div>
                 <div class="col-4">
-                    <a href="{{ route('store.newOrderConfirm') }}" class="store-home-button">Order</a>
+                    <a href="{{ route('store.storeNewConfirmShow') }}" class="store-home-button">Order</a>
                 </div>
             </div>
         </div>

@@ -13,6 +13,8 @@ class Author extends Model
     {
     return $this->belongsToMany(Author::class);
     }
+    
 }
+
 
 

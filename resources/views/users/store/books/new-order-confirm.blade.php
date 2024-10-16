@@ -12,9 +12,10 @@
 <div class="row justify-content-center">
     <div class="col-8 mt-1">
         <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">
-            <h2 class="h1 fw-bold text-grey mt-3">Confirm and Add New Order Books</h2><br>
+            <h2 class="h1 fw-bold text-grey mt-3">Add Order Books</h2><br>
 
-            @for ($i = 0; $i < 3; $i++)
+            @if($bookinfo)
+            @foreach($bookinfo as $book)
             <div class="row mt-4"><br>
                     <p class="text-muted">Sep.12.2024</p>
                     <div class="col-3">
@@ -22,8 +23,8 @@
                     </div>
                     <div class="col-6 fs-32">
                         <p>
-                            <p class="fs-32">$book->name</p>
-                            <p class="h4">$book->author->name</p>
+                            <p class="fs-32">{{$book->title}}</p>
+                            <p class="h4">{{$book->author_name}}</p>
                             <i class="fa-solid fa-star text-warning"></i>
                             <i class="fa-solid fa-star text-warning"></i>
                             <i class="fa-solid fa-star text-warning"></i>
@@ -31,7 +32,7 @@
                             <i class="fa-regular fa-star text-warning"></i>
                             4.2/5.0
                         </p>
-                        <p class="text-danger fs-32 mt-5">¥23,000</p>
+                        <p class="text-danger fs-32 mt-5">¥{{$book->price}}</p>
                     </div>
                     <div class="col-3 pb-0 pt-5 mt-5 mb-0">
                         <div class="text-end w-75">
@@ -40,14 +41,15 @@
                                 @method('DELETE')
 
                                 <p class="text-start mb-0">Quantity</p>
-                                <input type="number" name="quantity" id="quantity" placeholder="Qauntity" class="form-control mb-4 w-100 text-center d-inline" value="1">
+                                <input type="number" name="quantity" id="quantity" class="form-control mb-4 w-100 text-center d-inline" value="{{$book->quantity}}" placeholder="{{$book->quantity}}">
                                 <input type="submit" value="Delete" class="btn btn-danger w-100 mt-5 mb-0">
                             </form>
                         </div>
                     </div>
                 </div>
                 <hr>
-            @endfor
+            @endforeach
+            @endif
         </div>
         <div class="text-end my-5 ">
             <form action="{{ route('store.orderConfirm') }}" method="get">

@@ -47,5 +47,10 @@ class Book extends Model
     {
     return $this->hasMany(History::class);
     }
+    
+    public function storeOrders()
+    {
+    return $this->hasMany(StoreOrder::class);
+    }
 
 }

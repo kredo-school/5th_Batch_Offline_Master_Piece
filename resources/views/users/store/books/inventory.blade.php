@@ -72,15 +72,16 @@
                 <div class="col-7 mx-auto">
                     <div class="bg-white rounded my-5 ps-5 overflow-auto profile-list"  style="height: 1100px">
                         <h2 class="h1 fw-bold text-grey mt-3">Inventory</h2><br>
-                        @for ($i = 0; $i < 5; $i++)
+                        @if($inventories)
+                        @foreach($inventories as $inventory)
                         <div class="row mt-4"><br>
                                 <div class="col-3">
                                     <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="shadow search-list-img ordered-img">
                                 </div>
                                 <div class="col-6 fs-32 ms-5 ps-5">
                                     <div class=>
-                                        <p class="fs-32">$book->name</p>
-                                        <p class="h4">$book->author->name</p>
+                                        <p class="fs-32">$inventory->book->title</p>
+                                        <p class="h4">$inventory->author->name</p>
                                     </div>
                                     <div class="mt-5">
                                         <form action="" method="post">
@@ -113,7 +114,8 @@
                                 </div>
                             </div>
                             <br><hr>
-                        @endfor
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

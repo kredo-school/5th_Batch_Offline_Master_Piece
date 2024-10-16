@@ -4,8 +4,7 @@
 
 @section('content')
         <div>
-            <form action="{{ route('store.search') }}" method="get">
-                @csrf
+            
                 <div class="row align-items-center">
                     <div class="col-4">
                         <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
@@ -59,13 +58,16 @@
                     </div>
 
                     <div class="col-4">
+                    <form action="{{route('store.addBookTOInventory')}}" method="post">
+                    @csrf
+                    
                         <div class="text-end w-75">
-                            <a href="{{ route('store.orderConfirm') }}" class="btn Goto-inventory pt-3 fs-4"><i class="fa-solid fa-plus"></i> Add</a>
+                            <button type="submit" class ="Goto-inventory pt-3 fs-4 border-0 rounded pb-2 mt-2"><i class="fa-solid fa-plus"></i> Add</button>
                         </div>
                         {{-- <br><br> --}}
                     </div>
                 </div>
-            </form>
+            
         </div>
 
         {{--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー--}}
@@ -74,28 +76,29 @@
                 <div class="col-7 mx-auto">
                     <div class="bg-white rounded my-5 px-5 overflow-auto profile-list"  style="height: 1100px">
                         <h2 class="h1 fw-bold text-grey mt-3">All books</h2><br>
-                        @for ($i = 0; $i < 5; $i++)
+                        @if($all_books)
+                        @foreach($all_books as $book)
                         <div class="row mt-4"><br>
                                 <div class="col-3">
-                                    <img src="{{ asset('images/649634.png') }}" alt="$book->id" class="shadow search-list-img ordered-img">
+                                    <img src="{{$book->image}}" alt="{{$book->id}}" class="shadow search-list-img ordered-img">
                                 </div>
                                 <div class="col-6 fs-32 ms-5 ps-5">
                                     <div class=>
-                                        <p class="fs-32">$book->name</p>
-                                        <p class="h4">$book->author->name</p>
+                                        <p class="fs-32">{{$book->title}}</p>
+                                        <p class="h4">author</p>
                                     </div>
                                     <div class="mt-5">
-                                        <form action="" method="post">
-                                            @csrf
-                                            <div class="form-check float-end">
-                                                <input type="checkbox" name="" id="" class="form-check-input">
-                                            </div>
-                                        </form>
+                                        <div class="form-check float-end">
+                                            <input type="checkbox" value="{{$book->id}}" name="book_id[]" id="{{$book->title}}" class="form-check-input">
+                                        </div>
+                   
                                     </div>
                                 </div>
                             </div>
                             <br><hr>
-                        @endfor
+                            @endforeach
+                        @endif
+                    </form>
                     </div>
                 </div>
             </div>
