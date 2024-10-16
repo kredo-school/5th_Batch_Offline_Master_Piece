@@ -39,7 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
             Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
             Route::get('/new', [BookController::class, 'bookNew'])->name('new');
-            Route::get('/{id}/show', [BookController::class, 'showBook'])->name('show_book');
+            // Route::get('/{id}/show', [BookController::class, 'showBook'])->name('show_book');
+            Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
@@ -86,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-        Route::get('/book/information/stock/{book_id}', [StoreController::class, 'getBookStock'])->name('getBookStock');
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){

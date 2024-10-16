@@ -42,7 +42,6 @@ class Book extends Model
         return $this->hasMany(AuthorBook::class);
     }
 
-
     public function histories()
     {
     return $this->hasMany(History::class);
@@ -50,17 +49,11 @@ class Book extends Model
 
     public function stores()
     {
-        return $this->belongsToMany(User::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
+        return $this->belongsToMany(User::class, 'inventories', 'book_id', 'store_id')->withPivot('stock');
     }
 
     public function inventory()
     {
-        return $this->belongsToMany(Author::class, 'author_books');
-    }
-
-    //author_books との conection
-    public function author_books()
-    {
-        return $this->hasMany(AuthorBook::class);
+        return $this->hasMany(Inventory::class);
     }
 }

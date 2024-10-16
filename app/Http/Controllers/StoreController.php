@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
+
 
 class StoreController extends Controller
 {
@@ -89,16 +91,5 @@ class StoreController extends Controller
     public function edit()
     {
         return view('users.store.edit');
-    }
-
-    public function getBookStock($book_id)
-    {
-        // $user = Auth::user();
-        // $book = Book::with(['stores' => function ($query) use ($user) {
-        //     $query->where('id', $user->id);
-        // }])->find($book_id);
-        // return view('users.store.books.book-information', compact('book'));
-        $book = Book::with('stores')->find($book_id); // stores リレーションをロード
-    return view('users.store.books.book-information', compact('book'));
     }
 }
