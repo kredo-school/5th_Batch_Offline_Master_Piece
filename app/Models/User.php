@@ -23,7 +23,7 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -57,13 +57,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function storeBooks()
+    {
+        return $this->belongsToMany(Book::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
+    }
     public function reviews()
     {
-        return $this->hasMany(Review::class,'guest_id');
+        return $this->hasMany(Review::class, 'guest_id');
     }
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class,'guest_id');
+        return $this->hasMany(Bookmark::class, 'guest_id');
     }
     public function histories()
     {
@@ -71,7 +76,21 @@ class User extends Authenticatable
     }
     public function comments()
     {
-        return $this->hasMany(Comment::class,'guest_id');
+        return $this->hasMany(Comment::class, 'guest_id');
+    }
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    public function store_book()
+    {
+        return $this->belongsToMany(Book::class, 'store_book', 'store_id');
+    }
+
+    public function store_guest()
+    {
+        return $this->belongsToMany(User::class, 'store_guest', 'store_id', 'guest_id');
     }
 
     public function storeOrders()

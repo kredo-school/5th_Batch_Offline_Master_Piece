@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="mt-5 d-flex justify-content-center">
-            <form action="{{ route('store.search') }}" class="d-flex">
+            <form method="get" action="{{ route('store.books.search') }}" class="d-flex">
                 @csrf
                 <div class="row ms-auto">
                     <div class="col pe-0 position-relative">

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
+use Illuminate\Support\Facades\Auth;
+
 
 class StoreController extends Controller
 {
@@ -37,7 +39,17 @@ class StoreController extends Controller
 
     public function analysis()
     {
-        return view('users.store.analysis.analysis');
+        $store = Auth::user();
+
+        $prefectures = [
+            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
+            'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka',
+            'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama',
+            'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita',
+            'Miyazaki', 'Kagoshima', 'Okinawa'
+        ];
+
+        return view('users.store.analysis.analysis',compact('store','prefectures'));
     }
 
     public function reservationList()
@@ -91,9 +103,10 @@ class StoreController extends Controller
         return view('users.store.books.inventory');
     }
 
-    public function bookInformation()
+    public function bookInformation($id)
     {
-        return view('users.store.books.book-information');
+        $book = $this->book->findOrFail($id);
+        return view('users.store.books.book-information')->with('book', $book);
     }
     public function profile()
     {
@@ -102,5 +115,16 @@ class StoreController extends Controller
     public function edit()
     {
         return view('users.store.edit');
+    }
+
+    public function getBookStock($book_id)
+    {
+        // $user = Auth::user();
+        // $book = Book::with(['stores' => function ($query) use ($user) {
+        //     $query->where('id', $user->id);
+        // }])->find($book_id);
+        // return view('users.store.books.book-information', compact('book'));
+        $book = Book::with('stores')->find($book_id); // stores リレーションをロード
+    return view('users.store.books.book-information', compact('book'));
     }
 }

@@ -38,19 +38,13 @@
                 </div>
 
                 {{-- comment list --}}
-                @php
-                    $i = 0;
-                @endphp
                 @foreach ($comments as $comment)
-                @php
-                    $i ++;
-                @endphp
                     <div class="row mt-5">
                         <hr>
                         <div class="col-10 fs-24">
                             <h3>Thread: <a href="#"
                                     class="text-decoration-none text-primary">{{ $comment->thread->title }}</a></h3>
-                            <p><?= $i ?> name: <a href="{{route('profile.comment', $user->id)}}"
+                            <p>{{$loop->iteration}} name: <a href="{{route('profile.comment', $user->id)}}"
                                     class="text-decoration-none text-success fw-bold">{{ $user->name }}</a>:
                                 {{ $comment->created_at }}</p>
                         </div>

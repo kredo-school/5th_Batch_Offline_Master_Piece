@@ -12,7 +12,7 @@
 
 <div class="container">
     <div class="d-flex justify-content-center" >
-        <form action="{{ route('store.search') }}" class="d-flex">
+        <form action="{{ route('store.books.search') }}" class="d-flex">
             @csrf
             <div class="row ms-auto">
                 <div class="col pe-0 position-relative">
@@ -70,7 +70,7 @@
         <div class="bg-white shadow" style="width: 100%; border-radius: 16px;">
             <div class="d-flex" style="height: 440px;">
                 <div class="m-5 d-flex align-items-center justify-content-center">
-                    <img src="{{ asset('images/649634.png') }}" alt="book-image" class="p-5 border shadow" style="max-width: 100%; height: auto;">
+                    <img src="{{ $book->image }}" alt="{{ $book->name }}" class="border shadow" style=" height: auto; object-fit: contain; width: 300px;">
                 </div>
 
                 <div class="d-flex justify-content-center align-items-start mt-5 w-50">
@@ -106,25 +106,33 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td><a href="#">Inochi no Me</a></td>
+                                    <td><a href="#">{{ $book->title }}</a></td>
                                 </tr>
                                 <tr>
-                                    <td><a href="#">Mitsuo Ohe</a></td>
+                                    <td>
+                                        @foreach ($book->authors_books as $authors_books)
+                                            <a href="#">{{ $authors_books->author->name }}</a>
+                                        @endforeach
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td><a href="#">Iwanami</a></td>
+                                    <td><a href="#">{{ $book->publisher }}</a></td>
                                 </tr>
                                 <tr>
-                                    <td>10.10.2020</td>
+                                    <td>{{ $book->publication_date }}</td>
                                 </tr>
                                 <tr>
-                                    <td>¥ 800</td>
+                                    <td>{{ $book->price }}</td>
                                 </tr>
                                 <tr>
-                                    <td>1234567890123</td>
+                                    <td>{{ $book->isbn_code }}</td>
                                 </tr>
                                 <tr>
-                                    <td>3</td>
+                                    <td>
+                                        @foreach($book->inventory as $inventories)
+                                            {{ $inventories->stock }}
+                                        @endforeach
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

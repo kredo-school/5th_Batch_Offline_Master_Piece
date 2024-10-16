@@ -9,9 +9,12 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\Admin\GenresController;
+use App\Http\Controllers\Admin\BooksController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -20,7 +23,8 @@ use App\Http\Controllers\InventoryController;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
@@ -55,6 +59,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
+        Route::post('/add-comment/{thread}', [ThreadController::class, 'addComment'])->name('addComment');
+        Route::delete('/comment/destroy/{comment}', [ThreadController::class, 'destroyComment'])->name('destroyComment');
+        Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
+        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
     Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
         Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
@@ -87,11 +95,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
-        Route::get('/book/information',[StoreController::class, 'bookInformation'])->name('bookInformation');
+        Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+        Route::get('/book/information/stock/{book_id}', [StoreController::class, 'getBookStock'])->name('getBookStock');
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
@@ -105,11 +115,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        Route::get('/add-book', [AdminController::class, 'addBook'])->name('addBook');
         Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
         Route::get('/store', [AdminController::class, 'store'])->name('store');
         Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
         Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
+        // genres
+        Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
+        Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
+        Route::delete('/genre/{id}/destroy',[GenresController::class,'destroy'])->name('genres.destroy');
+        Route::post('/genre/{id}/restore',[GenresController::class,'restore'])->name('genres.restore');
+
+        // Books
+        Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
+        Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
+
+
     });

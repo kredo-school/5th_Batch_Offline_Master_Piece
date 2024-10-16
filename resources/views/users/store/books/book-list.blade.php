@@ -4,7 +4,8 @@
 
 @section('content')
         <div>
-            
+            <form action="{{ route('store.books.search') }}" method="get">
+                @csrf
                 <div class="row align-items-center">
                     <div class="col-4">
                         <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
@@ -16,7 +17,7 @@
                     </div>
                     <div class="col-4">
                         <div class="d-flex justify-content-center" >
-                            <form action="{{ route('store.search') }}" class="d-flex">
+                            <form action="{{ route('store.books.search') }}" class="d-flex">
                                 @csrf
                                 <div class="row ms-auto">
                                     <div class="col pe-0 position-relative">

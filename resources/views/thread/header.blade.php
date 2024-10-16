@@ -13,7 +13,7 @@
             <div class="col">
                 <form id="genreForm" method="get">
                     @csrf
-                    <select name="genre" id="genreSelect" class="form-select w-50">
+                    <select name="genre_id" id="genreSelect" class="form-select w-50">
                         <option value="" hidden>Genre</option>
                         @foreach ($all_genres as $genre)
                             <option value="{{$genre->id}}">{{$genre->name}}</option>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-2">
-        @if(request()->is('thread/content'))
+        @if(request()->is('thread/content/*'))
             <div class="text-end">
                 <a href="#comment" class=" text-dark h3">
                     <i class="fa-solid fa-pen-to-square"></i> Add comment
