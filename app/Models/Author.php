@@ -9,16 +9,18 @@ class Author extends Model
 {
     use HasFactory;
 
-    // public function books()
-    // {
-    // return $this->belongsToMany(Author::class);
-    // }
+    protected $fillable = [
+        'name'
+    ];
+
 
     public function books()
     {
-        return $this->belongsToMany(Books::class, 'authors_books', 'author_id', 'book_id');
+        return $this->belongsToMany(Book::class, 'author_books', 'author_id', 'book_id');
     }
+    
 
 }
+
 
 

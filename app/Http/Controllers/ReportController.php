@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
     private $report;
-    public function __construct(Report $report)
+    private $comment;
+    public function __construct(Report $report, Comment $comment)
     {
         $this->report = $report;
+        $this->comment = $comment;
+    }
+
+    public function report(Comment $comment)
+    {
+        $this->report->comment_id = $comment->id;
+        $this->report->guest_id = $comment->user->id;
+        $this->report->save();
+
+        return redirect()->back();
     }
     /**
      * Display a listing of the resource.

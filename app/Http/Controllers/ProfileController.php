@@ -101,11 +101,11 @@ class ProfileController extends Controller
         $this->profile->birthday = $validated['birthday'];
         $this->profile->phone_number = $validated['phone_number'];
         $this->profile->address = $validated['address'];
-        if($validated['introduction']){
+        if(isset($validated['introduction'])){
             $this->profile->introduction = $validated['introduction'];
         }
 
-        if($validated['avatar']){
+        if(isset($validated['avatar'])){
             $this->profile->avatar = 'data:image/'.$validated['avatar']->extension().';base64,'.base64_encode(file_get_contents($validated['avatar']));
         }
 

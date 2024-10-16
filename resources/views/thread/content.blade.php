@@ -11,70 +11,100 @@
             <div class="card w-100 mb-5">
                 <div class="card-header bg-white border-bottom-0">
                     <div class="text-end">
-                        <a href="#" class="text-secondary">Latest comment <i class="fa-solid fa-arrow-down"></i></a>
+                        <a href="{{url()->current(). '?page=' .$latestPage. '#comment-' .count($thread->comments)}}" class="text-secondary">Latest comment <i class="fa-solid fa-arrow-down"></i></a>
                     </div>
 
                     {{-- title --}}
                     <h1 class="text-danger fw-bold">
-                        This is masterpiece!!
+                        {{$thread->title}}
                     </h1>
-                    <p class="text-secondary mb-0">Genre: Fantasy</p>
+                    <p class="text-secondary mb-0">
+                        Genre:
+                        @foreach ($genres as $genre_id)
+                            {{$genre_id->genre->name}}
+                        @endforeach
+
+                        <span class="float-end">
+                            @can('admin')
+                                <button class="btn btn-danger border-0" data-bs-toggle="modal" data-bs-target="#delete-thread-{{$thread->id}}">
+                                    Delete thread
+                                </button>
+                                @include('thread.modals.delete-thread')
+                            @endcan
+                        </span>
+                    </p>
                 </div>
 
                 <div class="card-body bg-white pt-0">
-                    @for ($i = 1; $i <= 20; $i++)
+                    @foreach($comments->take(100) as $comment)
                         <hr>
                         <div class="row">
-                            <div class="col-10 fs-24">
-                                <p><?= $i ?> name: <a href="{{route('profile.show')}}" class="text-decoration-none text-success fw-bold">Yama-D-Taro</a>: 19/9/2027 Thu.
-                                    14:40:10</p>
+                            <div class="col-10 fs-5">
+                                <p>{{$comments->firstItem() + $loop->index}} name: <a href="{{route('profile.show', $comment->guest_id)}}" class="text-decoration-none text-success fw-bold">{{$comment->user->name}}</a>: {{date('m/d/Y D H:i:s', strtotime($comment->created_at))}}
+                                </p>
                             </div>
                             <div class="col-2 text-end">
                                 @can('admin')
-                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-postid">
+                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-{{$comment->id}}">
                                         <div class="fs-24">
                                             <i class="fa-regular fa-trash-can text-danger"></i>
-                                            <label class="text-danger">3</label>
                                         </div>
                                     </button>
                                 @endcan
 
-                                <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#report-comment-postid">
-                                    <div class="fs-24">
-                                        <i class="fa-solid fa-ban text-danger"></i>
-                                        <label class="text-danger">3</label>
-                                    </div>
-                                </button>
+                                @if (Auth::user()->id !== $comment->guest_id)
+                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#report-comment-{{$comment->id}}">
+                                        <div class="fs-24">
+                                            <i class="fa-solid fa-ban text-danger"></i>
+                                            @can('admin')
+                                                <label class="text-danger">{{count($comment->reports)}}</label>
+                                            @endcan
+                                        </div>
+                                    </button>
+                                @endif
+
                             </div>
                             @include('thread.modals.delete-comment')
                             @include('thread.modals.report-comment')
                         </div>
-                        <div class="px-4 fs-24">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus in rerum ab ullam amet atque autem laudantium ducimus fuga reiciendis accusantium quaerat nam, blanditiis repudiandae id sed delectus fugit doloribus?</p>
+                        <div class="px-4 fs-24" id="comment-{{$comments->firstItem() + $loop->index}}">
+                            <p>{{$comment->body}}</p>
+
+                            @if ($comment->image)
+                                <img src="{{$comment->image}}" alt="{{$comment->id}}" class="comment-img">
+                            @endif
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header bg-white p-0">
-                    <textarea name="comment" id="comment" rows="5" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0"></textarea>
-                    @error('comment')
-                        <p class="text-danger small">{{$message}}</p>
-                    @enderror
-                </div>
-                <div class="card-body bg-white" id="comment">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <label for="comment-image" class="form-label fw-bold">Image File</label>
-                        <input type="file" name="comment_image" id="comment-image" class="form-control w-25 d-inline">
-                        @error('file')
-                            <p class="text-danger small">{{$message}}</p>
-                        @enderror
+            <div class="d-flex justify-content-center">
+                {{$comments->links()}}
+            </div>
+
+            <div class="card" id="add-comment">
+                <form action="{{route('thread.addComment', $thread)}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-header bg-white p-0">
+                        <textarea name="body" id="comment" rows="5" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0"></textarea>
+
+                    </div>
+                    <div class="card-body bg-white" id="comment">
+                        <label for="image" class="form-label fw-bold">Image File</label>
+                        <input type="file" name="image" id="image" class="form-control w-25 d-inline">
 
                         <input type="submit" value="Add comment" class="btn btn-orange float-end">
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="text-end">
+                @error('body')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
+
+                @error('image')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
             </div>
         </div>
         {{-- advertisement --}}

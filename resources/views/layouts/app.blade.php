@@ -405,7 +405,7 @@
     {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-    {{-- search in the same page --}}
+    {{-- sort in the same page --}}
     <script>
         document.getElementById('genreSelect').addEventListener('change', function() {
             const genreId = this.value;
