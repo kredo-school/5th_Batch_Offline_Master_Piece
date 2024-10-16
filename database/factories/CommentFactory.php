@@ -17,7 +17,7 @@ class CommentFactory extends Factory
         return [
             'body' => $this->faker->sentence,
             // 50% の確率で image フィールドが null、そうでない場合は画像URLを生成
-            'image' => $this->faker->imageUrl(),
+            'image' => $this->faker->boolean(50) ? $this->faker->imageUrl() : null,
             'guest_id' => User::factory(), // ランダムなユーザー
             'thread_id' => Thread::factory(), // ランダムなスレッド
         ];

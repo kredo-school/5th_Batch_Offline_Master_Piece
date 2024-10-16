@@ -10,10 +10,10 @@ class ThreadSeeder extends Seeder
 {
     public function run()
     {
-        // 5人のユーザーを作成し、各ユーザーに2つのスレッドを作成
-        User::factory()->count(5)->create()->each(function ($user) {
+        // 既存のユーザーからランダムに5人を選び、各ユーザーに2つのスレッドを作成
+        User::inRandomOrder()->take(3)->get()->each(function ($user) {
             $user->threads()->createMany(
-                Thread::factory()->count(2)->make()->toArray()
+                Thread::factory()->count(1)->make()->toArray()
             );
         });
     }
