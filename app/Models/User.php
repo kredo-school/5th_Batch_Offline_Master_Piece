@@ -92,4 +92,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'store_guest', 'store_id', 'guest_id');
     }
+
+    public function storeOrders()
+{
+    return $this->hasMany(StoreOrder::class);
+}
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Book;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -12,11 +13,13 @@ class StoreController extends Controller
 {
     private $store;
     private $book;
+    private $inventory;
 
-    public function __construct(User $user, Book $book)
+    public function __construct(User $user, Book $book, Inventory $inventory)
     {
         $this->store = $user;
         $this->book = $book;
+        $this->inventory = $inventory;
     }
 
     public function newOrderConfirm()
@@ -61,8 +64,19 @@ class StoreController extends Controller
 
     public function bookList()
     {
-        return view('users.store.books.book-list');
+       // 1. Inventoryテーブルに存在するbook_idを取得
+    $inventory_books = Inventory::pluck('book_id')->toArray(); // Inventory にある book_id を配列として取得
+
+    // 2. Inventoryに存在しないbook_idの本を取得
+    $all_books = Book::whereNotIn('id', $inventory_books)->get();
+
+    // 3. 取得した本をビューに渡す
+    return view('users.store.books.book-list')->with(compact('all_books'));
     }
+
+
+
+
 
     public function home()
     {
