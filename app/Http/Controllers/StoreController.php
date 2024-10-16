@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
-use Illuminate\Support\Facades\Auth;
 
 
 
