@@ -71,6 +71,11 @@ class Book extends Model
         return $this->belongsToMany(User::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
     }
 
+    public function store_book()
+{
+    return $this->belongsToMany(User::class, 'store_book');
+}
+
     public function inventory()
     {
         return $this->belongsToMany(Author::class, 'author_books');

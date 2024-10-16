@@ -27,4 +27,9 @@ class genre extends Model
 
         return $this->belongsToMany(Genre::class, 'genre_books');
     }
+
+    public function threads()
+    {
+        return $this->belongsToMany(Thread::class, 'thread_genres');
+    }
 }

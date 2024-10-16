@@ -17,7 +17,7 @@
         @csrf
         <div class="row justify-content-center mt-2">
             <div class="col-10 mt-3">
-                <h1 class="display-3">Analysis of $username</h1>
+                <h1 class="display-3">Analysis of {{$store->name}}</h1>
                 <div class="bg-white rounded mt-4 p-5 profile-list shadow">
                     <div class="row">
                         <div class="col-8">
@@ -27,53 +27,13 @@
                         <div class="col-4">
                             <select name="address" id="" class="form-select">
                                 <option value="" hidden>Address</option>
-                                <option value="hokkaido">Hokkaido</option>
-                                <option value="aomori">Aomori</option>
-                                <option value="iwate">Iwate</option>
-                                <option value="miyagi">Miyagi</option>
-                                <option value="akita">Akita</option>
-                                <option value="yamagata">Yamagata</option>
-                                <option value="fukushima">Fukushima</option>
-                                <option value="ibaraki">Ibaraki</option>
-                                <option value="tochigi">Tochigi</option>
-                                <option value="gunma">Gunma</option>
-                                <option value="saitama">Saitama</option>
-                                <option value="chiba">Chiba</option>
-                                <option value="tokyo">Tokyo</option>
-                                <option value="kanagawa">Kanagawa</option>
-                                <option value="niigata">Niigata</option>
-                                <option value="toyama">Toyama</option>
-                                <option value="ishikawa">Ishikawa</option>
-                                <option value="fukui">Fukui</option>
-                                <option value="yamanashi">Yamanashi</option>
-                                <option value="nagano">Nagano</option>
-                                <option value="gifu">Gifu</option>
-                                <option value="shizuoka">Shizuoka</option>
-                                <option value="aichi">Aichi</option>
-                                <option value="mie">Mie</option>
-                                <option value="shiga">Shiga</option>
-                                <option value="kyoto">Kyoto</option>
-                                <option value="osaka">Osaka</option>
-                                <option value="hyogo">Hyogo</option>
-                                <option value="nara">Nara</option>
-                                <option value="wakayama">Wakayama</option>
-                                <option value="tottori">Tottori</option>
-                                <option value="shimane">Shimane</option>
-                                <option value="okayama">Okayama</option>
-                                <option value="hiroshima">Hiroshima</option>
-                                <option value="yamaguchi">Yamaguchi</option>
-                                <option value="tokushima">Tokushima</option>
-                                <option value="kagawa">Kagawa</option>
-                                <option value="ehime">Ehime</option>
-                                <option value="kochi">Kochi</option>
-                                <option value="fukuoka">Fukuoka</option>
-                                <option value="saga">Saga</option>
-                                <option value="nagasaki">Nagasaki</option>
-                                <option value="kumamoto">Kumamoto</option>
-                                <option value="oita">Oita</option>
-                                <option value="miyazaki">Miyazaki</option>
-                                <option value="kagoshima">Kagoshima</option>
-                                <option value="okinawa">Okinawa</option>
+                                <option value="All Area">All Area</option>
+                                @foreach ($prefectures as $prefecture)
+                                    <option value="{{ $prefecture }}">
+                                        {{ $prefecture }}
+                                    </option>
+                                @endforeach
+
                             </select>
                         </div>
                     </div>
