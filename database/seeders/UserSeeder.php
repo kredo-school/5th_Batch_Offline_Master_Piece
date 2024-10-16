@@ -15,9 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        User::factory(10)
-        ->has(Profile::factory())
-        ->create();
+        // 900人のユーザーを作成
+        User::factory(count: 100)->create()->each(function ($user) {
+            // 各ユーザーに対応するプロフィールを作成
+            Profile::factory()->create([
+                'user_id' => $user->id,  // user_idを適切に設定
+            ]);
+        });
     }
 }
