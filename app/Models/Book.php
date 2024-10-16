@@ -86,5 +86,10 @@ class Book extends Model
     {
         return $this->hasMany(AuthorBook::class);
     }
+    
+    public function storeOrders()
+    {
+    return $this->hasMany(StoreOrder::class);
+    }
 
 }
