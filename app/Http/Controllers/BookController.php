@@ -125,9 +125,11 @@ class BookController extends Controller
         return view('users.guests.book.book_inventory');
     }
 
-    public function authorShow()
+    public function authorShow($id)
     {
-        return view('users.guests.book.show_author');
+        $author = $this->author->findOrFail($id);
+
+        return view('users.guests.book.show_author',compact('author'));
     }
 
     public function bookStoreShow($id)
