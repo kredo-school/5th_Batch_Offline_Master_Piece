@@ -82,6 +82,7 @@
                         <th style="width: 15%;">ISBN</th>
                     </thead>
                     <tbody>
+                        
                         @foreach ($books as $book)
                             <tr onclick="window.location='{{ route('store.bookInformation', $book->id) }}';" style="cursor: pointer;">
                                 <td style="width: 5%;">{{ $loop->iteration }}</td>
