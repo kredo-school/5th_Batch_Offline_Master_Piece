@@ -13,6 +13,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\controllers\GuestOrderController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -70,9 +71,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
-        Route::get('/show', [BookController::class, 'show'])->name('show');
+        Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
         Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
-        Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
+        Route::get('/reserved', [GuestOrderController::class, 'reserved'])->name('reserved');
+        Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
     });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {

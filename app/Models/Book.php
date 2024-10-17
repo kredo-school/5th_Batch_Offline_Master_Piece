@@ -14,10 +14,10 @@ class Book extends Model
 
     protected $fillable = [
         'title',
-        'discription',
+        'description',
         'publication_date',
         'publisher',
-        'ispn_code',
+        'isbn_code',
         'price',
         'image'
     ];
@@ -80,6 +80,11 @@ class Book extends Model
     public function author_books()
     {
         return $this->hasMany(AuthorBook::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(User::class, 'store_id');
     }
 
 }
