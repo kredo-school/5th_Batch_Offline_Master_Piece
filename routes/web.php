@@ -11,8 +11,11 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\controllers\GuestOrderController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -71,20 +74,27 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
-        Route::get('/show', [BookController::class, 'show'])->name('show');
+        Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
         Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
-        Route::get('/reserved', [BookController::class, 'reserved'])->name('reserved');
+        Route::get('/reserved', [GuestOrderController::class, 'reserved'])->name('reserved');
+        Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
     });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
+
         Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
         Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
         Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
+        Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
+        
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
+        // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
+
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
@@ -94,7 +104,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-        Route::get('/book/information/stock/{book_id}', [StoreController::class, 'getBookStock'])->name('getBookStock');
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){

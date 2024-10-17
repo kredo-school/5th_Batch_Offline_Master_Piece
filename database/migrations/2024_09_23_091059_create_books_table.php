@@ -20,6 +20,7 @@ return new class extends Migration
         $table->string('isbn_code')->unique(); 
         $table->decimal('price', 8, 2); 
         $table->longText('image');
+        
         $table->timestamp('deleted_at')->nullable();
         });
     }
