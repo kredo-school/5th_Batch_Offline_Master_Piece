@@ -40,7 +40,7 @@
 
 
 
-        <div class="container-body" style="overflow-y: auto; height: 650px;">
+        <div class="container-body p-5" style="overflow-y: auto; height: 650px;">
             <h1 class="h3 main-text fw-bold">Select Store</h1>
             @foreach ($stores as $store)
                 <div class="row ms-3">
@@ -81,6 +81,7 @@
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchValue = this.value.toLowerCase();
             const clearButton = document.getElementById('clearButton');
+        });
             
 
     </script>
