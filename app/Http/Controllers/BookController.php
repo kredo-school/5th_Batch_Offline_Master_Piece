@@ -27,7 +27,7 @@ class BookController extends Controller
 
     public function show()
     {
-        return view('users.guests.order.show');
+       //
     }
 
     public function confirm()
