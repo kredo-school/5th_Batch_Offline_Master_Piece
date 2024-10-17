@@ -268,6 +268,7 @@
                     }
                 });
             }
+
         </script>
     </div>
 
@@ -290,27 +291,31 @@
         <div id="carouselSuggestionControls" class="carousel slide mt-2" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @foreach ($suggestionedBooks->chunk(4) as $chunk)
-                    <div class="carousel-item active">
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                         <div class="row">
                             @foreach ($chunk as $book)
                                 <div class="col-3">
+                                    <?php
+                                        // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
+                                        $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
+                                    ?>
                                     <div class="h1">
-                                        <i class="fa-solid fa-star text-white"></i>{{ $loop->iteration }}
+                                        <i class="fa-solid fa-star text-white"></i>{{ $overallIteration }}
                                     </div>
                                     <div class="text-center">
                                         <table class="mt-3">
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <a href="{{route('book.show_book',$book->id)}}" class="link-book">
-                                                            <img src="{{$book->image}}" alt="#" class="img-fluid">
+                                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">
+                                                            <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
                                                         </a>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <h4>
-                                                            <a href="{{route('book.show_book',$book->id)}}" class="link-book">{{$book->title}}</a>
+                                                            <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
                                                         </h4>
                                                     </td>
                                                 </tr>
@@ -324,31 +329,34 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="star-ration-list d-flex ms-5">
+                                                    <td class="star-ration-list d-flex">
                                                         @php
-                                                            $starCount = optional($book->review)->star_count ?? 0;
-                                                            $fullStars = floor($starCount);
-                                                            $halfStar = $starCount - $fullStars >= 0.1;
-                                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                                            $averageStarCount = $book->reviews->avg('star_count');
+                                                            $fullStars = floor($averageStarCount); // 満点の数
+                                                            $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
+                                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
                                                         @endphp
-                        
-                                                        @for ($i = 0; $i < $fullStars; $i++)
-                                                        <i class="fa-solid fa-star text-warning"></i>
-                                                        @endfor
-                        
+                                                            {{-- 満点の星を表示 --}}
+                                                            @for ($i = 0; $i < $fullStars; $i++)
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            @endfor
+                                                            
+                                                        {{-- 半点の星を表示 --}}
                                                         @if ($halfStar)
                                                             <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                        @endif
-                        
-                                                        @for ($i = 0; $i < $emptyStars; $i++)
-                                                        <i class="fa-regular fa-star text-warning"></i>
+                                                            @endif
+                                                            
+                                                            {{-- 未満の星を表示 --}}
+                                                            @for ($i = 0; $i < $emptyStars; $i++)
+                                                            <i class="fa-regular fa-star text-warning"></i>
                                                         @endfor
+                    
                                                         {{ number_format($averageStarCount, 1) }}/5.0
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <h4><div class="text-danger mx-auto"> ¥ {{ floor($book->price) }}</div></h4>
+                                                        <h4 class="text-danger">{{$book->price}}</h4>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -393,69 +401,77 @@
             <div class="carousel-inner">
                 <div class="carousel-inner">
                     @foreach ($sameGenreBooks->chunk(4) as $chunk)
-                        <div class="carousel-item active">
+                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <div class="row">
                                 @foreach ($chunk as $book)
                                     <div class="col-3">
+                                        <?php
+                                            // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
+                                            $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
+                                        ?>
                                         <div class="h1">
-                                            <i class="fa-solid fa-star text-white"></i>{{ $loop->iteration }}
+                                            <i class="fa-solid fa-star text-white"></i>{{ $overallIteration }}
                                         </div>
                                         <div class="text-center">
                                             <table class="mt-3">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="{{route('book.show_book',$book->id)}}" class="link-book">
-                                                                <img src="{{$book->image}}" alt="#" class="img-fluid">
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h4>
-                                                                <a href="{{route('book.show_book',$book->id)}}" class="link-book">{{$book->title}}</a>
-                                                            </h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5>
-                                                                @foreach ($book->authors as $author)
-                                                                    <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
-                                                                @endforeach
-                                                            </h5>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="star-ration-list d-flex ms-5">
-                                                            @php
-                                                                $starCount = optional($book->review)->star_count ?? 0;
-                                                                $fullStars = floor($starCount);
-                                                                $halfStar = $starCount - $fullStars >= 0.1;
-                                                                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
-                                                            @endphp
+                                                <table class="mt-3">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="{{route('book.show_book', $book->id)}}" class="link-book">
+                                                                    <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h4>
+                                                                    <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
+                                                                </h4>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h5>
+                                                                    @foreach ($book->authors as $author)
+                                                                        <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
+                                                                    @endforeach
+                                                                </h5>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="star-ration-list d-flex">
+                                                                @php
+                                                                    $averageStarCount = $book->reviews->avg('star_count');
+                                                                    $fullStars = floor($averageStarCount); // 満点の数
+                                                                    $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
+                                                                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
+                                                                @endphp
+                                                                    {{-- 満点の星を表示 --}}
+                                                                    @for ($i = 0; $i < $fullStars; $i++)
+                                                                    <i class="fa-solid fa-star text-warning"></i>
+                                                                    @endfor
+                                                                    
+                                                                {{-- 半点の星を表示 --}}
+                                                                @if ($halfStar)
+                                                                    <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                                                    @endif
+                                                                    
+                                                                    {{-- 未満の星を表示 --}}
+                                                                    @for ($i = 0; $i < $emptyStars; $i++)
+                                                                    <i class="fa-regular fa-star text-warning"></i>
+                                                                @endfor
                             
-                                                            @for ($i = 0; $i < $fullStars; $i++)
-                                                            <i class="fa-solid fa-star text-warning"></i>
-                                                            @endfor
-                            
-                                                            @if ($halfStar)
-                                                                <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                            @endif
-                            
-                                                            @for ($i = 0; $i < $emptyStars; $i++)
-                                                            <i class="fa-regular fa-star text-warning"></i>
-                                                            @endfor
-                                                            {{ number_format($averageStarCount, 1) }}/5.0
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h4><div class="text-danger mx-auto"> ¥ {{ floor($book->price) }}</div></h4>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                                {{ number_format($averageStarCount, 1) }}/5.0
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h4 class="text-danger">{{$book->price}}</h4>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                         </div>
     
                                     </div>

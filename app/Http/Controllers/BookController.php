@@ -127,8 +127,6 @@ class BookController extends Controller
             ->where('book_id', $id)
             ->with('book')
             ->get();
-
-
         
         $prefectures = [
             'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
@@ -192,16 +190,29 @@ class BookController extends Controller
             ->get()
             ->toArray();
         }
-            
+        // Same Genre
             $sameGenreBooks = $this->book
                     ->with('genres')
                     ->orderBy('books.publication_date', 'desc')
                     ->limit(20)
                     ->get();
 
+        // Review Rating
+        $ratingsCount = $book->reviews->count();
 
+        $ratingsSummary = [
+            '5_star' => $book->reviews()->where('star_count', 5)->count(),
+            '4_star' => $book->reviews()->where('star_count', 4)->count(),
+            '3_star' => $book->reviews()->where('star_count', 3)->count(),
+            '2_star' => $book->reviews()->where('star_count', 2)->count(),
+            '1_star' => $book->reviews()->where('star_count', 1)->count(),
+        ];
 
-        return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews'));
+        foreach ($ratingsSummary as $key => $count) {
+            $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
+        }
+
+        return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews','ratingsSummary'));
     }
 
     public function bookReview(request $request, $id)
