@@ -48,13 +48,13 @@
                                 <td>
                                     <a href="{{route('book.show_book', $book->id)}}" class="link-book">
                                         <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
-                                    </a>
+                                    </a>                                   
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
+                                        <a href="{{ route('book.show_book', $book->id) }}" class="link-book">{{ $book->title }}</a>
                                     </h4>
                                 </td>
                             </tr>
@@ -69,21 +69,39 @@
                             </tr>
                             <tr>
                                 <td class="star-ration-list d-flex">
-                                    <span class="star" data-value="1"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="2"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="3"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="4"><i class="fa-regular fa-star"></i></span>
-                                    <span class="star" data-value="5"><i class="fa-regular fa-star"></i></span>
-                                    <div class="ms-2">X.X/5.0</div>
+                                    @php
+                                        $averageStarCount = $book->reviews->avg('star_count');
+                                        $fullStars = floor($averageStarCount); // 満点の数
+                                        $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
+                                        $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
+                                    @endphp
+                                        {{-- 満点の星を表示 --}}
+                                        @for ($i = 0; $i < $fullStars; $i++)
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        @endfor
+                                        
+                                    {{-- 半点の星を表示 --}}
+                                    @if ($halfStar)
+                                        <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                        @endif
+                                        
+                                        {{-- 未満の星を表示 --}}
+                                        @for ($i = 0; $i < $emptyStars; $i++)
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    @endfor
+
+                                    {{ number_format($averageStarCount, 1) }}/5.0
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4 class="text-danger">{{$book->price}}</h4></td>
+                                <td><h4 class="text-danger">{{ $book->price }}</h4></td>
                             </tr>
                         </tbody>
                     </table>
                 @endforeach
             </div>
+            
+            
         </form>
     </div>
 @endsection
