@@ -11,6 +11,8 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\controllers\GuestOrderController;
@@ -43,7 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
             Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
             Route::get('/new', [BookController::class, 'bookNew'])->name('new');
-            Route::get('/{id}/show', [BookController::class, 'showBook'])->name('show_book');
+            // Route::get('/{id}/show', [BookController::class, 'showBook'])->name('show_book');
+            Route::get('/show', [BookController::class, 'showBook'])->name('show_book');
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/show/store', [BookController::class, 'bookStoreShow'])->name('store_show');
@@ -79,13 +82,19 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
         Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
+
         Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
         Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
         Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
+        Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
+        
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
+        // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
+
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
@@ -95,7 +104,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-        Route::get('/book/information/stock/{book_id}', [StoreController::class, 'getBookStock'])->name('getBookStock');
         });
 
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
@@ -116,7 +124,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/book', [AdminController::class, 'book'])->name('book');
         Route::get('/register', [AdminController::class, 'register'])->name('register');
         // genres
-        Route::post('/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
+        Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
+        Route::delete('/genre/{id}/destroy',[GenresController::class,'destroy'])->name('genres.destroy');
+        Route::post('/genre/{id}/restore',[GenresController::class,'restore'])->name('genres.restore');
+
         // Books
         Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
         Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');

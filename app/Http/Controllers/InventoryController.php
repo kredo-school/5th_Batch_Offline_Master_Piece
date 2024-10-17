@@ -19,7 +19,15 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories=$this->inventory
+        ->join('author_books', 'author_books.book_id', '=', 'store_orders.book_id') // もしstore_ordersの中にbook_idがあるなら
+        ->join('books', 'books.id', '=', 'author_books.book_id') // こちらを正しいテーブル名に
+        ->join('authors', 'author_books.author_id', '=', 'authors.id')
+        ->select('books.*', 'authors.name as author_name') // 必要なカラムを選択
+        ->get();
+
+        // dd($inventories);
+        return view('users.store.books.inventory')->with(compact('inventories'));
     }
 
     /**

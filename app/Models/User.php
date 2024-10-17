@@ -65,12 +65,12 @@ class User extends Authenticatable
 
     public function reviews()
     {
-        return $this->hasMany(Review::class,'guest_id');
+        return $this->hasMany(Review::class, 'guest_id');
     }
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class,'guest_id');
+        return $this->hasMany(Bookmark::class, 'guest_id');
     }
 
     public function histories()
@@ -80,7 +80,7 @@ class User extends Authenticatable
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'guest_id');
+        return $this->hasMany(Comment::class, 'guest_id');
     }
 
     public function reserves()
@@ -92,4 +92,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Inventory::class, 'store_id');
     }
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    public function store_book()
+    {
+        return $this->belongsToMany(Book::class, 'store_book', 'store_id');
+    }
+
+    public function store_guest()
+    {
+        return $this->belongsToMany(User::class, 'store_guest', 'store_id', 'guest_id');
+    }
+
+    public function storeOrders()
+{
+    return $this->hasMany(StoreOrder::class);
+}
+
 }

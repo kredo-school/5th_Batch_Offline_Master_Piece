@@ -129,8 +129,12 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @foreach($book->inventory as $inventories)
-                                            {{ $inventories->stock }}
+                                        @php
+                                            $loggedInStore = Auth::user();
+                                            $filteredStores = $book->stores->where('id', $loggedInStore->id);
+                                        @endphp
+                                        @foreach ( $filteredStores as $store )
+                                            {{ $store->pivot->stock }}
                                         @endforeach
                                     </td>
                                 </tr>

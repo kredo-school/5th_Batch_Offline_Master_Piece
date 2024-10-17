@@ -47,7 +47,7 @@
 
         <div class="row justify-content-center mt-2">
             <div class="text-center my-4">
-                <h1 class="display-3 fw-bold">Welcome $username</h1>
+                <h1 class="display-3 fw-bold">Welcome {{Auth::user()->name}}</h1>
                 <p class="fs-24 fw-bold">Be patient to fill out the form below</p>
             </div>
             <div class="col-7 row  mt-2 p-5 shadow bg-white rounded">
