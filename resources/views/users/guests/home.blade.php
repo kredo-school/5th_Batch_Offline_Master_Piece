@@ -32,25 +32,28 @@
                                 <div class="row">
                                     @foreach ($chunk as $book)
                                         <div class="col-3">
-
+                                            <?php
+                                            // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
+                                            $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
+                                            ?>
                                             @if ($loop->iteration <= 3)
                                                 <div class="h1">
                                                     {{-- star color --}}
                                                     @if ($loop->iteration == 1)
                                                         <i class="fa-solid fa-crown" style="color: gold"></i>
-                                                        {{ $loop->iteration }}
+                                                        {{ $overallIteration }}
                                                     @elseif ($loop->iteration == 2)
                                                         <i class="fa-solid fa-crown" style="color: silver"></i>
-                                                        {{ $loop->iteration }}
+                                                        {{ $overallIteration }}
                                                     @elseif ($loop->iteration == 3)
                                                         <i class="fa-solid fa-crown" style="color: #9A6229"></i>
-                                                        {{ $loop->iteration }}
+                                                        {{ $overallIteration }}
                                                     @endif
                                                 </div>
                                             @else
                                                 <div class="h1">
                                                     <i class="fa-solid fa-star text-white"></i>
-                                                    {{ $loop->iteration }}
+                                                    {{ $overallIteration }}
                                                 </div>
                                             @endif
                                             <div class="text-center">
@@ -61,7 +64,7 @@
                                                 <p class="mt-4">
                                                     <a href="{{ route('book.show_book', $book->id) }}"
                                                         class="text-decoration-none text-primary fs-24 fw-bold">
-                                                        {{$book->title}}
+                                                        {{ $book->title }}
                                                     </a>
                                                 </p>
                                                 <p>
@@ -117,22 +120,27 @@
                 <div id="carouselSuggestionControls" class="carousel slide mt-2" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         @foreach ($suggestionedBooks->chunk(4) as $chunk)
-                            <div class="carousel-item active">
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+
                                 <div class="row">
                                     @foreach ($chunk as $book)
                                         <div class="col-3">
+                                            <?php
+                                            // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
+                                            $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
+                                            ?>
                                             <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $loop->iteration }}
+                                                <i class="fa-solid fa-star text-white"></i>{{ $overallIteration }}
                                             </div>
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $book->id) }}">
-                                                    <img src="{{$book->image}}" class="w-75 shadow img-list"
+                                                    <img src="{{ $book->image }}" class="w-75 shadow img-list"
                                                         alt="Image {{ $loop->iteration }}">
                                                 </a>
                                                 <p class="mt-4">
                                                     <a href="{{ route('book.show_book', $book->id) }}"
                                                         class="text-decoration-none text-primary fs-24 fw-bold">
-                                                        {{$book->title}}</a>
+                                                        {{ $book->title }}</a>
                                                 </p>
 
                                                 <p>
@@ -183,22 +191,27 @@
                 <div id="carouselNewControls" class="carousel slide mt-2" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         @foreach ($newedBooks->chunk(4) as $chunk)
-                            <div class="carousel-item active">
+                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+
                                 <div class="row">
                                     @foreach ($chunk as $book)
                                         <div class="col-3">
+                                            <?php
+                                            // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
+                                            $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
+                                            ?>
                                             <div class="h1">
-                                                <i class="fa-solid fa-star text-white"></i>{{ $loop->iteration }}
+                                                <i class="fa-solid fa-star text-white"></i>{{ $overallIteration }}
                                             </div>
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $book->id) }}">
-                                                    <img src="{{ asset('images/649634.png') }}" class="w-75 shadow img-list"
-                                                        alt="Image {{ $loop->iteration }}">
+                                                    <img src="{{ asset('images/649634.png') }}"
+                                                        class="w-75 shadow img-list" alt="Image {{ $loop->iteration }}">
                                                 </a>
                                                 <p class="mt-4">
                                                     <a href="{{ route('book.show_book', $book->id) }}"
                                                         class="text-decoration-none text-primary fs-24 fw-bold">
-                                                        {{$book->title}}
+                                                        {{ $book->title }}
                                                     </a>
                                                 </p>
                                                 <p>
@@ -241,9 +254,10 @@
                     </h3>
 
                     @foreach ($threads as $thread)
-                            <div class="mt-2 h3">
-                                <a href="{{route('thread.content',$thread)}}" class="text-decoration-none">{{$thread->title}}</a>
-                            </div>
+                        <div class="mt-2 h3">
+                            <a href="{{ route('thread.content', $thread) }}"
+                                class="text-decoration-none">{{ $thread->title }}</a>
+                        </div>
                     @endforeach
 
                     <p class="text-end">
