@@ -48,13 +48,13 @@
                                 <td>
                                     <a href="{{route('book.show_book', $book->id)}}" class="link-book">
                                         <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
-                                    </a>
+                                    </a>                                   
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
+                                        <a href="{{ route('book.show_book', $book->id) }}" class="link-book">{{ $book->title }}</a>
                                     </h4>
                                 </td>
                             </tr>
@@ -78,12 +78,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4 class="text-danger">{{$book->price}}</h4></td>
+                                <td><h4 class="text-danger">{{ $book->price }}</h4></td>
                             </tr>
                         </tbody>
                     </table>
                 @endforeach
             </div>
+            
+            
         </form>
     </div>
 @endsection

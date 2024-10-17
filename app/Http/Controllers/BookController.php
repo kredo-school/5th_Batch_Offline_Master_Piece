@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Review;
 use App\Models\Author;
 use App\Models\AuthorBook;
+use App\Models\Bookmark;
+
 
 
 
@@ -17,10 +19,15 @@ class BookController extends Controller
 {
     private $book;
     private $author;
-    public function __construct(Book $book, Author $author)
+    private $review;
+    private $user;
+    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark)
     {
         $this->book = $book;
         $this->author = $author;
+        $this->review = $review;
+        $this->user  = $user;
+        $this->bookmark = $bookmark;
     }
 
     public function show()
@@ -100,23 +107,126 @@ class BookController extends Controller
 
     public function bookNew()
     {
-        $newedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', '=', 'authors.id')
-            ->select('books.id','books.title', 'books.price', 'books.image','authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id','books.title', 'books.price', 'books.image','authors.name')
-            ->orderBy('books.publication_date', 'desc')
-            ->limit(20)
-            ->get();
+    $newedBooks = Book::with('authors', 'reviews')
+        ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
+        ->select('books.id', 'books.title', 'books.price', 'books.image', DB::raw('AVG(reviews.star_count) as average_rating'))
+        ->groupBy('books.id', 'books.title', 'books.price', 'books.image')
+        ->orderBy('books.publication_date', 'desc')
+        ->limit(20)
+        ->get();
 
-        return view('users.guests.book.new', compact('newedBooks'));
+    return view('users.guests.book.new', compact('newedBooks'));
     }
 
-    public function showBook($id)
+
+    public function showBook(Request $request ,$id)
     {
         $book = $this->book->findOrFail($id);
-        return view('users.guests.book.show_book', compact('book'));
+
+        $reviews = $this->review
+            ->where('book_id', $id)
+            ->with('book')
+            ->get();
+
+
+        
+        $prefectures = [
+            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
+            'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka',
+            'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama',
+            'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita',
+            'Miyazaki', 'Kagoshima', 'Okinawa'
+        ];
+
+        
+        $sort = $request->get('sort', 'created_at');
+
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'highest-rating':
+                    $reviews->orderBy('star_count', 'desc'); 
+                    break;
+                case 'lowest-rating':
+                    $reviews->orderBy('star_count', 'asc'); 
+                    break;
+                default: 
+                    $reviews->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+        
+        // Suggestion
+        $userId = Auth::id();
+        $purchasedBooks = DB::table('reserves')
+            ->where('guest_id', $userId)
+            ->pluck('book_id')
+            ->toArray();
+
+        // 購入履歴がない場合人気のある本を取得する
+        if (empty($purchasedBooks)) {
+            $suggestionedBooks = Book::with('authors')
+                ->orderBy('books.publication_date', 'desc')
+                ->limit(20)
+                ->get();
+        } else {
+            // Guestが以前購入した本のジャンルを取得
+            $genres = DB::table('genre_books')
+                ->whereIn('book_id', $purchasedBooks)
+                ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
+                ->pluck('genres.id')
+                ->toArray();
+
+            // 購入履歴によるおすすめ本の取得
+            $suggestionedBooks = Book::whereIn('books.id', function($query) use($genres) {
+                $query->select('book_id')
+                    ->from('genre_books')
+                    ->whereIn('genre_id', $genres);
+            })
+            ->join('author_books', 'books.id', '=', 'author_books.book_id')
+            ->join('authors', 'author_books.author_id', "=", 'authors.id')
+            ->join('reviews', 'books.id', '=', 'reviews.book_id')
+            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
+            ->orderBy('average_rating', 'desc')
+            ->limit(20)
+            ->get()
+            ->toArray();
+        }
+            
+            $sameGenreBooks = $this->book
+                    ->with('genres')
+                    ->orderBy('books.publication_date', 'desc')
+                    ->limit(20)
+                    ->get();
+
+
+
+        return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews'));
     }
+
+    public function bookReview(request $request, $id)
+    {
+        $request->validate([
+            'review_title' => 'required|min:1|max:30',
+            'review_content' => 'required|min:1|max:1000',
+        ]);
+
+        $book_id = $id;
+
+        $this->review = new Review();
+
+        $this->review->title = $request->review_title;
+        $this->review->body  = $request->review_content;
+        $this->review->guest_id = Auth::user()->id;
+        $this->review->book_id  = $book_id;
+        $this->review->star_count = $request->rating;
+
+        $this->review->save();
+
+        return redirect()->route('book.show_book', ['id' => $book_id]);
+    }
+
+        
 
     public function bookInventory()
     {
@@ -178,3 +288,7 @@ class BookController extends Controller
                                                 ->with('searchQuery', $query);
     }
 }
+
+
+
+
