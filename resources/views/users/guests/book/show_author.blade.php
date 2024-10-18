@@ -14,25 +14,27 @@
     </div>
 
 
-    <div class="row justify-content-center mb-5">
-        <div class="col-5">
-            <form action="#" style="width: 500px" class="d-flex">
-                @csrf
-                <div class="row ms-auto">
-                    <div class="col pe-0 position-relative">
-                        <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
-                            style="width: 400px" placeholder="Search authors...">
-                        <span id="clearButton" class="clearButton">&times;</span>
+    <form action="{{route('book.searchAuthor')}}" method="get">
+        <div class="row justify-content-center mb-5">
+            <div class="col-5">
+                <form action="#" style="width: 500px" class="d-flex">
+                    @csrf
+                    <div class="row ms-auto">
+                        <div class="col pe-0 position-relative">
+                            <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
+                                style="width: 400px" placeholder="Search authors...">
+                            <span id="clearButton" class="clearButton">&times;</span>
+                        </div>
+                        <div class="col ps-1">
+                            <button type="submit" class="btn btn-secondary">
+                                Search
+                            </button>
+                        </div>
                     </div>
-                    <div class="col ps-1">
-                        <button type="submit" class="btn btn-secondary">
-                            Search
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    </form>
 
     <div class="container-body p-5" style="overflow-y: auto; height: 650px;">
         <div class="ms-3">

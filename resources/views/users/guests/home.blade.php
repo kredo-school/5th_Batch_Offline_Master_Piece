@@ -68,9 +68,10 @@
                                                     </a>
                                                 </p>
                                                 <p>
-                                                    <a href="#" class="text-decoration-none h4 fw-bold">
-                                                        Author
-                                                    </a>
+                                                    @foreach ($book->authors as $author)
+                                                        <a href="{{ route('book.author_show', $author->id) }}"
+                                                            class="text-decoration-none h4 fw-bold">{{ $author->name }}</a>
+                                                    @endforeach
                                                 </p>
                                             </div>
                                         </div>
@@ -144,9 +145,10 @@
                                                 </p>
 
                                                 <p>
-                                                    <a href="#" class="text-decoration-none h4 fw-bold">
-                                                        Author
-                                                    </a>
+                                                    @foreach ($book->authors as $author)
+                                                        <a href="{{ route('book.author_show', $author->id) }}"
+                                                            class="text-decoration-none h4 fw-bold">{{ $author->name }}</a>
+                                                    @endforeach
                                                 </p>
                                             </div>
 
@@ -215,9 +217,10 @@
                                                     </a>
                                                 </p>
                                                 <p>
-                                                    <a href="#" class="text-decoration-none h4 fw-bold">
-                                                        Author
-                                                    </a>
+                                                    @foreach ($book->authors as $author)
+                                                        <a href="{{ route('book.author_show', $author->id) }}"
+                                                            class="text-decoration-none h4 fw-bold">{{ $author->name }}</a>
+                                                    @endforeach
                                                 </p>
 
                                             </div>
