@@ -4,27 +4,22 @@ namespace Database\Factories;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Thread;
+use App\Models\User;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
- */
+
 class CommentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-
     protected $model = Comment::class;
-    public function definition(): array
+
+    public function definition()
     {
         return [
             'body' => $this->faker->sentence,
-            'thread_id' => 73,
-            'guest_id' => 1,
-            'created_at' => NOW(),
-            'updated_at' => NOW(),
+            // 50% の確率で image フィールドが null、そうでない場合は画像URLを生成
+            'image' => $this->faker->boolean(50) ? $this->faker->imageUrl() : null,
+            'guest_id' => User::factory(), // ランダムなユーザー
+            'thread_id' => Thread::factory(), // ランダムなスレッド
         ];
     }
 }

@@ -14,17 +14,22 @@ class Book extends Model
 
     protected $fillable = [
         'title',
-        'discription',
+        'description',
         'publication_date',
         'publisher',
-        'ispn_code',
+        'isbn_code',
         'price',
         'image'
     ];
 
     public function authors()
     {
-        return $this->belongsToMany(Author::class, 'author_books', 'author_id', 'book_id');
+        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id');
+    }
+    
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'genre_books');
     }
 
     //suggestion index
@@ -53,7 +58,7 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class,'author_books');
     }
-
+    
 
     public function histories()
     {
@@ -68,18 +73,27 @@ class Book extends Model
 
     public function stores()
     {
-        return $this->belongsToMany(User::class, 'inventories', 'store_id', 'book_id')->withPivot('stock');
+        return $this->belongsToMany(User::class, 'inventories', 'book_id', 'store_id')->withPivot('stock');
     }
+
+    public function store_book()
+{
+    return $this->belongsToMany(User::class, 'store_book');
+}
 
     public function inventory()
     {
-        return $this->belongsToMany(Author::class, 'author_books');
+        return $this->hasMany(Inventory::class);
+    }
+    
+    public function storeOrders()
+    {
+    return $this->hasMany(StoreOrder::class);
     }
 
-    //author_books との conection
-    public function author_books()
+    public function store()
     {
-        return $this->hasMany(AuthorBook::class);
+        return $this->belongsTo(User::class, 'store_id');
     }
 
 }

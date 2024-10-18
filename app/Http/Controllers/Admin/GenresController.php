@@ -9,6 +9,7 @@ use App\Http\Requests\StoreGenreRequest;
 
 
 
+
 class GenresController extends Controller
 {
     //

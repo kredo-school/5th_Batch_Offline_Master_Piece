@@ -13,68 +13,27 @@
     </a>
 
 
-    <form action="#" method="post">
-        @csrf
         <div class="row justify-content-center mt-2">
             <div class="col-10 mt-3">
-                <h1 class="display-3">Analysis of $username</h1>
+                <h1 class="display-3">Analysis of {{ $store->name }}</h1>
                 <div class="bg-white rounded mt-4 p-5 profile-list shadow">
                     <div class="row">
                         <div class="col-8">
-                            <h2 class="h1 fw-bold text-grey">Customers(All Area)</h2>
+                            <h2 class="h1 fw-bold text-grey">Customers ({{ $selectedPrefecture }})</h2>
                         </div>
-                        {{-- order list --}}
                         <div class="col-4">
-                            <select name="address" id="" class="form-select">
-                                <option value="" hidden>Address</option>
-                                <option value="hokkaido">Hokkaido</option>
-                                <option value="aomori">Aomori</option>
-                                <option value="iwate">Iwate</option>
-                                <option value="miyagi">Miyagi</option>
-                                <option value="akita">Akita</option>
-                                <option value="yamagata">Yamagata</option>
-                                <option value="fukushima">Fukushima</option>
-                                <option value="ibaraki">Ibaraki</option>
-                                <option value="tochigi">Tochigi</option>
-                                <option value="gunma">Gunma</option>
-                                <option value="saitama">Saitama</option>
-                                <option value="chiba">Chiba</option>
-                                <option value="tokyo">Tokyo</option>
-                                <option value="kanagawa">Kanagawa</option>
-                                <option value="niigata">Niigata</option>
-                                <option value="toyama">Toyama</option>
-                                <option value="ishikawa">Ishikawa</option>
-                                <option value="fukui">Fukui</option>
-                                <option value="yamanashi">Yamanashi</option>
-                                <option value="nagano">Nagano</option>
-                                <option value="gifu">Gifu</option>
-                                <option value="shizuoka">Shizuoka</option>
-                                <option value="aichi">Aichi</option>
-                                <option value="mie">Mie</option>
-                                <option value="shiga">Shiga</option>
-                                <option value="kyoto">Kyoto</option>
-                                <option value="osaka">Osaka</option>
-                                <option value="hyogo">Hyogo</option>
-                                <option value="nara">Nara</option>
-                                <option value="wakayama">Wakayama</option>
-                                <option value="tottori">Tottori</option>
-                                <option value="shimane">Shimane</option>
-                                <option value="okayama">Okayama</option>
-                                <option value="hiroshima">Hiroshima</option>
-                                <option value="yamaguchi">Yamaguchi</option>
-                                <option value="tokushima">Tokushima</option>
-                                <option value="kagawa">Kagawa</option>
-                                <option value="ehime">Ehime</option>
-                                <option value="kochi">Kochi</option>
-                                <option value="fukuoka">Fukuoka</option>
-                                <option value="saga">Saga</option>
-                                <option value="nagasaki">Nagasaki</option>
-                                <option value="kumamoto">Kumamoto</option>
-                                <option value="oita">Oita</option>
-                                <option value="miyazaki">Miyazaki</option>
-                                <option value="kagoshima">Kagoshima</option>
-                                <option value="okinawa">Okinawa</option>
-                            </select>
+                            <form action="{{ route('store.analysis') }}" method="get">
+                                <select name="address" class="form-select">
+                                    <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All
+                                        Area</option>
+                                    @foreach ($prefectures as $prefecture)
+                                        <option value="{{ $prefecture }}"
+                                            {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
+                                            {{ $prefecture }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
                         </div>
                     </div>
                     <canvas id="customerChart" width="700" height="300"></canvas>
@@ -99,26 +58,39 @@
 
 
         </div>
-    </form>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
+        var bookChart = null; // 初期化
+
+        // 都道府県選択時に自動でフォームを送信
+        document.querySelector('select[name="address"]').addEventListener('change', function() {
+            this.form.submit(); // フォームを自動送信
+        });
+
+        // 年代・性別のグラフ描画
+        var ageLabels = ['0~19', '20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '80~'];
+        var maleData = @json(array_column($ageGroups, 'male'));
+        var femaleData = @json(array_column($ageGroups, 'female'));
+
         var ctx = document.getElementById('customerChart').getContext('2d');
         var customerChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['0~', '20~', '30~', '40~', '50~', '60~', '70~', '80~'],
+                labels: ageLabels,
                 datasets: [{
-                        label: 'Female',
-                        data: [12, 19, 3, 5, 2, 3, 10, 8],
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        label: 'Male',
+                        data: maleData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
                     },
                     {
-                        label: 'Male',
-                        data: [10, 15, 4, 8, 6, 4, 7, 9],
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
+                        label: 'Female',
+                        data: femaleData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }
                 ]
@@ -131,57 +103,29 @@
                 }
             }
         });
-    </script>
 
-    <script>
-        var bookChart;
-
-        // 初期表示のデータ (Genre)
+        // 本のデータ (ジャンル/タイトル) のグラフ描画
         var genreData = {
-            labels: ['Comic', 'Fantasy', 'Horror', 'Mystery', 'History', 'Literature', 'Kids', 'Travel', 'Science',
-                'Romance'
-            ],
+            labels: @json(array_keys($genres)),
             datasets: [{
                 label: 'Genre',
-                data: [25, 20, 18, 15, 14, 12, 10, 6, 5, 2],
+                data: @json(array_values($genres)),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
         };
 
-        // Titleのデータ
         var titleData = {
-            labels: ['booktitle1', 'booktitle2', 'booktitle3', 'booktitle4', 'booktitle5', 'booktitle6', 'booktitle7',
-                'booktitle8', 'booktitle9', 'booktitle10'
-            ],
+            labels: @json($books->pluck('title')),
             datasets: [{
                 label: 'Title',
-                data: [25, 20, 18, 15, 14, 12, 10, 6, 4, 1],
+                data: @json($books->pluck('purchase_count')),
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
         };
-
-        // グラフを生成する関数
-        function createChart(data) {
-            var ctx = document.getElementById('bookChart').getContext('2d');
-            if (bookChart) {
-                bookChart.destroy(); // 既存のグラフを削除
-            }
-            bookChart = new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
 
         // 初期状態でジャンルのグラフを表示
         createChart(genreData);
@@ -195,10 +139,53 @@
                 createChart(titleData);
             }
 
-            // タイトルの()内のテキストを変更
             document.getElementById('bookTitle').textContent = 'Books(' + selectedValue.charAt(0).toUpperCase() +
                 selectedValue.slice(1) + ')';
         });
+
+        function createChart(data) {
+            var ctx = document.getElementById('bookChart').getContext('2d');
+            if (bookChart) {
+                bookChart.destroy(); // 既存のグラフを削除
+            }
+            bookChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    // ラベルが長すぎる場合に折り返す
+                                    var label = this.getLabelForValue(value);
+                                    var maxLength = 15; // 1行に表示する文字数の最大値
+                                    if (label.length > maxLength) {
+                                        return label.match(new RegExp('.{1,' + maxLength + '}',
+                                        'g')); // 文字列を分割して配列にする
+                                    }
+                                    return label;
+                                },
+                                maxRotation: 0, // ラベルの回転を無効にする
+                                minRotation: 0 // ラベルの回転を無効にする
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label.split(/(.{1,30})/g).join("\n");
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     </script>
+
 
 @endsection
