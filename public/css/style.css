@@ -313,6 +313,10 @@
     border-radius: 50%;
 }
 
+.icon-md
+{
+    font-size: 7rem;
+}
 .icon-lg
 {
     font-size: 10rem;

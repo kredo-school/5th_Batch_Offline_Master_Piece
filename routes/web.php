@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/{id}/review', [BookController::class, 'bookReview'])->name('review');
             Route::get('/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/{id}/author', [BookController::class, 'authorShow'])->name('author_show');
+            Route::get('/author/search', [BookController::class, 'searchAuthor'])->name('searchAuthor');
             Route::get('/show/{id}/store', [BookController::class, 'bookStoreShow'])->name('store_show');
             Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
         });

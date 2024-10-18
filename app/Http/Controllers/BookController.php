@@ -251,8 +251,17 @@ class BookController extends Controller
     public function authorShow($id)
     {
         $author = $this->author->findOrFail($id);
+        
 
         return view('users.guests.book.show_author',compact('author'));
+    }
+
+    public function searchAuthor(Request $request)
+    {
+        $search_authors = $this->author->where('name', 'like', '%'.$request->search.'%')->get();
+
+        return view('users.guests.book.author_list',compact('search_authors','request'));
+
     }
 
     public function bookStoreShow($id)
