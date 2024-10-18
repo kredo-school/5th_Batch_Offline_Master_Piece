@@ -15,6 +15,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\GuestsController;
+use App\Http\Controllers\Admin\StoresController;
 use App\Http\controllers\GuestOrderController;
 
 // Route::get('/', function () {
@@ -39,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/edit',[ProfileController::class,'edit'])->name(name: 'edit');
             Route::patch('/update',[ProfileController::class,'update'])->name(name: 'update');
             Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
+            Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
         });
 
         Route::group(['prefix' => 'book', 'as' => 'book.'], function () {
@@ -122,12 +126,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
-        Route::get('/store', [AdminController::class, 'store'])->name('store');
-        Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
-        Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
-        Route::get('/book', [AdminController::class, 'book'])->name('book');
-        Route::get('/register', [AdminController::class, 'register'])->name('register');
+        // Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
+        // Route::get('/store', [AdminController::class, 'store'])->name('store');
+        // Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
+        // Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
+        // Route::get('/book', [AdminController::class, 'book'])->name('book');
+        // Route::get('/register', [AdminController::class, 'register'])->name('register');
         // genres
         Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
         Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
@@ -138,6 +142,16 @@ Route::group(['middleware' => 'auth'], function () {
         // Books
         Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
         Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
+        Route::get('/books/index', [BooksController::class, 'index'])->name('books.index');
+
+        //guests
+        Route::delete('/guests/{user}/destroy', [GuestsController::class, 'destroy'])->name('guests.destroy');
+        Route::post('/guests/{user}/restore', [GuestsController::class, 'restore'])->name('guests.restore');
+        Route::get('/guests/index', [GuestsController::class, 'index'])->name('guests.index');
+        Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
+
+        //stores
+        Route::get('/stores/show', [GuestsController::class, 'show'])->name('stores.show');
 
 
 });

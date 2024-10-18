@@ -66,7 +66,7 @@
                     <input type="text" name="name" class="form-control" placeholder="Add new genre" id="genreInput">
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-success" id="addGenreBtn">Add Genre</button>
+                    <button type="submit" class="btn btn-success" id="addGenreBtn"><i class="fa-solid fa-plus"></i>Add Genre</button>
                 </div>
             </div>
 

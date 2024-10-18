@@ -14,7 +14,7 @@
                 <div class="card-body mx-auto w-75 mt-3">
                     <div class="row border" style="border-radius: 15px;">
                         <!-- Store Button -->
-                        <a href="{{ route('admin.store') }}" class="admin-home-btn col-3 btn">
+                        <a href="{{ route('admin.stores.show') }}" class="admin-home-btn col-3 btn">
                             <i class="i-admin fa-solid fa-shop"></i>
                         </a>
                         <div class="col-9">
@@ -29,7 +29,7 @@
                 <div class="card-body mx-auto w-75">
                     <div class="row border" style="border-radius: 15px;">
                         <!-- Book Button -->
-                        <a href="{{ route('admin.book') }}" class="admin-home-btn col-3 btn">
+                        <a href="{{ route('admin.books.index') }}" class="admin-home-btn col-3 btn">
                             <i class="i-admin fa-solid fa-book-open"></i>
                         </a>
                         <div class="col-9">
@@ -44,7 +44,7 @@
                 <div class="card-body mx-auto w-75">
                     <div class="row border" style="border-radius: 15px;">
                         <!-- Guest Button -->
-                        <a href="{{ route('admin.guest') }}" class="admin-home-btn col-3 btn">
+                        <a href="{{ route('admin.guests.index') }}" class="admin-home-btn col-3 btn">
                             <i class="i-admin fa-regular fa-user"></i>
                         </a>
                         <div class="col-9">

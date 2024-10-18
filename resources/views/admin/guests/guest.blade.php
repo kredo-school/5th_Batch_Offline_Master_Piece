@@ -15,12 +15,12 @@
             <div class="col-auto">
                 <div class="row ms-3">
                     <div class="col">
-                        <form action="#" style="width: 500px" class="d-flex">
+                        <form action="{{ route('admin.guests.search') }}" style="width: 500px" class="d-flex" method="get">
                             @csrf
                             <div class="row ms-auto">
                                 <div class="col pe-0 position-relative">
                                     <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput"
-                                        style="width: 400px" placeholder="Search guests...">
+                                        style="width: 400px" value="{{ request('search') }}" placeholder="Search guests...">
                                         <span id="clearButton" class="clearButton">&times;</span>
                                 </div>
                                 <div class="col ps-1">
@@ -34,16 +34,28 @@
                 </div>
             </div>
             <div class="col-4">
-                <form action="" method="post">
-                    @csrf
+                <form id="sortForm" action="{{ route('admin.guests.index') }}" method="get">
+                    {{-- @csrf
                     <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
                         <option selected>Open this select menu</option>
                         <option value="name">name</option>
                         <option value="report">report</option>
                         <option value="status">status</option>
+                    </select> --}}
+                    @csrf
+                    <div class="d-flex justify-content-center align-items-center">
+                    <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-guest-select" name="sort">
+                        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
+                        <option value="report" {{ request('sort') == 'report' ? 'selected' : '' }}>Report</option>
+                        <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
                     </select>
-                </form>
 
+                    <select class="form-select w-50" aria-label="sort-order" id="sort-order-select" name="order">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
+                    </select>
+                </div>
+                </form>
             </div>
         </div>
         @include('admin.button')
@@ -57,95 +69,81 @@
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Report</th>
-                <th>Status</th>
+                <th class="text-center">Report</th>
+                <th class="text-center">Status</th>
+                {{-- <th>Actions</th> --}}
             </tr>
         </thead>
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+            @if ($all_users->isEmpty())
                 <tr>
-                    <td></td>
-                    <td>shoki</td>
-                    <td>motohashi@email</td>
-                    <td>21</td>
-                    <td>
-                        @if (1)
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-guest-test">
-                                <i class="fa-regular fa-face-smile text-primary"></i> Active
-                            </a>
-                        @else
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-guest-test">
+                    <td colspan="4" class="text-center">No guests found</td>
+                </tr>
+            @else
+                @foreach ($all_users as $user)
+                <tr>
+                <td>
+                    @if ($user->profile)
+                        <img src="{{ $user->profile->avatar }}" alt="{{ $user->id }}" class="rounded-circle d-block mx-auto avatar-md">
+                    @else
+                        <i class="fa-solid fa-circle-user d-block text-center icon-md"></i>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('profile.show', $user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $user->name }}</a>
+                </td>
+                <td>{{ $user->email }}</td>
+                <td class="text-center text-danger">{{ $user->thread_report_count ?? 0 }}</td>
+                
+                <td class="text-center">
+                        @if ($user->trashed())
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-user-modal-{{ $user->id }}">
                                 <i class="fa-regular fa-face-frown text-danger"></i> Inactive
                             </a>
+                        @else
+                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-user-modal-{{ $user->id }}">
+                                <i class="fa-regular fa-face-smile text-primary"></i> Active
+                            </a>
                         @endif
-                    </td>
-                </tr>
-            @endfor
+                </td>
+
+                </td>
+            </tr>
+            @include('admin.guests.modal.status')
+            @endforeach
+            @endif
         </tbody>
-    </table>
+    </table>  
 
-
-    {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
-    {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script>
-    document.getElementById('manage-guest-select').addEventListener('change', function() {
-        var table = document.getElementById('manage-guest-table').getElementsByTagName('tbody')[0];
-        var rows = Array.from(table.rows);
-        var sortBy = this.value;
+    <script>
+        // セレクトメニューが変更されたときに自動的にフォームを送信
+        // document.getElementById('manage-guest-select').addEventListener('change', function() {
+        //     document.getElementById('sortForm').submit();
+        // });
+        
+        // document.getElementById('sort-order-select').addEventListener('change', function() {
+        //     document.getElementById('sortForm').submit();
+        // });
 
-        rows.sort(function(rowA, rowB) {
-            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-
-            if (sortBy === 'report') {
-                // レポート数は数値で比較する
-                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
-            } else {
-                // その他は文字列でアルファベット順に並べる
-                return cellA.localeCompare(cellB);
-            }
+        document.getElementById('manage-guest-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
         });
 
-        // Sort後にテーブルを再描画
-        rows.forEach(function(row) {
-            table.appendChild(row);
+        document.getElementById('sort-order-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
         });
-    });
 
-    function getColumnIndex(sortBy) {
-        switch (sortBy) {
-            case 'name':
-                return 2;
-            case 'report':
-                return 4;
-            case 'status':
-                return 5;
-            default:
-                return 2; // デフォルトはnameカラム
-        }
-    }
-</script>
+        
+    </script>
 
 
-    @include('admin.guests.modal.status')
 
-    <div class="under-container mt-5">
-        <nav aria-label="Page navigation mt-5 ">
-            <ul class="pagination justify-content-center paginate-bar mx-auto">
-                <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+
+    {{-- ページネーションリンクを表示 --}}
+    <div class="d-flex justify-content-center">
+        {{ $all_users->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
     </div>
 
-    </div>
 @endsection
 
