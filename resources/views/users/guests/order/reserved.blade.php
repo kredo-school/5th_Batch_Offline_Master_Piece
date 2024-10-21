@@ -8,7 +8,7 @@
             <div class="col-8 mx-auto">
                 <div class="card">
                     <div class="card-header bg-white">
-                        <img src="{{asset('images/BB2BB7F8-CA14-4C2A-8606-2DA9E432FEB0 copy.png')}}" alt="" class="reserved-img mx-auto d-block mb-3">
+                        <img src="{{asset('images/BB2BB7F8-CA14-4C2A-8606-2DA9E432FEB0 copy.png')}}" alt="masterpiece-icon" class="reserved-img mx-auto d-block mb-3">
                         <h1 class="display-2 text-green fw-bold text-center mb-3">Thank you!</h1>
 
                         <p class="fw-semibold fs-24 mx-5">
@@ -18,10 +18,54 @@
                         </p>
                     </div>
                     <div class="card-body bg-white">
-                        <div class="mx-3">
-                            <div class="main-text fs-32 fw-semibold">Your order number: <span class="text-dark">09120912</span></div>
-                            <div class="main-text fs-32 fw-semibold">Received by: <span class="text-dark">Mito store(Sep.12.2024)</span></div>
-                            <div class="main-text fs-32 fw-semibold">Order total: <span class="text-dark">4 books - ¥13,800</span></div>
+                        <div class="mx-3 main-text fs-24 fw-semibold">
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <div class="">Your order number:</div>
+                                </div>
+                                <div class="col text-dark ms-3">
+                                    @foreach ($stores as $store)
+                                        {{$store->name}}:
+                                        {{$reservationNumber[$store->id]}}
+
+                                        @if (!$loop->last)
+                                            <br>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <p>Received by:</p>
+                                </div>
+                                <div class="col">
+
+                                    @foreach ($stores as $store)
+                                        <span class="text-dark">{{$store->name}}
+                                            @foreach ($store->inventories as $inventory)
+                                                @if ($inventory->stock === 0)
+                                                    ({{$threeDaysLater}})
+                                                @else
+                                                    @if($loop->last)
+                                                        ({{$today}})
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </span>
+
+                                        @if (!$loop->last)
+                                            <br>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <p>Order total:
+                                <span class="text-dark">
+                                    {{$total_amount}} books - ¥{{number_format($total_price)}}
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
