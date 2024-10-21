@@ -396,8 +396,10 @@
 }
 
 
-.list-board{
-    height: 550px;
+.list-board {
+    min-height: 550px; /* 最低限の高さ */
+    height: auto; /* コンテンツの量に応じて自動的に高さが拡張される */
+    overflow: hidden; /* コンテンツがはみ出さないようにする */
 }
 
 /* 左のボタンを左に移動 */
