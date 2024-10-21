@@ -11,7 +11,7 @@
                     <div class="card-body card-size overflow-auto bg-white">
                         <h1 class="main-text fw-bold mb-3">Order Status</h1>
                         <div class="mx-3">
-                            @foreach ($reserves as $reserve)
+                            @forelse ($reserves as $reserve)
                                 <div class="row mb-3">
                                     <div class="col-3">
                                         {{-- book image --}}
@@ -51,14 +51,14 @@
                                         @endfor
 
                                         {{ number_format($averageStarCount, 1) }}/5.0
-                                        <p class="text-danger fs-32 mt-5">¥ {{ number_format($reserve->book->price) }}
+                                        <p class="text-danger fs-32 mt-5">¥ <span class="price" data-price="{{$reserve->book->price}}">{{number_format($reserve->book->price)}}</span>
                                         </p>
                                     </div>
                                     <div class="col-3 text-end">
                                         {{-- store,amount,delete --}}
 
                                         {{-- IDを送る --}}
-                                        <h4>Store: <a href="{{route('book.store_show', )}}"
+                                        <h4>Store: <a href="{{route('book.store_show', $reserve->store->id)}}"
                                                 class="text-decoration-none text-dark">{{ $reserve->store->name }}</a>
                                         </h4>
                                         <h4>Inventory: {{ $reserve->inventory->stock }}</h4>
@@ -67,9 +67,9 @@
                                             @method('PATCH')
 
                                             <input type="number" name="amount[]" id="amount" placeholder="Amount"
-                                                min="0" max="{{ $reserve->inventory->stock }}"
+                                                min="0" max="30"
                                                 value="{{ old('amount'.$loop->index, $reserve->amount) }}"
-                                                class="form-control mb-2 mt-4 w-50 text-center d-inline">
+                                                class="form-control mb-3 mt-4 w-50 text-center d-inline amount">
                                             @error('amount'.$loop->index)
                                                 <p class="text-danger small">{{ $message }}</p>
                                             @enderror
@@ -81,7 +81,10 @@
                                 @if (!$loop->last)
                                     <hr>
                                 @endif
-                            @endforeach
+
+                                @empty
+                                    <p class="text-danger fs-24 text-center mt-5">Nothing added yet</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -89,17 +92,60 @@
 
             <div class="col-3">
                 {{-- total --}}
-                <div class="card text-center mb-2">
-                    <div class="card-header bg-white ">
-                        <h1 class="fw-bold">Selected: 4</h1>
-                        <h1 class="fw-bold">Total: ¥3,000</h1>
+                @if ($reserves->isNotEmpty())
+                    <div class="card text-center mb-2">
+                        <div class="card-header bg-white ">
+                            <h1 class="fw-bold">Selected: <span id="total-amount">0</span></h1>
+                            <h1 class="fw-bold">Total: <span id="total-price">0</span></h1>
+                        </div>
                     </div>
-                </div>
 
-                    <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Select Store <i
-                            class="fa-solid fa-arrow-right"></i></button>
-                </form>
+                        <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Select Store <i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </form>
+                @endif
             </div>
+
         </div>
     </div>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 本の金額や数量を取得
+    const amounts = document.querySelectorAll('.amount');
+    const prices = document.querySelectorAll('.price');
+    const totalPriceElement = document.getElementById('total-price');
+    const totalAmountElement = document.getElementById('total-amount'); // 合計数量を表示する要素
+
+    // 金額をフォーマットする関数
+    function numberFormat(value) {
+        return value.toLocaleString('ja-JP'); // カンマ区切り形式で日本の通貨形式に
+    }
+
+    // 金額を計算する関数
+    function calculateTotal() {
+        let total = 0;
+        let totalAmount = 0; // 合計数量の初期化
+
+        amounts.forEach((amount, index) => {
+            const price = parseInt(prices[index].getAttribute('data-price')) || 0; // data-priceから取得
+            const quantity = parseInt(amount.value) || 0; // NaNの場合0にする
+            total += price * quantity; // 金額を合計に追加
+            totalAmount += quantity; // 数量を合計に追加
+        });
+
+        // 合計金額と合計数量をフォーマットして更新
+        totalPriceElement.innerText = `¥ ${numberFormat(total)}`;
+        totalAmountElement.innerText = totalAmount; // 合計数量を表示
+    }
+
+    // 数量が変更されたときに金額を計算する
+    amounts.forEach(amount => {
+        amount.addEventListener('input', calculateTotal);
+    });
+
+    // 初期計算を実行
+    calculateTotal();
+});
+</script>

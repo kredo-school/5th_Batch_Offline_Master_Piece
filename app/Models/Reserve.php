@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserve extends Model
 {
+    protected $fillable = [
+        'reservation_number',
+    ];
+
     use HasFactory;
 
     public function book()
