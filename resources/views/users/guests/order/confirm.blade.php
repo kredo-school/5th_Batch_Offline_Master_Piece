@@ -167,7 +167,7 @@
 
                 <div class="row">
                     <div class="col text-end">
-                        <a href="#" class="btn btn-outline-secondary w-50 p-3">
+                        <a href="{{url()->previous()}}" class="btn btn-outline-secondary w-50 p-3">
                             <div class="h3 m-0"><i class="fa-solid fa-arrow-left"></i> Back</div>
                         </a>
                     </div>

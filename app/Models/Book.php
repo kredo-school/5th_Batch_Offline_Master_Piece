@@ -24,7 +24,12 @@ class Book extends Model
 
     public function authors()
     {
-        return $this->belongsToMany(Author::class, 'author_books', 'author_id', 'book_id');
+        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id');
+    }
+    
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'genre_books');
     }
 
     //suggestion index
@@ -53,6 +58,7 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class,'author_books');
     }
+    
 
     public function histories()
     {

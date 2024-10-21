@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Reserve;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 use App\Http\Requests\GuestOrderRequest;
 
@@ -25,7 +25,9 @@ class GuestOrderController extends Controller
 
     public function show()
     {
-        $reserves = Auth::user()->reserves()->get();
+        $reserves = $this->reserve->where('guest_id', Auth::id())
+                                    ->whereNull('reservation_number')
+                                    ->get();
 
         return view('users.guests.order.show')->with(compact('reserves'));
     }
@@ -101,9 +103,16 @@ class GuestOrderController extends Controller
         foreach($stores as $store):
             foreach ($reserves as $reserve){
                 if ($store->id == $reserve->store_id){
-                    $reserve->update(['reservation_number', $reserve->updated_at.$store->id]);
+                    do {
+                        // 店舗ごとに予約番号を生成
+                        $reservationNumber = $store->id . '-' . date('Ymd') . '-' . Str::random(8);
+                        // 予約番号がすでに使われているかを確認
+                        $exists = $this->reserve->where('reservation_number', $reservationNumber)->exists();
+                    } while ($exists);  // 重複があった場合、再度生成する
                 }
             }
+
+            $this->reserve->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber]);
         endforeach;
 
         return view('users.guests.order.reserved');

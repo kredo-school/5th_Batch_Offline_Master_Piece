@@ -11,7 +11,7 @@
                     <div class="card-body card-size overflow-auto bg-white">
                         <h1 class="main-text fw-bold mb-3">Order Status</h1>
                         <div class="mx-3">
-                            @foreach ($reserves as $reserve)
+                            @forelse ($reserves as $reserve)
                                 <div class="row mb-3">
                                     <div class="col-3">
                                         {{-- book image --}}
@@ -58,7 +58,7 @@
                                         {{-- store,amount,delete --}}
 
                                         {{-- IDを送る --}}
-                                        <h4>Store: <a href="{{route('book.store_show', )}}"
+                                        <h4>Store: <a href="{{route('book.store_show', $reserve->store->id)}}"
                                                 class="text-decoration-none text-dark">{{ $reserve->store->name }}</a>
                                         </h4>
                                         <h4>Inventory: {{ $reserve->inventory->stock }}</h4>
@@ -81,7 +81,10 @@
                                 @if (!$loop->last)
                                     <hr>
                                 @endif
-                            @endforeach
+
+                                @empty
+                                    <p class="text-danger fs-24 text-center mt-5">Nothing added yet</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -89,17 +92,20 @@
 
             <div class="col-3">
                 {{-- total --}}
-                <div class="card text-center mb-2">
-                    <div class="card-header bg-white ">
-                        <h1 class="fw-bold">Selected: <span id="total-amount">0</span></h1>
-                        <h1 class="fw-bold">Total: <span id="total-price">0</span></h1>
+                @if ($reserves->isNotEmpty())
+                    <div class="card text-center mb-2">
+                        <div class="card-header bg-white ">
+                            <h1 class="fw-bold">Selected: <span id="total-amount">0</span></h1>
+                            <h1 class="fw-bold">Total: <span id="total-price">0</span></h1>
+                        </div>
                     </div>
-                </div>
 
-                    <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Select Store <i
-                            class="fa-solid fa-arrow-right"></i></button>
-                </form>
+                        <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Select Store <i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </form>
+                @endif
             </div>
+
         </div>
     </div>
 @endsection
