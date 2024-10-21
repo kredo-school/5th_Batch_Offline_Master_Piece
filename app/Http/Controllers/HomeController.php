@@ -91,7 +91,7 @@ class HomeController extends Controller
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
             ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
             ->orderBy('average_rating', 'desc')
             ->limit(20)
             ->get();
@@ -104,8 +104,8 @@ class HomeController extends Controller
         $newedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
-            ->select('books.id','books.title', 'books.price', 'books.image','authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id','books.title', 'books.price', 'books.image','authors.name')
+            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
             ->orderBy('books.publication_date', 'desc')
             ->limit(20)
             ->get();

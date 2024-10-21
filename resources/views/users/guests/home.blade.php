@@ -58,7 +58,7 @@
                                             @endif
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $book->id) }}">
-                                                    <img src="{{ asset('images/649634.png') }}" class="w-75 shadow img-list"
+                                                    <img src="{{ $book->image }}" class="w-75 shadow img-list"
                                                         alt="Image {{ $loop->iteration }}">
                                                 </a>
                                                 <p class="mt-4">
@@ -207,7 +207,7 @@
                                             </div>
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $book->id) }}">
-                                                    <img src="{{ asset('images/649634.png') }}"
+                                                    <img src="{{ $book->image }}"
                                                         class="w-75 shadow img-list" alt="Image {{ $loop->iteration }}">
                                                 </a>
                                                 <p class="mt-4">
