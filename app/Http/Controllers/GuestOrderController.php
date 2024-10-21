@@ -7,6 +7,7 @@ use App\Models\Reserve;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\Http\Requests\GuestOrderRequest;
 
@@ -120,7 +121,28 @@ class GuestOrderController extends Controller
 
     public function reserved()
     {
-        return view('users.guests.order.reserved');
+        $reserves = Auth::user()->reserves()->with('store')->get();
+        $selected_stores = $this->selected_stores($reserves);
+        $stores = $this->stores($selected_stores);
+
+        $reservationNumber = [];
+        foreach($reserves as $reserve):
+            if(!isset($reservationNumber[$reserve->store_id])){
+                $reservationNumber[$reserve->store_id] =  $reserve->reservation_number;
+            }
+        endforeach;
+
+        $today = Carbon::now()->format('m/d/Y');
+        $threeDaysLater = Carbon::now()->addDays(3)->format('m/d/Y');
+
+        $total_amount = 0;
+        $total_price = 0;
+        foreach($reserves as $reserve):
+            $total_amount += $reserve->amount;
+            $total_price = $reserve->amount * $reserve->book->price + $total_price;
+        endforeach;
+
+        return view('users.guests.order.reserved')->with(compact('stores', 'reserves', 'reservationNumber', 'today', 'threeDaysLater', 'total_amount', 'total_price'));
     }
 
 }
