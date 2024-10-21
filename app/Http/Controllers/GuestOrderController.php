@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Reserve;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +15,12 @@ class GuestOrderController extends Controller
 
     private $book;
     private $reserve;
-    public function __construct(Book $book, Reserve $reserve)
+    private $user;
+    public function __construct(Book $book, Reserve $reserve, User $user)
     {
         $this->book = $book;
         $this->reserve = $reserve;
+        $this->user = $user;
     }
 
     public function show()
@@ -52,4 +55,63 @@ class GuestOrderController extends Controller
             return redirect()->route('order.confirm');
         }
     }
+
+    public function confirm()
+    {
+        $reserves = Auth::user()->reserves()->with('store')->get();
+
+        $selected_stores = $this->selected_stores($reserves);
+        $stores = $this->stores($selected_stores);
+
+        $subtotal_amount = 0;
+        $subtotal_price = 0;
+        $total_price = 0;
+        return view('users.guests.order.confirm')->with(compact('reserves', 'selected_stores', 'stores', 'subtotal_amount', 'subtotal_price', 'total_price'));
+    }
+
+    public function selected_stores($reserves)
+    {
+        $selected_stores = [];
+        foreach($reserves as $reserve):
+            $selected_stores[] = $reserve->store_id;
+        endforeach;
+
+        return $selected_stores;
+    }
+
+    public function stores($selected_stores)
+    {
+        $all_users = $this->user->all();
+
+        $stores = [];
+        foreach($all_users as $user):
+            if(in_array($user->id, $selected_stores)){
+                $stores[] = $user;
+            }
+        endforeach;
+
+        return $stores;
+    }
+
+    public function reserve()
+    {
+        $reserves = Auth::user()->reserves()->with('store')->get();
+        $selected_stores = $this->selected_stores($reserves);
+        $stores = $this->stores($selected_stores);
+        foreach($stores as $store):
+            foreach ($reserves as $reserve){
+                if ($store->id == $reserve->store_id){
+                    $reserve->update(['reservation_number', $reserve->updated_at.$store->id]);
+                }
+            }
+        endforeach;
+
+        return view('users.guests.order.reserved');
+    }
+
+    public function reserved()
+    {
+        return view('users.guests.order.reserved');
+    }
+
 }

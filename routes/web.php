@@ -75,9 +75,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
         Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
-        Route::get('/confirm', [BookController::class, 'confirm'])->name('confirm');
+        Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm');
         Route::get('/reserved', [GuestOrderController::class, 'reserved'])->name('reserved');
         Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
+        Route::patch('/reserve', [GuestOrderController::class, 'reserve'])->name('reserve');
     });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
@@ -91,7 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
         Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
         Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
-        
+
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
         // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
 

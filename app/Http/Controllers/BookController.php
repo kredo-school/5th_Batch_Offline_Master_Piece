@@ -28,17 +28,6 @@ class BookController extends Controller
        //
     }
 
-    public function confirm()
-    {
-        return view('users.guests.order.confirm');
-    }
-
-    public function reserved()
-    {
-        return view('users.guests.order.reserved');
-    }
-
-
     public function bookSuggestion()
     {
         $userId = Auth::id();
