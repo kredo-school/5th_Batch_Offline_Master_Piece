@@ -26,7 +26,7 @@
                     <div class="row mt-4">
                         <div class="col-3">
                             <a href="{{ route('book.show_book',$bookmark->book->id) }}" class="text-decoration-none">
-                                <img src="{{ $bookmark->book }}" alt="{{ $bookmark->book->id }}" class="w-100 shadow">
+                                <img src="{{ $bookmark->book->image }}" alt="{{ $bookmark->book->id }}" class="w-100 shadow">
                             </a>
                         </div>
                         <div class="col-6 fs-32">
