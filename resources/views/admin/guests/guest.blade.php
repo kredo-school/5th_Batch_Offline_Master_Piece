@@ -35,15 +35,8 @@
             </div>
             <div class="col-4">
                 <form id="sortForm" action="{{ route('admin.guests.index') }}" method="get">
-                    {{-- @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
-                        <option selected>Open this select menu</option>
-                        <option value="name">name</option>
-                        <option value="report">report</option>
-                        <option value="status">status</option>
-                    </select> --}}
                     @csrf
-                    <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex justify-content-center align-items-center">
                     <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-guest-select" name="sort">
                         <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
                         <option value="report" {{ request('sort') == 'report' ? 'selected' : '' }}>Report</option>
@@ -84,9 +77,9 @@
                 <tr>
                 <td>
                     @if ($user->profile)
-                        <img src="{{ $user->profile->avatar }}" alt="{{ $user->id }}" class="rounded-circle d-block mx-auto avatar-md">
+                        <img src="{{ $user->profile->avatar }}" alt="{{ $user->id }}" class="rounded-circle d-block mx-auto avatar-md" style="width: 50px; height: 50px; object-fit: cover;">
                     @else
-                        <i class="fa-solid fa-circle-user d-block text-center icon-md"></i>
+                        <i class="fa-solid fa-circle-user d-block text-center icon-md" style="font-size: 50px;"></i>
                     @endif
                 </td>
                 <td>
