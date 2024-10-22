@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserve extends Model
 {
+    protected $fillable = [
+        'reservation_number',
+    ];
+
     use HasFactory;
 
     public function book()
@@ -22,5 +26,10 @@ class Reserve extends Model
     public function inventory()
     {
         return $this->hasOne(Inventory::class, 'book_id', 'book_id')->where('store_id', $this->store_id);
+    }
+
+    public function author_books()
+    {
+        return $this->hasMany(AuthorBook::class, 'book_id');
     }
 }
