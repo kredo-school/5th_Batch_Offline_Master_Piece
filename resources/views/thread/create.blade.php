@@ -15,7 +15,7 @@
                 <form action="{{route('thread.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <label for="title" class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
-                    <input type="text" name="title" id="title" class="form-control mb-3" placeholder="Title">
+                    <input type="text" name="title" id="title" class="form-control mb-3" placeholder="Title" value="{{old('title')}}">
                     @error('title')
                             <p class="text-danger small">{{$message}}</p>
                     @enderror
@@ -34,7 +34,7 @@
                     </div>
 
                     <label for="genre" class="form-label fw-semibold">First comment <span class="text-danger">*</span></label>
-                    <textarea name="body" id="comment" cols="" rows="8" placeholder="Add comment" class="form-control mb-3"></textarea>
+                    <textarea name="body" id="comment" cols="" rows="8" placeholder="Add comment" class="form-control mb-3">{{old('body')}}</textarea>
                     @error('body')
                         <p class="text-danger small">{{$message}}</p>
                     @enderror
