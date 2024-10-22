@@ -25,13 +25,13 @@
                     <div class="row mt-4">
                         <p class="text-muted mb-0">{{ $review->created_at }}</p>
                         <div class="col-3">
-                            <a href="{{ route('book.show_book') }}" class="text-decoration-none">
+                            <a href="{{ route('book.show_book',$review->book->id) }}" class="text-decoration-none">
                                 <img src="{{ $review->book->image }}" alt="{{ $review->book->id }}" class="w-100 shadow">
                             </a>
                         </div>
                         <div class="col-9 fs-32">
                             <p>
-                                <a href="{{ route('book.show_book') }}" class="text-decoration-none">
+                                <a href="{{ route('book.show_book',$review->book->id) }}" class="text-decoration-none">
                                     <p class="fs-32">{{ $review->book->name }}</p>
                                 </a>
                                 @php
