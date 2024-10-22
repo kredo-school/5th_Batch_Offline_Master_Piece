@@ -18,11 +18,14 @@
                     <h1 class="text-danger fw-bold">
                         {{$thread->title}}
                     </h1>
+
                     <p class="text-secondary mb-0">
-                        Genre:
-                        @foreach ($genres as $genre_id)
-                            {{$genre_id->genre->name}}
-                        @endforeach
+                        @if ($genres->isNotEmpty())
+                            Genre:
+                            @foreach ($genres as $genre_id)
+                                {{$genre_id->genre->name}}
+                            @endforeach
+                        @endif
 
                         <span class="float-end">
                             @can('admin')
@@ -83,7 +86,7 @@
             </div>
 
             <div class="card" id="add-comment">
-                <form action="{{route('thread.addComment', $thread)}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('comment.addComment', $thread)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header bg-white p-0">
                         <textarea name="body" id="comment" rows="5" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0"></textarea>

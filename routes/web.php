@@ -66,15 +66,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
-        Route::post('/add-comment/{thread}', [ThreadController::class, 'addComment'])->name('addComment');
-        Route::delete('/comment/destroy/{comment}', [ThreadController::class, 'destroyComment'])->name('destroyComment');
         Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
-        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
 
     Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
+        Route::post('/add-comment/{thread}', [CommentController::class, 'addComment'])->name('addComment');
         Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
         Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
