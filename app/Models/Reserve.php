@@ -27,4 +27,9 @@ class Reserve extends Model
     {
         return $this->hasOne(Inventory::class, 'book_id', 'book_id')->where('store_id', $this->store_id);
     }
+
+    public function author_books()
+    {
+        return $this->hasMany(AuthorBook::class, 'book_id');
+    }
 }

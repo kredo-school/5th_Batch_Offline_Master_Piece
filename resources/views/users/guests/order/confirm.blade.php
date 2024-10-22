@@ -39,7 +39,7 @@
                                             @if ($inventory->stock === 0)
                                                 3 days later
                                             @else
-                                                @if($loop->last)
+                                                @if ($loop->last)
                                                     Right now
                                                 @endif
                                             @endif
@@ -67,8 +67,13 @@
                                             <p class="fs-32"><a href="{{ route('book.show_book', $reserve->book->id) }}"
                                                     class="text-decoration-none text-dark">{{ $reserve->book->title }}</a>
                                             </p>
-                                            <p class="h4"><a href="#"
-                                                    class="text-decoration-none text-dark">Author</a></p>
+                                            <p class="h4">
+                                                <a href="#" class="text-decoration-none text-dark">
+                                                    @foreach ($reserve->book->authors as $author)
+                                                        {{ $author->name }}
+                                                    @endforeach
+                                                </a>
+                                            </p>
 
                                             @php
                                                 $averageStarCount = $reserve->book->reviews->avg('star_count');
@@ -135,20 +140,21 @@
                             <tbody>
                                 @foreach ($stores as $store)
                                     <tr>
-                                        <td class="bg-white"><span class="main-text">{{$store->name}}</span></td>
+                                        <td class="bg-white"><span class="main-text">{{ $store->name }}</span></td>
                                         <td class="bg-white">
 
                                             @foreach ($reserves as $reserve)
                                                 @if ($store->id == $reserve->store_id)
                                                     @php
                                                         $subtotal_amount += $reserve->amount;
-                                                        $subtotal_price += $reserve->amount * $reserve->book->price
+                                                        $subtotal_price += $reserve->amount * $reserve->book->price;
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            <span class="main-text">{{$subtotal_amount}}</span>
+                                            <span class="main-text">{{ $subtotal_amount }}</span>
                                         </td>
-                                        <td class="bg-white"><span class="main-text">¥{{number_format($subtotal_price)}}</span></td>
+                                        <td class="bg-white"><span
+                                                class="main-text">¥{{ number_format($subtotal_price) }}</span></td>
                                     </tr>
                                     @php
                                         $total_price += $subtotal_price;
@@ -160,19 +166,19 @@
                             </tbody>
                         </table>
                         <div class="text-end me-5 display-5 fw-bold">
-                            Total: ¥{{number_format($total_price)}}
+                            Total: ¥{{ number_format($total_price) }}
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col text-end">
-                        <a href="{{url()->previous()}}" class="btn btn-outline-secondary w-50 p-3">
+                        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary w-50 p-3">
                             <div class="h3 m-0"><i class="fa-solid fa-arrow-left"></i> Back</div>
                         </a>
                     </div>
                     <div class="col">
-                        <form action="{{route('order.reserve')}}" method="post">
+                        <form action="{{ route('order.reserve') }}" method="post">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="btn btn-orange w-50 p-3">

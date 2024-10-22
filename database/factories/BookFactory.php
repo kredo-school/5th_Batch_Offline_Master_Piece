@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\genre;
+use App\Models\Book;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Book>
@@ -14,21 +16,25 @@ class BookFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
-        $imagePath = public_path('images/649634.png');
-        $imageData = base64_encode(file_get_contents($imagePath));
-                $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
-                $base64Image = 'data:image/' . $extension . ';base64,' . $imageData;
-
         return [
-            'title' => $this->faker->name,
-            'description' =>  $this->faker->sentence,
-            'publication_date' =>  $this->faker->dateTime,
-            'publisher' =>  $this->faker->name,
-            'isbn_code' =>  $this->faker->randomNumber,
-            'price' =>  $this->faker->randomNumber,
-            'image' => $base64Image,
+            'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'publication_date' => $this->faker->date(),
+            'publisher' => $this->faker->company(),
+            'isbn_code' => $this->faker->unique()->isbn13(),
+            'price' => $this->faker->randomFloat(2, 10, 100),
+            'image' => $this->faker->imageUrl(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Book $book) {
+            // 1～3個のランダムなジャンルを関連付け
+            $genres = Genre::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $book->genre_book()->attach($genres);
+        });
     }
 }
