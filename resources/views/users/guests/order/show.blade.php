@@ -25,8 +25,13 @@
                                         <p class="fs-32"><a href="{{route('book.show_book', $reserve->book->id)}}"
                                                 class="text-decoration-none text-dark">{{ $reserve->book->title }}</a>
                                         </p>
-                                        <p class="h4"><a href="#"
-                                                class="text-decoration-none text-dark">Author</a></p>
+                                        <p class="h4">
+                                            <a href="#"class="text-decoration-none text-dark">
+                                                @foreach ($reserve->book->authors as $author)
+                                                    {{$author->name}}
+                                                @endforeach
+                                            </a>
+                                        </p>
 
                                         @php
                                             $averageStarCount = $reserve->book->reviews->avg('star_count');

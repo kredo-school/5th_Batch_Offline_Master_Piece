@@ -26,7 +26,7 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id');
     }
-    
+
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'genre_books');
@@ -58,7 +58,7 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class,'author_books');
     }
-    
+
 
     public function histories()
     {
@@ -85,7 +85,7 @@ class Book extends Model
     {
         return $this->hasMany(Inventory::class);
     }
-    
+
     public function storeOrders()
     {
     return $this->hasMany(StoreOrder::class);

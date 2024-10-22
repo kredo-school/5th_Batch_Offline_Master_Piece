@@ -14,12 +14,10 @@ use App\Http\Requests\GuestOrderRequest;
 class GuestOrderController extends Controller
 {
 
-    private $book;
     private $reserve;
     private $user;
-    public function __construct(Book $book, Reserve $reserve, User $user)
+    public function __construct(Reserve $reserve, User $user)
     {
-        $this->book = $book;
         $this->reserve = $reserve;
         $this->user = $user;
     }
@@ -116,7 +114,7 @@ class GuestOrderController extends Controller
             $this->reserve->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber]);
         endforeach;
 
-        return view('users.guests.order.reserved');
+        return redirect()->route('order.reserved');
     }
 
     public function reserved()

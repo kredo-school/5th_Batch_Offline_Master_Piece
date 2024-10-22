@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/show/{id}/store', [BookController::class, 'bookStoreShow'])->name('store_show');
             Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
         });
-        
+
         Route::get('inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
     });
 
