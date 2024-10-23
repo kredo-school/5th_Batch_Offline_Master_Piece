@@ -70,39 +70,25 @@ class HomeController extends Controller
                 ->pluck('book_id')
                 ->toArray();
         }
-
+    
         if (empty($purchasedBooks)) {
-            // 購入履歴がない場合は人気のある本を取得
+            // 購入履歴またはジャンル指定がない場合は、人気のある本を取得
             $suggestionedBooks = Book::with('authors')
                 ->orderBy('books.publication_date', 'desc')
                 ->limit(20)
                 ->get();
         } else {
             // 購入履歴や選択ジャンルに基づく本の取得
-            $genres = DB::table('genre_books')
-                ->whereIn('book_id', $purchasedBooks)
-                ->pluck('genre_id')
-                ->toArray();
-
-            $suggestionedBooks = Book::whereIn('books.id', function($query) use ($genres) {
-                $query->select('book_id')
-                    ->from('genre_books')
-                    ->whereIn('genre_id', $genres);
-            })
-            ->with('authors')
-            ->orderBy('books.publication_date', 'desc')
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', "=", 'authors.id')
-            ->join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
-            ->orderBy('average_rating', 'desc')
-            ->limit(20)
-            ->get();
+            $suggestionedBooks = Book::whereIn('id', $purchasedBooks) // `books.id`の代わりに`id`
+                ->with('authors')
+                ->orderBy('books.publication_date', 'desc')
+                ->limit(20)
+                ->get();
         }
-
+    
         return $suggestionedBooks;
     }
+    
 
     /**
      * ランキング本を取得するメソッド
