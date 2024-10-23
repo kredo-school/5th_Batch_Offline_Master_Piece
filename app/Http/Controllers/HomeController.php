@@ -74,7 +74,7 @@ class HomeController extends Controller
             ->join('authors', 'author_books.author_id', "=", 'authors.id')
             ->join('reviews', 'books.id', '=', 'reviews.book_id')
             ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
             ->orderBy('average_rating', 'desc')
             ->limit(20)
             ->get()
@@ -111,5 +111,10 @@ class HomeController extends Controller
             ->get();
 
         return $newedBooks;
+    }
+
+    public function footer()
+    {
+        
     }
 }
