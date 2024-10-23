@@ -91,6 +91,12 @@ class HomeController extends Controller
             })
             ->with('authors')
             ->orderBy('books.publication_date', 'desc')
+            ->join('author_books', 'books.id', '=', 'author_books.book_id')
+            ->join('authors', 'author_books.author_id', "=", 'authors.id')
+            ->join('reviews', 'books.id', '=', 'reviews.book_id')
+            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
+            ->orderBy('average_rating', 'desc')
             ->limit(20)
             ->get();
         }

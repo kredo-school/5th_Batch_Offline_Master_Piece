@@ -35,7 +35,7 @@
 
 </head>
 
-<body class="main-bg" style="background-color: #FFFCF2">
+<body class="main-bg">
     <div id="app">
         @if (!request()->is('order/confirm'))
 
@@ -367,14 +367,26 @@
         <main class="py-4">
             @yield('content')
         </main>
+        {{-- footer here --}}
+        @auth
+            @if (!request()->is('order/confirm'))
+                @include('layouts.footer')
+                {{-- <footer>
+                    <div class="footer-content">
+                        <p>&copy; 2024 Your Website Name</p>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </footer> --}}
+            @endif
+        @endauth
     </div>
-    {{-- footer here --}}
-    @auth
-        @if (!request()->is('order/confirm'))
-            @include('layouts.footer')
-        @endif
-    @endauth
+</body>
 
+</html>
     {{-- search bar --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -420,6 +432,4 @@
             }
         });
     </script>
-</body>
 
-</html>

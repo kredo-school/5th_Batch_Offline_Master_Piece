@@ -10,6 +10,7 @@ use App\Models\Genre;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -40,15 +41,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useBootstrap();
-        
+
         Blade::directive('highlightKeyword', function ($expression) {
             return "<?php echo highlightKeyword($expression); ?>";
         });
 
 
-        $all_genres = Genre::latest()->get();
-
-        View::share('all_genres', $all_genres);
-
+        // for footer
+        View::share('all_genres', Genre::all());
     }
 }
