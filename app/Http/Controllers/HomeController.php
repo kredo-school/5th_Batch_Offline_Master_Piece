@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Thread;
+use App\Models\Genre;
+use Illuminate\Support\Collection;
 
 
 class HomeController extends Controller
@@ -17,9 +19,13 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    private $genre;
+    public function __construct(Genre $genre)
     {
         $this->middleware('auth');
+
+        $this->genre = $genre;
     }
 
     /**
@@ -29,6 +35,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // パラメータがないのでnullで対応
         $suggestionedBooks = $this->bookSuggestion();
         $rankedBooks = $this->bookRanking();
         $newedBooks = $this->bookNew();
@@ -42,74 +49,123 @@ class HomeController extends Controller
         return view('policy');
     }
 
-    public function bookSuggestion()
+    /**
+     * おすすめ本を取得するメソッド
+     * @param array|null $selected_genres
+     * @return Collection
+     */
+    public function bookSuggestion($selected_genres = null)
     {
-        $userId = Auth::id();
-        $purchasedBooks = DB::table('reserves')
-            ->where('guest_id', $userId)
-            ->pluck('book_id')
-            ->toArray();
+        if (is_null($selected_genres)) {
+            // ログインユーザーの購入履歴から取得
+            $userId = Auth::id();
+            $purchasedBooks = DB::table('reserves')
+                ->where('guest_id', $userId)
+                ->pluck('book_id')
+                ->toArray();
+        } else {
+            // ジャンル指定があった場合、ジャンルに基づく本を取得
+            $purchasedBooks = DB::table('genre_books')
+                ->whereIn('genre_id', $selected_genres)
+                ->pluck('book_id')
+                ->toArray();
+        }
 
-        // 購入履歴がない場合人気のある本を取得する
         if (empty($purchasedBooks)) {
+            // 購入履歴がない場合は人気のある本を取得
             $suggestionedBooks = Book::with('authors')
                 ->orderBy('books.publication_date', 'desc')
                 ->limit(20)
                 ->get();
         } else {
-            // Guestが以前購入した本のジャンルを取得
+            // 購入履歴や選択ジャンルに基づく本の取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
-                ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
-                ->pluck('genres.id')
+                ->pluck('genre_id')
                 ->toArray();
 
-            // 購入履歴によるおすすめ本の取得
-            $suggestionedBooks = Book::whereIn('books.id', function($query) use($genres) {
+            $suggestionedBooks = Book::whereIn('books.id', function($query) use ($genres) {
                 $query->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $genres);
             })
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', "=", 'authors.id')
-            ->join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
-            ->orderBy('average_rating', 'desc')
+            ->with('authors')
+            ->orderBy('books.publication_date', 'desc')
             ->limit(20)
-            ->get()
-            ->toArray();
+            ->get();
         }
 
         return $suggestionedBooks;
     }
 
-    public function bookRanking()
+    /**
+     * ランキング本を取得するメソッド
+     * @param array|null $selected_genres
+     * @return Collection
+     */
+    public function bookRanking($selected_genres = null)
     {
-        $rankedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
-            // ピボットテーブルと著者テーブルを結合
+        $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
             ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
             ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
-            ->orderBy('average_rating', 'desc')
-            ->limit(20)
-            ->get();
+            ->orderBy('average_rating', 'desc');
 
-    return $rankedBooks;
+        // ジャンル指定があればフィルタリング
+        if (!is_null($selected_genres)) {
+            $query->whereHas('genres', function($query) use ($selected_genres) {
+                $query->whereIn('genres.id', $selected_genres);
+            });
+        }
+
+        return $query->limit(20)->get();
     }
 
-    public function bookNew()
+    /**
+     * 新しい本を取得するメソッド
+     * @param array|null $selected_genres
+     * @return Collection
+     */
+    public function bookNew($selected_genres = null)
     {
-        $newedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
+        $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
             ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
             ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
-            ->orderBy('books.publication_date', 'desc')
-            ->limit(20)
-            ->get();
+            ->orderBy('books.publication_date', 'desc');
 
-        return $newedBooks;
+        // ジャンル指定があればフィルタリング
+        if (!is_null($selected_genres)) {
+            $query->whereHas('genres', function($query) use ($selected_genres) {
+                $query->whereIn('genres.id', $selected_genres);
+            });
+        }
+
+        return $query->limit(20)->get();
     }
+
+    /**
+     * ジャンルホーム画面の処理
+     */
+    public function genreHome(Request $request)
+    {
+        $request->validate([
+            'genres' => 'required|array',
+        ]);
+
+        // 選択されたジャンルを取得
+        $selected_genres = $request->genres;
+
+        // ジャンルに基づいた本を取得
+        $suggestionedBooks = $this->bookSuggestion($selected_genres);
+        $rankedBooks = $this->bookRanking($selected_genres);
+        $newedBooks = $this->bookNew($selected_genres);
+        $threads = Thread::latest()->limit(5)->get();
+
+        // 結果をビューに渡して表示
+        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads'));
+    }
+
 }
