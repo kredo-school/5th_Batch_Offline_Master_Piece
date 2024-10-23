@@ -164,12 +164,14 @@
 </footer>
 
 <style>
-    /* footer{
-        height: auto;
+    footer {
         background-color: #357C4A;
-        color:white;
-        margin-top: auto;
-    } */
+        color: white;
+        width: 100%;
+        margin-top: auto; /* これでフッターが画面下に固定される */
+        padding: 20px;
+        text-align: center;
+    }
 
     .footer-logo{
         width: 10rem;
@@ -209,11 +211,6 @@
         width: calc(100% / 10);
         list-style: none;
     }
-
-    /* .list-container {
-        display: grid;
-        gap: 10px;
-    } */
 
     #page-top {
         position: fixed;
@@ -255,51 +252,6 @@
         position: relative;
     }
 
-    /* .area-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #E1FFEB;
-        border: 1px solid #ccc;
-        border-radius: 16px;
-        box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        grid-template-columns: repeat(3, 1fr);
-        transition: opacity 0.5s ease-in, transform 0.5s ease-in;
-        z-index: 1000;
-        display: grid;
-    } */
-
-    /* .area-menu::before {
-        content: "";
-        position: absolute;
-        top: -7px;
-        left: 25px;
-        border-width: 0 8px 7px 8px;
-        border-style: solid;
-        border-color: transparent transparent #E1FFEB transparent;
-    }
-
-    .area-menu::after {
-        content: "";
-        position: absolute;
-        top: -8px;
-        left: 25px;
-        border-width: 0 8px 7px 8px;
-        border-style: solid;
-        border-color: transparent transparent #ccc transparent;
-        z-index: -1;
-    } */
-
-    /* .has-area-menu:hover .area-menu {
-        opacity: 0.9;
-        visibility: visible;
-        transform: translateY(0);
-    } */
-
     .has-area-menu:hover span{
         transform: translateY(-2px);
         text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
@@ -324,7 +276,6 @@
         transform: translateY(2px) !important;
         text-shadow: 0 0 0 !important;
     }
-
 
 
     .has-area-menu .area-menu {
@@ -371,8 +322,6 @@
     border-color: #ccc transparent transparent transparent; /* 矢印の影の色を少し暗めに */
     z-index: -1; /* 背景の影が吹き出しの後ろに表示されるようにする */
 }
-
-
 </style>
 
 
