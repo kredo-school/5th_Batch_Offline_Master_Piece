@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome')->middleware('profile');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::post('/genrehome', [App\Http\Controllers\HomeController::class, 'genreHome'])->name('genreHome');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::match(['get', 'post'], '/genrehome', [HomeController::class, 'genreHome'])->name('genreHome');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
             Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
