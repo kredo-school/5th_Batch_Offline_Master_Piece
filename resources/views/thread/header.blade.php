@@ -14,10 +14,17 @@
                 <form id="genreForm" method="get">
                     @csrf
                     <select name="genre_id" id="genreSelect" class="form-select w-50">
-                        <option value="" hidden>Genre</option>
-                        @foreach ($all_genres as $genre)
-                            <option value="{{$genre->id}}">{{$genre->name}}</option>
-                        @endforeach
+                        <option value="">All genres</option>
+                        @if (request()->is('thread/home*'))
+                            @foreach ($all_genres as $genre)
+                                <option value="{{$genre->id}}" {{$genre_id == $genre->id ? 'selected' : ''}}>{{$genre->name}}</option>
+                            @endforeach
+                        @elseif(request()->is('thread/content*'))
+                            @foreach ($all_genres as $genre)
+                                <option value="{{$genre->id}}">{{$genre->name}}</option>
+                            @endforeach
+                        @endif
+
                     </select>
                 </form>
             </div>

@@ -59,7 +59,7 @@ class ThreadController extends Controller
         $all_genres =  $this->genre->all();
 
 
-        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads'));
+        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads', 'genre_id'));
     }
 
     /**
