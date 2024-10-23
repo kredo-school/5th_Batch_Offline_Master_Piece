@@ -143,21 +143,24 @@ class HomeController extends Controller
      */
     public function genreHome(Request $request)
     {
+        if ($request->isMethod('get')) {
+            // GETリクエストでアクセスされた場合、別のページにリダイレクトする
+            return redirect()->route('home'); // 適切なフォームページにリダイレクト
+        }
+    
         $request->validate([
             'genres' => 'required|array',
         ]);
-
-        // 選択されたジャンルを取得
-        $selected_genres = $request->genres;
-
+    
         // ジャンルに基づいた本を取得
+        $selected_genres = $request->genres;
         $suggestionedBooks = $this->bookSuggestion($selected_genres);
         $rankedBooks = $this->bookRanking($selected_genres);
         $newedBooks = $this->bookNew($selected_genres);
         $threads = Thread::latest()->limit(5)->get();
-
-        // 結果をビューに渡して表示
+    
         return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads'));
     }
+    
 
 }
