@@ -25,7 +25,7 @@ class UpdateProfileRequest extends FormRequest
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
             'gender' => 'required',
-            'birthday' => 'required',
+            'birthday' => 'required|date',
             'phone_number' => 'required',
             'address' => 'required',
             'introduction' => 'max:200',

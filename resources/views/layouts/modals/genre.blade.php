@@ -1,105 +1,56 @@
 <div class="modal fade" id="genre-modal">
     <div class="modal-dialog ">
-        <div class="modal-content border-0  genre-modal-bg w-75">
+        <div class="modal-content border-0  genre-modal-bg w-75 p-3">
             <div class="modal-header border-secoondaryr">
                 <h5 class="modal-title text-secondary ps-4 p-0">
                     Select Genre
                 </h5>
             </div>
-            <div class="modal-body text-secondary mx-auto">
-                <form action="#" method="post" class="ms-0 mt-3 p-0">
-                    @csrf
-                    <div class="row ms-0">
-                        <div class="col">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Comic"
-                                    id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Comic
-                                </label>
-                            </div>
+            <form action="{{route('genreHome')}}" method="post">
+                @csrf
+                <div class="modal-body text-secondary mx-auto d-flex flex-column flex-wrap" style="height: 200px;">
 
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Fantasy"
-                                    id="defaultCheck2">
-                                <label class="form-check-label" for="defaultCheck2">
-                                    Fantasy
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Horror"
-                                    id="defaultCheck3">
-                                <label class="form-check-label" for="defaultCheck3">
-                                    Horror
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Mystey"
-                                    id="defaultCheck4">
-                                <label class="form-check-label" for="defaultCheck4">
-                                    Mystey
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="History"
-                                    id="defaultCheck5">
-                                <label class="form-check-label" for="defaultCheck5">
-                                    History
-                                </label>
-                            </div>
+                    @foreach ($all_genres as $genre)
+                        <div class="form-check">
+                            <input class="form-check-input  checkbox-item" name="genres[]" type="checkbox" value="{{ $genre->id }}"
+                                id="defaultCheck{{ $loop->iteration }}">
+                            <label class="form-check-label" for="defaultCheck{{ $loop->iteration }}">
+                                {{ $genre->name }}
+                            </label>
                         </div>
-                        <div class="col"></div>
-                        <div class="col"></div>
-                        <div class="col"></div>
-                        <div class="col"></div>
-                        <div class="col me-5">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Literature"
-                                    id="defaultCheck6">
-                                <label class="form-check-label" for="defaultCheck6">
-                                    Literature
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Kids"
-                                    id="defaultCheck7">
-                                <label class="form-check-label" for="defaultCheck7">
-                                    Kids
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Travel"
-                                    id="defaultCheck8">
-                                <label class="form-check-label" for="defaultCheck8">
-                                    Travel
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Sports"
-                                    id="defaultCheck9">
-                                <label class="form-check-label" for="defaultCheck9">
-                                    Sports
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Study"
-                                    id="defaultCheck10">
-                                <label class="form-check-label" for="defaultCheck10">
-                                    Study
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
 
-                    <button type="submit"
-                        class="btn btn-warning text-white mx-auto mt-5 w-100">Search</button>
-                </form>
+                </div>
+                <div class="text-end">
+                    <input type="checkbox" id="selectAll" form-check-input>
+                    <label class="form-check-label" for="selectAll">Select All</label>
 
-            </div>
+                </div>
+                <button type="submit" class="btn btn-warning text-white mt-2 w-100">Search</button>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    // 全選択機能
+    document.getElementById('selectAll').addEventListener('click', function(event) {
+        const checkboxes = document.querySelectorAll('.checkbox-item');
+        const isChecked = event.target.checked;
+        
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = isChecked;
+        });
+    });
+
+    // 個別のチェックボックスが外されたら「全選択」も外れる機能
+    const individualCheckboxes = document.querySelectorAll('.checkbox-item');
+    
+    individualCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('click', function() {
+            const allChecked = document.querySelectorAll('.checkbox-item:checked').length === individualCheckboxes.length;
+            document.getElementById('selectAll').checked = allChecked;
+        });
+    });
+</script>

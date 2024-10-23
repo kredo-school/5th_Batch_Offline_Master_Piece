@@ -47,7 +47,7 @@
 
         <div class="row justify-content-center mt-2">
             <div class="text-center my-4">
-                <h1 class="display-3 fw-bold">Welcome {{Auth::user()->name}}</h1>
+                <h1 class="display-3 fw-bold">Welcome {{ Auth::user()->name }}</h1>
                 <p class="fs-24 fw-bold">Be patient to fill out the form below</p>
             </div>
             <div class="col-7 row  mt-2 p-5 shadow bg-white rounded">
@@ -55,11 +55,12 @@
                     <div class="mx-auto text-center">
                         <i class="fa-solid fa-circle-user icon-lg"></i>
                     </div>
-                    <form action="{{route('profile.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                         <label for="avatar" class="form-label mt-4">Image File</label>
-                        <input type="file" name="avatar" id="avatar" placeholder="File" class="form-control">
+                        <input type="file" name="avatar" id="avatar" placeholder="File"
+                            value="{{ old('avatar') }}" class="form-control">
                         <div id="avatar-info" class="form-text">
                             <p class="mb-0">Acceptable formats: jpeg, jpg, png, gif only.</p>
                             <p class="mt-0">Maximum file size is 1048kb.</p>
@@ -71,19 +72,20 @@
                 <div class="col-7 px-4">
                     <label for="first_name" class="form-label">First name <span class="text-danger">*</span></label>
                     <input type="text" name="first_name" id="first_name" placeholder="First name"
-                        class="form-control">
+                        value="{{ old('first_name') }}" class="form-control">
                     @error('first_name')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
 
                     <label for="last_name" class="form-label mt-4">Last name <span class="text-danger">*</span></label>
-                    <input type="text" name="last_name" id="last_name" placeholder="Last name" class="form-control">
+                    <input type="text" name="last_name" id="last_name" placeholder="Last name"
+                        value="{{ old('last_name') }}" class="form-control">
                     @error('last_name')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
 
                     <label for="gender" class="form-label mt-4">gender <span class="text-danger">*</span></label>
-                    <select name="gender" id="gender" class="form-select">
+                    <select name="gender" id="gender" class="form-select" value="{{ old('gender') }}">
                         <option value="" hidden>Select gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -93,7 +95,8 @@
                     @enderror
 
                     <label for="birthday" class="form-label mt-4">Birthday <span class="text-danger">*</span></label>
-                    <input type="date" name="birthday" id="birthday" placeholder="Birthday" class="form-control">
+                    <input type="date" name="birthday" id="birthday" placeholder="Birthday"
+                        value="{{ old('birthday') }}" class="form-control">
                     @error('birthday')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
@@ -101,13 +104,13 @@
                     <label for="phone_number" class="form-label mt-4">Phone number <span
                             class="text-danger">*</span></label>
                     <input type="number" name="phone_number" id="phone_number" placeholder="Phone number"
-                        class="form-control">
+                        value="{{ old('phone_number') }}" class="form-control">
                     @error('phone_number')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
 
                     <label for="address" class="form-label mt-4">address <span class="text-danger">*</span></label>
-                    <select name="address" id="" class="form-select">
+                    <select name="address" id="" class="form-select" value="{{ old('address') }}">
                         <option value="" hidden>Address</option>
                         @foreach ($prefectures as $prefecture)
                             <option value="{{ $prefecture }}"
@@ -122,7 +125,7 @@
                 </div>
                 <label for="introduction" class="form-label mt-4">Introduction</label>
                 <textarea name="introduction" id="" cols="30" rows="10" class="form-control"
-                    placeholder="Introduction"></textarea>
+                    placeholder="Introduction">{{ old('introduction') }}</textarea>
                 @error('introduction')
                     <p class="text-danger small">{{ $message }}</p>
                 @enderror
