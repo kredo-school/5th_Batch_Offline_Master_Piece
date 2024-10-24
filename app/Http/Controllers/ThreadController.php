@@ -59,7 +59,7 @@ class ThreadController extends Controller
         $all_genres =  $this->genre->all();
 
 
-        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads'));
+        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads', 'genre_id'));
     }
 
     /**
@@ -126,24 +126,6 @@ class ThreadController extends Controller
         return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage'));
     }
 
-    public function addComment(ThreadCommentRequest $request, Thread $thread)
-    {
-        $validated = $request->validated();
-
-        $this->comment->body = $validated['body'];
-        $this->comment->thread_id = $thread->id;
-        $this->comment->guest_id = Auth::id();
-        if(!empty($validated['image'])){
-            $this->comment->image = 'data:image/'.$validated['image']->extension().';base64,'.base64_encode(file_get_contents($validated['image']));
-        }
-        $this->comment->save();
-
-        $latestPage = ceil(count($thread->comments) / 100);
-
-        $url = url()->route('thread.content', ['thread' => $thread, 'page'  => $latestPage]). '#comment-' .count($thread->comments);
-        return redirect($url);
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -163,11 +145,6 @@ class ThreadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroyComment(Comment $comment)
-    {
-        $comment->delete();
-        return redirect()->back();
-    }
 
     public function destroyThread(Thread $thread)
     {

@@ -5,8 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
-use app\Models\User;
+use App\Models\User;
+use App\Models\Genre;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,9 +41,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useBootstrap();
-        
+
         Blade::directive('highlightKeyword', function ($expression) {
             return "<?php echo highlightKeyword($expression); ?>";
         });
+
+
+        // for footer
+        View::share('all_genres', Genre::all());
     }
 }

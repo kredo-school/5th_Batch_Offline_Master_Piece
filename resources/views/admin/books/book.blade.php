@@ -15,13 +15,13 @@
             <div class="col-auto">
                 <div class="row ms-3">
                     <div class="col">
-                        <form action="#" style="width: 500px" class="d-flex">
+                        <form action="{{ route('admin.books.search') }}" style="width: 500px" method="get"  class="d-flex">
                             @csrf
                             <div class="row ms-auto">
                                 <div class="col pe-0 position-relative">
                                     <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput"
-                                        style="width: 400px" placeholder="Search books...">
-                                        <span id="clearButton" class="clearButton">&times;</span>
+                                        style="width: 400px" placeholder="Search books by title, author, or genre" value="{{ request('search') }}">
+                                    <span id="clearButton" class="clearButton">&times;</span>
                                 </div>
                                 <div class="col ps-1">
                                     <button type="submit" class="btn btn-warning search-icon btn-sm">
@@ -34,19 +34,26 @@
                 </div>
             </div>
             <div class="col-4">
-                <form action="" method="post">
-                    @csrf
-                    <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-guest-select">
-                        <option selected>Open this select menu</option>
-                        <option value="title">title</option>
-                        <option value="author">author</option>
-                        <option value="publisher">publisher</option>
-                        <option value="year">publication_year</option>
-                        <option value="price">price</option>
-                        <option value="genre">genre</option>
-                    </select>
-                </form>
 
+                <form action="{{ route('admin.books.index') }}" method="GET" id="sortForm">
+                    <div class="d-flex justify-content-center align-items-center">
+                    <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-book-select" name="sort">
+                        <option value="title" {{ request('sort') == 'title' ? 'selected' : '' }}>Title</option>
+                        <option value="author" {{ request('sort') == 'author' ? 'selected' : '' }}>Author</option>
+                        <option value="publisher" {{ request('sort') == 'publisher' ? 'selected' : '' }}>Publisher</option>
+                        <option value="year" {{ request('sort') == 'year' ? 'selected' : '' }}>Publication date</option>
+                        <option value="review" {{ request('sort') == 'review' ? 'selected' : '' }}>Review rate</option>
+                        <option value="price" {{ request('sort') == 'price' ? 'selected' : '' }}>Price</option>
+                        {{-- <option value="genre" {{ request('sort') == 'genre' ? 'selected' : '' }}>Genre</option> --}}
+                        <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
+                    </select>
+                    
+                    <select class="form-select w-50 " aria-label="book-order" id="sort-order-select" name="order">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
+                    </select>
+                    </div>
+                </form>
             </div>
         </div>
         @include('admin.button')
@@ -74,109 +81,100 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Publisher</th>
-                <th>Public Year</th>
+                <th>Publication Year</th>
                 <th>Review</th>
                 <th>Price</th>
                 <th>Genre</th>
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody>
-            @for ($i = 0; $i < 5; $i++)
-                <tr>
-                    <td>shoki</td>
-                    <td>motohashi@email</td>
-                    <td>21212121</td>
-                    <td><i class="fa-regular fa-face-smile"></i></td>
-                    <td><i class="fa-regular fa-face-smile"></i></td>
-                    <td><i class="fa-regular fa-face-smile"></i></td>
-                    <td><i class="fa-regular fa-face-smile"></i></td>
-                    <td>
-                        @if (1)
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-book-test">
-                                <i class="fa-regular fa-face-smile text-primary"></i> Active
-                            </a>
-                        @else
-                            <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-book-test">
-                                <i class="fa-regular fa-face-frown text-danger"></i> Inactive
-                            </a>
-                        @endif
+
+            <tbody>
+                @if ($books->isEmpty())
+                    <tr>
+                        <td colspan="8" class="text-center">No books found</td>
+                    </tr>
+                @else
+                    @foreach ($books as $book)
+                    <tr>
+                        <td>
+                            {{$book->title}}
+                        </td>
+                        {{-- <td>
+                            <a href="{{ route('book.index', $book->id) }}" class="text-decoration-none text-dark fw-bold">{{ $book->title }}</a>
+                        </td> --}}
+                        <td>
+                            {{$book->publisher}}
+                        </td>
+                        <td>
+                            @php
+                                // 著者名を取得する
+                                $authorNames = $book->authors()->pluck('name')->implode(', '); // 複数の著者がいる場合はカンマ区切りで表示
+                            @endphp
+                            <a href="{{ route('admin.books.index', $book->id) }}" class="text-decoration-none text-dark fw-bold">{{ $authorNames }}</a>
+                        </td>
+                        <td>
+                            {{ $book->publication_date }}
+                        </td>
+                        {{-- <td>
+                            {{$book->reviews->avg('star_count')}}
+                        </td> --}}
+                        <td>
+                            @if ($book->reviews->isEmpty())
+                                No data
+                            @else
+                                {{ $book->reviews->avg('star_count') }}
+                            @endif
+                        </td>
+                        
+                        <td>
+                            {{$book->price}}
+                        </td>
+                        <td>
+                            {{-- {{$book->genres->name}} --}}
+                            @if($book->genres->isNotEmpty())
+                                {{ $book->genres->pluck('name')->implode(',') }}
+                            @else
+                                No genre
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if ($book->trashed())
+                                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-book-modal-{{ $book->id }}">
+                                    <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                                </a>
+                            @else
+                                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-book-modal-{{ $book->id }}">
+                                    <i class="fa-regular fa-face-smile text-primary"></i> Active
+                                </a>
+                            @endif
                     </td>
-                </tr>
-            @endfor
-        </tbody>
+                    </tr> 
+                    @include('admin.books.modal.status')
+                    @endforeach
+                    @endif
+            </tbody>
     </table>
 
-    @include('admin.books.modal.status')
-
-        {{-- sortが選択されたときにそのジャンルのみを表示するためのコード　不完全　～L.108 --}}
-    {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script>
-    document.getElementById('manage-book-select').addEventListener('change', function() {
-        var table = document.getElementById('manage-book-table').getElementsByTagName('tbody')[0];
-        var rows = Array.from(table.rows);
-        var sortBy = this.value;
-
-        rows.sort(function(rowA, rowB) {
-            var cellA = rowA.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-            var cellB = rowB.querySelector('td:nth-child(' + getColumnIndex(sortBy) + ')').innerText.toLowerCase();
-
-            if (sortBy === 'report') { --}}
-                {{-- // レポート数は数値で比較する
-                return parseInt(cellB) - parseInt(cellA); // 降順に並べる
-            } else {
-                // その他は文字列でアルファベット順に並べる
-                return cellA.localeCompare(cellB);
-            }
+    <script>
+        // Book用のセレクトメニューが変更されたときに自動的にフォームを送信
+        document.getElementById('manage-book-select').addEventListener('change', function() {
+            document.getElementById('sortForm').submit();
         });
-
-        Sort後にテーブルを再描画
-        rows.forEach(function(row) {
-            table.appendChild(row);
+    
+        document.getElementById('sort-order-select').addEventListener('change', function() {
+            document.getElementById('sortForm').submit();
         });
-    });
+    </script>
+    
 
-    function getColumnIndex(sortBy) {
-        switch (sortBy) {
-            case 'title':
-                return 1;
-            case 'author':
-                return 2;
-            case 'publisher':
-                return 3;
-            case 'publication_year':
-                return 4;
-            case 'price':
-                return 5;
-            case 'genre':
-                return 6;
-            default:
-                return 1; // デフォルトはnameカラム
-        }
-    }
-</script>
-
-
-
-    <div class="under-container mt-5">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled" aria-disabled="true">
-                    <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
-                        Previous
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        Next
-                    </a>
-                </li>
-            </ul>
-        </nav>
+    <div class="d-flex justify-content-center">
+        {{-- {{ $books->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }} --}}
+        {{-- {{ $books->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }} --}}
+        {{ $books->appends(request()->except('page'))->links() }}
     </div>
+    
+
 @endsection
 

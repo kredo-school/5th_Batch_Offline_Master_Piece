@@ -127,7 +127,7 @@
     margin: 0;
     text-decoration: none;
     color: #000;
-    
+
 }
 
 .link-book > img{
@@ -186,7 +186,7 @@
     margin: 0;
     text-decoration: none;
     color: #000;
-    
+
 }
 
 .show-bookimg > img{
@@ -395,8 +395,8 @@
 
 .img-list{
     width: 150px;
-    height: 200px; 
-    object-fit: cover; 
+    height: 200px;
+    object-fit: cover;
 }
 
 
@@ -574,101 +574,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }
-
-footer
-{
-    height: auto;
-    background-color: #357C4A;
-    color:white;
-    margin-top: auto;
-}
-
-.footer-logo
-{
-    width: 10rem;
-    height: 10rem;
-}
-
-footer a
-{
-    text-decoration: none;
-    color: white;
-    display: inline-block;
-    transition: transform 0.1s, text-shadow 0.3s;
-}
-
-footer a:hover
-{
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                        0 0 20px rgba(255, 255, 255, 0.6),
-                        0 0 30px rgba(255, 255, 255, 0.4),
-                        0 0 40px rgba(255, 255, 255, 0.2);
-}
-
-footer a:active
-{
-    transform: translateY(2px);
-}
-
-footer .col
-{
-    text-align: center;
-}
-
-footer p
-{
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-top: 10%;
-}
-
-footer li
-{
-    width: calc(100% / 10);
-    list-style: none;
-}
-
-.list-container
-{
-    display: grid;
-    gap: 10px;
-}
-
-#page-top
-{
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    display: none;
-    padding: 10px 15px;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.eraser-button
-{
-    width: 5rem;
-    height: 31px;
-    background-color: #FFB84C;
-    border-radius: 7px;
-    transition: transform 0.1s ease;
-}
-
-.eraser-button:hover
-{
-    transform: translateY(-2px);
-}
-
-.eraser-button:active
-{
-    transform: translateY(1px);
-}
-
-
-
 
 .search-list-img
 {
@@ -910,4 +815,9 @@ footer li
     height: auto;
     max-width: 300px;
     max-height: 300px;
+}
+
+/* for footer */
+main {
+    min-height: calc(100vh - 140px);
 }

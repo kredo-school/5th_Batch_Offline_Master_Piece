@@ -7,7 +7,7 @@
                     the comment?
                 </h5>
             </div>
-            <form action="{{route('thread.report', $comment)}}" method="post">
+            <form action="{{route('comment.report', $comment)}}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="container-fluid">

@@ -31,7 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome')->middleware('profile');
     Route::group(['prefix' => 'guest'], function () {
         Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::match(['get', 'post'], '/genrehome', [HomeController::class, 'genreHome'])->name('genreHome');
         Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
             Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
             Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
@@ -68,15 +69,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
         Route::get('/create', [ThreadController::class, 'create'])->name('create');
         Route::post('/store', [ThreadController::class, 'store'])->name('store');
-        Route::post('/add-comment/{thread}', [ThreadController::class, 'addComment'])->name('addComment');
-        Route::delete('/comment/destroy/{comment}', [ThreadController::class, 'destroyComment'])->name('destroyComment');
         Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
-        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
 
     Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
+        Route::post('/add-comment/{thread}', [CommentController::class, 'addComment'])->name('addComment');
         Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
         Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
+        Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
     });
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
@@ -146,6 +146,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
         Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
         Route::get('/books/index', [BooksController::class, 'index'])->name('books.index');
+        Route::delete('/books/{user}/destroy', [BooksController::class, 'destroy'])->name('books.destroy');
+        Route::post('/books/{user}/restore', [BooksController::class, 'restore'])->name('books.restore');
+        Route::get('/books/search',[BooksController::class,'search'])->name('books.search');
+
 
         //guests
         Route::delete('/guests/{user}/destroy', [GuestsController::class, 'destroy'])->name('guests.destroy');
