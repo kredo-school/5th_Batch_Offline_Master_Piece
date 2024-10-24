@@ -159,7 +159,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
 
         //stores
-        Route::get('/stores/show', [GuestsController::class, 'show'])->name('stores.show');
+        Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
+        Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
+        Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
+        Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
+        Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
 
 
 });
