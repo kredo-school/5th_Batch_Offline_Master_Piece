@@ -41,6 +41,7 @@
                 </select>
             </div>
             <div class="table-container mt-3">
+
                 @foreach($newedBooks as $book)
                     <table class="mt-3">
                         <tbody>
@@ -61,7 +62,7 @@
                             <tr>
                                 <td>
                                     <h5>
-                                        @foreach ($book->authors as $author)
+                                        @foreach ($book->authorBook as $author)
                                             <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
                                         @endforeach
                                     </h5>

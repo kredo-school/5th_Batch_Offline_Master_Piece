@@ -198,9 +198,13 @@
 
 /* store inventory */
 .img-store-inventory{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    width: 100%;           
+    height: auto;         
+    max-width: 200px;     
+    max-height: 200px;    
+    object-fit: cover;    
+    display: block;        
+    margin: 0 auto;     
 }
 
 

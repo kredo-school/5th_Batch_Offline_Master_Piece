@@ -92,13 +92,14 @@
                                     {{ $genre->name }}
                                 @endforeach
                             </h3>
-                        <form action="#" method="post">
+                        <form action="{{ route('book.inventory', $book->id) }}" method="get">
+                            @csrf
                                     <div class="row">
                                         <div class="col gap-5"> 
-                                            <select name="address" id="" class="form-select">
-                                                <option value="" hidden>Address</option>
+                                            <select name="address" class="form-select w-90 ms-3">
+                                                <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area</option>
                                                 @foreach ($prefectures as $prefecture)
-                                                    <option value="{{ $prefecture }}">
+                                                    <option value="{{ $prefecture }}" {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
                                                         {{ $prefecture }}
                                                     </option>
                                                 @endforeach
@@ -329,7 +330,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="star-ration-list d-flex">
+                                                    <td class="star-ration-list d-flex ms-5">
                                                         @php
                                                             $averageStarCount = $book->reviews->avg('star_count');
                                                             $fullStars = floor($averageStarCount); // 満点の数
@@ -440,7 +441,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="star-ration-list d-flex">
+                                                            <td class="star-ration-list d-flex ms-5">
                                                                 @php
                                                                     $averageStarCount = $book->reviews->avg('star_count');
                                                                     $fullStars = floor($averageStarCount); // 満点の数
