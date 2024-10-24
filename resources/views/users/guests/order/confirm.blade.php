@@ -35,15 +35,17 @@
                                 </div>
                                 <div class="col text-end">Receiving Date:
                                     <span class="main-text">
-                                        @foreach ($store->inventories as $inventory)
-                                            @if ($inventory->stock === 0)
-                                                3 days later
-                                            @else
-                                                @if ($loop->last)
-                                                    Right now
-                                                @endif
+                                        @php
+                                            $receiving = "Right Now"
+                                        @endphp
+                                        @foreach ($reserves as $reserve)
+                                            @if ($reserve->quantity > $reserve->inventory->stock)
+                                                @php
+                                                    $receiving = "3 days later"
+                                                @endphp
                                             @endif
                                         @endforeach
+                                        {{$receiving}}
                                     </span>
                                 </div>
                             </div>
@@ -59,7 +61,7 @@
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $reserve->book->id) }}"><img
                                                         src="{{ $reserve->book->image }}" alt="{{ $reserve->book->id }}"
-                                                        class="border w-100 shadow"></a>
+                                                        class="w-75 shadow img-list"></a>
                                             </div>
                                         </div>
                                         <div class="col-6 fs-32">
@@ -111,8 +113,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="row h3">
-                                                    <div class="col">Amount:</div>
-                                                    <div class="col main-text text-end">{{ $reserve->amount }}</div>
+                                                    <div class="col">quantity:</div>
+                                                    <div class="col main-text text-end">{{ $reserve->quantity }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +136,7 @@
                         <table class="table fs-24 text-center mb-4">
                             <thead class="fs-32">
                                 <th class="bg-white">Store</th>
-                                <th class="bg-white">Amount</th>
+                                <th class="bg-white">Quantity</th>
                                 <th class="bg-white">Subtotal Price</th>
                             </thead>
                             <tbody>
@@ -146,19 +148,19 @@
                                             @foreach ($reserves as $reserve)
                                                 @if ($store->id == $reserve->store_id)
                                                     @php
-                                                        $subtotal_amount += $reserve->amount;
-                                                        $subtotal_price += $reserve->amount * $reserve->book->price;
+                                                        $subtotal_quantity += $reserve->quantity;
+                                                        $subtotal_price += $reserve->quantity * $reserve->book->price;
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            <span class="main-text">{{ $subtotal_amount }}</span>
+                                            <span class="main-text">{{ $subtotal_quantity }}</span>
                                         </td>
                                         <td class="bg-white"><span
                                                 class="main-text">¥{{ number_format($subtotal_price) }}</span></td>
                                     </tr>
                                     @php
                                         $total_price += $subtotal_price;
-                                        $subtotal_amount = 0;
+                                        $subtotal_quantity = 0;
                                         $subtotal_price = 0;
                                     @endphp
                                 @endforeach

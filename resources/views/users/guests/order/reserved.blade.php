@@ -23,7 +23,7 @@
                                 <div class="col-auto">
                                     <div class="">Your order number:</div>
                                 </div>
-                                <div class="col text-dark ms-3">
+                                <div class="col text-dark ms-1">
                                     @foreach ($stores as $store)
                                         {{$store->name}}:
                                         {{$reservationNumber[$store->id]}}
@@ -43,15 +43,18 @@
 
                                     @foreach ($stores as $store)
                                         <span class="text-dark">{{$store->name}}
-                                            @foreach ($store->inventories as $inventory)
-                                                @if ($inventory->stock === 0)
-                                                    ({{$threeDaysLater}})
-                                                @else
-                                                    @if($loop->last)
-                                                        ({{$today}})
-                                                    @endif
+                                            @php
+                                                $receiving = $today
+                                            @endphp
+                                            @foreach ($reserves as $reserve)
+                                                @if ($reserve->quantity > $reserve->inventory->stock)
+                                                    @php
+                                                        $receiving = $threeDaysLater
+                                                    @endphp
                                                 @endif
                                             @endforeach
+
+                                            ({{$receiving}})
                                         </span>
 
                                         @if (!$loop->last)
@@ -63,7 +66,7 @@
 
                             <p>Order total:
                                 <span class="text-dark">
-                                    {{$total_amount}} books - ¥{{number_format($total_price)}}
+                                    {{$total_quantity}} books - ¥{{number_format($total_price)}}
                                 </span>
                             </p>
                         </div>

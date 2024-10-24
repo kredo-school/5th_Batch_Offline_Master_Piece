@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
         Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
-        Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm');
+        Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm')->middleware('guest-order');
         Route::get('/reserved', [GuestOrderController::class, 'reserved'])->name('reserved');
         Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
         Route::patch('/reserve', [GuestOrderController::class, 'reserve'])->name('reserve');
