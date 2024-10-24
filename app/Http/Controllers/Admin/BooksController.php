@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 class BooksController extends Controller
 {
     //
-
+    
     private $book;
     private $author;
     private $genre;
