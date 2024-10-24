@@ -25,18 +25,21 @@
                 @foreach ($user->bookmarks as $bookmark)
                     <div class="row mt-4">
                         <div class="col-3">
-                            <a href="{{ route('book.show_book',$bookmark->book->id) }}" class="text-decoration-none">
-                                <img src="{{ $bookmark->book->image }}" alt="{{ $bookmark->book->id }}" class="w-100 shadow">
+                            <a href="{{ route('book.show_book', $bookmark->book->id) }}" class="text-decoration-none">
+                                <img src="{{ $bookmark->book->image }}" alt="{{ $bookmark->book->id }}"
+                                    class="w-100 shadow">
                             </a>
                         </div>
                         <div class="col-6 fs-32">
                             <p>
-                                <a href="{{ route('book.show_book',$bookmark->book->id) }}" class="text-decoration-none">
+                                <a href="{{ route('book.show_book', $bookmark->book->id) }}" class="text-decoration-none">
                                     <p class="fs-32">{{ $bookmark->book->title }}</p>
                                 </a>
-                                <a href="#" class="text-decoration-none  text-dark">
-                                    <p class="h4">$book->author->name
-                                </a>
+                                @foreach ($bookmark->book->authors as $author)
+                                    <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none  text-dark">
+                                        <p class="h4">{{ $author->name }}</p>
+                                    </a>
+                                @endforeach
                             </p>
                             @php
                                 $averageStarCount = $bookmark->book->reviews->avg('star_count');
