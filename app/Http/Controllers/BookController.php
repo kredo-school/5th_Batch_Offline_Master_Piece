@@ -448,6 +448,23 @@ class BookController extends Controller
             ->with('bookCount', $bookCount)
             ->with('searchQuery', $query);
     }
+
+    public function navSearch(Request $request)
+    {
+        $query = $request->input('search');
+
+        if ($query) {
+            $books = Book::where('title', 'LIKE', '%' . $query . '%')
+                ->orWhereHas('authors', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', '%' . $query . '%');
+                })->get();
+        } else {
+            $books = Book::all();
+        }
+
+        return view('users.guests.book.search-list')->with('books', $books)
+            ->with('searchQuery', $query);
+    }
 }
 
 

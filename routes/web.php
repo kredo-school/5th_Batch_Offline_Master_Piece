@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/{id}/store', [BookController::class, 'bookStoreShow'])->name('store_show');
             Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
+            Route::get('/search', [BookController::class, 'navSearch'])->name('search');
             Route::post('/reserve/{id}', [BookController::class, 'addReserved'])->name('reserve.add');
 
         });

@@ -28,12 +28,12 @@
                             <a href="{{ route('book.show_book',$review->book->id) }}" class="text-decoration-none">
                                 <img src="{{ $review->book->image }}" alt="{{ $review->book->id }}" class="w-100 shadow">
                             </a>
+                            <a href="{{ route('book.show_book',$review->book->id) }}" class="text-decoration-none">
+                                <p class="h4 mt-2">{{ $review->book->title }}</p>
+                            </a>
                         </div>
                         <div class="col-9 fs-32">
                             <p>
-                                <a href="{{ route('book.show_book',$review->book->id) }}" class="text-decoration-none">
-                                    <p class="fs-32">{{ $review->book->name }}</p>
-                                </a>
                                 @php
                                     $fullStars = floor($review->star_count); // 満点の数
                                     $halfStar = $review->star_count - $fullStars >= 0.1; // 半点があるか
