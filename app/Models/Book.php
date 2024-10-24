@@ -54,7 +54,7 @@ class Book extends Model
     }
 
     //authors_books との conection
-    public function authors_books()
+    public function authorBook()
     {
         return $this->belongsToMany(Author::class,'author_books');
     }
