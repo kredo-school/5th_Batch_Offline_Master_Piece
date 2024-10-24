@@ -69,7 +69,7 @@
                             @guest
                             @else
                                 @if (request()->is('guest/*'))
-                                    <form action="#" class="">
+                                    <form action="{{route('book.search')}}" method="get">
                                         @csrf
                                         <div class="row">
                                             <div class="col pe-0 position-relative">

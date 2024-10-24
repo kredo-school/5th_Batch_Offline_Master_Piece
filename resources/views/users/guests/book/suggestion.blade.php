@@ -9,7 +9,7 @@
         <form action="#" method="post">
             @csrf
             <div class="d-flex align-items-center">
-                <h1 class="h2 fw-bold main-text mt-5 ms-3">Suggestion</h1>
+                <h1 class="h2 fw-bold main-text mt-5 ms-3" >Suggestion</h1>
                 <select name="genre" id="genre" class="form-select w-25 ms-5 mt-5">
                     <option value="" hidden>Genre</option>
                     <option value="comic">Comics</option>
@@ -40,6 +40,10 @@
                 </select>
             </div>
             <div class="table-container mt-3">
+                @foreach($suggestionedBooks as $book)
+                    {{-- {{ dd($book) }} --}}
+                @endforeach
+
                 @foreach($suggestionedBooks as $book)
                     <table class="mt-3">
                         <tbody>

@@ -24,21 +24,21 @@
 
                 @foreach ($user->histories as $history)
                     <div class="row mt-4">
-                        <p class="text-muted">{{$history->created_at}}</p>
+                        <p class="text-muted">{{ $history->created_at }}</p>
                         <div class="col-3">
-                            <a href="{{ route('book.show_book',$history->book->id) }}" class="text-decoration-none">
+                            <a href="{{ route('book.show_book', $history->book->id) }}" class="text-decoration-none">
                                 <img src="{{ $history->book->image }}" alt="{{ $history->book->id }}" class="w-100 shadow">
                             </a>
                         </div>
                         <div class="col-6 fs-32">
-                            <p>
-                                <a href="{{ route('book.show_book',$history->book->id) }}" class="text-decoration-none">
-                                    <p class="fs-32">{{ $history->book->name }}</p>
+                                <a href="{{ route('book.show_book', $history->book->id) }}" class="text-decoration-none">
+                                    <p class="fs-32">{{ $history->book->title }}</p>
                                 </a>
-                                <a href="{{ route('book.author_show') }}" class="text-decoration-none  text-dark">
-                                    <p class="h4">$book->author->name
-                                </a>
-                            </p>
+                                @foreach ($history->book->authors as $author)
+                                    <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none">
+                                        <p class="h4">{{ $author->name }}</p>
+                                    </a>
+                                @endforeach
                             @php
                                 $averageStarCount = $history->book->reviews->avg('star_count');
                                 $fullStars = floor($averageStarCount); // 満点の数

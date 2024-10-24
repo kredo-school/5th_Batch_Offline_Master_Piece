@@ -32,7 +32,7 @@
                         <div class="col-6 fs-32">
                             <p>
                                 <a href="{{ route('book.show_book',$bookmark->book->id) }}" class="text-decoration-none">
-                                    <p class="fs-32">{{ $bookmark->book->name }}</p>
+                                    <p class="fs-32">{{ $bookmark->book->title }}</p>
                                 </a>
                                 <a href="#" class="text-decoration-none  text-dark">
                                     <p class="h4">$book->author->name
