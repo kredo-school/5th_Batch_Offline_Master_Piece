@@ -255,6 +255,8 @@ class BookController extends Controller
         return redirect()->route('book.show_book', ['id' => $book_id]);
     }
 
+
+    
     public function bookInventory(Request $request, $id)
 {
     $book = $this->book->findOrFail($id);
@@ -295,17 +297,20 @@ class BookController extends Controller
     $storeIds = $storeLists->pluck('id');
 
     // 在庫数を取得
-    $counts = DB::table('store_book')
-        ->where('book_id', $book->id)
-        ->whereIn('store_id', $storeIds)
-        ->select('store_id', DB::raw('COUNT(*) as total_count'))
-        ->groupBy('store_id', 'book_id')
-        ->get()
-        ->keyBy('store_id');
+    // $counts = DB::table('store_book')
+    //     ->where('book_id', $book->id)
+    //     ->whereIn('store_id', $storeIds)
+    //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
+    //     ->groupBy('store_id', 'book_id')
+    //     ->get()
+    //     ->keyBy('store_id');
+
+            $reserves = Auth::user()->reserves()->with('store')->get();
+
 
     // ビューにデータを渡す
     return view('users.guests.book.book_inventory', compact(
-        'book', 'prefectures', 'storeLists', 'counts', 'selectedPrefecture', 'searchQuery'
+        'book', 'prefectures', 'storeLists', 'reserves', 'selectedPrefecture', 'searchQuery'
     ));
 }
 
