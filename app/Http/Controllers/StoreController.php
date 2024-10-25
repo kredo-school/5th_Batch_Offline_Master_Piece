@@ -8,6 +8,10 @@ use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
 use App\Models\Review;
+use App\Models\StoreOrder;
+use App\Http\Requests\StoreOrderRequest;
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -210,6 +214,38 @@ class StoreController extends Controller
 
         return view('users.store.books.book-information', compact('book','reviews','ratingsSummary'));
     }
+
+    public function addOrUpdateOrders(StoreOrderRequest $request)
+    {
+        $user_id = Auth::id();
+        $validated = $request->validated();
+    
+        foreach ($validated['orders'] as $order) {
+            $bookId = $order['book_id'];
+            $quantity = $order['quantity'];
+    
+            // store_orders テーブルで該当のユーザーと book が存在するか確認
+            $storeOrder = StoreOrder::where('user_id', $user_id)
+                ->where('book_id', $bookId)
+                ->first();
+    
+            if ($storeOrder) {
+                // 存在する場合は数量を更新
+                $storeOrder->quantity += $quantity;
+                $storeOrder->save();
+            } else {
+                // 存在しない場合は新規作成
+                StoreOrder::create([
+                    'user_id' => $user_id,
+                    'book_id' => $bookId,
+                    'quantity' => $quantity,
+                ]);
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Orders have been successfully updated.');
+    }
+    
     public function profile()
     {
         return view('users.store.profile');

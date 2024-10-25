@@ -10,6 +10,7 @@
         </div>
     </a>
 
+
     <div class="container">
         <div class="d-flex justify-content-center">
             <form action="{{ route('store.books.search') }}" class="d-flex">
@@ -73,7 +74,29 @@
                         <a href="{{ route('book.show_book', $book->id) }}" class="show-bookimg">
                             <img src="{{ $book->image }}" alt="book image {{ $book->id }}" class="img-fluid">
                         </a>
-                        <span class="h1 bold">Stock: {{ $book->inventory->first() ? $book->inventory->first()->stock : 'No stock data available' }}</span>
+                        <p class="h1 bold">Stock:
+                            {{ $book->inventory->first() ? $book->inventory->first()->stock : 'No stock data available' }}
+                        </p>
+                        <div class="row mt-1">
+                            <form action="{{route('store.orders')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="orders[0][book_id]" value="{{ $book->id }}">
+                                <div class="row">
+                                    <div class="col-4 text-end">
+                                        <button type="button" class="btn text-danger btn-decrease"><i
+                                                class="fa-solid fa-minus h3"></i></button>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" name="orders[0][quantity]" id="quantityInput" class="form-control"
+                                            value="{{old('orders[0][quantity]')}}" min="1">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="button" class="btn text-primary btn-increase"><i
+                                                class="fa-solid fa-plus h3"></i></button>
+                                    </div>
+                                </div>
+
+                        </div>
                     </div>
                     <div class="col-8">
 
@@ -117,7 +140,7 @@
 
                         @include('users.guests.book.modals.review_book')
 
-                        <h4 class="d-flex">Price:<div class="text-danger"> ¥ {{ floor($book->price) }}</div>
+                        <h4 class="d-flex">Price:<p class="text-danger mb-0 ms-3"> ¥ {{ floor($book->price) }}</p>
                         </h4>
                         <h4>Genre: @foreach ($book->genres as $genre)
                                 {{ $genre->name }}
@@ -128,12 +151,27 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center m-5">
-            <a href="{{ route('store.newOrderConfirm') }}" class="order-button d-block text-decoration-none text-center"
-                style="width: 15%; border-radius: 16px;">
+        @if (session('success'))
+            <div class="alert alert-success text-center w-25 mx-auto mt-1">
+                {{ session('success') }}
+            </div>
+        @endif
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="order-button d-block text-decoration-none text-center border-0" style="width: 15%; border-radius: 16px;">
                 Order <i class="fa-solid fa-caret-right"></i>
-            </a>
+            </button>
         </div>
+        </form>
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     </div>
 
 
@@ -234,6 +272,31 @@
                 }
             });
         }
+
+
+        // ボタンを取得
+        document.querySelector('.btn-increase').addEventListener('click', function() {
+            let quantityInput = document.getElementById('quantityInput');
+            let quantity = parseInt(quantityInput.value, 10) || 0;
+            quantityInput.value = quantity + 1; // 増加
+        });
+
+        document.querySelector('.btn-decrease').addEventListener('click', function() {
+            let quantityInput = document.getElementById('quantityInput');
+            let quantity = parseInt(quantityInput.value, 10) || 1;
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1; // 減少
+            }
+        });
+
+        // バリデーションとアラート
+        document.querySelector('.btn-primary').addEventListener('click', function(event) {
+            let quantity = parseInt(document.getElementById('quantityInput').value, 10) || 0;
+            if (quantity <= 0) {
+                event.preventDefault();
+                alert('Please enter a valid quantity.');
+            }
+        });
     </script>
 
 
