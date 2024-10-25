@@ -12,6 +12,7 @@ use App\Models\Author;
 use App\Models\AuthorBook;
 use App\Models\Bookmark;
 use App\Models\Reserve;
+use App\Models\Inventory;
 
 
 
@@ -25,8 +26,9 @@ class BookController extends Controller
     private $user;
     private $store;
     private $reserve;
+    private $inventory;
 
-    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve)
+    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory)
     {
         $this->book = $book;
         $this->author = $author;
@@ -34,6 +36,7 @@ class BookController extends Controller
         $this->user  = $user;
         $this->bookmark = $bookmark;
         $this->store = $store;
+        $this->inventory = $inventory;
     }
 
     public function show()
@@ -112,11 +115,6 @@ class BookController extends Controller
                     ->limit(20)
                     ->get();
 
-                
-
-
-
-
     return view('users.guests.book.new', compact('newedBooks'));
     }
 
@@ -135,7 +133,7 @@ class BookController extends Controller
             });
         })
         // 関連するstoreBooksとそのbookを取得
-        ->with(['storeBooks' => function ($query) {
+        ->with(['inventories' => function ($query) {
             $query->with('book');
         }])
         ->get();
@@ -205,8 +203,8 @@ class BookController extends Controller
             ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
             ->orderBy('average_rating', 'desc')
             ->limit(20)
-            ->get()
-            ->toArray();
+            ->get();
+            
         }
         // Same Genre
             $sameGenreBooks = $this->book
@@ -233,6 +231,8 @@ class BookController extends Controller
         return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
     }
 
+
+
     public function bookReview(request $request, $id)
     {
         $request->validate([
@@ -258,61 +258,64 @@ class BookController extends Controller
 
     
     public function bookInventory(Request $request, $id)
-{
-    $book = $this->book->findOrFail($id);
+    {
+        $book = $this->book->findOrFail($id);
 
-    // 選択された都道府県（デフォルトは "All Area"）
-    $selectedPrefecture = $request->input('address', 'All Area');
-    $searchQuery = $request->input('search', '');
+        // 選択された都道府県（デフォルトは "All Area"）
+        $selectedPrefecture = $request->input('address', 'All Area');
+        $searchQuery = $request->input('search', '');
 
-    // 店舗リストのクエリ構築
-    $storeLists = $this->user->where('role_id', 3)
-    // 住所による絞り込み（'All Area'以外が選ばれた場合）
-    ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
-        $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
-            $query->where('address', $selectedPrefecture);
-        });
-    })
-    // 店舗名の検索
-    ->when($searchQuery, function ($query) use ($searchQuery) {
-        return $query->where('name', 'LIKE', "%{$searchQuery}%");
-    })
-    // 関連するstoreBooksとそのbookを取得
-    ->with(['storeBooks' => function ($query) {
-        $query->with('book');
-    }])
-    ->get();
-
-
-    // 都道府県リスト
-    $prefectures = [
-        'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma',
-        'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano',
-        'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori',
-        'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga',
-        'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'
-    ];
-
-    // store_id を取得
-    $storeIds = $storeLists->pluck('id');
-
-    // 在庫数を取得
-    // $counts = DB::table('store_book')
-    //     ->where('book_id', $book->id)
-    //     ->whereIn('store_id', $storeIds)
-    //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
-    //     ->groupBy('store_id', 'book_id')
-    //     ->get()
-    //     ->keyBy('store_id');
-
-            $reserves = Auth::user()->reserves()->with('store')->get();
+        // 店舗リストのクエリ構築
+        $storeLists = $this->user->where('role_id', 3)
+        // 住所による絞り込み（'All Area'以外が選ばれた場合）
+        ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
+            $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
+                $query->where('address', $selectedPrefecture);
+            });
+        })
+        // 店舗名の検索
+        ->when($searchQuery, function ($query) use ($searchQuery) {
+            return $query->where('name', 'LIKE', "%{$searchQuery}%");
+        })
+        // 関連するstoreBooksとそのbookを取得
+        ->with(['inventories' => function ($query) {
+            $query->with('book');
+        }])
+        ->get();
 
 
-    // ビューにデータを渡す
-    return view('users.guests.book.book_inventory', compact(
-        'book', 'prefectures', 'storeLists', 'reserves', 'selectedPrefecture', 'searchQuery'
-    ));
-}
+        // 都道府県リスト
+        $prefectures = [
+            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma',
+            'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano',
+            'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori',
+            'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga',
+            'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'
+        ];
+
+        // store_id を取得
+        $storeIds = $storeLists->pluck('id');
+
+        // 在庫数を取得
+        // $counts = DB::table('store_book')
+        //     ->where('book_id', $book->id)
+        //     ->whereIn('store_id', $storeIds)
+        //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
+        //     ->groupBy('store_id', 'book_id')
+        //     ->get()
+        //     ->keyBy('store_id');
+
+        $inventories = $this->inventory->where('book_id', $book->id)
+            ->whereIn('store_id', $storeIds)
+            ->get()
+            ->keyBy('store_id');
+
+
+        // ビューにデータを渡す
+        return view('users.guests.book.book_inventory', compact(
+            'book', 'prefectures', 'storeLists', 'inventories', 'selectedPrefecture', 'searchQuery'
+        ));
+    }
 
 
     
