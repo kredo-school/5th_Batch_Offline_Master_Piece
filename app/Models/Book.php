@@ -78,9 +78,14 @@ class Book extends Model
     }
 
     public function store_book()
-{
-    return $this->belongsToMany(User::class, 'store_book');
-}
+    {
+        return $this->belongsToMany(User::class, 'store_book');
+    }
+
+    public function storeBooks()
+    {
+        return $this->hasMany(StoreBook::class);
+    }
 
     public function inventory()
     {
