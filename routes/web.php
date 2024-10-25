@@ -62,7 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
-        Route::get('inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
+        Route::get('/inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
+        Route::post('/inquiry/send', [ProfileController::class, 'sendInquiry'])->name('inquiry.send');
+
     });
 
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {

@@ -141,16 +141,16 @@
                         @php
                             $inventory = $counts->get($store->id)->total_count ?? 0;
                         @endphp
-                        <h2>Inventory: {{ $inventory }}</h2>
+                        <h2>Inventory: {{ $reserves->stock }}</h2>
 
-                        @if($inventory > 0)
+                        @if($inventory->stock > 0)
                             <h5>Receiving Date: Right Now</h5>
                         @else
                             <h5 class="text-danger">Receiving Date: 3 days later</h5>
                         @endif
 
                         <!-- 店舗ごとの数量入力 -->
-                        <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
+                        <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $reserves->stock }}" 
                             class="form-control quantity-input" placeholder="Quantity" min="0" >
                     </div>
                 </div>
