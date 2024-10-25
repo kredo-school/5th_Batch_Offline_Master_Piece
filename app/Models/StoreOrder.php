@@ -10,11 +10,11 @@ class StoreOrder extends Model
     use HasFactory;
 
      // マスアサインメント可能なフィールドを指定する
-    protected $fillable = [
-        'book_id',
-        'store_id',
-        'quantity',
-    ];
+     protected $fillable = [
+      'user_id',
+      'book_id',
+      'quantity',
+  ];
 
     /**
       * Bookリレーション - StoreOrderは1つのBookに属する

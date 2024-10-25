@@ -107,6 +107,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
+        Route::post('/orders', [StoreController::class, 'addOrUpdateOrders'])->name('orders');
+
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
