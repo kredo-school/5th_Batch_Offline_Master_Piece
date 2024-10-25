@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
+use App\Models\Review;
 
 
 
@@ -15,12 +16,14 @@ class StoreController extends Controller
     private $store;
     private $book;
     private $inventory;
+    private $review;
 
-    public function __construct(User $user, Book $book, Inventory $inventory)
+    public function __construct(User $user, Book $book, Inventory $inventory,Review $review)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
+        $this->review = $review;
     }
 
     public function newOrderConfirm()
@@ -184,7 +187,28 @@ class StoreController extends Controller
     public function bookInformation($id)
     {
         $book = $this->book->findOrFail($id);
-        return view('users.store.books.book-information')->with('book', $book);
+
+        $reviews = $this->review
+            ->where('book_id', $id)
+            ->with('book')
+            ->get();
+        
+        // Review Rating
+        $ratingsCount = $book->reviews->count();
+
+        $ratingsSummary = [
+            '5_star' => $book->reviews()->where('star_count', 5)->count(),
+            '4_star' => $book->reviews()->where('star_count', 4)->count(),
+            '3_star' => $book->reviews()->where('star_count', 3)->count(),
+            '2_star' => $book->reviews()->where('star_count', 2)->count(),
+            '1_star' => $book->reviews()->where('star_count', 1)->count(),
+        ];
+
+        foreach ($ratingsSummary as $key => $count) {
+            $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
+        }
+
+        return view('users.store.books.book-information', compact('book','reviews','ratingsSummary'));
     }
     public function profile()
     {
