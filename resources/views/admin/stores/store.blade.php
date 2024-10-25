@@ -15,12 +15,12 @@
         <div class="col-auto">
             <div class="row ms-3">
                 <div class="col">
-                    <form action="#" style="width: 500px" class="d-flex">
+                    <form action="{{ route('admin.stores.search') }}" style="width: 500px" class="d-flex" method="get">
                         @csrf
                         <div class="row ms-auto">
                             <div class="col pe-0 position-relative">
                                 <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput"
-                                    style="width: 400px" placeholder="Search stores...">
+                                    style="width: 400px" value="{{ request('search') }}" placeholder="Search stores...">
                                     <span id="clearButton" class="clearButton">&times;</span>
                             </div>
                             <div class="col ps-1">
@@ -34,65 +34,43 @@
             </div>
         </div>
 
-        <div class="col-4">
-            <form action="#" method="post">
-                @csrf
-                <select class="form-select w-50 mx-auto" aria-label="admin-sort" id="manage-store-select">
-                        <option value="" hidden>area</option>
-                        <option value="hokkaido">Hokkaido</option>
-                        <option value="aomori">Aomori</option>
-                        <option value="iwate">Iwate</option>
-                        <option value="miyagi">Miyagi</option>
-                        <option value="akita">Akita</option>
-                        <option value="yamagata">Yamagata</option>
-                        <option value="fukushima">Fukushima</option>
-                        <option value="ibaraki">Ibaraki</option>
-                        <option value="tochigi">Tochigi</option>
-                        <option value="gunma">Gunma</option>
-                        <option value="saitama">Saitama</option>
-                        <option value="chiba">Chiba</option>
-                        <option value="tokyo">Tokyo</option>
-                        <option value="kanagawa">Kanagawa</option>
-                        <option value="niigata">Niigata</option>
-                        <option value="toyama">Toyama</option>
-                        <option value="ishikawa">Ishikawa</option>
-                        <option value="fukui">Fukui</option>
-                        <option value="yamanashi">Yamanashi</option>
-                        <option value="nagano">Nagano</option>
-                        <option value="gifu">Gifu</option>
-                        <option value="shizuoka">Shizuoka</option>
-                        <option value="aichi">Aichi</option>
-                        <option value="mie">Mie</option>
-                        <option value="shiga">Shiga</option>
-                        <option value="kyoto">Kyoto</option>
-                        <option value="osaka">Osaka</option>
-                        <option value="hyogo">Hyogo</option>
-                        <option value="nara">Nara</option>
-                        <option value="wakayama">Wakayama</option>
-                        <option value="tottori">Tottori</option>
-                        <option value="shimane">Shimane</option>
-                        <option value="okayama">Okayama</option>
-                        <option value="hiroshima">Hiroshima</option>
-                        <option value="yamaguchi">Yamaguchi</option>
-                        <option value="tokushima">Tokushima</option>
-                        <option value="kagawa">Kagawa</option>
-                        <option value="ehime">Ehime</option>
-                        <option value="kochi">Kochi</option>
-                        <option value="fukuoka">Fukuoka</option>
-                        <option value="saga">Saga</option>
-                        <option value="nagasaki">Nagasaki</option>
-                        <option value="kumamoto">Kumamoto</option>
-                        <option value="oita">Oita</option>
-                        <option value="miyazaki">Miyazaki</option>
-                        <option value="kagoshima">Kagoshima</option>
-                        <option value="okinawa">Okinawa</option>
+            <div class="col-4 ">
+                <form action="{{ route('admin.stores.show') }}" method="get" id="sortForm" class="d-flex">
+                    @csrf
+                    <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-store-select" name="sort">
+                        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
+                        <option value="phone_number" {{ request('sort') == 'phone_number' ? 'selected' : '' }}>Phone</option>
+                        <option value="address" {{ request('sort') == 'address' ? 'selected' : '' }}>Address</option>
+                        <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
                     </select>
-
-            </form>
-        </div>
+            
+                    <select class="form-select w-50 me-2" aria-label="book-order" id="sort-order-select" name="order">
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
+                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
+                    </select>
+            
+                    {{-- <select name="address" id="" class="form-select w-50">
+                        <option value="" hidden>Address</option>
+                        @foreach ($prefectures as $prefecture)
+                            <option value="{{ $prefecture }}" {{ request('address') == $prefecture ? 'selected' : '' }}>
+                                {{ $prefecture }}
+                            </option>
+                        @endforeach
+                    </select> --}}
+                    <select name="address" id="" class="form-select w-50" onchange="this.form.submit()">
+                        <option value="" hidden>Address</option>
+                        @foreach ($prefectures as $prefecture)
+                            <option value="{{ $prefecture }}" {{ request('address') == $prefecture ? 'selected' : '' }}>
+                                {{ $prefecture }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+            @include('admin.button')
     </div>
 
-    @include('admin.button')
+    
 </div>
 
  {{-- 以下 --}}
@@ -109,99 +87,123 @@
 </div>
 {{-- 間の追加オプション --}}
 
+
+{{-- テーブル --}}
 <table class="table manage-table border-rounded" id="manage-store-table">
     <thead>
         <tr>
-            <th scope="col"></th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Address</th>
-            <th scope="col">Status</th>
+            <th></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th class="text-center">Status</th>
         </tr>
     </thead>
+
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
-            <tr class="align-middle">
-                <td class="text-center"><img
-                        src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7"
-                        alt="" class="img-admin-store"></td>
-                <td>shoki</td>
-                <td>motohashi@email</td>
-                <td>0120-***-***</td>
-                <td>Ibaraki</td>
-                <td>
-                    @if (1) <!-- 仮の条件 -->
-                        <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-store-test">
-                            <i class="fa-regular fa-face-smile text-primary"></i> Active
-                        </a>
-                    @else
-                        <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-store-test">
-                            <i class="fa-regular fa-face-frown text-danger"></i> Inactive
-                        </a>
-                    @endif
-                </td>
+        @if (empty($stores))
+    <tr>
+        <td colspan="6" class="text-center">No stores found</td>
+    </tr>
+@else
+    @foreach ($stores as $store)
+    <tr>
+        <td>
+            @if ($store->profile)
+            <img src="{{ $store->profile->avatar }}" alt="{{ $store->id }}" class="rounded-circle d-block mx-auto avatar-md" style="width: 50px; height: 50px; object-fit: cover;">
+        @else
+            <i class="fa-solid fa-circle-user d-block text-center icon-md" style="font-size: 50px;"></i>
+        @endif
+        </td>
+        <td>
+            {{$store->name}}
+        </td>
+        <td>
+            {{$store->email}}
+        </td>
+        <td>
+            @if ($store->profile)
+                {{ $store->profile->phone_number }}
+            @else
+                <p class="text-danger">Not available</p>
+            @endif
+
+        </td>
+        <td>
+            @if ($store->profile)
+                {{ $store->profile->address }}
+            @else
+                <p class="text-danger">Not available</p>
+            @endif
+        </td>
+        <td class="text-center">
+            @if ($store->trashed())
+                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-store-modal-{{ $store->id }}">
+                    <i class="fa-regular fa-face-frown text-danger"></i> Inactive
+                </a>
+            @else
+                <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#delete-store-modal-{{ $store->id }}">
+                    <i class="fa-regular fa-face-smile text-primary"></i> Active
+                </a>
+            @endif
+            </td>
             </tr>
-        @endfor
+            @include('admin.stores.modals.status')
+            @endforeach
+            @endif
     </tbody>
 </table>
 
+{{-- name address stutus --}}
 
 
+
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script>
-    $(document).ready(function() {
-        var data = {
-            // 適切なデータ構造をここで定義する
-        };
+    document.getElementById('manage-store-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
+    });
 
-        $('#manage-store-select').change(function() {
-            var selectedData = $(this).val();
-            var tableBody = $('#manage-store-table tbody');
+    document.getElementById('sort-order-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
+    });
+</script> --}}
+<script>
+    document.getElementById('manage-store-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
+    });
 
-            tableBody.empty(); // 既存の行をクリア
-
-            // 選択されたデータが存在する場合、そのデータを表示
-            if (selectedData in data) {
-                data[selectedData].forEach(function(entry) {
-                    tableBody.append(`
-                        <tr>
-                            <td>${entry.name}</td>
-                            <td>${entry.email}</td>
-                            <td>${entry.phone}</td>
-                            <td>${entry.address}</td>
-                            <td>${entry.status}</td>
-                        </tr>
-                    `);
-                });
-            } else {
-                tableBody.append(`
-                    <tr>
-                        <td colspan="6">データを選択してください</td>
-                    </tr>
-                `);
-            }
-        });
+    document.getElementById('sort-order-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
     });
 </script>
 
-<div class="under-container mt-5">
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled" aria-disabled="true">
-                <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
-                    Previous
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    Next
-                </a>
-            </li>
-        </ul>
-    </nav>
+
+{{-- ページネーション --}}
+<div class="d-flex justify-content-center">
+    {{ $stores->links() }}
 </div>
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        document.getElementById('manage-store-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
+        });
+
+        document.getElementById('sort-order-select').addEventListener('change', function() {
+        document.getElementById('sortForm').submit();
+        });
+
+        
+    </script> --}}
+
+
+
+
+    {{-- ページネーションリンクを表示 --}}
+    {{-- <div class="d-flex justify-content-center">
+        {{ $all_users->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
+    </div>
+ --}}
 @endsection
 

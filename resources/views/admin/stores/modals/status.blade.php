@@ -1,5 +1,5 @@
 <!--Delete Modal -->
-<div class="modal fade" id="delete-store-test" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+<div class="modal fade" id="delete-store-modal-{{$store->id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content border-danger">
@@ -16,14 +16,18 @@
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                     Cancel
                 </button>
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                <form action="{{route('admin.stores.destroy',$store->id)}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <!--Active Modal -->
-<div class="modal fade" id="active-store-test" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+<div class="modal fade" id="active-store-modal{{$store->id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content border-primary">
@@ -40,7 +44,10 @@
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                     Cancel
                 </button>
-                <button type="submit" class="btn btn-primary btn-sm">Active</button>
+                <form action="{{route('admin.stores.restore',$store->id)}}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-sm">Active</button>
+                </form>
             </div>
         </div>
     </div>

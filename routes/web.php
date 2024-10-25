@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/inventory', [BookController::class, 'bookInventory'])->name('inventory');
             Route::get('/show/{id}/store', [BookController::class, 'bookStoreShow'])->name('store_show');
             Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
+            Route::get('/search', [BookController::class, 'navSearch'])->name('search');
             Route::post('/reserve/{id}', [BookController::class, 'addReserved'])->name('reserve.add');
 
         });
@@ -160,7 +161,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
 
         //stores
-        Route::get('/stores/show', [GuestsController::class, 'show'])->name('stores.show');
+        Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
+        Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
+        Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
+        Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
+        Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
 
 
 });

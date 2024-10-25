@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
+use App\Models\Review;
 
 
 
@@ -15,12 +16,14 @@ class StoreController extends Controller
     private $store;
     private $book;
     private $inventory;
+    private $review;
 
-    public function __construct(User $user, Book $book, Inventory $inventory)
+    public function __construct(User $user, Book $book, Inventory $inventory,Review $review)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
+        $this->review = $review;
     }
 
     public function newOrderConfirm()
@@ -41,21 +44,26 @@ class StoreController extends Controller
     public function analysis(Request $request)
     {
         $store = Auth::user(); // 現在の店舗ユーザー
-
+    
         // 1. ゲストのデータを取得 (都道府県別・男女別・年代別)
         $selectedPrefecture = $request->input('address', 'All Area');
-
+    
         $guestsQuery = User::join('store_guest', 'users.id', '=', 'store_guest.guest_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id') // profilesテーブルと結合
             ->where('store_guest.store_id', $store->id);
-
+    
         // 都道府県フィルタが適用されている場合
         if ($selectedPrefecture !== 'All Area') {
             $guestsQuery->where('profiles.address', $selectedPrefecture); // profilesテーブルの住所を使用
         }
-
+    
         $guests = $guestsQuery->select('profiles.gender', 'profiles.birthday')->get(); // profilesからgenderとbirthdayを取得
-
+    
+        // もしゲストがいない場合は空の結果を設定
+        if ($guests->isEmpty()) {
+            $guests = collect(); // 空のコレクションをセットしてエラー回避
+        }
+    
         // 年代別にグループ分けして集計
         $ageGroups = [
             '0~19' => ['male' => 0, 'female' => 0],
@@ -67,11 +75,11 @@ class StoreController extends Controller
             '70~79' => ['male' => 0, 'female' => 0],
             '80~' => ['male' => 0, 'female' => 0]
         ];
-
+    
         foreach ($guests as $guest) {
             $age = \Carbon\Carbon::parse($guest->birthday)->age;
             $gender = strtolower($guest->gender); // 'male' or 'female'
-
+    
             if ($age < 20)
                 $ageGroup = '0~19';
             elseif ($age < 30)
@@ -88,10 +96,10 @@ class StoreController extends Controller
                 $ageGroup = '70~79';
             else
                 $ageGroup = '80~';
-
+    
             $ageGroups[$ageGroup][$gender]++;
         }
-
+    
         // 2. 本のデータを取得 (ジャンル別、タイトル別)
         $books = Book::join('store_book', 'books.id', '=', 'store_book.book_id')
             ->join('genre_books', 'books.id', '=', 'genre_books.book_id')
@@ -102,69 +110,25 @@ class StoreController extends Controller
             ->orderBy('purchase_count', 'desc')
             ->take(10)
             ->get();
-
+    
+        // データが存在しない場合は空の配列を設定
         $genres = [];
-        foreach ($books as $book) {
-            $genre = $book->genre;
-            if (!isset($genres[$genre])) {
-                $genres[$genre] = 0;
+        if ($books->isNotEmpty()) {
+            foreach ($books as $book) {
+                $genre = $book->genre;
+                if (!isset($genres[$genre])) {
+                    $genres[$genre] = 0;
+                }
+                $genres[$genre] += $book->purchase_count;
             }
-            $genres[$genre] += $book->purchase_count;
         }
+    
+        $prefectures = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
 
-        $prefectures = [
-            'Hokkaido',
-            'Aomori',
-            'Iwate',
-            'Miyagi',
-            'Akita',
-            'Yamagata',
-            'Fukushima',
-            'Ibaraki',
-            'Tochigi',
-            'Gunma',
-            'Saitama',
-            'Chiba',
-            'Tokyo',
-            'Kanagawa',
-            'Niigata',
-            'Toyama',
-            'Ishikawa',
-            'Fukui',
-            'Yamanashi',
-            'Nagano',
-            'Gifu',
-            'Shizuoka',
-            'Aichi',
-            'Mie',
-            'Shiga',
-            'Kyoto',
-            'Osaka',
-            'Hyogo',
-            'Nara',
-            'Wakayama',
-            'Tottori',
-            'Shimane',
-            'Okayama',
-            'Hiroshima',
-            'Yamaguchi',
-            'Tokushima',
-            'Kagawa',
-            'Ehime',
-            'Kochi',
-            'Fukuoka',
-            'Saga',
-            'Nagasaki',
-            'Kumamoto',
-            'Oita',
-            'Miyazaki',
-            'Kagoshima',
-            'Okinawa'
-        ];
-
+          
+    
         return view('users.store.analysis.analysis', compact('store', 'prefectures', 'ageGroups', 'books', 'genres', 'selectedPrefecture'));
     }
-
 
 
 
@@ -223,7 +187,28 @@ class StoreController extends Controller
     public function bookInformation($id)
     {
         $book = $this->book->findOrFail($id);
-        return view('users.store.books.book-information')->with('book', $book);
+
+        $reviews = $this->review
+            ->where('book_id', $id)
+            ->with('book')
+            ->get();
+        
+        // Review Rating
+        $ratingsCount = $book->reviews->count();
+
+        $ratingsSummary = [
+            '5_star' => $book->reviews()->where('star_count', 5)->count(),
+            '4_star' => $book->reviews()->where('star_count', 4)->count(),
+            '3_star' => $book->reviews()->where('star_count', 3)->count(),
+            '2_star' => $book->reviews()->where('star_count', 2)->count(),
+            '1_star' => $book->reviews()->where('star_count', 1)->count(),
+        ];
+
+        foreach ($ratingsSummary as $key => $count) {
+            $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
+        }
+
+        return view('users.store.books.book-information', compact('book','reviews','ratingsSummary'));
     }
     public function profile()
     {
