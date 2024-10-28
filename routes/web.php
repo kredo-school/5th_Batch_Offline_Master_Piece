@@ -112,7 +112,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-        Route::post('/orders', [StoreController::class, 'addOrUpdateOrders'])->name('orders');
+        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
+        Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
