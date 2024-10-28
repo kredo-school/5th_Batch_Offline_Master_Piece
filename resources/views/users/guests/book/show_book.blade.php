@@ -323,7 +323,7 @@
         {{-- Booklist --}}
         <div id="carouselSuggestionControls" class="carousel slide mt-2" data-bs-ride="carousel">
             <div class="carousel-inner">
-                @foreach ($suggestionedBooks->chunk(4) as $chunk)
+                @foreach ($suggestedBooks->chunk(4) as $chunk)
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                         <div class="row">
                             @foreach ($chunk as $book)
