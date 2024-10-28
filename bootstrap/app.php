@@ -6,7 +6,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ProfileComplete;
-
+use App\Http\Middleware\GuestOrderMiddleware;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('admin',[AdminMiddleware::class]);
         $middleware->appendToGroup('store',[StoreMiddleware::class]);
         $middleware->appendToGroup('profile',[ProfileComplete::class]);
+        $middleware->appendToGroup('guest-order', [GuestOrderMiddleware::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

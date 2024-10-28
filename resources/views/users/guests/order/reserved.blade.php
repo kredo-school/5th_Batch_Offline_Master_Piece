@@ -23,7 +23,7 @@
                                 <div class="col-auto">
                                     <div class="">Your order number:</div>
                                 </div>
-                                <div class="col text-dark ms-3">
+                                <div class="col text-dark ms-1">
                                     @foreach ($stores as $store)
                                         {{$store->name}}:
                                         {{$reservationNumber[$store->id]}}
@@ -43,15 +43,26 @@
 
                                     @foreach ($stores as $store)
                                         <span class="text-dark">{{$store->name}}
-                                            @foreach ($store->inventories as $inventory)
-                                                @if ($inventory->stock === 0)
-                                                    ({{$threeDaysLater}})
+                                            @php
+                                                $receiving = $today;
+                                            @endphp
+                                            @foreach ($store->store_reserved as $reserve)
+                                                @if ($reserve->inventory->stock == 0)
+                                                    @php
+                                                        $receiving = $threeDaysLater;
+                                                    @endphp
                                                 @else
-                                                    @if($loop->last)
-                                                        ({{$today}})
+
+                                                    @if ($reserve->quantity > $reserve->inventory->stock + $reserve->quantity)
+                                                        @php
+                                                            $receiving = $threeDaysLater;
+                                                        @endphp
                                                     @endif
+
                                                 @endif
                                             @endforeach
+
+                                            ({{$receiving}})
                                         </span>
 
                                         @if (!$loop->last)
@@ -63,7 +74,7 @@
 
                             <p>Order total:
                                 <span class="text-dark">
-                                    {{$total_amount}} books - ¥{{number_format($total_price)}}
+                                    {{$total_quantity}} books - ¥{{number_format($total_price)}}
                                 </span>
                             </p>
                         </div>
