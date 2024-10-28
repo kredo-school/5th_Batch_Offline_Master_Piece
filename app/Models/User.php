@@ -31,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id', //register-storeにて追加
     ];
 
     /**
@@ -120,4 +121,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Inventory::class, 'store_id');
     }
+
+    
 }

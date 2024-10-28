@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail; //追記
+use App\Mail\RegisterStoreMail; //追記
+
 use App\Models\User; // クラスのインポート
 
 
@@ -186,4 +191,122 @@ class StoresController extends Controller
 
         return redirect()->route('admin.stores.show')->with('error', 'Store not found.');
     }
+
+    // 以下　registerStoreページのもの
+
+    public function registerStore(Request $request)
+    {
+        // 都道府県データ
+    $prefectures = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
+
+
+    return view('admin.stores.register-store', [
+        'prefectures' => $prefectures,
+    ]);
+    }
+
+    // public function register(Request $request)
+    // {
+    //     // バリデーション
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //     ]);
+    
+    //     // ランダムなパスワードを生成
+    //     $password = Str::random(6);
+    
+    //     // ユーザーの作成
+    //     $user = User::create([
+    //         'name' => $request->input('name'),
+    //         'email' => $request->input('email'),
+    //         'password' => Hash::make($password),
+    //         'role_id' => 3, // ストアユーザーの識別
+    //     ]);
+    
+    //     // リダイレクト
+    //     return redirect()->route('admin.stores.list')->with('success', 'Store registered successfully!');
+    // }
+    // public function register(Request $request)
+    // {
+    //     // バリデーションを行う
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //         // 他の必要なバリデーションルール
+    //     ]);
+
+    //     // 新しいユーザーを作成し、role_idを3に設定
+    //     $user = User::create([
+    //         'name' => $validatedData['name'],
+    //         'email' => $validatedData['email'],
+    //         'password' => bcrypt($request->password), // パスワードをハッシュ化して保存
+    //         'role_id' => 3, // role_idを3に設定
+    //     ]);
+
+    //     // ストア作成成功後の処理
+    //     return redirect()->route('admin.stores.list')->with('success', 'ストアが正常に登録されました。');
+    // }
+//     public function register(Request $request)
+// {
+//     // バリデーションを行う
+//     $validatedData = $request->validate([
+//         'name' => 'required|string|max:255',
+//         'email' => 'required|string|email|max:255|unique:users',
+//         // 他の必要なバリデーションルール
+//     ]);
+//     // ランダムなパスワードを生成
+//     $password = Str::random(8); // 8文字のランダムなパスワード
+
+//     // 新しいユーザーを作成し、role_idを3に設定
+//     $user = User::create([
+//         'name' => $validatedData['name'],
+//         'email' => $validatedData['email'],
+//         // 'password' => bcrypt($request->password), // パスワードをハッシュ化して保存
+//         'password' => Hash::make($password), // ハッシュ化して保存
+//         'role_id' => 3, // role_idを3に設定
+//     ]);
+//     // 登録完了メールを送信
+//     // Mail::to($user->email)->send(new RegisterStoreMail($user->name, $user->email));
+//     $email = $request->input('email'); // Assume this is where you're getting the email
+//     Mail::to($email)->send(new RegisterStoreMail($name, $password, $email));
+
+
+//     $name = $request['name'];
+
+//     Mail::send(new RegisterStoreMail($name));
+//     return back();
+//     // ストア作成成功後の処理
+//     // return redirect()->route('admin.stores.list')->with('success', 'ストアが正常に登録されました。');
+// }
+
+public function register(Request $request)
+{
+    // バリデーションを行う
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+    ]);
+
+    // ランダムなパスワードを生成
+    $password = Str::random(8);
+
+    // 新しいユーザーを作成し、role_idを3に設定
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => Hash::make($password),
+        'role_id' => 3,
+    ]);
+
+    // 名前とメールの変数を定義
+    $name = $validatedData['name'];
+    $email = $validatedData['email'];
+
+    // 登録完了メールを送信
+    Mail::to($email)->send(new RegisterStoreMail($name, $password, $email));
+
+    return redirect()->back()->with('success', 'registered successfully');
+}
+
 }
