@@ -30,7 +30,7 @@ class Book extends Model
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class, 'genre_books');
+        return $this->belongsToMany(Genre::class, 'genre_books', 'book_id', 'genre_id');
     }
 
     //suggestion index

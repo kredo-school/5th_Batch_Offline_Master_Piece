@@ -6,45 +6,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
     <div class="container-body">
-        <form action="#" method="post">
-            @csrf
+        <form action="{{ route('book.suggestion') }}" method="GET">
             <div class="d-flex align-items-center">
-                <h1 class="h2 fw-bold main-text mt-5 ms-3" >Suggestion</h1>
-                <select name="genre" id="genre" class="form-select w-25 ms-5 mt-5">
-                    <option value="" hidden>Genre</option>
-                    <option value="comic">Comics</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="horror">Horror</option>
-                    <option value="mystery">Mystery</option>
-                    <option value="history">History</option>
-                    <option value="literature">Literature</option>
-                    <option value="kids">Kids</option>
-                    <option value="travel">Travel</option>
-                    <option value="sports">Sports</option>
-                    <option value="study">Study</option>
-                    <option value="engineering">Engineering</option>
-                    <option value="biology">Biology</option>
-                    <option value="romance">Romance</option>
-                    <option value="lifestyle">Lifestyle</option>
-                    <option value="art">Art</option>
-                    <option value="science">Science</option>
-                    <option value="physics">Physics</option>
-                    <option value="philosophy">Philosophy</option>
-                    <option value="qualification">Qualification</option>
-                    <option value="magazine">Magazine</option>
-                    <option value="music">Music</option>
-                    <option value="technology">Technoligy</option>
-                    <option value="geology">Geology</option>
-                    <option value="psychology">Psychology</option>
-                    <option value="others">Others</option>
+                <h1 class="h2 fw-bold main-text mt-5 ms-3">Suggestion</h1>
+                <select name="genre" id="genre" class="form-select w-25 ms-5 mt-5" onchange="this.form.submit()">
+                    <option value="">All genres</option>
+                    @foreach($all_genres as $genre)
+                        <option value="{{ $genre->id }}" 
+                            {{ $selectedGenreId == $genre->id ? 'selected' : '' }}>
+                            {{ $genre->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
             <div class="table-container mt-3">
-                @foreach($suggestionedBooks as $book)
-                    {{-- {{ dd($book) }} --}}
-                @endforeach
+                {{-- @foreach($suggestionedBooks as $book)
+                    {{ dd($suggestionedBooks); }}
+                @endforeach --}}
 
-                @foreach($suggestionedBooks as $book)
+                @foreach($suggestedBooks as $book)
                     <table class="mt-3">
                         <tbody>
                             <tr>
