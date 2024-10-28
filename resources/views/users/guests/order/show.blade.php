@@ -11,7 +11,7 @@
                     <div class="card-body card-size overflow-auto bg-white">
                         <h1 class="main-text fw-bold mb-3">Order Status</h1>
                         <div class="mx-3">
-                            @forelse ($reserves as $reserve)
+                            @forelse (Auth::user()->reserves as $reserve)
                                 <div class="row mb-3">
                                     <div class="col-3">
                                         {{-- book image --}}
@@ -74,13 +74,17 @@
                                             <input type="number" name="quantity[]" id="quantity" placeholder="quantity"
                                                 min="0" max="30"
                                                 value="{{ old('quantity'.$loop->index, $reserve->quantity) }}"
-                                                class="form-control mb-3 mt-4 w-50 text-center d-inline quantity">
+                                                class="form-control mb-5 mt-4 w-50 text-center d-inline quantity">
                                             @error('quantity'.$loop->index)
                                                 <p class="text-danger small">{{ $message }}</p>
                                             @enderror
 
                                             <input type="hidden" name="reserve_id[]" value="{{$reserve->id}}">
-                                            <button type="submit" name="action" value="delete-{{$loop->index}}" class="btn btn-danger w-50">Delete</button>
+                                            <button type="submit" name="action" value="delete-{{$loop->index}}" class="btn w-50">
+                                                <div class="fs-24">
+                                                    <i class="fa-regular fa-trash-can text-danger"></i>
+                                                </div>
+                                            </button>
                                     </div>
                                 </div>
                                 @if (!$loop->last)
@@ -97,7 +101,7 @@
 
             <div class="col-3">
                 {{-- total --}}
-                @if ($reserves->isNotEmpty())
+                @if (Auth::user()->reserves->isNotEmpty())
                     <div class="card text-center mb-2">
                         <div class="card-header bg-white ">
                             <h1 class="fw-bold">Selected: <span id="total-quantity">0</span></h1>

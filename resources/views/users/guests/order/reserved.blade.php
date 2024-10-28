@@ -44,13 +44,21 @@
                                     @foreach ($stores as $store)
                                         <span class="text-dark">{{$store->name}}
                                             @php
-                                                $receiving = $today
+                                                $receiving = $today;
                                             @endphp
-                                            @foreach ($reserves as $reserve)
-                                                @if ($reserve->quantity > $reserve->inventory->stock)
+                                            @foreach ($store->store_reserved as $reserve)
+                                                @if ($reserve->inventory->stock == 0)
                                                     @php
-                                                        $receiving = $threeDaysLater
+                                                        $receiving = $threeDaysLater;
                                                     @endphp
+                                                @else
+
+                                                    @if ($reserve->quantity > $reserve->inventory->stock + $reserve->quantity)
+                                                        @php
+                                                            $receiving = $threeDaysLater;
+                                                        @endphp
+                                                    @endif
+
                                                 @endif
                                             @endforeach
 

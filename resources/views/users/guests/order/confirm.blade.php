@@ -22,7 +22,7 @@
                 </div>
 
                 {{-- Selected Store --}}
-                @foreach ($stores as $store)
+                @foreach (Auth::user()->order_stores as $store)
                     <div class="card mb-5">
                         <div class="card-header bg-white border-bottom-0 d-inline">
                             <div class="row h2 mb-3">
@@ -38,7 +38,7 @@
                                         @php
                                             $receiving = "Right Now"
                                         @endphp
-                                        @foreach ($reserves as $reserve)
+                                        @foreach ($store->store_reserves as $reserve)
                                             @if ($reserve->quantity > $reserve->inventory->stock)
                                                 @php
                                                     $receiving = "3 days later"
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        @foreach ($reserves as $reserve)
+                        @foreach ($store->store_reserves as $reserve)
                             @if ($store->id == $reserve->store_id)
                                 <div class="card-body bg-white">
                                     <hr>

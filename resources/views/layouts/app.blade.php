@@ -371,16 +371,6 @@
         @auth
             @if (!request()->is('order/confirm'))
                 @include('layouts.footer')
-                {{-- <footer>
-                    <div class="footer-content">
-                        <p>&copy; 2024 Your Website Name</p>
-                        <ul>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                        </ul>
-                    </div>
-                </footer> --}}
             @endif
         @endauth
     </div>

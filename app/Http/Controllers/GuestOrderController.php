@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 use App\Http\Requests\GuestOrderRequest;
 
@@ -106,15 +107,12 @@ class GuestOrderController extends Controller
         DB::beginTransaction();
 
         try{
-            $reserves = $this->reserve->where('guest_id', Auth::id())
-                                    ->whereNull('reservation_number')
-                                    ->get();
-            $selected_stores = $this->selected_stores($reserves);
-            $stores = $this->stores($selected_stores);
+            $reserved_ids = [];
 
             // add reservation number
-            foreach($stores as $store):
-                foreach ($reserves as $reserve){
+            foreach(Auth::user()->order_stores as $store):
+                foreach ($store->store_reserves as $reserve){
+                    $reserved_ids[] = $reserve->id;
                     if ($store->id == $reserve->store_id){
                         do {
                             // 店舗ごとに予約番号を生成
@@ -123,24 +121,19 @@ class GuestOrderController extends Controller
                             $exists = $this->reserve->where('reservation_number', $reservationNumber)->exists();
                         } while ($exists);  // 重複があった場合、再度生成する
                     }
-                }
 
-                $this->reserve->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber]);
-            endforeach;
-
-            // change store's inventory
-            foreach($reserves as $reserve):
-                if($reserve->quantity <= $reserve->inventory->stock){
+                    // change inventory stock
                     $stock = $reserve->inventory->stock - $reserve->quantity;
-                }else{
-                    $stock = 0;
+                    $this->inventory->where('id', $reserve->inventory->id)->update(['stock' => max($stock, 0)]);
                 }
-                $this->inventory->where('id', $reserve->inventory->id)->update(['stock' => $stock]);
-            endforeach;
 
+
+                $this->reserve->whereIn('id', $reserved_ids)->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber]);
+
+            endforeach;
 
             DB::commit();
-            return redirect()->route('order.reserved');
+            return redirect()->route('order.reserved', ['reserved_ids' => implode(',', $reserved_ids)]);
 
         }catch(\Exception $e){
             DB::rollBack();
@@ -149,30 +142,35 @@ class GuestOrderController extends Controller
         }
     }
 
-    public function reserved()
+    public function reserved(Request $request)
     {
-        $reserves = Auth::user()->reserves()->with('store')->get();
-        $selected_stores = $this->selected_stores($reserves);
-        $stores = $this->stores($selected_stores);
+        $total_quantity = 0;
+        $total_price = 0;
+
+        $reserved_ids = explode(',', $request->reserved_ids); // Convert string back to array
+        $reserves = $this->reserve->whereIn('id', $reserved_ids)->get();
+
 
         $reservationNumber = [];
+        $store_ids = [];
         foreach($reserves as $reserve):
             if(!isset($reservationNumber[$reserve->store_id])){
                 $reservationNumber[$reserve->store_id] =  $reserve->reservation_number;
             }
-        endforeach;
 
-        $today = Carbon::now()->format('m/d/Y');
-        $threeDaysLater = Carbon::now()->addDays(3)->format('m/d/Y');
+            $store_ids[] = $reserve->store_id;
 
-        $total_quantity = 0;
-        $total_price = 0;
-        foreach($reserves as $reserve):
             $total_quantity += $reserve->quantity;
             $total_price = $reserve->quantity * $reserve->book->price + $total_price;
         endforeach;
 
-        return view('users.guests.order.reserved')->with(compact('stores', 'reserves', 'reservationNumber', 'today', 'threeDaysLater', 'total_quantity', 'total_price'));
+
+        $stores = $this->user->whereIn('id', $store_ids)->get();
+
+        $today = Carbon::now()->format('m/d/Y');
+        $threeDaysLater = Carbon::now()->addDays(3)->format('m/d/Y');
+
+        return view('users.guests.order.reserved')->with(compact('stores', 'reservationNumber', 'today', 'threeDaysLater', 'total_quantity', 'total_price'));
     }
 
 }
