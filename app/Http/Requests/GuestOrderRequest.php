@@ -22,7 +22,7 @@ class GuestOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'array|min:0|max:30',
+            'quantity' => 'array|min:0|max:30',
             'reserve_id' => 'required|array',
         ];
     }

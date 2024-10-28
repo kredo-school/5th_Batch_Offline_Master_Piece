@@ -198,13 +198,13 @@
 
 /* store inventory */
 .img-store-inventory{
-    width: 100%;           
-    height: auto;         
-    max-width: 200px;     
-    max-height: 200px;    
-    object-fit: cover;    
-    display: block;        
-    margin: 0 auto;     
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
 }
 
 
@@ -818,6 +818,7 @@
 }
 
 /* for footer */
-main {
+main
+{
     min-height: calc(100vh - 140px);
 }
