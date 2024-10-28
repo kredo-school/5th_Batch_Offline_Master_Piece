@@ -12,4 +12,15 @@ class Inventory extends Model
     protected $table = 'inventories';
     protected $fillable = ['store_id', 'book_id', 'stock'];
 
+    
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(User::class, 'store_id');
+    }
 }
+

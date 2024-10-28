@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\StoreProfileRequest;
 use Symfony\Component\HttpKernel\Debug\VirtualRequestStack;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InquiryMail;
 
 class ProfileController extends Controller
 {
@@ -142,8 +144,27 @@ class ProfileController extends Controller
 
     public function inquiry()
     {
-        return view('inquiry');
+        return view('emails.inquiry');
     }
 
+    public function sendInquiry(Request $request)
+    {
+        // フォームのバリデーション
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phone' => 'required|numeric',
+            'role' => 'required|string',
+            'contact' => 'required|string',
+            'details' => 'required|string',
+        ]);
+
+        // メール送信
+        Mail::send(new InquiryMail($validated));
+
+        return back()->with('success', 'Your inquiry has been sent!');
+    }
 
 }
+

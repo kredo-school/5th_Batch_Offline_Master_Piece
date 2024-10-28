@@ -54,6 +54,7 @@ class Book extends Model
         return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
 
+
     //authors_books との conection
     public function authorBook()
     {
@@ -78,9 +79,14 @@ class Book extends Model
     }
 
     public function store_book()
-{
-    return $this->belongsToMany(User::class, 'store_book');
-}
+    {
+        return $this->belongsToMany(User::class, 'store_book');
+    }
+
+    public function storeBooks()
+    {
+        return $this->hasMany(StoreBook::class);
+    }
 
     public function inventory()
     {

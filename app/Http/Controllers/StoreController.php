@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
 use App\Models\Inventory;
+use App\Models\Review;
+use App\Models\StoreOrder;
+use App\Http\Requests\StoreOrderRequest;
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -15,12 +20,14 @@ class StoreController extends Controller
     private $store;
     private $book;
     private $inventory;
+    private $review;
 
-    public function __construct(User $user, Book $book, Inventory $inventory)
+    public function __construct(User $user, Book $book, Inventory $inventory,Review $review)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
+        $this->review = $review;
     }
 
     public function newOrderConfirm()
@@ -184,8 +191,61 @@ class StoreController extends Controller
     public function bookInformation($id)
     {
         $book = $this->book->findOrFail($id);
-        return view('users.store.books.book-information')->with('book', $book);
+
+        $reviews = $this->review
+            ->where('book_id', $id)
+            ->with('book')
+            ->get();
+        
+        // Review Rating
+        $ratingsCount = $book->reviews->count();
+
+        $ratingsSummary = [
+            '5_star' => $book->reviews()->where('star_count', 5)->count(),
+            '4_star' => $book->reviews()->where('star_count', 4)->count(),
+            '3_star' => $book->reviews()->where('star_count', 3)->count(),
+            '2_star' => $book->reviews()->where('star_count', 2)->count(),
+            '1_star' => $book->reviews()->where('star_count', 1)->count(),
+        ];
+
+        foreach ($ratingsSummary as $key => $count) {
+            $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
+        }
+
+        return view('users.store.books.book-information', compact('book','reviews','ratingsSummary'));
     }
+
+    public function addOrUpdateOrders(StoreOrderRequest $request)
+    {
+        $user_id = Auth::id();
+        $validated = $request->validated();
+    
+        foreach ($validated['orders'] as $order) {
+            $bookId = $order['book_id'];
+            $quantity = $order['quantity'];
+    
+            // store_orders テーブルで該当のユーザーと book が存在するか確認
+            $storeOrder = StoreOrder::where('user_id', $user_id)
+                ->where('book_id', $bookId)
+                ->first();
+    
+            if ($storeOrder) {
+                // 存在する場合は数量を更新
+                $storeOrder->quantity += $quantity;
+                $storeOrder->save();
+            } else {
+                // 存在しない場合は新規作成
+                StoreOrder::create([
+                    'user_id' => $user_id,
+                    'book_id' => $bookId,
+                    'quantity' => $quantity,
+                ]);
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Orders have been successfully updated.');
+    }
+    
     public function profile()
     {
         return view('users.store.profile');

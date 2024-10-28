@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\GuestsController;
 use App\Http\Controllers\Admin\StoresController;
 use App\Http\controllers\GuestOrderController;
+use App\Http\controllers\LikeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -52,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/new', [BookController::class, 'bookNew'])->name('new');
             Route::get('/{id}/show/details', [BookController::class, 'showBook'])->name('show_book');
             Route::post('/{id}/review', [BookController::class, 'bookReview'])->name('review');
+            Route::post('/like/{review_id}/store', [LikeController::class, 'store'])->name('like.store');
+            Route::delete('/like/{review_id}/destroy', [LikeController::class, 'destroy'])->name('like.destroy');
             Route::get('/show/{id}/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/author/search', [BookController::class, 'searchAuthor'])->name('searchAuthor');
             Route::get('/{id}/inventory', [BookController::class, 'bookInventory'])->name('inventory');
@@ -62,7 +65,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
-        Route::get('inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
+        Route::get('/inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
+        Route::post('/inquiry/send', [ProfileController::class, 'sendInquiry'])->name('inquiry.send');
+
     });
 
     Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
@@ -107,6 +112,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
+        Route::post('/orders', [StoreController::class, 'addOrUpdateOrders'])->name('orders');
+
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         Route::get('/edit',[StoreController::class,'edit'])->name('edit');
@@ -159,7 +166,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
 
         //stores
-        Route::get('/stores/show', [GuestsController::class, 'show'])->name('stores.show');
+        Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
+        Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
+        Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
+        Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
+        Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
 
 
 });
