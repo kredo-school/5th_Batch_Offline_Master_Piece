@@ -114,7 +114,7 @@
         
         <div class="container-body" id="storeList">
             @if($storeLists->isEmpty())
-                <div class="alert alert-warning">Storeがないです。</div>
+                <div class="alert alert-warning">There is no shops in this area.</div>
             @else
             @foreach ($storeLists as $store)
                 <div class="row ms-3">

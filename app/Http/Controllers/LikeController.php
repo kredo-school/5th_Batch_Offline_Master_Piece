@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
+use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class LikeController extends Controller
 {
@@ -13,56 +16,30 @@ class LikeController extends Controller
     {
         $this->like = $like;
     }
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($review_id)
     {
         //
-    }
+        $this->like->guest_id = Auth::user()->id;
+        $this->like->review_id = $review_id;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Like $like)
-    {
-        //
-    }
+        $this->like->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Like $like)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Like $like)
-    {
-        //
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Like $like)
+    public function destroy($review_id)
     {
         //
+        $this->like->where('guest_id',Auth::user()->id)
+                        ->where('review_id',$review_id)
+                        ->delete();
+
+        return redirect()->back();
     }
 }

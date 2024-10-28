@@ -195,7 +195,32 @@
                         </div>
                         <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     </div>
-                    <p class="h4 wrap-text mt-3">{{ $review->body }}</p>
+                    <div class="row">
+                        <div class="col-10">
+                            <p class="h4 wrap-text mt-3">{{ $review->body }}</p>
+                        </div>
+                        <div class="col-2">
+                            <div class="text-end d-flex">
+                                @if($review->isLiked())
+                                    <form action="{{route('book.like.destroy', $review->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn  shadow-none p-0">
+                                            <i class="fa-solid fa-thumbs-up fs-32"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{route('book.like.store', $review->id)}}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn shadow-none p-0">
+                                            <i class="fa-regular fa-thumbs-up fs-32"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                                <span class="fs-32 ms-2 mt-0">{{$review->likes->count()}}</span>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                 @endforeach
             @else

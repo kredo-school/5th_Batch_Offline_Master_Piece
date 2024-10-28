@@ -54,6 +54,7 @@ class Book extends Model
         return $this->bookmarks()->where('guest_id', Auth::user()->id)->exists();
     }
 
+
     //authors_books との conection
     public function authorBook()
     {
