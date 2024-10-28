@@ -75,10 +75,10 @@
                             <img src="{{ $book->image }}" alt="book image {{ $book->id }}" class="img-fluid">
                         </a>
                         <p class="h1 bold">Stock:
-                            {{ $book->inventory->first() ? $book->inventory->first()->stock : 'No stock data available' }}
+                            {{ $book->inventory->first() ? $book->inventory->first()->stock : 'No stock data' }}
                         </p>
                         <div class="row mt-1">
-                            <form action="{{route('store.orders')}}" method="post">
+                            <form action="{{route('store.addOrUpdateOrders')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="orders[0][book_id]" value="{{ $book->id }}">
                                 <div class="row">
