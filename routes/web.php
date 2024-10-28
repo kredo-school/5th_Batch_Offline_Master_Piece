@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\GuestsController;
 use App\Http\Controllers\Admin\StoresController;
 use App\Http\controllers\GuestOrderController;
+use App\Http\controllers\LikeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -52,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/new', [BookController::class, 'bookNew'])->name('new');
             Route::get('/{id}/show/details', [BookController::class, 'showBook'])->name('show_book');
             Route::post('/{id}/review', [BookController::class, 'bookReview'])->name('review');
+            Route::post('/like/{review_id}/store', [LikeController::class, 'store'])->name('like.store');
+            Route::delete('/like/{review_id}/destroy', [LikeController::class, 'destroy'])->name('like.destroy');
             Route::get('/show/{id}/author', [BookController::class, 'authorShow'])->name('author_show');
             Route::get('/author/search', [BookController::class, 'searchAuthor'])->name('searchAuthor');
             Route::get('/{id}/inventory', [BookController::class, 'bookInventory'])->name('inventory');
@@ -84,8 +87,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
         Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
-        Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm');
-        Route::get('/reserved', [GuestOrderController::class, 'reserved'])->name('reserved');
+        Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm')->middleware('guest-order');
+        Route::get('/reserved/{reserved_ids}', [GuestOrderController::class, 'reserved'])->name('reserved');
         Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
         Route::patch('/reserve', [GuestOrderController::class, 'reserve'])->name('reserve');
     });

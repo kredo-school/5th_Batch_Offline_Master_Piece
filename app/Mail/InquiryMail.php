@@ -42,7 +42,7 @@ class InquiryMail extends Mailable
     {
         return $this->to($this->email)
                     ->subject('Inquiry Confirmation')
-                    ->view('registers.mail')
+                    ->view('emails.mail')
                     ->with([
                         'email' => $this->email,
                         'firstname' => $this->firstname,

@@ -144,7 +144,7 @@ class ProfileController extends Controller
 
     public function inquiry()
     {
-        return view('registers.inquiry');
+        return view('emails.inquiry');
     }
 
     public function sendInquiry(Request $request)
@@ -165,10 +165,6 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Your inquiry has been sent!');
     }
-
-        // Mail::to($request->email)->send(new InquiryMail($validated));
-
-        // return back()->with('success', 'Your inquiry has been sent. Please check your email.');
 
 }
 

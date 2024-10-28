@@ -113,55 +113,58 @@
         @csrf
         
         <div class="container-body" id="storeList">
+            @if($storeLists->isEmpty())
+                <div class="alert alert-warning">There is no shops in this area.</div>
+            @else
             @foreach ($storeLists as $store)
                 <div class="row ms-3">
                     <!-- store_id を配列で保持 -->
                     <input type="hidden" name="store_ids[]" value="{{ $store->id }}">
+                        <div class="col-4 d-flex justify-content-center align-items-center">
+                            <a href="{{ route('book.store_show', $store->id) }}" class="link-book img-store-inventory">
+                                @if (optional($store->profile)->avatar)
+                                    <img src="{{ optional($store->profile)->avatar }}" alt="store name: {{ $store->name }}" class="img-store-inventory">
+                                @else
+                                    <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                                @endif
+                            </a>
+                        </div>
 
-                    <div class="col-4 d-flex justify-content-center align-items-center">
-                        <a href="{{ route('book.store_show', $store->id) }}" class="link-book img-store-inventory">
-                            @if (optional($store->profile)->avatar)
-                                <img src="{{ optional($store->profile)->avatar }}" alt="store name: {{ $store->name }}" class="img-store-inventory">
+
+                        <div class="col-4 my-auto text-black">
+                            <a href="{{ route('book.store_show', $store->id) }}" class="link-book">
+                                <h3>{{ $store->name }}</h3>
+                                <h5>{{ optional($store->profile)->phone_number }}</h5>
+                                <h4>{{ optional($store->profile)->address }}</h4>
+                            </a>
+                        </div>
+
+                        <div class="col-4 my-auto">
+                            @php
+                                $inventory = $inventories[$store->id]->stock ?? 0;
+                            @endphp
+                            <h2>Inventory: {{ $inventory }}</h2>
+
+                            @if($inventory > 0)
+                                <h5>Receiving Date: Right Now</h5>
                             @else
-                                <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                                <h5 class="text-danger">Receiving Date: 3 days later</h5>
                             @endif
-                        </a>
+
+                            <!-- 店舗ごとの数量入力 -->
+                            <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
+                                class="form-control quantity-input" placeholder="Quantity" min="0" >
+                        </div>
                     </div>
-
-
-                    <div class="col-4 my-auto text-black">
-                        <a href="{{ route('book.store_show', $store->id) }}" class="link-book">
-                            <h3>{{ $store->name }}</h3>
-                            <h5>{{ optional($store->profile)->phone_number }}</h5>
-                            <h4>{{ optional($store->profile)->address }}</h4>
-                        </a>
-                    </div>
-
-                    <div class="col-4 my-auto">
-                        @php
-                            $inventory = $counts->get($store->id)->total_count ?? 0;
-                        @endphp
-                        <h2>Inventory: {{ $reserves->stock }}</h2>
-
-                        @if($inventory->stock > 0)
-                            <h5>Receiving Date: Right Now</h5>
-                        @else
-                            <h5 class="text-danger">Receiving Date: 3 days later</h5>
-                        @endif
-
-                        <!-- 店舗ごとの数量入力 -->
-                        <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $reserves->stock }}" 
-                            class="form-control quantity-input" placeholder="Quantity" min="0" >
-                    </div>
+                    <hr>
+                    @endforeach
+                    @endif
                 </div>
-                <hr>
-            @endforeach
-        </div>
 
         <div class="text-end w-75 mx-auto">
             <button type="button" class="btn btn-primary btn-select-inventory mb-5" 
                     id="selectbutton" 
-                    data-store-id="{{ $store->id }}"> 
+                    data-store-id="{{ optional($storeLists->first())->id }}"> 
                 Select
             </button>        
         </div>
@@ -174,7 +177,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // PHPから店舗数を取得
             const storeCount = @json($storeLists->count());
-            const storeName  = @json($store->name);
+            const storeNames = @json($storeLists->pluck('name'));
     
             // ボタンのクリックイベントを設定
             const button = document.getElementById('selectbutton');
