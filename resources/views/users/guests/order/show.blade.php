@@ -11,13 +11,13 @@
                     <div class="card-body card-size overflow-auto bg-white">
                         <h1 class="main-text fw-bold mb-3">Order Status</h1>
                         <div class="mx-3">
-                            @forelse ($reserves as $reserve)
+                            @forelse (Auth::user()->reserves as $reserve)
                                 <div class="row mb-3">
                                     <div class="col-3">
                                         {{-- book image --}}
                                         <div class="text-center">
                                             <a href="{{route('book.show_book', $reserve->book->id)}}"><img src="{{ $reserve->book->image }}" alt="{{$reserve->book->id}}"
-                                                    class="border w-100 shadow"></a>
+                                                    class="w-75 shadow img-list"></a>
                                         </div>
                                     </div>
                                     <div class="col-6 fs-32">
@@ -60,7 +60,7 @@
                                         </p>
                                     </div>
                                     <div class="col-3 text-end">
-                                        {{-- store,amount,delete --}}
+                                        {{-- store,quantity,delete --}}
 
                                         {{-- IDを送る --}}
                                         <h4>Store: <a href="{{route('book.store_show', $reserve->store->id)}}"
@@ -71,16 +71,20 @@
                                             @csrf
                                             @method('PATCH')
 
-                                            <input type="number" name="amount[]" id="amount" placeholder="Amount"
+                                            <input type="number" name="quantity[]" id="quantity" placeholder="quantity"
                                                 min="0" max="30"
-                                                value="{{ old('amount'.$loop->index, $reserve->amount) }}"
-                                                class="form-control mb-3 mt-4 w-50 text-center d-inline amount">
-                                            @error('amount'.$loop->index)
+                                                value="{{ old('quantity'.$loop->index, $reserve->quantity) }}"
+                                                class="form-control mb-5 mt-4 w-50 text-center d-inline quantity">
+                                            @error('quantity'.$loop->index)
                                                 <p class="text-danger small">{{ $message }}</p>
                                             @enderror
 
                                             <input type="hidden" name="reserve_id[]" value="{{$reserve->id}}">
-                                            <button type="submit" name="action" value="delete-{{$loop->index}}" class="btn btn-danger w-50">Delete</button>
+                                            <button type="submit" name="action" value="delete-{{$loop->index}}" class="btn w-50">
+                                                <div class="fs-24">
+                                                    <i class="fa-regular fa-trash-can text-danger"></i>
+                                                </div>
+                                            </button>
                                     </div>
                                 </div>
                                 @if (!$loop->last)
@@ -97,10 +101,10 @@
 
             <div class="col-3">
                 {{-- total --}}
-                @if ($reserves->isNotEmpty())
+                @if (Auth::user()->reserves->isNotEmpty())
                     <div class="card text-center mb-2">
                         <div class="card-header bg-white ">
-                            <h1 class="fw-bold">Selected: <span id="total-amount">0</span></h1>
+                            <h1 class="fw-bold">Selected: <span id="total-quantity">0</span></h1>
                             <h1 class="fw-bold">Total: <span id="total-price">0</span></h1>
                         </div>
                     </div>
@@ -118,10 +122,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // 本の金額や数量を取得
-    const amounts = document.querySelectorAll('.amount');
+    const quantities = document.querySelectorAll('.quantity');
     const prices = document.querySelectorAll('.price');
     const totalPriceElement = document.getElementById('total-price');
-    const totalAmountElement = document.getElementById('total-amount'); // 合計数量を表示する要素
+    const totalQuantityElement = document.getElementById('total-quantity'); // 合計数量を表示する要素
 
     // 金額をフォーマットする関数
     function numberFormat(value) {
@@ -131,23 +135,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 金額を計算する関数
     function calculateTotal() {
         let total = 0;
-        let totalAmount = 0; // 合計数量の初期化
+        let totalQuantity = 0; // 合計数量の初期化
 
-        amounts.forEach((amount, index) => {
+        quantities.forEach((quantityElement, index) => {
             const price = parseInt(prices[index].getAttribute('data-price')) || 0; // data-priceから取得
-            const quantity = parseInt(amount.value) || 0; // NaNの場合0にする
-            total += price * quantity; // 金額を合計に追加
-            totalAmount += quantity; // 数量を合計に追加
+            const quantityValue = parseInt(quantityElement.value) || 0; // NaNの場合0にする
+            total += price * quantityValue; // 金額を合計に追加
+            totalQuantity += quantityValue; // 数量を合計に追加
         });
 
         // 合計金額と合計数量をフォーマットして更新
         totalPriceElement.innerText = `¥ ${numberFormat(total)}`;
-        totalAmountElement.innerText = totalAmount; // 合計数量を表示
+        totalQuantityElement.innerText = totalQuantity; // 合計数量を表示
     }
 
     // 数量が変更されたときに金額を計算する
-    amounts.forEach(amount => {
-        amount.addEventListener('input', calculateTotal);
+    quantities.forEach(quantity => {
+        quantity.addEventListener('input', calculateTotal);
     });
 
     // 初期計算を実行

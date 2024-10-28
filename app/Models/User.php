@@ -86,11 +86,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class, 'guest_id');
     }
-    
+
 
     public function reserves()
     {
-        return $this->hasMany(Reserve::class, 'guest_id');
+        return $this->hasMany(Reserve::class, 'guest_id')->whereNull('reservation_number');
     }
 
     public function inventory()
@@ -123,4 +123,18 @@ class User extends Authenticatable
     }
 
     
+    public function store_reserves()
+    {
+        return $this->hasMany(Reserve::class, 'store_id')->whereNull('reservation_number');
+    }
+
+    public function order_stores()
+    {
+        return $this->belongsToMany(User::class, 'reserves', 'guest_id', 'store_id')->whereNull('reservation_number')->distinct();
+    }
+
+    public function store_reserved()
+    {
+        return $this->hasMany(Reserve::class, 'store_id')->whereNotNull('reservation_number');
+    }
 }
