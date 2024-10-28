@@ -9,7 +9,7 @@
     <div class="row justify-content-center mt-5">
         <div class="col">
             <div class="card card-admin mt-3 mx-auto w-75">
-                <h2 class="text-center mt-5 display-2 ">Welcome $User</h2>
+                <h2 class="text-center mt-5 display-2 ">Welcome!</h2>
 
                 <div class="card-body mx-auto w-75 mt-3">
                     <div class="row border" style="border-radius: 15px;">

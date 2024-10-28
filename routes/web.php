@@ -112,7 +112,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-        Route::post('/orders', [StoreController::class, 'addOrUpdateOrders'])->name('orders');
+        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
+        Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/profile',[StoreController::class,'profile'])->name('profile');
@@ -137,6 +139,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
+        // Route::get('/home', [AdminController::class, 'welcome'])->name('welcome');
         // Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
         // Route::get('/store', [AdminController::class, 'store'])->name('store');
         // Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
@@ -167,10 +170,15 @@ Route::group(['middleware' => 'auth'], function () {
 
         //stores
         Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
+
         Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
+
         Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
         Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
         Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
+        
+        Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
+        Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
 
 });
