@@ -351,14 +351,6 @@ class BookController extends Controller
         // store_id を取得
         $storeIds = $storeLists->pluck('id');
 
-        // 在庫数を取得
-        // $counts = DB::table('store_book')
-        //     ->where('book_id', $book->id)
-        //     ->whereIn('store_id', $storeIds)
-        //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
-        //     ->groupBy('store_id', 'book_id')
-        //     ->get()
-        //     ->keyBy('store_id');
 
         $inventories = $this->inventory->where('book_id', $book->id)
             ->whereIn('store_id', $storeIds)
@@ -396,8 +388,8 @@ class BookController extends Controller
                 $reserve->guest_id = Auth::user()->id;  
                 $reserve->book_id = $book_id;
                 $reserve->store_id = $storeId;
-                $reserve->amount = $amount;
-                $reserve->reservation_number = random_int(10000, 99999); 
+                $reserve->quantity = $amount;
+                $reserve->reservation_number = null; 
                 $reserve->save();  
             }
     
