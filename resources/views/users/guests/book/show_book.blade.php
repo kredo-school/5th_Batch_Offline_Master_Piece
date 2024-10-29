@@ -16,7 +16,6 @@
 
 
     <div class="container-body">
-        @csrf
         <div class="row">
             <div class="col-4">
                 <a href="{{ route('book.show_book', $book->id) }}" class="show-bookimg">
@@ -256,24 +255,30 @@
                                 <span class="star-btn" data-value="5"><i class="fa-regular fa-star"></i></span>
                             </div>
                             <input type="hidden" name="rating" id="rating-value" value="">
+                            @error('rating')
+                                <p class="text-danger small">{{ $message }}</p>
+                            @enderror
                             <div class="ms-3 my-auto rating-value-number">
                                 <span id="rating-value-number">0</span> /5.0
                             </div>
-
-
                         </h6>
                     </div>
-                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide"
-                        placeholder="Title:"></textarea>
+                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
+                    @error('review_title')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
                     <hr>
-                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide"
-                        placeholder="Content:"></textarea>
+                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
+                    @error('review_content')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="review-list text-end">
                 <input type="submit" value="Post Review" class="btn mt-3 btn-orange px-5">
             </div>
         </form>
+        
 
         <script>
             const stars = document.querySelectorAll(".star-btn"); // 星の要素を取得
