@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function ()
                 Route::get('/new', [BookController::class, 'bookNew'])->name('new');
                 Route::get('/{id}/show/details', [BookController::class, 'showBook'])->name('show_book');
                 Route::post('/{id}/review', [BookController::class, 'bookReview'])->name('review');
+                Route::delete('/{id}/delete/review', [BookController::class, 'reviewDelete'])->name('review_delete');
                 Route::post('/like/{review_id}/store', [LikeController::class, 'store'])->name('like.store');
                 Route::delete('/like/{review_id}/destroy', [LikeController::class, 'destroy'])->name('like.destroy');
                 Route::get('/show/{id}/author', [BookController::class, 'authorShow'])->name('author_show');
