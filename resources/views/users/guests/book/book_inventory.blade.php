@@ -187,7 +187,6 @@
                 const overInventoryStores = []; // 在庫を超えた店舗を格納する配列
                 let showModal = false;
 
-                console.log("Initial showModal:", showModal); // 初期値の確認
     
                 // 各store_idについてループ
                 quantityInputs.forEach((quantityInput) => {
@@ -199,13 +198,11 @@
                         const inventory = parseInt(quantityInput.dataset.inventory) || 0;
 
                         const storeName = storeNames[storeId - 1] || 'Unknown Store';
-
-                        console.log(`Store ${storeId} - Quantity: ${quantity}, Inventory: ${inventory}`); // 各入力の状態
     
                         // モーダル表示の条件
                         if (quantity > inventory) {
                             showModal = true;
-                            console.log(`showModal set to true for Store ${storeId}`); // フラグ変更時にログ出力
+                    
                             overInventoryStores.push(`Store ${storeName}: Required ${quantity}, Available ${inventory}`);
                         }
                     } else {
@@ -213,7 +210,6 @@
                     }
                 });
     
-                console.log("Final showModal:", showModal); // 最終値の確認
 
                 if (showModal) {
                     // モーダルメッセージを設定

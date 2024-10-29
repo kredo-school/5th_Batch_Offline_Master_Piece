@@ -307,7 +307,16 @@ class BookController extends Controller
 
         $this->review->save();
 
-        return redirect()->route('book.show_book', ['id' => $book_id]);
+        return redirect()->back();
+    }
+
+    public function reviewDelete($id)
+    {
+        $review = $this->review->findOrFail($id);
+        $review->delete();
+        
+
+        return redirect()->back();
     }
 
 
