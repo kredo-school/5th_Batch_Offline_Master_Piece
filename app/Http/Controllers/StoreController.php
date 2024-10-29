@@ -36,7 +36,8 @@ class StoreController extends Controller
 
     public function newOrderConfirm()
     {
-        return view('users.store.books.new-order-confirm');
+        $user = Auth::user();
+        return view('users.store.books.new-order-confirm', compact('user'));
     }
 
     public function orderConfirm()
@@ -161,14 +162,14 @@ class StoreController extends Controller
 
     public function bookList()
     {
-       // 1. Inventoryテーブルに存在するbook_idを取得
-    $inventory_books = Inventory::pluck('book_id')->toArray(); // Inventory にある book_id を配列として取得
+        // 1. Inventoryテーブルに存在するbook_idを取得
+        $inventory_books = Inventory::pluck('book_id')->toArray(); // Inventory にある book_id を配列として取得
 
-    // 2. Inventoryに存在しないbook_idの本を取得
-    $all_books = Book::whereNotIn('id', $inventory_books)->get();
+        // 2. Inventoryに存在しないbook_idの本を取得
+        $all_books = Book::whereNotIn('id', $inventory_books)->get();
 
-    // 3. 取得した本をビューに渡す
-    return view('users.store.books.book-list')->with(compact('all_books'));
+        // 3. 取得した本をビューに渡す
+        return view('users.store.books.book-list')->with(compact('all_books'));
     }
 
 
@@ -224,10 +225,66 @@ class StoreController extends Controller
             $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
         }
 
-        return view('users.store.books.book-information', compact('book','reviews','ratingsSummary'));
+        return view('users.store.books.book-information', compact('book', 'reviews', 'ratingsSummary'));
     }
 
     public function addOrUpdateOrders(StoreOrderRequest $request)
+    {
+        $user = Auth::user();
+        $validated = $request->validated();
+        // リファラーURLの取得
+        $referer = url()->previous();
+
+        foreach ($validated['orders'] as $order) {
+            $bookId = $order['book_id'];
+            $quantity = $order['quantity'];
+
+            // store_orders テーブルで該当のユーザーと book が存在するか確認
+            $storeOrder = StoreOrder::where('user_id', $user->id)
+                ->where('book_id', $bookId)
+                ->first();
+
+            if (str_contains($referer, '/store/new-confirm')) {
+                if ($storeOrder) {
+                    // 存在する場合は数量を更新
+                    $storeOrder->quantity = $quantity;
+                    $storeOrder->save();
+                }
+            } else {
+                if ($storeOrder) {
+                    // 存在する場合は数量を更新
+                    $storeOrder->quantity += $quantity;
+                    $storeOrder->save();
+                } else {
+                    // 存在しない場合は新規作成
+                    StoreOrder::create([
+                        'user_id' => $user->id,
+                        'book_id' => $bookId,
+                        'quantity' => $quantity,
+                    ]);
+                }
+            }
+        }
+
+
+        // リダイレクト先の設定
+        if (str_contains($referer, '/store/new-confirm')) {
+            return redirect()->route('store.newOrderConfirm', compact('user'));
+        } else {
+            return redirect()->back()->with('success', 'Orders have been successfully updated.');
+        }
+
+    }
+
+    public function deleteOrder($id)
+    {
+        $order = StoreOrder::findOrFail($id);
+
+        $order->delete();
+        return redirect()->back();
+    }
+
+    public function updateOrder(StoreOrderRequest $request)
     {
         $user_id = Auth::id();
         $validated = $request->validated();

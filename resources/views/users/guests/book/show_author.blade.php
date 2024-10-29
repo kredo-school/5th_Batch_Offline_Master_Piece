@@ -100,7 +100,7 @@
 
                         </div>
                         <div class="h-25 pt-3">
-                            <a href="{{ route('book.inventory') }}" class="btn btn-orange bottom-0 w-100">Select
+                            <a href="{{ route('book.inventory',$book->id) }}" class="btn btn-orange bottom-0 w-100">Select
                                 Store</a>
                         </div>
 

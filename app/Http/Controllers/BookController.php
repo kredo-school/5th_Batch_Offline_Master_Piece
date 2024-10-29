@@ -14,11 +14,7 @@ use App\Models\Bookmark;
 use App\Models\Reserve;
 use App\Models\Inventory;
 use App\Models\Like;
-
-
-
-
-
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -29,8 +25,9 @@ class BookController extends Controller
     private $store;
     private $reserve;
     private $inventory;
+    private $genre;
 
-    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory)
+    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory, Genre $genre)
     {
         $this->book = $book;
         $this->author = $author;
@@ -39,85 +36,122 @@ class BookController extends Controller
         $this->bookmark = $bookmark;
         $this->store = $store;
         $this->inventory = $inventory;
+        $this->genre = $genre;
     }
 
-    public function show()
-    {
-       //
-    }
-
-    public function bookSuggestion()
+    public function bookSuggestion(Request $request)
     {
         $userId = Auth::id();
+    
+        // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
-            
-
-        // 購入履歴がない場合人気のある本を取得する
-        if (empty($purchasedBooks)) {
-            $suggestionedBooks = Book::with('authors')
-                ->orderBy('books.publication_date', 'desc')
-                ->limit(20)
-                ->get();
-        } else {
-            // Guestが以前購入した本のジャンルを取得
+    
+        // 全ジャンルを取得
+        $all_genres = $this->genre->all();
+    
+        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
+        $selectedGenreId = $request->input('genre');
+    
+        // クエリの準備
+        $query = Book::with('authors', 'reviews');
+    
+        if ($selectedGenreId) {
+            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->where('genre_id', $selectedGenreId);
+            });
+        } elseif (!empty($purchasedBooks)) {
+            // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
-                ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
-                ->pluck('genres.id')
+                ->pluck('genre_id')
                 ->toArray();
-
-            // 購入履歴によるおすすめ本の取得
-            $suggestionedBooks = Book::whereIn('books.id', function ($query) use ($genres) {
-                $query->select('book_id')
+    
+            $query->whereIn('books.id', function ($subQuery) use ($genres) {
+                $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $genres);
-            })
-                ->join('author_books', 'books.id', '=', 'author_books.book_id')
-                ->join('authors', 'author_books.author_id', "=", 'authors.id')
-                ->join('reviews', 'books.id', '=', 'reviews.book_id')
-                ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-                ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
-                ->orderBy('average_rating', 'desc')
-                ->limit(20)
-                ->get();
-
-
-                // dd($suggestionedBooks);
-
+            });
+        } else {
+            // 購入履歴がない場合、人気の本を新しい順に取得
+            $query->orderBy('publication_date', 'desc');
         }
-
-        return view('users.guests.book.suggestion', compact('suggestionedBooks'));
+    
+        // 本を最大20件取得
+        $suggestedBooks = $query->limit(20)->get();
+    
+        // ビューにデータを渡す
+        return view('users.guests.book.suggestion', compact('suggestedBooks','all_genres','selectedGenreId'));
     }
+    
 
 
 
-    public function bookRanking()
+
+    public function bookRanking(Request $request)
     {
-        $rankedBooks = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
-            // ピボットテーブルと著者テーブルを結合
+        $all_genres = $this->genre->all();
+        
+        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
+        $selectedGenreId = $request->input('genre');
+
+        // 基本となるクエリを設定
+        $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
             ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name');
+
+        if ($selectedGenreId) {
+            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->where('genre_id', $selectedGenreId);
+            });
+        }
+
+        // 評価順に並べ替え
+        $rankedBooks = $query
             ->orderBy('average_rating', 'desc')
             ->limit(20)
             ->get();
 
-        return view('users.guests.book.ranking', compact('rankedBooks'));
+        return view('users.guests.book.ranking', compact('rankedBooks', 'all_genres', 'selectedGenreId'));
     }
 
-    public function bookNew()
-    {
-        $newedBooks = $this->book
-                    ->with('authors')
-                    ->orderBy('books.publication_date', 'desc')
-                    ->limit(20)
-                    ->get();
 
-    return view('users.guests.book.new', compact('newedBooks'));
+    public function bookNew(Request $request)
+    {
+        $all_genres = $this->genre->all();
+    
+        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
+        $selectedGenreId = $request->input('genre');
+
+        $query = $this->book->with('authors', 'reviews');
+
+        if ($selectedGenreId) {
+            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->where('genre_id', $selectedGenreId);
+            });
+
+            $query->orderBy('publication_date', 'desc');
+            
+        } else {
+            $query->orderBy('publication_date', 'desc');
+        }
+
+        $newedBooks = $query->limit(20)->get(); 
+    
+        return view('users.guests.book.new', compact('newedBooks','all_genres', 'selectedGenreId'));
     }
 
 
@@ -173,47 +207,66 @@ class BookController extends Controller
         
         // Suggestion
         $userId = Auth::id();
+    
+        // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
-
-        // 購入履歴がない場合人気のある本を取得する
-        if (empty($purchasedBooks)) {
-            $suggestionedBooks = Book::with('authors')
-                ->orderBy('books.publication_date', 'desc')
-                ->limit(20)
-                ->get();
-        } else {
-            // Guestが以前購入した本のジャンルを取得
+    
+        // 全ジャンルを取得
+        $all_genres = $this->genre->all();
+    
+        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
+        $selectedGenreId = $request->input('genre');
+    
+        // クエリの準備
+        $query = Book::with('authors', 'reviews');
+    
+        if ($selectedGenreId) {
+            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->where('genre_id', $selectedGenreId);
+            });
+        } elseif (!empty($purchasedBooks)) {
+            // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
-                ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
-                ->pluck('genres.id')
+                ->pluck('genre_id')
                 ->toArray();
-
-            // 購入履歴によるおすすめ本の取得
-            $suggestionedBooks = Book::whereIn('books.id', function($query) use($genres) {
-                $query->select('book_id')
+    
+            $query->whereIn('books.id', function ($subQuery) use ($genres) {
+                $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $genres);
-            })
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', "=", 'authors.id')
-            ->join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
-            ->orderBy('average_rating', 'desc')
-            ->limit(20)
-            ->get();
-            
+            });
+        } else {
+            // 購入履歴がない場合、人気の本を新しい順に取得
+            $query->orderBy('publication_date', 'desc');
         }
-        // Same Genre
-            $sameGenreBooks = $this->book
-                    ->with('genres')
-                    ->orderBy('books.publication_date', 'desc')
-                    ->limit(20)
-                    ->get();
+    
+        // 本を最大20件取得
+        $suggestedBooks = $query->limit(20)->get();
+
+
+
+        $sameGenreBooks = $this->book
+        ->whereIn('books.id', function ($subQuery) use ($book) {
+            $subQuery->select('book_id')
+                ->from('genre_books')
+                ->whereIn('genre_id', function ($genreSubQuery) use ($book) {
+                    // 現在の本のジャンルを取得
+                    $genreSubQuery->select('genre_id')
+                        ->from('genre_books')
+                        ->where('book_id', $book->id);
+                });
+        })
+        ->with('genres') // ジャンル情報も取得
+        ->orderBy('publication_date', 'desc') // 最新順に並べ替え
+        ->limit(20) // 最大20件取得
+        ->get();
 
         // Review Rating
         $ratingsCount = $book->reviews->count();
@@ -230,7 +283,7 @@ class BookController extends Controller
             $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
         }
 
-        return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
+        return view('users.guests.book.show_book', compact('book','prefectures','suggestedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
     }
 
 
@@ -298,14 +351,6 @@ class BookController extends Controller
         // store_id を取得
         $storeIds = $storeLists->pluck('id');
 
-        // 在庫数を取得
-        // $counts = DB::table('store_book')
-        //     ->where('book_id', $book->id)
-        //     ->whereIn('store_id', $storeIds)
-        //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
-        //     ->groupBy('store_id', 'book_id')
-        //     ->get()
-        //     ->keyBy('store_id');
 
         $inventories = $this->inventory->where('book_id', $book->id)
             ->whereIn('store_id', $storeIds)
@@ -343,8 +388,8 @@ class BookController extends Controller
                 $reserve->guest_id = Auth::user()->id;  
                 $reserve->book_id = $book_id;
                 $reserve->store_id = $storeId;
-                $reserve->amount = $amount;
-                $reserve->reservation_number = random_int(10000, 99999); 
+                $reserve->quantity = $amount;
+                $reserve->reservation_number = null; 
                 $reserve->save();  
             }
     

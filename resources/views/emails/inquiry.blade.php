@@ -15,21 +15,21 @@
             @endif
 
             <label for="email" class="form-label mt-2">Please fill in your email</label>
-            <input type="email" name="email" id="email" class="form-control" required>
+            <input type="email" name="email" id="email" class="form-control" value="{{old('email',$user->email)}}" required>
 
             <label for="firstname" class="form-label mt-2">First Name</label>
-            <input type="text" name="firstname" id="firstname" class="form-control" required>
+            <input type="text" name="firstname" id="firstname" class="form-control" value="{{old('firstname',$user->profile->first_name)}}" required>
 
             <label for="lastname" class="form-label mt-2">Last Name</label>
-            <input type="text" name="lastname" id="lastname" class="form-control" required>
+            <input type="text" name="lastname" id="lastname" class="form-control" value="{{old('lastname',$user->profile->last_name)}}" required>
 
             <label for="phone" class="form-label mt-2">Phone Number</label>
-            <input type="number" name="phone" id="phone" class="form-control" required>
+            <input type="number" name="phone" id="phone" class="form-control" value="{{old('phone',$user->profile->phone_number)}}" required>
 
             <label class="form-label mt-2">Role</label><br>
-            <input type="radio" name="role" id="store" value="store" required>
-            <label for="store" class="form-label">Store</label>
-            <input type="radio" name="role" id="guest" value="guest" required>
+            <input type="radio" name="role" id="store" value="store" {{$user->role_id == 3 ? 'checked': ''}} required>
+            <label for="store" class="form-label" >Store</label>
+            <input type="radio" name="role" id="guest" value="guest" {{$user->role_id == 2 ? 'checked': ''}} required>
             <label for="guest" class="form-label">Guest</label><br>
 
             <label for="contact" class="form-label mt-2">Inquiry</label>
@@ -40,7 +40,7 @@
                 <option value="application">Application</option>
             </select>
 
-            <textarea name="details" id="details" cols="30" rows="5" class="form-control mt-2" placeholder="Please fill in the details" required></textarea>
+            <textarea name="details" id="details" cols="30" rows="5" class="form-control mt-2" placeholder="Please fill in the details" required>{{old('details')}}</textarea>
 
             <div class="d-flex justify-content-end mt-2">
                 <input type="submit" value="Send" class="btn btn-orange px-4">
