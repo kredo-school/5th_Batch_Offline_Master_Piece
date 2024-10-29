@@ -190,9 +190,19 @@
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
                         </div>
-                        <div class="col ms-5 fw-bold fs-24">
+                        <div class="col ms-5 fw-bold fs-24 d-flex">
                             {{ $review->title }}
                         </div>
+                        <div class="col-2">
+                            <form action="{{route('book.review_delete', $review->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                @if(Auth::check() && Auth::id() === $review->user->id)
+                                    <button class="text-danger border-0 bg-white fs-32"><i class="fa-regular fa-trash-can"></i></button>
+                                @endif
+                            </form>
+                        </div>
+                        
                         <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     </div>
                     <div class="row">
