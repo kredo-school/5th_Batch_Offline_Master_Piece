@@ -20,25 +20,26 @@
                 </div>
                 <div class="card-body bg-white">
                     <div class="fw-semibold main-text fs-32">
-                        <p>Guest name: <span class="text-dark fw-normal">ponpoko</span></p>
-                        <p>Receiving date: <span class="text-dark fw-normal">Sep.12.2024</span></p>
-                        <p>Reserved date: <span class="text-dark fw-normal">Sep.9.2024</span></p>
+                        <p>Reservation Number:<br><span class="text-dark fw-normal">{{$reservation->reservation_number}}</span></p>
+                        <p>Guest name: <span class="text-dark fw-normal">{{$reservation->guest->name}}</span></p>
+                        <p>Receiving date: <span class="text-dark fw-normal">{{ date('Y/m/d', strtotime($reservation->receiving_date)) }}</span></p>
+                        <p>Reserved date: <span class="text-dark fw-normal">{{ date('Y/m/d', strtotime($reservation->updated_at)) }}</span></p>
                     </div>
 
-                    <table class="table fs-32 table-bordered">
+                    <table class="table fs-32 table-bordered text-center align-middle">
                         <thead class="main-text fw-semibold">
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Price</th>
                         </thead>
-                        <tbody class="text-center">
-                            @for($i = 0; $i < 5; $i++)
+                        <tbody>
+                            @foreach($reserves as $reserve)
                                 <tr>
-                                    <td>Dog</td>
-                                    <td>1</td>
-                                    <td>¥800</td>
+                                    <td>{{$reserve->book->title}}</td>
+                                    <td>{{$reserve->quantity}}</td>
+                                    <td>¥{{number_format($reserve->book->price)}}</td>
                                 </tr>
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -46,12 +47,12 @@
 
             <div class="card">
                 <div class="card-header bg-white">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col">
-                            <p class="fs-32">Total Price:</p>
+                            <p class="fs-32 mb-0">Total Price:</p>
                         </div>
                         <div class="col-auto text-center">
-                            <p class="fs-40 fw-bold">¥1,5000</p>
+                            <p class="fs-40 fw-bold mb-0">¥{{number_format($total_price)}}</p>
                         </div>
                     </div>
 

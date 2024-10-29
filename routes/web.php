@@ -26,7 +26,7 @@ use App\Http\controllers\LikeController;
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () 
+Route::group(['middleware' => 'auth'], function ()
 {
     Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
     Route::get('/welcome',[ProfileController::class,'welcome'])->name(name: 'welcome')->middleware('welcome');
@@ -47,9 +47,9 @@ Route::group(['middleware' => 'auth'], function ()
                 Route::patch('/update',[ProfileController::class,'update'])->name(name: 'update');
                 Route::get('/searchlist',[ProfileController::class,'searchlist'])->name('searchlist');
                 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
-    
+
             });
-    
+
             Route::group(['prefix' => 'book', 'as' => 'book.'], function () {
                 Route::get('/suggestion', [BookController::class, 'bookSuggestion'])->name('suggestion');
                 Route::get('/ranking', [BookController::class, 'bookRanking'])->name('ranking');
@@ -65,14 +65,14 @@ Route::group(['middleware' => 'auth'], function ()
                 Route::get('/list/store', [BookController::class, 'listStoreShow'])->name('store_list');
                 Route::get('/search', [BookController::class, 'navSearch'])->name('search');
                 Route::post('/reserve/{id}', [BookController::class, 'addReserved'])->name('reserve.add');
-    
+
             });
-    
+
             Route::get('/inquiry', [ProfileController::class, 'inquiry'])->name('inquiry');
             Route::post('/inquiry/send', [ProfileController::class, 'sendInquiry'])->name('inquiry.send');
-    
+
         });
-    
+
         Route::group(['prefix' => 'thread', 'as' => 'thread.'], function () {
             Route::get('/home', [ThreadController::class, 'home'])->name('home');
             Route::get('/content/{thread}', [ThreadController::class, 'content'])->name('content');
@@ -80,14 +80,14 @@ Route::group(['middleware' => 'auth'], function ()
             Route::post('/store', [ThreadController::class, 'store'])->name('store');
             Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
         });
-    
+
         Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
             Route::post('/add-comment/{thread}', [CommentController::class, 'addComment'])->name('addComment');
             Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
             Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
         });
-    
+
         Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
             Route::get('/show', [GuestOrderController::class, 'show'])->name('show');
             Route::get('/confirm', [GuestOrderController::class, 'confirm'])->name('confirm')->middleware('guest-order');
@@ -95,22 +95,22 @@ Route::group(['middleware' => 'auth'], function ()
             Route::patch('/update/delete', [GuestOrderController::class, 'updateAndDelete'])->name('updateAndDelete');
             Route::patch('/reserve', [GuestOrderController::class, 'reserve'])->name('reserve');
         });
-    
+
         Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
             Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
             Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
-    
+
             Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
             Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
             Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
             Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
-            Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+            Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
             Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
             Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
-    
+
             Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
             // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
-    
+
             Route::get('/home', [StoreController::class, 'home'])->name('home');
             Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
             Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
@@ -118,28 +118,28 @@ Route::group(['middleware' => 'auth'], function ()
             Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
             Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
             Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
-    
+
             Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
             Route::get('/profile',[StoreController::class,'profile'])->name('profile');
             Route::get('/edit',[StoreController::class,'edit'])->name('edit');
             Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
             Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
             });
-    
+
             Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
                 Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
                 Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
             });
-    
-    
-    
+
+
+
         });
-    
+
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
             Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
             Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
         });
-    
+
         Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
             Route::get('/home', [AdminController::class, 'index'])->name('home');
             // Route::get('/home', [AdminController::class, 'welcome'])->name('welcome');
@@ -155,7 +155,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
             Route::delete('/genre/{id}/destroy',[GenresController::class,'destroy'])->name('genres.destroy');
             Route::post('/genre/{id}/restore',[GenresController::class,'restore'])->name('genres.restore');
-    
+
             // Books
             Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
             Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
@@ -163,23 +163,23 @@ Route::group(['middleware' => 'auth'], function ()
             Route::delete('/books/{user}/destroy', [BooksController::class, 'destroy'])->name('books.destroy');
             Route::post('/books/{user}/restore', [BooksController::class, 'restore'])->name('books.restore');
             Route::get('/books/search',[BooksController::class,'search'])->name('books.search');
-    
-    
+
+
             //guests
             Route::delete('/guests/{user}/destroy', [GuestsController::class, 'destroy'])->name('guests.destroy');
             Route::post('/guests/{user}/restore', [GuestsController::class, 'restore'])->name('guests.restore');
             Route::get('/guests/index', [GuestsController::class, 'index'])->name('guests.index');
             Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
-    
+
             //stores
             Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
-    
+
             Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
-    
+
             Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
             Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
             Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
-            
+
             Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 

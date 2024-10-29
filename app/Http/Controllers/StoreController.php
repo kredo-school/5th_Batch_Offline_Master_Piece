@@ -11,6 +11,8 @@ use App\Models\Review;
 use App\Models\StoreOrder;
 use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use App\Models\Reserve;
 
 
 
@@ -21,13 +23,15 @@ class StoreController extends Controller
     private $book;
     private $inventory;
     private $review;
+    private $reserve;
 
-    public function __construct(User $user, Book $book, Inventory $inventory, Review $review)
+    public function __construct(User $user, Book $book, Inventory $inventory,Review $review, Reserve $reserve)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
         $this->review = $review;
+        $this->reserve = $reserve;
     }
 
     public function newOrderConfirm()
@@ -140,12 +144,20 @@ class StoreController extends Controller
 
     public function reservationList()
     {
-        return view('users.store.reservation.confirm-reservation-list');
+        $reservationNumber = [];
+        return view('users.store.reservation.confirm-reservation-list')->with(compact('reservationNumber'));
     }
 
-    public function reservationShow()
+    public function reservationShow($reserve_id)
     {
-        return view('users.store.reservation.confirm-reservation-show');
+        $reservation = $this->reserve->findOrFail($reserve_id);
+        $reserves = $this->reserve->where('reservation_number', $reservation->reservation_number)->get();
+
+        $total_price = 0;
+        foreach($reserves as $reserve):
+            $total_price += $reserve->book->price;
+        endforeach;
+        return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }
 
     public function bookList()
@@ -300,6 +312,7 @@ class StoreController extends Controller
             }
         }
 
+        return redirect()->back()->with('success', 'Orders have been successfully updated.');
     }
 
     public function profile()

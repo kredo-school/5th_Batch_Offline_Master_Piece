@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Reserve extends Model
 {
@@ -31,5 +32,15 @@ class Reserve extends Model
     public function author_books()
     {
         return $this->hasMany(AuthorBook::class, 'book_id');
+    }
+
+    public function store_inventory()
+    {
+        return $this->hasOne(Inventory::class, 'store_id', 'store_id')->where('book_id', $this->book_id);
+    }
+
+    public function guest()
+    {
+        return $this->belongsTo(User::class, 'guest_id');
     }
 }
