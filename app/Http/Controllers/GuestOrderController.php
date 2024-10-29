@@ -111,8 +111,13 @@ class GuestOrderController extends Controller
 
             // add reservation number
             foreach(Auth::user()->order_stores as $store):
+
+                $receiving_date = date('Ymd');
+
                 foreach ($store->store_reserves as $reserve){
+
                     $reserved_ids[] = $reserve->id;
+
                     if ($store->id == $reserve->store_id){
                         do {
                             // 店舗ごとに予約番号を生成
@@ -122,13 +127,17 @@ class GuestOrderController extends Controller
                         } while ($exists);  // 重複があった場合、再度生成する
                     }
 
+                    if($reserve->inventory->stock < $reserve->quantity){
+                        $receiving_date = date('Ymd', strtotime('+3 days'));
+                    }
+
                     // change inventory stock
                     $stock = $reserve->inventory->stock - $reserve->quantity;
                     $this->inventory->where('id', $reserve->inventory->id)->update(['stock' => max($stock, 0)]);
                 }
 
 
-                $this->reserve->whereIn('id', $reserved_ids)->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber]);
+                $this->reserve->whereIn('id', $reserved_ids)->where('store_id', $store->id)->update(['reservation_number' => $reservationNumber, 'receiving_date' => $receiving_date]);
 
             endforeach;
 
@@ -167,10 +176,7 @@ class GuestOrderController extends Controller
 
         $stores = $this->user->whereIn('id', $store_ids)->get();
 
-        $today = Carbon::now()->format('m/d/Y');
-        $threeDaysLater = Carbon::now()->addDays(3)->format('m/d/Y');
-
-        return view('users.guests.order.reserved')->with(compact('stores', 'reservationNumber', 'today', 'threeDaysLater', 'total_quantity', 'total_price'));
+        return view('users.guests.order.reserved')->with(compact('stores', 'reservationNumber', 'total_quantity', 'total_price'));
     }
 
 }

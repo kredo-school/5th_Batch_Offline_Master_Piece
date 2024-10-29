@@ -101,7 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
         Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
         Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
-        Route::get('/confirm/reservation/show', [StoreController::class, 'reservationShow'])->name('reservationShow');
+        Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
         Route::get('/book/list', [StoreController::class, 'bookList'])->name('bookList');
         Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
 

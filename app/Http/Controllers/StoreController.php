@@ -11,6 +11,8 @@ use App\Models\Review;
 use App\Models\StoreOrder;
 use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use App\Models\Reserve;
 
 
 
@@ -21,13 +23,15 @@ class StoreController extends Controller
     private $book;
     private $inventory;
     private $review;
+    private $reserve;
 
-    public function __construct(User $user, Book $book, Inventory $inventory,Review $review)
+    public function __construct(User $user, Book $book, Inventory $inventory,Review $review, Reserve $reserve)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
         $this->review = $review;
+        $this->reserve = $reserve;
     }
 
     public function newOrderConfirm()
@@ -48,26 +52,26 @@ class StoreController extends Controller
     public function analysis(Request $request)
     {
         $store = Auth::user(); // 現在の店舗ユーザー
-    
+
         // 1. ゲストのデータを取得 (都道府県別・男女別・年代別)
         $selectedPrefecture = $request->input('address', 'All Area');
-    
+
         $guestsQuery = User::join('store_guest', 'users.id', '=', 'store_guest.guest_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id') // profilesテーブルと結合
             ->where('store_guest.store_id', $store->id);
-    
+
         // 都道府県フィルタが適用されている場合
         if ($selectedPrefecture !== 'All Area') {
             $guestsQuery->where('profiles.address', $selectedPrefecture); // profilesテーブルの住所を使用
         }
-    
+
         $guests = $guestsQuery->select('profiles.gender', 'profiles.birthday')->get(); // profilesからgenderとbirthdayを取得
-    
+
         // もしゲストがいない場合は空の結果を設定
         if ($guests->isEmpty()) {
             $guests = collect(); // 空のコレクションをセットしてエラー回避
         }
-    
+
         // 年代別にグループ分けして集計
         $ageGroups = [
             '0~19' => ['male' => 0, 'female' => 0],
@@ -79,11 +83,11 @@ class StoreController extends Controller
             '70~79' => ['male' => 0, 'female' => 0],
             '80~' => ['male' => 0, 'female' => 0]
         ];
-    
+
         foreach ($guests as $guest) {
             $age = \Carbon\Carbon::parse($guest->birthday)->age;
             $gender = strtolower($guest->gender); // 'male' or 'female'
-    
+
             if ($age < 20)
                 $ageGroup = '0~19';
             elseif ($age < 30)
@@ -100,10 +104,10 @@ class StoreController extends Controller
                 $ageGroup = '70~79';
             else
                 $ageGroup = '80~';
-    
+
             $ageGroups[$ageGroup][$gender]++;
         }
-    
+
         // 2. 本のデータを取得 (ジャンル別、タイトル別)
         $books = Book::join('store_book', 'books.id', '=', 'store_book.book_id')
             ->join('genre_books', 'books.id', '=', 'genre_books.book_id')
@@ -114,7 +118,7 @@ class StoreController extends Controller
             ->orderBy('purchase_count', 'desc')
             ->take(10)
             ->get();
-    
+
         // データが存在しない場合は空の配列を設定
         $genres = [];
         if ($books->isNotEmpty()) {
@@ -126,11 +130,11 @@ class StoreController extends Controller
                 $genres[$genre] += $book->purchase_count;
             }
         }
-    
+
         $prefectures = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
 
-          
-    
+
+
         return view('users.store.analysis.analysis', compact('store', 'prefectures', 'ageGroups', 'books', 'genres', 'selectedPrefecture'));
     }
 
@@ -139,12 +143,20 @@ class StoreController extends Controller
 
     public function reservationList()
     {
-        return view('users.store.reservation.confirm-reservation-list');
+        $reservationNumber = [];
+        return view('users.store.reservation.confirm-reservation-list')->with(compact('reservationNumber'));
     }
 
-    public function reservationShow()
+    public function reservationShow($reserve_id)
     {
-        return view('users.store.reservation.confirm-reservation-show');
+        $reservation = $this->reserve->findOrFail($reserve_id);
+        $reserves = $this->reserve->where('reservation_number', $reservation->reservation_number)->get();
+
+        $total_price = 0;
+        foreach($reserves as $reserve):
+            $total_price += $reserve->book->price;
+        endforeach;
+        return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }
 
     public function bookList()
@@ -196,7 +208,7 @@ class StoreController extends Controller
             ->where('book_id', $id)
             ->with('book')
             ->get();
-        
+
         // Review Rating
         $ratingsCount = $book->reviews->count();
 
@@ -219,16 +231,16 @@ class StoreController extends Controller
     {
         $user_id = Auth::id();
         $validated = $request->validated();
-    
+
         foreach ($validated['orders'] as $order) {
             $bookId = $order['book_id'];
             $quantity = $order['quantity'];
-    
+
             // store_orders テーブルで該当のユーザーと book が存在するか確認
             $storeOrder = StoreOrder::where('user_id', $user_id)
                 ->where('book_id', $bookId)
                 ->first();
-    
+
             if ($storeOrder) {
                 // 存在する場合は数量を更新
                 $storeOrder->quantity += $quantity;
@@ -242,10 +254,10 @@ class StoreController extends Controller
                 ]);
             }
         }
-    
+
         return redirect()->back()->with('success', 'Orders have been successfully updated.');
     }
-    
+
     public function profile()
     {
         return view('users.store.profile');

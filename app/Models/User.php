@@ -135,4 +135,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reserve::class, 'store_id')->whereNotNull('reservation_number');
     }
+
+
 }
