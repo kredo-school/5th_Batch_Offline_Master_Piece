@@ -43,26 +43,12 @@
 
                                     @foreach ($stores as $store)
                                         <span class="text-dark">{{$store->name}}
-                                            @php
-                                                $receiving = $today;
-                                            @endphp
                                             @foreach ($store->store_reserved as $reserve)
-                                                @if ($reserve->inventory->stock == 0)
-                                                    @php
-                                                        $receiving = $threeDaysLater;
-                                                    @endphp
-                                                @else
-
-                                                    @if ($reserve->quantity > $reserve->inventory->stock + $reserve->quantity)
-                                                        @php
-                                                            $receiving = $threeDaysLater;
-                                                        @endphp
-                                                    @endif
-
+                                                @if (in_array($reserve->reservation_number, $reservationNumber))
+                                                    ({{date('Y/m/d', strtotime($reserve->receiving_date))}})
+                                                    @break
                                                 @endif
                                             @endforeach
-
-                                            ({{$receiving}})
                                         </span>
 
                                         @if (!$loop->last)
