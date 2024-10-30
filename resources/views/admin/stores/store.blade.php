@@ -49,14 +49,6 @@
                         <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
                     </select>
             
-                    {{-- <select name="address" id="" class="form-select w-50">
-                        <option value="" hidden>Address</option>
-                        @foreach ($prefectures as $prefecture)
-                            <option value="{{ $prefecture }}" {{ request('address') == $prefecture ? 'selected' : '' }}>
-                                {{ $prefecture }}
-                            </option>
-                        @endforeach
-                    </select> --}}
                     <select name="address" id="" class="form-select w-50" onchange="this.form.submit()">
                         <option value="" hidden>Address</option>
                         @foreach ($prefectures as $prefecture)
@@ -157,18 +149,6 @@
 
 {{-- name address stutus --}}
 
-
-
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script>
-    document.getElementById('manage-store-select').addEventListener('change', function() {
-        document.getElementById('sortForm').submit();
-    });
-
-    document.getElementById('sort-order-select').addEventListener('change', function() {
-        document.getElementById('sortForm').submit();
-    });
-</script> --}}
 <script>
     document.getElementById('manage-store-select').addEventListener('change', function() {
         document.getElementById('sortForm').submit();
@@ -184,26 +164,6 @@
 <div class="d-flex justify-content-center">
     {{ $stores->links() }}
 </div>
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script>
-        document.getElementById('manage-store-select').addEventListener('change', function() {
-        document.getElementById('sortForm').submit();
-        });
 
-        document.getElementById('sort-order-select').addEventListener('change', function() {
-        document.getElementById('sortForm').submit();
-        });
-
-        
-    </script> --}}
-
-
-
-
-    {{-- ページネーションリンクを表示 --}}
-    {{-- <div class="d-flex justify-content-center">
-        {{ $all_users->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
-    </div>
- --}}
 @endsection
 
