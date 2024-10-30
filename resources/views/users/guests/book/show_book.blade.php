@@ -158,12 +158,12 @@
                 @foreach ($reviews as $review)
                     <div class="row mt-4">
                         <a href="{{ route('profile.show', $review->user->id) }}" class="text-decoration-none text-dark">
-                            <div class="text-center d-flex">
+                            <div class="text-center d-flex ">
                                 @if (optional($review->user->profile)->avatar)
-                                    <img src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}"
-                                        class="rounded-circle shadow p-1 review-avatar d-block mx-auto ">
+                                    <img src="{{ optional($review->user->profile)->avatar }}" alt="{{ $review->user->id }}"
+                                        class="rounded-circle shadow p-1 review-avatar d-block ">
                                 @else
-                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar"></i>
+                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar-img"></i>
                                 @endif
                                 <p class="fs-32 ms-3 my-auto">{{ $review->user->name }}</p>
                             </div>

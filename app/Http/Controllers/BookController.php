@@ -177,8 +177,8 @@ class BookController extends Controller
 
         $reviews = $this->review
             ->where('book_id', $id)
-            ->with('book')
-            ->get();
+            ->with('book');
+            
         
         $prefectures = [
             'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
@@ -191,19 +191,20 @@ class BookController extends Controller
         
         $sort = $request->get('sort', 'created_at');
 
-        if ($request->has('sort')) {
-            switch ($request->input('sort')) {
-                case 'highest-rating':
-                    $reviews->orderBy('star_count', 'desc'); 
-                    break;
-                case 'lowest-rating':
-                    $reviews->orderBy('star_count', 'asc'); 
-                    break;
-                default: 
-                    $reviews->orderBy('created_at', 'desc');
-                    break;
-            }
+        switch ($sort) {
+            case 'highest-rating':
+                $reviews->orderBy('star_count', 'desc');
+                break;
+            case 'lowest-rating':
+                $reviews->orderBy('star_count', 'asc');
+                break;
+            default:
+                $reviews->orderBy('created_at', 'desc');
+                break;
         }
+
+        // クエリを実行してデータを取得
+        $reviews = $reviews->get();
         
         // Suggestion
         $userId = Auth::id();
