@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\GuestsController;
 use App\Http\Controllers\Admin\StoresController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\controllers\GuestOrderController;
 use App\Http\controllers\LikeController;
 
@@ -143,14 +144,7 @@ Route::group(['middleware' => 'auth'], function ()
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
             Route::get('/home', [AdminController::class, 'index'])->name('home');
-            // Route::get('/home', [AdminController::class, 'welcome'])->name('welcome');
-            // Route::get('/store/register', [AdminController::class, 'registerStore'])->name('registerStore');
-            // Route::get('/store', [AdminController::class, 'store'])->name('store');
-            // Route::get('/genre', [AdminController::class, 'genre'])->name('genre');
-            // Route::get('/guest', [AdminController::class, 'guest'])->name('guest');
-            // Route::get('/book', [AdminController::class, 'book'])->name('book');
-            // Route::get('/register', [AdminController::class, 'register'])->name('register');
-            // genres
+            // Genres
             Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
             Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
             Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
@@ -183,6 +177,10 @@ Route::group(['middleware' => 'auth'], function ()
 
             Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
+
+            // reports
+            Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
+            Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
 
 
     });

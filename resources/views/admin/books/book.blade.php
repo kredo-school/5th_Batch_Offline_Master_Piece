@@ -59,7 +59,6 @@
         @include('admin.button')
     </div>
 
-    </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
         <div class="row align-items-center">

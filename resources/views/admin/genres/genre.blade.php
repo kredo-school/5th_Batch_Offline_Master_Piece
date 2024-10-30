@@ -54,7 +54,6 @@
         @include('admin.button')
     </div>
 
-    </div>
     {{-- 以下 --}}
     <div class="genre-container mt-4">
         <form action="{{ route('admin.genres.create') }}" method="post">
