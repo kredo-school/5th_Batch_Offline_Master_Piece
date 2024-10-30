@@ -243,7 +243,7 @@
         <form action="{{ route('book.review', $book->id) }}" method="post">
             @csrf
             <div class="review-list">
-                <label for="write-review" class="form-label fw-bold">Write your review</label>
+                <label for="write-review" class="form-label fw-bold fs-32 mt-3">Write your review</label>
                 <div class="border border-1 border-black p-3">
                     <div class="row">
                         <h6 class="d-flex ms-2">Rate:
@@ -254,13 +254,13 @@
                                 <span class="star-btn" data-value="4"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="5"><i class="fa-regular fa-star"></i></span>
                             </div>
-                            <input type="hidden" name="rating" id="rating-value" value="">
-                            @error('rating')
-                                <p class="text-danger small">{{ $message }}</p>
-                            @enderror
+                            <input type="hidden" name="star-rating" id="star-rating" value="">
                             <div class="ms-3 my-auto rating-value-number">
                                 <span id="rating-value-number">0</span> /5.0
                             </div>
+                            @error('star-rating')
+                                <p class="text-danger small ms-3 my-auto">{{ $message }}</p>
+                            @enderror
                         </h6>
                     </div>
                     <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
