@@ -158,12 +158,12 @@
                 @foreach ($reviews as $review)
                     <div class="row mt-4">
                         <a href="{{ route('profile.show', $review->user->id) }}" class="text-decoration-none text-dark">
-                            <div class="text-center d-flex">
+                            <div class="text-center d-flex ">
                                 @if (optional($review->user->profile)->avatar)
-                                    <img src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}"
-                                        class="rounded-circle shadow p-1 review-avatar d-block mx-auto ">
+                                    <img src="{{ optional($review->user->profile)->avatar }}" alt="{{ $review->user->id }}"
+                                        class="rounded-circle shadow p-1 review-avatar d-block ">
                                 @else
-                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar"></i>
+                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar-img"></i>
                                 @endif
                                 <p class="fs-32 ms-3 my-auto">{{ $review->user->name }}</p>
                             </div>
@@ -243,7 +243,7 @@
         <form action="{{ route('book.review', $book->id) }}" method="post">
             @csrf
             <div class="review-list">
-                <label for="write-review" class="form-label fw-bold">Write your review</label>
+                <label for="write-review" class="form-label fw-bold fs-32 mt-3">Write your review</label>
                 <div class="border border-1 border-black p-3">
                     <div class="row">
                         <h6 class="d-flex ms-2">Rate:
@@ -254,13 +254,13 @@
                                 <span class="star-btn" data-value="4"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="5"><i class="fa-regular fa-star"></i></span>
                             </div>
-                            <input type="hidden" name="rating" id="rating-value" value="">
-                            @error('rating')
-                                <p class="text-danger small">{{ $message }}</p>
-                            @enderror
+                            <input type="hidden" name="star-rating" id="star-rating" value="">
                             <div class="ms-3 my-auto rating-value-number">
                                 <span id="rating-value-number">0</span> /5.0
                             </div>
+                            @error('star-rating')
+                                <p class="text-danger small ms-3 my-auto">{{ $message }}</p>
+                            @enderror
                         </h6>
                     </div>
                     <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
