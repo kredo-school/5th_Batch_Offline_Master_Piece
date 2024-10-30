@@ -40,7 +40,11 @@
                     @enderror
 
                     <label for="genre" class="form-label fw-semibold">Image file</label>
-                    <input type="file" name="image" id="image" class="form-control w-25 mb-5">
+                    <input type="file" name="image" id="image" class="form-control w-25">
+                    <div id="image-info" class="form-text mb-5">
+                        <p class="mb-0">Acceptable formats: jpeg, jpg, png, gif only.</p>
+                        <p class="mt-0">Maximum file size is 1048kb.</p>
+                    </div>
                     @error('image')
                         <p class="text-danger small">{{$message}}</p>
                     @enderror

@@ -24,6 +24,7 @@ class ThreadCommentRequest extends FormRequest
         return [
             'body' => 'required|max:255',
             'image' => 'mimes:jpeg,jpg,png,gif|max:1048',
+            'parent_id' => 'nullable|integer',
         ];
     }
 

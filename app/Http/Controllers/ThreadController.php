@@ -120,9 +120,10 @@ class ThreadController extends Controller
     public function content(Thread $thread)
     {
         $genres = $thread->genre_threads()->get();
-        $comments = $thread->comments()->paginate(100);
+        $comments = $thread->comments()->withTrashed()->paginate(100);
         $all_genres =  $this->genre->all();
         $latestPage = ceil(count($thread->comments) / 100);
+
         return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage'));
     }
 

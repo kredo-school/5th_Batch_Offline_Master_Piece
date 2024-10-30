@@ -8,11 +8,14 @@ use App\Models\Thread;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Http\Requests\ThreadCommentRequest;
 
 class CommentController extends Controller
 {
+    use SoftDeletes;
+
     private $comment;
     public function __construct(Comment $comment)
     {
@@ -60,6 +63,11 @@ class CommentController extends Controller
         $this->comment->body = $validated['body'];
         $this->comment->thread_id = $thread->id;
         $this->comment->guest_id = Auth::id();
+
+        if($validated['parent_id']){
+            $this->comment->parent_id = $validated['parent_id'];
+        }
+
         if(!empty($validated['image'])){
             $this->comment->image = 'data:image/'.$validated['image']->extension().';base64,'.base64_encode(file_get_contents($validated['image']));
         }
@@ -122,7 +130,8 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
-        $this->comment->destroy($id);
+        $comment = $this->comment->find($id);
+        $comment->delete();
 
         return redirect()->back();
     }

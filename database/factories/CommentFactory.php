@@ -20,6 +20,8 @@ class CommentFactory extends Factory
             'image' => $this->faker->boolean(50) ? $this->faker->imageUrl() : null,
             'guest_id' => User::factory(), // ランダムなユーザー
             'thread_id' => Thread::factory(), // ランダムなスレッド
+
+            // 'thread_id' => 1
         ];
     }
 }

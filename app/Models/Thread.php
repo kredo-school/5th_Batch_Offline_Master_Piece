@@ -23,7 +23,7 @@ class Thread extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->withTrashed();
     }
 
     public function genres()
@@ -40,5 +40,5 @@ class Thread extends Model
 
 
 
-   
+
 }

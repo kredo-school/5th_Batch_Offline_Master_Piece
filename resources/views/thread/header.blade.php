@@ -52,7 +52,7 @@
     <div class="col-2">
         @if(request()->is('thread/content/*'))
             <div class="text-end">
-                <a href="#comment" class=" text-dark h3">
+                <a href="#add-comment" class=" text-dark h3">
                     <i class="fa-solid fa-pen-to-square"></i> Add comment
                 </a>
             </div>
