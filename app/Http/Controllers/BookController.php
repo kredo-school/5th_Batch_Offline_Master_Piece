@@ -294,6 +294,7 @@ class BookController extends Controller
         $request->validate([
             'review_title' => 'required|min:1|max:30',
             'review_content' => 'required|min:1|max:1000',
+            'star-rating' => 'required',
         ]);
 
         $book_id = $id;
