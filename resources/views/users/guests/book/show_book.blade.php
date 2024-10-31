@@ -16,7 +16,6 @@
 
 
     <div class="container-body">
-        @csrf
         <div class="row">
             <div class="col-4">
                 <a href="{{ route('book.show_book', $book->id) }}" class="show-bookimg">
@@ -159,12 +158,12 @@
                 @foreach ($reviews as $review)
                     <div class="row mt-4">
                         <a href="{{ route('profile.show', $review->user->id) }}" class="text-decoration-none text-dark">
-                            <div class="text-center d-flex">
+                            <div class="text-center d-flex ">
                                 @if (optional($review->user->profile)->avatar)
-                                    <img src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}"
-                                        class="rounded-circle shadow p-1 review-avatar d-block mx-auto ">
+                                    <img src="{{ optional($review->user->profile)->avatar }}" alt="{{ $review->user->id }}"
+                                        class="rounded-circle shadow p-1 review-avatar d-block ">
                                 @else
-                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar"></i>
+                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar-img"></i>
                                 @endif
                                 <p class="fs-32 ms-3 my-auto">{{ $review->user->name }}</p>
                             </div>
@@ -190,9 +189,19 @@
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
                         </div>
-                        <div class="col ms-5 fw-bold fs-24">
+                        <div class="col ms-5 fw-bold fs-24 d-flex">
                             {{ $review->title }}
                         </div>
+                        <div class="col-2">
+                            <form action="{{route('book.review_delete', $review->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                @if(Auth::check() && Auth::id() === $review->user->id)
+                                    <button class="text-danger border-0 bg-white fs-32"><i class="fa-regular fa-trash-can"></i></button>
+                                @endif
+                            </form>
+                        </div>
+                        
                         <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     </div>
                     <div class="row">
@@ -234,7 +243,7 @@
         <form action="{{ route('book.review', $book->id) }}" method="post">
             @csrf
             <div class="review-list">
-                <label for="write-review" class="form-label fw-bold">Write your review</label>
+                <label for="write-review" class="form-label fw-bold fs-32 mt-3">Write your review</label>
                 <div class="border border-1 border-black p-3">
                     <div class="row">
                         <h6 class="d-flex ms-2">Rate:
@@ -245,25 +254,31 @@
                                 <span class="star-btn" data-value="4"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="5"><i class="fa-regular fa-star"></i></span>
                             </div>
-                            <input type="hidden" name="rating" id="rating-value" value="">
+                            <input type="hidden" name="star-rating" id="star-rating" value="">
                             <div class="ms-3 my-auto rating-value-number">
                                 <span id="rating-value-number">0</span> /5.0
                             </div>
-
-
+                            @error('star-rating')
+                                <p class="text-danger small ms-3 my-auto">{{ $message }}</p>
+                            @enderror
                         </h6>
                     </div>
-                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide"
-                        placeholder="Title:"></textarea>
+                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
+                    @error('review_title')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
                     <hr>
-                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide"
-                        placeholder="Content:"></textarea>
+                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
+                    @error('review_content')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="review-list text-end">
                 <input type="submit" value="Post Review" class="btn mt-3 btn-orange px-5">
             </div>
         </form>
+        
 
         <script>
             const stars = document.querySelectorAll(".star-btn"); // 星の要素を取得
@@ -323,7 +338,7 @@
         {{-- Booklist --}}
         <div id="carouselSuggestionControls" class="carousel slide mt-2" data-bs-ride="carousel">
             <div class="carousel-inner">
-                @foreach ($suggestionedBooks->chunk(4) as $chunk)
+                @foreach ($suggestedBooks->chunk(4) as $chunk)
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                         <div class="row">
                             @foreach ($chunk as $book)

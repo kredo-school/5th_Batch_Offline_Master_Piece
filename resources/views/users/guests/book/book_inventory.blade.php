@@ -68,7 +68,7 @@
             <div>
                 <form id="filterForm" action="{{ route('book.inventory', $book->id) }}" method="get">
                     @csrf
-                    <select name="address" class="form-select w-75 ms-3" onchange="this.form.submit()">
+                    <select name="address" class="form-select w-75 ms-3" onchange="this.form.submit()" id="area">
                         <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area</option>
                         @foreach ($prefectures as $prefecture)
                             <option value="{{ $prefecture }}" {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
@@ -110,54 +110,53 @@
     
 
     <form id="bookInventoryForm" action="{{ route('book.reserve.add', $book->id) }}" method="POST">
-        @csrf
-        
+        @csrf        
         <div class="container-body" id="storeList">
             @if($storeLists->isEmpty())
                 <div class="alert alert-warning">There is no shops in this area.</div>
             @else
-            @foreach ($storeLists as $store)
-                <div class="row ms-3">
-                    <!-- store_id を配列で保持 -->
-                    <input type="hidden" name="store_ids[]" value="{{ $store->id }}">
-                        <div class="col-4 d-flex justify-content-center align-items-center">
-                            <a href="{{ route('book.store_show', $store->id) }}" class="link-book img-store-inventory">
-                                @if (optional($store->profile)->avatar)
-                                    <img src="{{ optional($store->profile)->avatar }}" alt="store name: {{ $store->name }}" class="img-store-inventory">
+                @foreach ($storeLists as $store)
+                    <div class="row ms-3">
+                        <!-- store_id を配列で保持 -->
+                        <input type="hidden" name="store_ids[]" value="{{ $store->id }}">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <a href="{{ route('book.store_show', $store->id) }}" class="link-book img-store-inventory">
+                                    @if (optional($store->profile)->avatar)
+                                        <img src="{{ optional($store->profile)->avatar }}" alt="store name: {{ $store->name }}" class="img-store-inventory">
+                                    @else
+                                        <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                                    @endif
+                                </a>
+                            </div>
+
+
+                            <div class="col-4 my-auto text-black">
+                                <a href="{{ route('book.store_show', $store->id) }}" class="link-book">
+                                    <h3>{{ $store->name }}</h3>
+                                    <h5>{{ optional($store->profile)->phone_number }}</h5>
+                                    <h4>{{ optional($store->profile)->address }}</h4>
+                                </a>
+                            </div>
+
+                            <div class="col-4 my-auto">
+                                @php
+                                    $inventory = $inventories[$store->id]->stock ?? 0;
+                                @endphp
+                                <h2>Inventory: {{ $inventory }}</h2>
+
+                                @if($inventory > 0)
+                                    <h5>Receiving Date: Right Now</h5>
                                 @else
-                                    <img src="https://th.bing.com/th/id/OIP.Khe4un4CrKghna_BBciHDgHaHa?w=148&h=180&c=7&r=0&o=5&dpr=2&pid=1.7" alt="#" class="img-store-inventory">
+                                    <h5 class="text-danger">Receiving Date: 3 days later</h5>
                                 @endif
-                            </a>
+
+                                <!-- 店舗ごとの数量入力 -->
+                                <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
+                                    class="form-control quantity-input" placeholder="Quantity" min="0" >
+                            </div>
                         </div>
-
-
-                        <div class="col-4 my-auto text-black">
-                            <a href="{{ route('book.store_show', $store->id) }}" class="link-book">
-                                <h3>{{ $store->name }}</h3>
-                                <h5>{{ optional($store->profile)->phone_number }}</h5>
-                                <h4>{{ optional($store->profile)->address }}</h4>
-                            </a>
-                        </div>
-
-                        <div class="col-4 my-auto">
-                            @php
-                                $inventory = $inventories[$store->id]->stock ?? 0;
-                            @endphp
-                            <h2>Inventory: {{ $inventory }}</h2>
-
-                            @if($inventory > 0)
-                                <h5>Receiving Date: Right Now</h5>
-                            @else
-                                <h5 class="text-danger">Receiving Date: 3 days later</h5>
-                            @endif
-
-                            <!-- 店舗ごとの数量入力 -->
-                            <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
-                                class="form-control quantity-input" placeholder="Quantity" min="0" >
-                        </div>
-                    </div>
-                    <hr>
-                    @endforeach
+                        <hr>
+                        @endforeach
                     @endif
                 </div>
 
@@ -187,6 +186,7 @@
                 const quantityInputs = document.querySelectorAll('input[name^="quantities["]');
                 const overInventoryStores = []; // 在庫を超えた店舗を格納する配列
                 let showModal = false;
+
     
                 // 各store_idについてループ
                 quantityInputs.forEach((quantityInput) => {
@@ -196,10 +196,13 @@
                     if (storeId) {
                         const quantity = parseInt(quantityInput.value) || 0;
                         const inventory = parseInt(quantityInput.dataset.inventory) || 0;
+
+                        const storeName = storeNames[storeId - 1] || 'Unknown Store';
     
                         // モーダル表示の条件
                         if (quantity > inventory) {
                             showModal = true;
+                    
                             overInventoryStores.push(`Store ${storeName}: Required ${quantity}, Available ${inventory}`);
                         }
                     } else {
@@ -207,6 +210,7 @@
                     }
                 });
     
+
                 if (showModal) {
                     // モーダルメッセージを設定
                     const modalMessage = document.getElementById('modalMessage');

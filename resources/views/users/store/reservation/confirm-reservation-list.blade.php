@@ -19,16 +19,27 @@
                     <th>Reserved date</th>
                 </thead>
                 <tbody>
-                    @for($i = 0; $i < 8; $i++)
-                        <tr>
-                            <td><a href="{{ route('store.reservationShow') }}">12345678</a></td>
-                            <td>Sep.12.2024</td>
-                            <td>Sep.9.2024</td>
-                        </tr>
-                    @endfor
+                    @foreach (Auth::user()->store_reserved as $reserve)
+                        @if (!in_array($reserve->reservation_number, $reservationNumber))
+                            <tr>
+                                <td><a href="{{ route('store.reservationShow', $reserve->id) }}">{{$reserve->reservation_number}}</a></td>
+                                <td>
+                                    {{ date('Y/m/d', strtotime($reserve->receiving_date)) }}
+                                </td>
+                                <td>
+                                    {{ date('Y/m/d', strtotime($reserve->updated_at)) }}
+                                </td>
+                            </tr>
+                        @endif
+
+                        @php
+                            $reservationNumber[] = $reserve->reservation_number;
+                            $receivnig_date[] = $reserve->receivnig_date;
+                        @endphp
+
+                    @endforeach
                 </tbody>
             </table>
         </div>
-
     </div>
 @endsection

@@ -16,11 +16,6 @@ use App\Models\Inventory;
 use App\Models\Like;
 use App\Models\Genre;
 
-
-
-
-
-
 class BookController extends Controller
 {
     private $book;
@@ -182,8 +177,8 @@ class BookController extends Controller
 
         $reviews = $this->review
             ->where('book_id', $id)
-            ->with('book')
-            ->get();
+            ->with('book');
+            
         
         $prefectures = [
             'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
@@ -196,63 +191,83 @@ class BookController extends Controller
         
         $sort = $request->get('sort', 'created_at');
 
-        if ($request->has('sort')) {
-            switch ($request->input('sort')) {
-                case 'highest-rating':
-                    $reviews->orderBy('star_count', 'desc'); 
-                    break;
-                case 'lowest-rating':
-                    $reviews->orderBy('star_count', 'asc'); 
-                    break;
-                default: 
-                    $reviews->orderBy('created_at', 'desc');
-                    break;
-            }
+        switch ($sort) {
+            case 'highest-rating':
+                $reviews->orderBy('star_count', 'desc');
+                break;
+            case 'lowest-rating':
+                $reviews->orderBy('star_count', 'asc');
+                break;
+            default:
+                $reviews->orderBy('created_at', 'desc');
+                break;
         }
+
+        // クエリを実行してデータを取得
+        $reviews = $reviews->get();
         
         // Suggestion
         $userId = Auth::id();
+    
+        // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
-
-        // 購入履歴がない場合人気のある本を取得する
-        if (empty($purchasedBooks)) {
-            $suggestionedBooks = Book::with('authors')
-                ->orderBy('books.publication_date', 'desc')
-                ->limit(20)
-                ->get();
-        } else {
-            // Guestが以前購入した本のジャンルを取得
+    
+        // 全ジャンルを取得
+        $all_genres = $this->genre->all();
+    
+        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
+        $selectedGenreId = $request->input('genre');
+    
+        // クエリの準備
+        $query = Book::with('authors', 'reviews');
+    
+        if ($selectedGenreId) {
+            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->where('genre_id', $selectedGenreId);
+            });
+        } elseif (!empty($purchasedBooks)) {
+            // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
-                ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
-                ->pluck('genres.id')
+                ->pluck('genre_id')
                 ->toArray();
-
-            // 購入履歴によるおすすめ本の取得
-            $suggestionedBooks = Book::whereIn('books.id', function($query) use($genres) {
-                $query->select('book_id')
+    
+            $query->whereIn('books.id', function ($subQuery) use ($genres) {
+                $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $genres);
-            })
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', "=", 'authors.id')
-            ->join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name') 
-            ->orderBy('average_rating', 'desc')
-            ->limit(20)
-            ->get();
-            
+            });
+        } else {
+            // 購入履歴がない場合、人気の本を新しい順に取得
+            $query->orderBy('publication_date', 'desc');
         }
-        // Same Genre
-            $sameGenreBooks = $this->book
-                    ->with('genres')
-                    ->orderBy('books.publication_date', 'desc')
-                    ->limit(20)
-                    ->get();
+    
+        // 本を最大20件取得
+        $suggestedBooks = $query->limit(20)->get();
+
+
+
+        $sameGenreBooks = $this->book
+        ->whereIn('books.id', function ($subQuery) use ($book) {
+            $subQuery->select('book_id')
+                ->from('genre_books')
+                ->whereIn('genre_id', function ($genreSubQuery) use ($book) {
+                    // 現在の本のジャンルを取得
+                    $genreSubQuery->select('genre_id')
+                        ->from('genre_books')
+                        ->where('book_id', $book->id);
+                });
+        })
+        ->with('genres') // ジャンル情報も取得
+        ->orderBy('publication_date', 'desc') // 最新順に並べ替え
+        ->limit(20) // 最大20件取得
+        ->get();
 
         // Review Rating
         $ratingsCount = $book->reviews->count();
@@ -269,7 +284,7 @@ class BookController extends Controller
             $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
         }
 
-        return view('users.guests.book.show_book', compact('book','prefectures','suggestionedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
+        return view('users.guests.book.show_book', compact('book','prefectures','suggestedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
     }
 
 
@@ -279,6 +294,7 @@ class BookController extends Controller
         $request->validate([
             'review_title' => 'required|min:1|max:30',
             'review_content' => 'required|min:1|max:1000',
+            'star-rating' => 'required',
         ]);
 
         $book_id = $id;
@@ -293,7 +309,16 @@ class BookController extends Controller
 
         $this->review->save();
 
-        return redirect()->route('book.show_book', ['id' => $book_id]);
+        return redirect()->back();
+    }
+
+    public function reviewDelete($id)
+    {
+        $review = $this->review->findOrFail($id);
+        $review->delete();
+        
+
+        return redirect()->back();
     }
 
 
@@ -337,14 +362,6 @@ class BookController extends Controller
         // store_id を取得
         $storeIds = $storeLists->pluck('id');
 
-        // 在庫数を取得
-        // $counts = DB::table('store_book')
-        //     ->where('book_id', $book->id)
-        //     ->whereIn('store_id', $storeIds)
-        //     ->select('store_id', DB::raw('COUNT(*) as total_count'))
-        //     ->groupBy('store_id', 'book_id')
-        //     ->get()
-        //     ->keyBy('store_id');
 
         $inventories = $this->inventory->where('book_id', $book->id)
             ->whereIn('store_id', $storeIds)
@@ -382,8 +399,8 @@ class BookController extends Controller
                 $reserve->guest_id = Auth::user()->id;  
                 $reserve->book_id = $book_id;
                 $reserve->store_id = $storeId;
-                $reserve->amount = $amount;
-                $reserve->reservation_number = random_int(10000, 99999); 
+                $reserve->quantity = $amount;
+                $reserve->reservation_number = null; 
                 $reserve->save();  
             }
     

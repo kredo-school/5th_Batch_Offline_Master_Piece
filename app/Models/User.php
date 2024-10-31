@@ -31,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id', //register-storeにて追加
     ];
 
     /**
@@ -121,6 +122,7 @@ class User extends Authenticatable
         return $this->hasMany(Inventory::class, 'store_id');
     }
 
+    
     public function store_reserves()
     {
         return $this->hasMany(Reserve::class, 'store_id')->whereNull('reservation_number');
@@ -135,4 +137,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reserve::class, 'store_id')->whereNotNull('reservation_number');
     }
+
+
 }

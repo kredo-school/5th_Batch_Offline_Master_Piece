@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Thread;
 use App\Models\genre;
 use App\Models\Comment;
+use App\Models\Reason;
 use App\Models\ThreadGenre;
 
 use Illuminate\Support\Facades\Auth;
@@ -117,14 +118,48 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function content(Thread $thread)
-    {
-        $genres = $thread->genre_threads()->get();
-        $comments = $thread->comments()->paginate(100);
-        $all_genres =  $this->genre->all();
-        $latestPage = ceil(count($thread->comments) / 100);
-        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage'));
+
+
+    // public function content(Thread $thread)
+    // {
+    //     $genres = $thread->genre_threads()->get();
+    //     $comments = $thread->comments()->paginate(100);
+    //     $all_genres =  $this->genre->all();
+    //     $latestPage = ceil(count($thread->comments) / 100);
+    //     $reasons = Reason::all();
+
+    //     return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage','reasons'));
+    // }
+
+    public function content(Thread $thread, $targetCommentId = null)
+{
+    $genres = $thread->genre_threads()->get();
+    $commentsPerPage = 100; // 1ページあたりのコメント数
+    $all_genres = $this->genre->all();
+    $latestPage = ceil(count($thread->comments) / $commentsPerPage);
+    $reasons = Reason::all();
+
+    // ターゲットのコメントが指定されている場合、そのコメントが属するページ番号を計算
+    if ($targetCommentId) {
+        $commentPosition = $thread->comments->pluck('id')->search($targetCommentId);
+        if ($commentPosition !== false) {
+            $commentPage = (int) ceil(($commentPosition + 1) / $commentsPerPage);
+            $comments = $thread->comments()->paginate($commentsPerPage, ['*'], 'page', $commentPage);
+        } else {
+            // コメントが見つからない場合、デフォルトのページを表示
+            $comments = $thread->comments()->paginate($commentsPerPage);
+            $commentPage = 1;
+        }
+    } else {
+        // コメントが指定されていない場合は、デフォルトのページを表示
+        $comments = $thread->comments()->paginate($commentsPerPage);
+        $commentPage = 1;
     }
+
+    return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage', 'reasons', 'targetCommentId', 'commentPage'));
+}
+
+
 
     /**
      * Show the form for editing the specified resource.

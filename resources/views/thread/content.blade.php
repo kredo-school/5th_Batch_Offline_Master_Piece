@@ -42,17 +42,31 @@
                     @foreach($comments->take(100) as $comment)
                         <hr>
                         <div class="row">
-                            <div class="col-10 fs-5">
-                                <p>{{$comments->firstItem() + $loop->index}} name: <a href="{{route('profile.show', $comment->guest_id)}}" class="text-decoration-none text-success fw-bold">{{$comment->user->name}}</a>: {{date('m/d/Y D H:i:s', strtotime($comment->created_at))}}
+                            <div class="col-10 fs-5 comment" data-id="{{$comments->firstItem() + $loop->index}}">
+                                <p>{{$comments->firstItem() + $loop->index}} name:
+                                    <a href="{{route('profile.show', $comment->guest_id)}}" class="text-decoration-none text-success fw-bold">
+                                        {{$comment->user->name}}
+                                    </a>: {{date('m/d/Y D H:i:s', strtotime($comment->created_at))}}
+
+                                    @if (!$comment->deleted_at)
+                                        <a href="#add-comment" onclick="setParentId({{$comments->firstItem() + $loop->index}})" class="btn reply-button">
+                                            <i class="fa-solid fa-reply"></i>
+                                        </a>
+                                    @endif
                                 </p>
+
+
                             </div>
                             <div class="col-2 text-end">
                                 @can('admin')
-                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-{{$comment->id}}">
-                                        <div class="fs-24">
-                                            <i class="fa-regular fa-trash-can text-danger"></i>
-                                        </div>
-                                    </button>
+                                    @if (!$comment->deleted_at)
+                                        <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#delete-comment-{{$comment->id}}">
+                                            <div class="fs-24">
+                                                <i class="fa-regular fa-trash-can text-danger"></i>
+                                            </div>
+                                        </button>
+                                    @endif
+
                                 @endcan
 
                                 @if (Auth::user()->id !== $comment->guest_id)
@@ -70,12 +84,29 @@
                             @include('thread.modals.delete-comment')
                             @include('thread.modals.report-comment')
                         </div>
-                        <div class="px-4 fs-24" id="comment-{{$comments->firstItem() + $loop->index}}">
-                            <p>{{$comment->body}}</p>
+                        <div class="px-4 fs-24" id="comment-{{$comments->firstItem() + $loop->index}}" data-comment-id="{{$comment->id}}">
+                            @if($comment->parent_id)
 
-                            @if ($comment->image)
-                                <img src="{{$comment->image}}" alt="{{$comment->id}}" class="comment-img">
+                                @php
+                                    $page = ceil($comment->parent_id / 100)
+                                @endphp
+
+                                <a href="{{url()->current(). '?page=' .$page. '#comment-' .$comment->parent_id}}" class="text-decoration-none">>>{{$comment->parent_id}}</a>
                             @endif
+
+                            @if ($comment->deleted_at)
+                                <p class="text-muted fst-italic h5">This comment was deleted.</p>
+                            @else
+                                <p>{{$comment->body}}</p>
+
+                                @if ($comment->image)
+                                    <img src="{{$comment->image}}" alt="{{$comment->id}}" class="comment-img">
+                                @endif
+
+                            @endif
+
+
+
                         </div>
                     @endforeach
                 </div>
@@ -85,18 +116,33 @@
                 {{$comments->links()}}
             </div>
 
-            <div class="card" id="add-comment">
+            <div class="card" >
                 <form action="{{route('comment.addComment', $thread)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header bg-white p-0">
-                        <textarea name="body" id="comment" rows="5" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0"></textarea>
+                        <textarea name="body" id="add-comment" rows="3" placeholder="Add comment" class="form-control rounded-bottom-0 bg-white border-0 fs-24"></textarea>
 
                     </div>
                     <div class="card-body bg-white" id="comment">
-                        <label for="image" class="form-label fw-bold">Image File</label>
-                        <input type="file" name="image" id="image" class="form-control w-25 d-inline">
 
-                        <input type="submit" value="Add comment" class="btn btn-orange float-end">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <label for="image" class="form-label fw-bold">Image File</label>
+                                <input type="file" name="image" id="image" class="form-control w-50 d-inline">
+                                <div id="image-info" class="form-text">
+                                    <p class="mb-0">Acceptable formats: jpeg, jpg, png, gif only.</p>
+                                    <p class="m-0">Maximum file size is 1048kb.</p>
+                                </div>
+                            </div>
+                            <div class="col text-end">
+                                <p id="selected-comment-id" class="mb-0 d-inline-block text-end text-primary h4"></p>
+                            </div>
+                            <div class="col-auto">
+                                <input type="hidden" name="thread_id" value="{{$thread->id}}">
+                                <input type="hidden" name="parent_id" id="parent_id">
+                                <input type="submit" value="Add comment" class="btn btn-orange float-end">
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -121,4 +167,25 @@
     </div>
 </div>
 
+<script>
+// すべての返信ボタンを取得
+const replyButtons = document.querySelectorAll('.reply-button');
+
+// 返信ボタンがクリックされたときの処理
+replyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        // クリックされたボタンの親要素からコメントIDを取得
+        const commentElement = this.closest('.comment');
+        const commentId = commentElement.getAttribute('data-id');
+
+        // コメントIDを画面に表示
+        document.getElementById('selected-comment-id').textContent = `Reply to: ${commentId}`;
+    });
+});
+
+function setParentId(commentId) {
+    // 隠しフィールドにcommentIdをセットする
+    document.getElementById('parent_id').value = commentId;
+}
+</script>
 @endsection

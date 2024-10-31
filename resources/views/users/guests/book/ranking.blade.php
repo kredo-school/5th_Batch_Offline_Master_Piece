@@ -39,7 +39,7 @@
                                         @endif
                                     </h4>
                                     <a href="{{route('book.show_book', $book->id)}}" class="link-book">
-                                        <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid">
+                                        <img src="{{$book->image}}" alt="book image {{$book->id}}" class="img-fluid mb-3">
                                     </a>
                                 </td>
                             </tr>

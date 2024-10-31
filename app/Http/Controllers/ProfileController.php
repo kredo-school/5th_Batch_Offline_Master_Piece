@@ -144,7 +144,8 @@ class ProfileController extends Controller
 
     public function inquiry()
     {
-        return view('emails.inquiry');
+        $user = Auth::user();
+        return view('emails.inquiry',compact('user'));
     }
 
     public function sendInquiry(Request $request)

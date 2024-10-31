@@ -19,6 +19,8 @@ class CommentSeeder extends Seeder
                 ])->toArray()
             );
         });
+
+        // Comment::factory()->count(100)->create();
     }
 }
 

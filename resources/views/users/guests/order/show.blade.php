@@ -66,7 +66,11 @@
                                         <h4>Store: <a href="{{route('book.store_show', $reserve->store->id)}}"
                                                 class="text-decoration-none text-dark">{{ $reserve->store->name }}</a>
                                         </h4>
-                                        <h4>Inventory: {{ $reserve->inventory->stock }}</h4>
+                                        @if ($reserve->inventory)
+                                            <h4>Inventory: {{ $reserve->inventory->stock }}</h4>
+                                        @else
+                                            <h4 class="text-danger">Inventory not available</h4>
+                                        @endif
                                         <form action="{{ route('order.updateAndDelete') }}" method="post">
                                             @csrf
                                             @method('PATCH')

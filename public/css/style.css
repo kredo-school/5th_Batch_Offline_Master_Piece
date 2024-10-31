@@ -174,12 +174,26 @@
 }
 
 /* show book avatar */
-.review-avatar{
-    font-size: 40px;
+.review-avatar {
+    font-size: 40px; /* このプロパティは必要ないかもしれません */
+    width: 80px; /* 固定サイズ */
+    height: 80px; /* 固定サイズ */
     position: relative;
     overflow: hidden;
     border-radius: 50%;
+    object-fit: cover; /* アスペクト比を維持して中央に表示 */
 }
+
+.review-avatar-img {
+    font-size: 73px; /* このプロパティは必要ないかもしれません */
+    width: 80px; /* 固定サイズ */
+    height: 80px; /* 固定サイズ */
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    object-fit: cover; /* アスペクト比を維持して中央に表示 */
+}
+
 
 .show-bookimg{
     padding: 0;

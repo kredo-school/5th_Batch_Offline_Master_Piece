@@ -16,10 +16,15 @@ class ReportController extends Controller
         $this->comment = $comment;
     }
 
-    public function report(Comment $comment)
+    public function report(Request $request, Comment $comment)
     {
+        $request->validate([
+            'spam' => 'required'
+        ]);
+
         $this->report->comment_id = $comment->id;
         $this->report->guest_id = $comment->user->id;
+        $this->report->reason_id = $request->spam;
         $this->report->save();
 
         return redirect()->back();

@@ -4,60 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail; //追記
+use App\Mail\RegisterStoreMail; //追記
+
 use App\Models\User; // クラスのインポート
 
 
 class StoresController extends Controller
 {
-    // public function show(Request $request)
-    // {
-    //     $searchTerm = $request->input('search');
-    //     $sort = $request->input('sort', 'name');
-    //     $order = $request->input('order', 'asc');
-    //     $selectedPrefecture = $request->input('address');
-
-    //     $query = User::with(['profile'])->withTrashed();
-        
-    //     if (!empty($searchTerm)) {
-    //         $query->where(function ($q) use ($searchTerm) {
-    //             $q->where('name', 'LIKE', "%{$searchTerm}%")
-    //               ->orWhereHas('profile', function ($query) use ($searchTerm) {
-    //                   $query->where('phone_number', 'LIKE', "%{$searchTerm}%")
-    //                         ->orWhere('address', 'LIKE', "%{$searchTerm}%");
-    //               });
-    //         });
-    //     }
-
-    //     $query->where('role_id', 3);
-
-    //     // ソートの適用
-    //     if ($sort === 'status') {
-    //         $query->orderByRaw('CASE WHEN deleted_at IS NULL THEN 0 ELSE 1 END ' . $order);
-    //     } elseif ($sort === 'phone_number') {
-    //         $query->orderBy('profile.phone_number', $order);
-    //     } elseif ($sort === 'address') {
-    //         $query->orderBy('profile.address', $order);
-    //     } else {
-    //         $query->orderBy($sort, $order);
-    //     }
-
-    //     // 都道府県のフィルタリング
-    //     if (!empty($selectedPrefecture)) {
-    //         $query->whereHas('profile', function ($q) use ($selectedPrefecture) {
-    //             $q->where('address', 'LIKE', "%{$selectedPrefecture}%");
-    //         });
-    //     }
-
-    //     $stores = $query->paginate(5);
-
-    //     // 都道府県データ（必要に応じて使用）
-    //     $prefectures = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
-
-    //     return view('admin.stores.store', [
-    //         'stores' => $stores,
-    //         'searchTerm' => $searchTerm,
-    //         'prefectures' => $prefectures,
-    //     ]);
     public function show(Request $request)
 {
     $searchTerm = $request->input('search');
@@ -186,4 +142,48 @@ class StoresController extends Controller
 
         return redirect()->route('admin.stores.show')->with('error', 'Store not found.');
     }
+
+    // 以下　registerStoreページのもの
+
+    public function registerStore(Request $request)
+    {
+        // 都道府県データ
+    $prefectures = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
+
+
+    return view('admin.stores.register-store', [
+        'prefectures' => $prefectures,
+    ]);
+    }
+
+
+public function register(Request $request)
+{
+    // バリデーションを行う
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+    ]);
+
+    // ランダムなパスワードを生成
+    $password = Str::random(8);
+
+    // 新しいユーザーを作成し、role_idを3に設定
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => Hash::make($password),
+        'role_id' => 3,
+    ]);
+
+    // 名前とメールの変数を定義
+    $name = $validatedData['name'];
+    $email = $validatedData['email'];
+
+    // 登録完了メールを送信
+    Mail::to($email)->send(new RegisterStoreMail($name, $password, $email));
+
+    return redirect()->back()->with('success', 'registered successfully');
+}
+
 }
