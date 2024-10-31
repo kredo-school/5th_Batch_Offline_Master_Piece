@@ -6,6 +6,7 @@ use App\Models\Thread;
 use App\Models\genre;
 use App\Models\Comment;
 use App\Models\ThreadGenre;
+use App\Models\ThreadBookmark;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -20,11 +21,13 @@ class ThreadController extends Controller
     private $thread;
     private $genre;
     private $comment;
-    public function __construct(Thread $thread, genre $genre, Comment $comment)
+    private $thread_bookmark;
+    public function __construct(Thread $thread, genre $genre, Comment $comment, ThreadBookmark $thread_bookmark)
     {
         $this->thread = $thread;
         $this->genre = $genre;
         $this->comment = $comment;
+        $this->thread_bookmark = $thread_bookmark;
     }
     /**
      * Display a listing of the resource.
@@ -34,32 +37,37 @@ class ThreadController extends Controller
         // genre
         $genre_id = $request->genre_id;
 
-        if($genre_id){
-            $thread_ids = ThreadGenre::where('genre_id', $genre_id)->pluck('thread_id');
-
-            if($thread_ids){
-                $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
-            }
-        }else{
-            $threads = $this->thread->latest()->get();
-        }
-
-
-        // search
-        $validated = $request->validated();
-        if(isset($validated['search'])){
-            $search_threads = $this->thread->where('title', 'like', '%'.$validated['search'].'%')->get();
-        }else{
+        if($request->bookmark == 'true'){
+            $thread_ids = $this->thread_bookmark->where('guest_id', Auth::id())->pluck('thread_id');
+            $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
             $search_threads = collect();
-        }
+        }else{
+            if($genre_id){
+                $thread_ids = ThreadGenre::where('genre_id', $genre_id)->pluck('thread_id');
 
+                if($thread_ids){
+                    $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
+                }
+            }else{
+                $threads = $this->thread->latest()->get();
+            }
+
+
+            // search
+            $validated = $request->validated();
+            if(isset($validated['search'])){
+                $search_threads = $this->thread->where('title', 'like', '%'.$validated['search'].'%')->get();
+            }else{
+                $search_threads = collect();
+            }
+        }
 
         // other
         $all_comments =  $this->comment->latest()->get();
         $all_genres =  $this->genre->all();
 
 
-        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads', 'genre_id'));
+        return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads', 'genre_id', 'request'));
     }
 
     /**
@@ -117,14 +125,14 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function content(Thread $thread)
+    public function content(Request $request, Thread $thread)
     {
         $genres = $thread->genre_threads()->get();
         $comments = $thread->comments()->withTrashed()->paginate(100);
-        $all_genres =  $this->genre->all();
+        $all_genres = $this->genre->all();
         $latestPage = ceil(count($thread->comments) / 100);
 
-        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage'));
+        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage', 'request'));
     }
 
     /**
@@ -151,5 +159,23 @@ class ThreadController extends Controller
     {
         $thread->delete();
         return redirect()->route('thread.home');
+    }
+
+    public function bookmark(Thread $thread)
+    {
+        $this->thread_bookmark->guest_id = Auth::id();
+        $this->thread_bookmark->thread_id = $thread->id;
+        $this->thread_bookmark->save();
+
+        return redirect()->back();
+    }
+
+    public function bookmarkDestroy($thread_id)
+    {
+        $this->thread_bookmark->where('guest_id', Auth::id())
+                                    ->where('thread_id', $thread_id)
+                                    ->delete();
+
+        return redirect()->back();
     }
 }

@@ -11,30 +11,54 @@
 
         <div class="row mb-5">
             <div class="col">
-                <form id="genreForm" method="get">
-                    @csrf
-                    <select name="genre_id" id="genreSelect" class="form-select w-50">
-                        <option value="">All genres</option>
-                        @if (request()->is('thread/home*'))
-                            @foreach ($all_genres as $genre)
-                                <option value="{{$genre->id}}" {{$genre_id == $genre->id ? 'selected' : ''}}>{{$genre->name}}</option>
-                            @endforeach
-                        @elseif(request()->is('thread/content*'))
-                            @foreach ($all_genres as $genre)
-                                <option value="{{$genre->id}}">{{$genre->name}}</option>
-                            @endforeach
-                        @endif
 
-                    </select>
-                </form>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <form id="genreForm" method="get">
+                        @csrf
+                        <select name="genre_id" id="genreSelect" class="form-select">
+                            <option value="">All genres</option>
+                            @if (request()->is('thread/home*'))
+                                @foreach ($all_genres as $genre)
+                                    <option value="{{$genre->id}}" {{$genre_id == $genre->id ? 'selected' : ''}}>{{$genre->name}}</option>
+                                @endforeach
+                            @elseif(request()->is('thread/content*'))
+                                @foreach ($all_genres as $genre)
+                                    <option value="{{$genre->id}}">{{$genre->name}}</option>
+                                @endforeach
+                            @endif
+
+                        </select>
+                        </form>
+                    </div>
+                    <div class="col ps-0">
+                        <form action="{{route('thread.home')}}" method="get">
+                            @csrf
+
+                                @if ($request->bookmark == 'true')
+                                    <button type="submit" class="btn btn-warning">
+                                        Bookmarks <i class="fa-solid fa-check"></i>
+                                    </button>
+                                @else
+                                    <input type="hidden" name="bookmark" value="true">
+                                    <button type="submit" class="btn btn-outline-warning">
+                                        Bookmarks
+                                    </button>
+                                @endif
+                        </form>
+                    </div>
+                </div>
+
+
             </div>
+
             <div class="col">
                 <form action="{{route('thread.home')}}" method="get" style="width: 500px" class="d-flex">
                     @csrf
                     <div class="row ms-auto">
                         <div class="col pe-0 position-relative">
                             <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
-                                style="width: 400px" placeholder="Search threads...">
+                                style="width: 400px" placeholder="Search threads..." value="{{$request->search}}">
                                 <span id="clearButton" class="clearButton">&times;</span>
                         </div>
                         <div class="col ps-1">
