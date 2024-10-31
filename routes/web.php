@@ -94,8 +94,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
-        Route::get('/new-confirm', [StoreController::class, 'newOrderConfirm'])->name('newOrderConfirm');
-        Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
+        Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+
+        Route::get('/new-confirm/order', [OrderController::class, 'NewConfirmShow'])->name('NewConfirmShow');
+
+        Route::post('/addToNewconfirm', [OrderController::class, 'addToNewconfirm'])->name('addToNewconfirm');
+        Route::delete('/deleteOrder/{book_id}', [OrderController::class, 'deleteInventory'])->name('deleteInventory');
+        
+        // Route::patch('/updateAndDelete', [OrderController::class, 'updateAndDelete'])->name('updateAndDelete');
 
         Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
         Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
@@ -106,7 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/book/list/add', [OrderController::class, 'addBookTOInventory'])->name('addBookTOInventory');
 
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
-        // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
+        
 
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');

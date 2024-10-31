@@ -186,7 +186,8 @@ class StoreController extends Controller
 
     public function inventory()
     {
-        return view('users.store.books.inventory');
+        $all_inventories = $this->inventory->all();
+        return view('users.store.books.inventory')->with(compact('all_inventories'));
     }
 
     public function bookInformation($id)

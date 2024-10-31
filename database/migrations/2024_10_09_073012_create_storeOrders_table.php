@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('store_orders', function (Blueprint $table) {
-            $table->id();
+        
             $table->unsignedBigInteger('book_id')->onDelete('cascade');  // 商品のIDを外部キーとして保存
             $table->unsignedBigInteger('user_id')->onDelete('cascade');  // 商品のIDを外部キーとして保存
             $table->integer('quantity');  // 発注する個数
