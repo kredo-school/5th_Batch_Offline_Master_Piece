@@ -112,27 +112,39 @@ Route::group(['middleware' => 'auth'], function ()
 
             Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
             // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
+        });
+        
+    Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
+        Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
-            Route::get('/home', [StoreController::class, 'home'])->name('home');
-            Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
-            Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
-            Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-            Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
-            Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
-            Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
+        Route::get('/new-confirm/order', [OrderController::class, 'NewConfirmShow'])->name('NewConfirmShow');
 
-            Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-            Route::get('/profile',[StoreController::class,'profile'])->name('profile');
-            Route::get('/edit',[StoreController::class,'edit'])->name('edit');
-            Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-            Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-            });
+        Route::post('/addToNewconfirm', [OrderController::class, 'addToNewconfirm'])->name('addToNewconfirm');
+        Route::delete('/deleteOrder/{book_id}', [OrderController::class, 'deleteInventory'])->name('deleteInventory');
+        
+        // Route::patch('/updateAndDelete', [OrderController::class, 'updateAndDelete'])->name('updateAndDelete');
+        Route::get('/home', [StoreController::class, 'home'])->name('home');
+        Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
+        Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
+        Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
+        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
+        Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
+
+        Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
+        Route::get('/profile',[StoreController::class,'profile'])->name('profile');
+        Route::get('/edit',[StoreController::class,'edit'])->name('edit');
+        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+    });
 
             Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
                 Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
                 Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
             });
 
+        Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
+        
 
 
         });
@@ -186,7 +198,4 @@ Route::group(['middleware' => 'auth'], function ()
     });
 
 
-
-
 });
-

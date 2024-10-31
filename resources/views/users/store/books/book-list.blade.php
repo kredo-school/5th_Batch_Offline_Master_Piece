@@ -8,7 +8,7 @@
                 @csrf
                 <div class="row align-items-center">
                     <div class="col-4">
-                        <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+                        <a href="{{ route('store.home')}}" class="fw-bold text-decoration-none main-text btn border-0">
                             <div class="h2 fw-semibold">
                                 <i class="fa-solid fa-caret-left"></i>
                                 <div class="d-inline main-text">Back</div>
@@ -59,8 +59,8 @@
                     </div>
 
                     <div class="col-4">
-                    <form action="{{route('store.addBookTOInventory')}}" method="post">
-                    @csrf
+        <form action="{{route('store.addBookTOInventory')}}" method="post">
+        @csrf
                     
                         <div class="text-end w-75">
                             <button type="submit" class ="Goto-inventory pt-3 fs-4 border-0 rounded pb-2 mt-2"><i class="fa-solid fa-plus"></i> Add</button>
@@ -81,12 +81,15 @@
                         @foreach($all_books as $book)
                         <div class="row mt-4"><br>
                                 <div class="col-3">
-                                    <img src="{{$book->image}}" alt="{{$book->id}}" class="shadow search-list-img ordered-img">
+                                    <a href="{{route('store.bookInformation', $book->id)}}" class="text-decoration-none ">
+                                    <img src="{{$book->image}}" alt="{{$book->id}}" class="shadow search-list-img ordered-img "
+                                    style="outline: none; border: none;">
+                                    </a>
                                 </div>
                                 <div class="col-6 fs-32 ms-5 ps-5">
                                     <div class=>
                                         <p class="fs-32">{{$book->title}}</p>
-                                        <p class="h4">author</p>
+                                        <p class="h4">{{$book->author_name}}</p>
                                     </div>
                                     <div class="mt-5">
                                         <div class="form-check float-end">
@@ -99,11 +102,12 @@
                             <br><hr>
                             @endforeach
                         @endif
-                    </form>
+                   
                     </div>
                 </div>
             </div>
         </div>
+    </form>
         @endsection
 
         <script>
