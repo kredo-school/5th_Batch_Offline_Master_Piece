@@ -81,6 +81,8 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/create', [ThreadController::class, 'create'])->name('create');
             Route::post('/store', [ThreadController::class, 'store'])->name('store');
             Route::delete('/destroy/{thread}', [ThreadController::class, 'destroyThread'])->name('destroyThread');
+            Route::post('/bookmark/{thread}', [ThreadController::class, 'bookmark'])->name('bookmark');
+            Route::delete('/bookmark/{thread_id}', [ThreadController::class, 'bookmarkDestroy'])->name('bookmarkDestroy');
         });
 
         Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {

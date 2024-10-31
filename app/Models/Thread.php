@@ -31,14 +31,8 @@ class Thread extends Model
         return $this->belongsToMany(Genre::class, 'thread_genres');
     }
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-
-
-
-
 }

@@ -13,6 +13,25 @@
                     <span class="me-2">{{$genre_id->genre->name}}</span>
                 @endforeach
             </p>
+
+
+                @if (Auth::user()->isBookmarked($thread->id))
+                    <form action="{{route('thread.bookmarkDestroy', $thread->id)}}" method="post" class="text-end">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" name="bookmark" class="btn border-0 fs-24">
+                            <i class="fa-solid fa-bookmark"></i>
+                        </button>
+                    </form>
+                @else
+                    <form action="{{route('thread.bookmark', $thread)}}" method="post" class="text-end">
+                    @csrf
+                        <button type="submit" name="bookmark" class="btn border-0 fs-24">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </form>
+                @endif
         </div>
         <div class="card-body bg-white">
             <div class="mx-2">
