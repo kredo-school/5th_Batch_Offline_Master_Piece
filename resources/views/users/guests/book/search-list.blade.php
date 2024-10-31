@@ -21,14 +21,14 @@
                             </div>
                             <div class="col-6 fs-32">
                                 <p class="h2">
-                                    <a href="{{ route('book.show_book', $book->id) }}" class="text-decoration-none">
+                                    <a href="{{ route('book.show_book', $book->id) }}" class="text-decoration-none text-black">
                                         {{ $book->title }}
                                     </a>
                                 </p>
 
                                 @foreach ($book->authors as $author)
                                     <p class="h4">
-                                        <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none">
+                                        <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none text-black">
                                             {{ $author->name }}
                                         </a>
                                     </p>
