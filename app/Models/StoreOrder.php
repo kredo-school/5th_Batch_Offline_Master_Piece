@@ -9,10 +9,13 @@ class StoreOrder extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'store_orders';
+
      // マスアサインメント可能なフィールドを指定する
      protected $fillable = [
-      'user_id',
       'book_id',
+      'user_id',
       'quantity',
   ];
 

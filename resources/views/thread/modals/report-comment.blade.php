@@ -1,4 +1,4 @@
-<div class="modal fade" id="report-comment-{{$comment->id}}">
+<div class="modal fade" id="report-comment-{{ $comment->id }}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content border-danger">
             <div class="modal-header border-danger">
@@ -7,53 +7,18 @@
                     the comment?
                 </h5>
             </div>
-            <form action="{{route('comment.report', $comment)}}" method="post">
+            <form action="{{ route('comment.report', $comment) }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Spam">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Spam</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Harassment">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Harassment</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Inappropriate Content">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Inappropriate Content</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Hate Speech">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Hate Speech</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Privacy Violation">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Privacy Violation</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Copyright Violation">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Copyright Violation</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="False Information">
-                            <label for="spam" class="fw-bold form-check-label mb-0">False Information</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Promotion of Illegal">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Promotion of Illegal
-                                Activities</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Violence or Suicide">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Violence or Suicide
-                                Promotion</label>
-                        </div>
-                        <div class="form-check fs-24">
-                            <input type="checkbox" name="spam" id="reason" class="form-check-input" value="Inappropriate Language">
-                            <label for="spam" class="fw-bold form-check-label mb-0">Inappropriate Language</label>
-                        </div>
-
+                        @foreach ($reasons as $reason)
+                            <div class="form-check fs-24">
+                                <input type="checkbox" name="spam" id="reason" class="form-check-input"
+                                    value="{{ $reason->id }}">
+                                <label for="spam"
+                                    class="fw-bold form-check-label mb-0">{{ $reason->reason }}</label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -13,4 +13,14 @@ class Report extends Model
     {
         return $this->belongsTo(Comment::class);
     }
+
+    public function reason()
+    {
+        return $this->belongsTo(Reason::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'guest_id');
+    }
 }

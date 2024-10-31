@@ -108,8 +108,8 @@
                             @include('thread.modals.delete-comment')
                             @include('thread.modals.report-comment')
                         </div>
-                        <div class="px-4 fs-24" id="comment-{{$comments->firstItem() + $loop->index}}">
-                            @if ($comment->parent_id)
+                        <div class="px-4 fs-24" id="comment-{{$comments->firstItem() + $loop->index}}" data-comment-id="{{$comment->id}}">
+                            @if($comment->parent_id)
 
                                 @php
                                     $page = ceil($comment->parent_id / 100)

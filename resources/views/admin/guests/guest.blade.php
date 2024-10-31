@@ -54,7 +54,6 @@
         @include('admin.button')
     </div>
 
-    </div>
 
     <table class="table manage-table border-rounded" id="manage-guest-table">
         <thead>
