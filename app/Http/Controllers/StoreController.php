@@ -326,12 +326,20 @@ class StoreController extends Controller
 
 
     // ストアのプロフィール表示
+    // public function profile()
+    // {
+    //     $store = Auth::user(); // もしくは `$this->store`を使用
+    //     return view('users.store.profile', compact('store'));
+    //     // return view('users.store.profile');
+    // }
     public function profile()
-    {
-        $store = Auth::user(); // もしくは `$this->store`を使用
-        return view('users.store.profile', compact('store'));
-        // return view('users.store.profile');
-    }
+{
+    $store = Auth::user(); // ログインユーザー情報
+    $profile = $store->profile; // Profile情報を取得
+    
+
+    return view('users.store.profile', compact('store', 'profile'));
+}
 
     // ストアの編集ページ表示
     public function edit($id)
