@@ -18,24 +18,48 @@
                     <h1 class="text-danger fw-bold">
                         {{$thread->title}}
                     </h1>
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-secondary mb-0">
+                                @if ($genres->isNotEmpty())
+                                    Genre:
+                                    @foreach ($genres as $genre_id)
+                                        {{$genre_id->genre->name}}
+                                    @endforeach
+                                @endif
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <div class="justify-content-end d-flex">
 
-                    <p class="text-secondary mb-0">
-                        @if ($genres->isNotEmpty())
-                            Genre:
-                            @foreach ($genres as $genre_id)
-                                {{$genre_id->genre->name}}
-                            @endforeach
-                        @endif
+                                @can('admin')
+                                    <button class="btn btn-danger border-0" data-bs-toggle="modal" data-bs-target="#delete-thread-{{$thread->id}}">
+                                        Delete thread
+                                    </button>
+                                    @include('thread.modals.delete-thread')
+                                @endcan
 
-                        <span class="float-end">
-                            @can('admin')
-                                <button class="btn btn-danger border-0" data-bs-toggle="modal" data-bs-target="#delete-thread-{{$thread->id}}">
-                                    Delete thread
-                                </button>
-                                @include('thread.modals.delete-thread')
-                            @endcan
-                        </span>
-                    </p>
+                                @if (Auth::user()->isBookmarked($thread->id))
+                                    <form action="{{route('thread.bookmarkDestroy', $thread->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" name="bookmark" class="btn border-0 fs-24">
+                                            <i class="fa-solid fa-bookmark"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{route('thread.bookmark', $thread)}}" method="post">
+                                    @csrf
+                                        <button type="submit" name="bookmark" class="btn border-0 fs-24">
+                                            <i class="fa-regular fa-bookmark"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="card-body bg-white pt-0">

@@ -5,7 +5,6 @@
 @section('content')
     <div class="container-fluid">
         @include('thread.header')
-
         <div class="row ms-3">
             <div class="col-10">
                 @if ($search_threads->isNotEmpty())
