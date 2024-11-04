@@ -213,9 +213,9 @@
 /* store inventory */
 .img-store-inventory{
     width: 100%;
-    height: auto;
-    max-width: 200px;
-    max-height: 200px;
+    height: 100%;
+    max-width: 280px;
+    max-height: 270px;
     object-fit: cover;
     display: block;
     margin: 0 auto;
