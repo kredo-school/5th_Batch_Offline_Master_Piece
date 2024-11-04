@@ -14,6 +14,7 @@ use App\Models\User; // クラスのインポート
 
 class StoresController extends Controller
 {
+    
     public function show(Request $request)
 {
     $searchTerm = $request->input('search');

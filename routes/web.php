@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\StoresController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\controllers\GuestOrderController;
 use App\Http\controllers\LikeController;
+use App\Http\controllers\EditController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -134,8 +135,22 @@ Route::group(['middleware' => 'auth'], function ()
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-        Route::get('/profile',[StoreController::class,'profile'])->name('profile');
-        Route::get('/edit',[StoreController::class,'edit'])->name('edit');
+        
+        // store edit周辺
+
+        // Route::get('/profile',[StoreController::class,'profile'])->name('profile');
+        // Route::get('/edit',[StoreController::class,'edit'])->name('edit');
+       
+    // ストアのプロフィール表示
+    Route::get('/profile', [StoreController::class, 'profile'])->name('profile');
+
+    // ストアの編集ページ表示
+    Route::get('/{id}/edit', [StoreController::class, 'edit'])->name('edit')->middleware('edit');
+    // Route::get('/{id}/edit', [StoreController::class, 'edit'])->name('edit');
+
+    // ストア情報の更新
+    Route::patch('/{id}', [StoreController::class, 'update'])->name('update');
+
         Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
     });
@@ -150,7 +165,7 @@ Route::group(['middleware' => 'auth'], function ()
 
 
         });
-
+});
         Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
             Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
             Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
@@ -195,9 +210,53 @@ Route::group(['middleware' => 'auth'], function ()
             // reports
             Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
             Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
+        });
 
 
+
+    Route::group(['prefix' => 'bookmark','as' => 'bookmark.'],function(){
+        Route::post('/{book_id}/store',[BookmarkController::class,'store'])->name('store');
+        Route::delete('/{book_id}/destroy',[BookmarkController::class,'destroy'])->name('destroy');
     });
 
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
+        Route::get('/home', [AdminController::class, 'index'])->name('home');
+        
+        // genres
+        Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
+        Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
+        Route::get('/genre/search',[GenresController::class,'search'])->name('genres.search');
+        Route::delete('/genre/{id}/destroy',[GenresController::class,'destroy'])->name('genres.destroy');
+        Route::post('/genre/{id}/restore',[GenresController::class,'restore'])->name('genres.restore');
 
+        // Books
+        Route::post('/books/store',[BooksController::class,'store'])->name('books.store');
+        Route::get('/add-book', [BooksController::class, 'addBook'])->name('addBook');
+        Route::get('/books/index', [BooksController::class, 'index'])->name('books.index');
+        Route::delete('/books/{user}/destroy', [BooksController::class, 'destroy'])->name('books.destroy');
+        Route::post('/books/{user}/restore', [BooksController::class, 'restore'])->name('books.restore');
+        Route::get('/books/search',[BooksController::class,'search'])->name('books.search');
+
+
+        //guests
+        Route::delete('/guests/{user}/destroy', [GuestsController::class, 'destroy'])->name('guests.destroy');
+        Route::post('/guests/{user}/restore', [GuestsController::class, 'restore'])->name('guests.restore');
+        Route::get('/guests/index', [GuestsController::class, 'index'])->name('guests.index');
+        Route::get('/guests/search',[GuestsController::class,'search'])->name('guests.search');
+
+        //stores
+        Route::get('/stores/show', [StoresController::class, 'show'])->name('stores.show');
+
+        Route::get('/stores/register', [StoresController::class, 'registerStore'])->name('registerStore');
+
+        Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
+        Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
+        Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
+        
+        Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
+        Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
+
+
+        
 });
+

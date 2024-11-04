@@ -18,9 +18,13 @@
             <div class="col">
                 <h1 class="h3 main-text fw-bold">Store Information</h1>
             </div>
-            <div class="col text-end">
+            {{-- <div class="col text-end">
                 <a href="{{ route('store.edit') }}" class="btn btn-orange w-25 p-2">Edit Profile</a>
-            </div>
+            </div> --}}
+            <div class="col text-end">
+    <a href="{{ route('store.edit', ['id' => $store->id]) }}" class="btn btn-orange w-25 p-2">Edit Profile</a>
+</div>
+
         </div>
         <div class="row ms-3 my-5">
             <div class="col-4">
