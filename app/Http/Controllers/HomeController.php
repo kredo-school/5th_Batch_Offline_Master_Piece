@@ -41,7 +41,9 @@ class HomeController extends Controller
         $newedBooks = $this->bookNew();
         $threads = Thread::latest()->limit(5)->get();
 
-        return view('users.guests.home',compact('suggestionedBooks','rankedBooks','newedBooks','threads'));
+        $selected_genres = [];
+
+        return view('users.guests.home',compact('suggestionedBooks','rankedBooks','newedBooks','threads','selected_genres'));
     }
 
     public function policy()
@@ -159,7 +161,7 @@ class HomeController extends Controller
         $newedBooks = $this->bookNew($selected_genres);
         $threads = Thread::latest()->limit(5)->get();
     
-        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads'));
+        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads','selected_genres'));
     }
     
 

@@ -17,7 +17,7 @@
                     </div>
                     <div class="col text-end ">
                         <p class="text-end mt-3 mb-0">
-                            <a href="{{ route('book.ranking') }}" class="text-grey fs-24">
+                            <a href="{{ route('book.ranking', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="col text-end ">
                         <p class="text-end mt-3 mb-0">
-                            <a href="{{ route('book.suggestion') }}" class="text-grey fs-24">
+                            <a href="{{ route('book.suggestion', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
@@ -181,7 +181,7 @@
                     <div class="col text-end ">
 
                         <p class="text-end mt-3 mb-0">
-                            <a href="{{ route('book.new') }}" class="text-grey fs-24">
+                            <a href="{{ route('book.new', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
