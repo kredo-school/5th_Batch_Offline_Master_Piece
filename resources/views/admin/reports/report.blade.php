@@ -59,11 +59,28 @@
         @include('admin.button')
     </div>
 
+    <div class="report-container mt-4">
+        <form action="{{ route('admin.reports.store') }}" method="post">
+            @csrf
+
+            <div class="row align-items-center">
+                <div class="col-8"></div>
+                <div class="col">
+                    <input type="text" name="reason" class="form-control" placeholder="Add new report" id="reportInput">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-success" id="addreportBtn"><i class="fa-solid fa-plus"></i>Add Report</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
     <table class="table manage-table border-rounded" id="manage-report-table">
         <thead>
             <tr>
                 <th>Reported at</th>
-                <th>Reporter</th>
+                <th>Reported user</th>
                 <th>Reason</th>
                 <th>Comment</th>
                 <th></th>
@@ -105,18 +122,56 @@
                             @endif
 
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a class="btn fs-24 p-0 border-0 " data-bs-toggle="modal"
                                 data-bs-target="#delete-report-modal-{{ $report->id }}">
                                 <i class="fa-solid fa-trash-can text-danger"></i>
                             </a>
                         </td>
                     </tr>
-                    @include('admin.reports.modals.delete')
+                    @include('admin.reports.modals.delete-report')
                 @endforeach
             @endif
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center">
+        {{ $reports->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
+    </div>
+
+    <div>
+        <h2 class="ms-5 main-text fw-bold">All reasons</h2>
+        <table class="table manage-table border-rounded">
+            <thead>
+                <tr>
+                    <th style="width: 100px">id</th>
+                    <th>Reason</th>
+                    <th style="width: 100px"></th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                @if ($all_reasons->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center">No reasons found</td>
+                    </tr>
+                @else
+                    @foreach ($all_reasons as $reason)
+                        <tr>
+                            <td>{{ $reason->id }}</td>
+                            <td>{{ $reason->reason }}</td>
+                            <td class="text-center">
+                                <a class="btn fs-24 p-0 border-0 " data-bs-toggle="modal"
+                                    data-bs-target="#delete-reason-modal-{{ $reason->id }}">
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @include('admin.reports.modals.delete-reason')
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
 
     <script>
         document.getElementById('manage-report-select').addEventListener('change', function() {
@@ -158,7 +213,5 @@
         }
     </script>
 
-    <div class="d-flex justify-content-center">
-        {{ $reports->appends(['sort' => request('sort'), 'order' => request('order'), 'search' => request('search')])->links() }}
-    </div>
+
 @endsection

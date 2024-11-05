@@ -116,7 +116,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
             // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
         });
-        
+
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
         Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
@@ -124,7 +124,7 @@ Route::group(['middleware' => 'auth'], function ()
 
         Route::post('/addToNewconfirm', [OrderController::class, 'addToNewconfirm'])->name('addToNewconfirm');
         Route::delete('/deleteOrder/{book_id}', [OrderController::class, 'deleteInventory'])->name('deleteInventory');
-        
+
         // Route::patch('/updateAndDelete', [OrderController::class, 'updateAndDelete'])->name('updateAndDelete');
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
@@ -135,12 +135,12 @@ Route::group(['middleware' => 'auth'], function ()
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-        
+
         // store edit周辺
 
         // Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         // Route::get('/edit',[StoreController::class,'edit'])->name('edit');
-       
+
     // ストアのプロフィール表示
     Route::get('/profile', [StoreController::class, 'profile'])->name('profile');
 
@@ -161,7 +161,7 @@ Route::group(['middleware' => 'auth'], function ()
             });
 
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
-        
+
 
 
         });
@@ -208,8 +208,12 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
             // reports
-            Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
-            Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
+            Route::group(['prefix' => 'reports', 'as' => 'reports.'], function(){
+                Route::get('/index',[ReportsController::class,'index'])->name('index');
+                Route::get('/search',[ReportsController::class,'search'])->name('search');
+                Route::post('/store',[ReportsController::class,'store'])->name('store');
+                Route::delete('/reason/destroy/{reason}',[ReportsController::class,'reasonDestroy'])->name('reason.destroy');
+            });
         });
 
 
@@ -221,7 +225,7 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        
+
         // genres
         Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
         Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
@@ -252,11 +256,11 @@ Route::group(['middleware' => 'auth'], function ()
         Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
         Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
         Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
-        
+
         Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
         Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
 
-        
+
 });
 

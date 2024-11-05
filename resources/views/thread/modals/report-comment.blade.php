@@ -11,19 +11,24 @@
                 @csrf
                 <div class="modal-body">
                     <div class="container-fluid">
-                        @foreach ($reasons as $reason)
+                        @forelse ($reasons as $reason)
                             <div class="form-check fs-24">
-                                <input type="checkbox" name="spam" id="reason" class="form-check-input"
+                                <input type="radio" name="reason" id="reason-{{$reason->id}}" class="form-check-input"
                                     value="{{ $reason->id }}">
-                                <label for="spam"
+                                <label for="reason-{{$reason->id}}"
                                     class="fw-bold form-check-label mb-0">{{ $reason->reason }}</label>
                             </div>
-                        @endforeach
+
+                        @empty
+                            <h2 class="mb-0">There aren't any report reasons now, so you can't report.</h2>
+                        @endforelse
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Report</button>
+                    @if ($reasons->isNotEmpty())
+                        <button type="submit" class="btn btn-danger">Report</button>
+                    @endif
                 </div>
             </form>
         </div>
