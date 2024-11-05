@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="card-body mx-auto w-75 mb-5">
+                <div class="card-body mx-auto w-75 ">
                     <div class="row border" style="border-radius: 15px;">
                         <!-- Genre Button -->
                         <a href="{{ route('admin.genres.show') }}" class="admin-home-btn col-3 btn">
@@ -70,6 +70,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card-body mx-auto w-75 mb-5">
+                    <div class="row border" style="border-radius: 15px;">
+                        <!-- Report Button -->
+                        <a href="{{route('admin.reports.index')}}" class="admin-home-btn col-3 btn">
+                            <i class="i-admin fa-solid fa-flag"></i>
+                        </a>
+                        <div class="col-9">
+                            <h2>Report</h2>
+                            <p class="fw-bold">
+                            You can check thread's report and status.<br>
+                            You can delete the report on this page.<br>
+                            You can move to report page, push the report icon.</p>
+                        </div>
+                    </div>
+                </div>
+
+                
 
             </div>
         </div>
