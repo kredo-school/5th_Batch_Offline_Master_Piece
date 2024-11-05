@@ -94,14 +94,22 @@
                                 @endcan
 
                                 @if (Auth::user()->id !== $comment->guest_id)
-                                    <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#report-comment-{{$comment->id}}">
-                                        <div class="fs-24">
-                                            <i class="fa-solid fa-ban text-danger"></i>
-                                            @can('admin')
-                                                <label class="text-danger">{{count($comment->reports)}}</label>
-                                            @endcan
-                                        </div>
-                                    </button>
+                                    @if ($comment->deleted_at)
+                                        @can('admin')
+                                            <div class="fs-24" style="padding-right: 12px">
+                                                <i class="fa-solid fa-check text-success"></i>
+                                            </div>
+                                        @endcan
+                                    @else
+                                        <button class="btn border-0" data-bs-toggle="modal" data-bs-target="#report-comment-{{$comment->id}}">
+                                            <div class="fs-24">
+                                                <i class="fa-solid fa-ban text-danger"></i>
+                                                @can('admin')
+                                                    <label class="text-danger">{{count($comment->reports)}}</label>
+                                                @endcan
+                                            </div>
+                                        </button>
+                                    @endif
                                 @endif
 
                             </div>

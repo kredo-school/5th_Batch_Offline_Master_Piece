@@ -115,7 +115,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
             // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
         });
-        
+
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
         Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
@@ -123,7 +123,7 @@ Route::group(['middleware' => 'auth'], function ()
 
         Route::post('/addToNewconfirm', [OrderController::class, 'addToNewconfirm'])->name('addToNewconfirm');
         Route::delete('/deleteOrder/{book_id}', [OrderController::class, 'deleteInventory'])->name('deleteInventory');
-        
+
         // Route::patch('/updateAndDelete', [OrderController::class, 'updateAndDelete'])->name('updateAndDelete');
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
@@ -146,7 +146,7 @@ Route::group(['middleware' => 'auth'], function ()
             });
 
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
-        
+
 
 
         });
@@ -193,11 +193,11 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
             // reports
-            Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
-            Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
-
-
+            Route::group(['prefix' => 'reports', 'as' => 'reports.'], function(){
+                Route::get('/index',[ReportsController::class,'index'])->name('index');
+                Route::get('/search',[ReportsController::class,'search'])->name('search');
+                Route::post('/store',[ReportsController::class,'store'])->name('store');
+                Route::delete('/reason/destroy/{reason}',[ReportsController::class,'reasonDestroy'])->name('reason.destroy');
+            });
     });
-
-
 });

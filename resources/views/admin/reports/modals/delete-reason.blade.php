@@ -1,22 +1,22 @@
 <!--Delete Modal -->
-<div class="modal fade" id="delete-report-modal-{{ $report->id }}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+<div class="modal fade" id="delete-reason-modal-{{ $reason->id }}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content border-danger">
             <div class="modal-header">
                 <h5 class="modal-title text-danger">
-                    <i class="fa-solid fa-trash-can"></i> Delete Comment
+                    <i class="fa-solid fa-trash-can"></i> Delete Reason
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this <span class="fw-bold">Comment{{ $report->comment->id }}</span>?
+                Are you sure you want to delete this <span class="fw-bold">Reason {{ $reason->id }}</span>?
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                     Cancel
                 </button>
-                <form action="{{route('comment.destroy', $report->comment->id)}}" method="post">
+                <form action="{{route('admin.reports.reason.destroy', $reason)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -39,5 +39,3 @@
         // Use above variables to manipulate the DOM
     });
 </script>
-
-

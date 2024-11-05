@@ -132,8 +132,9 @@ class ThreadController extends Controller
         $comments = $thread->comments()->withTrashed()->paginate(100);
         $all_genres = $this->genre->all();
         $latestPage = ceil(count($thread->comments) / 100);
+        $reasons = Reason::all();
 
-        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage', 'request'));
+        return view('thread.content')->with(compact('thread', 'genres', 'comments', 'all_genres', 'latestPage', 'request', 'reasons'));
     }
 
 
