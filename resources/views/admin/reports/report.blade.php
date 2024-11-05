@@ -80,7 +80,7 @@
         <thead>
             <tr>
                 <th>Reported at</th>
-                <th>Reporter</th>
+                <th>Reported user</th>
                 <th>Reason</th>
                 <th>Comment</th>
                 <th></th>
@@ -92,7 +92,6 @@
                     <td colspan="5" class="text-center">No reports found</td>
                 </tr>
             @else
-            {{-- {{dd($reports)}} --}}
                 @foreach ($reports as $report)
                     <tr>
                         <td>{{ $report->created_at }}</td>

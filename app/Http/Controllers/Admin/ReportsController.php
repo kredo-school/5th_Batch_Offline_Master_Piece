@@ -73,8 +73,10 @@ class ReportsController extends Controller
 
     public function search(Request $request)
     {
-        $query = $this->report->newQuery()->with(['reason', 'comment', 'user']); // リレーションのプリロード
-        $searchTerm = $request->input('search');
+        $query = $this->report->newQuery()->with(['reason' => function($query) {
+            $query->withTrashed();
+        }, 'comment', 'user']);
+
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
 
@@ -84,12 +86,13 @@ class ReportsController extends Controller
                 $q->where('name', 'LIKE', "%{$searchTerm}%");
             })
             ->orWhereHas('reason', function ($q) use ($searchTerm) {
-                $q->where('reason', 'LIKE', "%{$searchTerm}%");
+                $q->withTrashed()->where('reason', 'LIKE', "%{$searchTerm}%");
             })
             ->orWhereHas('comment', function ($q) use ($searchTerm) {
                 $q->where('body', 'LIKE', "%{$searchTerm}%");
             });
         }
+
 
         // ソートの適用
         if ($sort === 'reason') {

@@ -5,21 +5,69 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     <div class="container-body">
         <form action="{{ route('book.new') }}" method="GET">
             <div class="d-flex align-items-center">
                 <h1 class="h2 fw-bold main-text mt-5 ms-3">New</h1>
-                <select name="genre" id="genre" class="form-select w-25 ms-5 mt-5" onchange="this.form.submit()">
-                    <option value="">All genres</option>
-                    @foreach($all_genres as $genre)
-                        <option value="{{ $genre->id }}" 
-                            {{ $selectedGenreId == $genre->id ? 'selected' : '' }}>
-                            {{ $genre->name }}
-                        </option>
-                    @endforeach
-                </select>
+                
+                <div class="dropdown ms-5 mt-5">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="genreDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select genre
+                    </button>
+                    <ul class="dropdown-menu p-3" aria-labelledby="genreDropdown">
+                        <!-- "All genre" のチェックボックス -->
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="allgenre">
+                                <label class="form-check-label" for="allgenre">All genres</label>
+                            </div>
+                        </li>
+                        <hr> 
+                        @foreach($all_genres as $genre)
+                            <li>
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input genre-checkbox" type="checkbox" name="genres[]" value="{{ $genre->id }}" id="genre-{{ $genre->id }}"
+                                        {{ is_array($selectedGenreId) && in_array($genre->id, $selectedGenreId) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="genre-{{ $genre->id }}">
+                                        {{ $genre->name }}
+                                    </label>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+        
+                <input type="submit" value="Select" class="btn btn-primary ms-3 mt-5">
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const allGenreCheckbox = document.getElementById('allgenre');
+                    const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+            
+                    allGenreCheckbox.addEventListener('change', function () {
+                        genreCheckboxes.forEach(checkbox => {
+                            checkbox.checked = allGenreCheckbox.checked;
+                        });
+                    });
+            
+                    genreCheckboxes.forEach(checkbox => {
+                        checkbox.addEventListener('change', function () {
+                            if (!this.checked) {
+                                allGenreCheckbox.checked = false; // 一つでも解除されると「All genre」も解除
+                            } else if (Array.from(genreCheckboxes).every(cb => cb.checked)) {
+                                allGenreCheckbox.checked = true; // 全て選択されたら「All genre」も選択
+                            }
+                        });
+                    });
+                });
+            </script>
+            
+            
             <div class="table-container mt-3">
 
                 @foreach($newedBooks as $book)

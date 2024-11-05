@@ -41,7 +41,9 @@ class HomeController extends Controller
         $newedBooks = $this->bookNew();
         $threads = Thread::latest()->limit(5)->get();
 
-        return view('users.guests.home',compact('suggestionedBooks','rankedBooks','newedBooks','threads'));
+        $selected_genres = [];
+
+        return view('users.guests.home',compact('suggestionedBooks','rankedBooks','newedBooks','threads','selected_genres'));
     }
 
     public function policy()
@@ -121,21 +123,23 @@ class HomeController extends Controller
      */
     public function bookNew($selected_genres = null)
     {
-        $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
-            ->join('author_books', 'books.id', '=', 'author_books.book_id')
-            ->join('authors', 'author_books.author_id', '=', 'authors.id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
-            ->orderBy('books.publication_date', 'desc');
 
-        // ジャンル指定があればフィルタリング
-        if (!is_null($selected_genres)) {
-            $query->whereHas('genres', function($query) use ($selected_genres) {
-                $query->whereIn('genres.id', $selected_genres);
-            });
-        }
+        $query = Book::join('author_books', 'books.id', '=', 'author_books.book_id')
+        ->join('authors', 'author_books.author_id', '=', 'authors.id')
+        ->select('books.id', 'books.title', 'books.price', 'books.image', DB::raw('GROUP_CONCAT(authors.name SEPARATOR ", ") as author_name'))
+        ->groupBy('books.id', 'books.title', 'books.price', 'books.image')
+        ->orderBy('publication_date', 'desc');
 
-        return $query->limit(20)->get();
+    // ジャンル指定があればフィルタリング
+    if (!is_null($selected_genres)) {
+        $query->whereIn('books.id', function ($subQuery) use ($selected_genres) {
+            $subQuery->select('book_id')
+                ->from('genre_books')
+                ->whereIn('genre_id', $selected_genres);
+        });
+    }
+
+    return $query->limit(20)->get();
     }
 
     /**
@@ -159,7 +163,7 @@ class HomeController extends Controller
         $newedBooks = $this->bookNew($selected_genres);
         $threads = Thread::latest()->limit(5)->get();
     
-        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads'));
+        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads','selected_genres'));
     }
     
 
