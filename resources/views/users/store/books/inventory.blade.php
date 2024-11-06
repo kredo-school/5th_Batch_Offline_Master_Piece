@@ -57,7 +57,7 @@
                             <div class="col-6 fs-32 ms-5 ps-5">
                                 <p class="fs-32">{{$inventory->book->title}}</p>
                                 <p class="h4">{{$inventory->book->author_name}}</p>
-                                <div class="fs24 text-danger">Inventory: {{$inventory->stock}}</div>
+                                <div class="fs24 text-danger">Stock: {{$inventory->stock}}</div>
 
                                 <!-- 各bookごとのフォーム -->
                                 
