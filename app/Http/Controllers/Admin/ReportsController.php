@@ -31,7 +31,7 @@ class ReportsController extends Controller
     public function index(Request $request)
     {
         $sort = $request->input('sort', 'created_at'); // デフォルトは 'created_at'
-        $order = $request->input('order', 'desc'); // デフォルトは降順 'desc'
+        $order = $request->input('order', 'asc'); // デフォルトは降順 'asc'
 
         // リレーションのプリロード（Reasonモデルに対してwithTrashed()を追加）
         $query = $this->report->with(['reason' => function ($query) {
@@ -73,12 +73,13 @@ class ReportsController extends Controller
 
     public function search(Request $request)
     {
+        $searchTerm = $request->input('search');
         $query = $this->report->newQuery()->with(['reason' => function($query) {
             $query->withTrashed();
         }, 'comment', 'user']);
 
         $sort = $request->input('sort', 'created_at');
-        $order = $request->input('order', 'desc');
+        $order = $request->input('order', 'asc');
 
         // 検索条件の適用
         if (!empty($searchTerm)) {

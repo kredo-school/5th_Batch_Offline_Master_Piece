@@ -24,7 +24,7 @@
     <form action="{{ route('store.update', ['id' => $store->id]) }}" method="post" enctype="multipart/form-data">
     @csrf
         @method('PATCH')
-        
+
         <div class="row pt-5">
             <div class="col">
                 @if (optional($store->profile)->avatar)
@@ -36,7 +36,7 @@
                 <div class="mt-4">
                     <label for="avatar" class="form-label"><span class="text-danger">Maximum file size is 1048kb.</span></label>
                     <input type="file" name="avatar" id="avatar" class="form-control mt-2">
-                </div> 
+                </div>
             </div>
 
             <div class="col">
@@ -81,26 +81,3 @@
     </form>
 </div>
 @endsection
-
-{{-- 
-    store　nameいらないのでは？
-    必須ではない
-    palce holder にuserを入れるか？
-    写真
-    名前
-    emailの修正 placeholder
-
-    必須
-    電話番号
-    住所
-    introduction
-
-    写真の欄をすでに登録したものから持ってくる
-    nullの場合ならavatarアイコンを表示
-
-    選択した県と自分で入力した情報をくっつけて一つの情報にする。
-
-    validateが必要
-    入力した項目が残るようにする必要がある。
-    oldを使う
---}}
