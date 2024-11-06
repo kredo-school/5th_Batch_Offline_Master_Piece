@@ -66,14 +66,16 @@
             <div class="row align-items-center">
                 <div class="col-8"></div>
                 <div class="col">
-                    <input type="text" name="reason" class="form-control" placeholder="Add new report" id="reportInput">
+                    <input type="text" name="reason" class="form-control" placeholder="Add new reason" id="reportInput">
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-success" id="addreportBtn"><i class="fa-solid fa-plus"></i>Add Report</button>
+                    <button type="submit" class="btn btn-success" id="addreportBtn"><i class="fa-solid fa-plus"></i>Add Reason</button>
                 </div>
             </div>
-
         </form>
+        @error('reason')
+            <p class="text-end text-danger small mt-3" style="margin-right: 8em;">{{$message}}</p>
+        @enderror
     </div>
 
     <table class="table manage-table border-rounded" id="manage-report-table">
