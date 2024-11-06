@@ -388,7 +388,7 @@ class StoreController extends Controller
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email',
-        'phone' => 'required|digits_between:10,15',
+        'phone' => 'required|digits_between:10,16',
         'prefecture' => 'required',
         'address' => 'required|string|max:255',
         'introduction' => 'required|string|max:5000',

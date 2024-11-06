@@ -1,5 +1,5 @@
 @if (isset($comment))
-    <div class="modal fade" id="delete-comment-test">
+    <div class="modal fade" id="delete-comment-{{$comment->id}}">
         <div class="modal-dialog">
             <div class="modal-content border-danger">
                 <div class="modal-header border-danger">
