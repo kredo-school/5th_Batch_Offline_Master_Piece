@@ -91,13 +91,13 @@
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{route('book.show_book', $book->id)}}" class="link-book">{{$book->title}}</a>
+                                        <a href="{{route('book.show_book', $book->id)}}" class="link-title">{{$book->title}}</a>
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h5>
+                                    <h5 class="mt-2">
                                         @foreach ($book->authors as $author)
                                             <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
                                         @endforeach
@@ -131,7 +131,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4 class="text-danger">{{$book->price}}</h4></td>
+                                <td><h4 class="text-danger">￥{{$book->price}}</h4></td>
                             </tr>
                         </tbody>
                     </table>

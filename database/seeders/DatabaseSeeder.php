@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             AuthorsSeeder::class,
             BooksSeeder::class,
+            ReviewSeeder::class,
+            InventoriesSeeder::class,
+        
         ]);
 
     }
