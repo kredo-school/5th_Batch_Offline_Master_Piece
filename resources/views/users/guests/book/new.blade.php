@@ -3,12 +3,6 @@
 @section('title','New Book')
 
 @section('content')
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
     <div class="container-body">
         <form action="{{ route('book.new') }}" method="GET">
             <div class="d-flex align-items-center">
@@ -83,13 +77,13 @@
                             <tr>
                                 <td>
                                     <h4>
-                                        <a href="{{ route('book.show_book', $book->id) }}" class="link-book">{{ $book->title }}</a>
+                                        <a href="{{ route('book.show_book', $book->id) }}" class="link-title">{{ $book->title }}</a>
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h5>
+                                    <h5 class="mt-2">
                                         @foreach ($book->authorBook as $author)
                                             <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
                                         @endforeach
@@ -123,7 +117,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h4 class="text-danger">{{ $book->price }}</h4></td>
+                                <td><h4 class="text-danger">￥{{ $book->price }}</h4></td>
                             </tr>
                         </tbody>
                     </table>

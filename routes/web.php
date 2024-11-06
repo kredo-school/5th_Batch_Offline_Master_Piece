@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
 
             Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
-            Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            Route::patch('/ordered', [StoreController::class, 'ordered'])->name('ordered');
             Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
             Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
             Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
@@ -119,7 +119,7 @@ Route::group(['middleware' => 'auth'], function ()
         });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
-        Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        // Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
         Route::get('/new-confirm/order', [OrderController::class, 'NewConfirmShow'])->name('NewConfirmShow');
 
@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth'], function ()
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
         Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 

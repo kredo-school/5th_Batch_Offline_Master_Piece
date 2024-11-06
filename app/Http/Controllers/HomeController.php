@@ -122,7 +122,15 @@ class HomeController extends Controller
             });
         }
 
-        return $query->limit(20)->get();
+        $rankedBooks = $query->limit(20)->get();
+
+        // 重複する本をidで排除（同じidの本は最初の1件だけを残す）
+        $rankedBooks = $rankedBooks->groupBy('id')->map(function ($group) {
+            return $group->first();
+        })->values();
+
+        return $rankedBooks;
+
     }
 
     /**

@@ -84,7 +84,7 @@ class BookController extends Controller
         }
     
         // 本を最大20件取得
-        $suggestedBooks = $query->limit(20)->get();
+        $suggestedBooks = $query->limit(30)->get();
     
         // ビューにデータを渡す
         return view('users.guests.book.suggestion', compact('suggestedBooks','all_genres','selectedGenreId'));
@@ -122,6 +122,12 @@ class BookController extends Controller
             ->orderBy('average_rating', 'desc')
             ->limit(20)
             ->get();
+
+        // idでグループ化して、最初の1件だけを残す
+        $rankedBooks = $rankedBooks->groupBy('id')->map(function ($group) {
+            return $group->first(); // 同じidの本があれば、最初の1件を取得
+        })->values(); // インデックスを振り直す
+
 
         return view('users.guests.book.ranking', compact('rankedBooks', 'all_genres', 'selectedGenreId'));
     }
@@ -161,7 +167,7 @@ class BookController extends Controller
             $query->orderBy('publication_date', 'desc');
         }
 
-        $newedBooks = $query->limit(20)->get(); 
+        $newedBooks = $query->limit(30)->get(); 
     
         return view('users.guests.book.new', compact('newedBooks','all_genres', 'selectedGenreId'));
     }
@@ -261,7 +267,7 @@ class BookController extends Controller
         }
     
         // 本を最大20件取得
-        $suggestedBooks = $query->limit(20)->get();
+        $suggestedBooks = $query->limit(30)->get();
 
 
 

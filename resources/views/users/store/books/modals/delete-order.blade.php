@@ -9,7 +9,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this <span class="fw-bold">Book{{ $order->book->id }}</span>?
+                Are you sure you want to delete the <span class="fw-bold">Book "{{ $order->book->title }}"</span>?
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
