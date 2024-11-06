@@ -8,6 +8,9 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\WelcomeMiddleware;
 use App\Http\Middleware\GuestOrderMiddleware;
 use App\Http\Middleware\ProfileCompleteMiddleware;
+use App\Http\Middleware\EditMiddleware;
+
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -20,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('welcome',[WelcomeMiddleware::class]);
         $middleware->appendToGroup('guest-order', [GuestOrderMiddleware::class]);
         $middleware->appendToGroup('profile', [ProfileCompleteMiddleware::class]);
+        $middleware->appendToGroup('edit', [EditMiddleware::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

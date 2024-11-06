@@ -9,11 +9,13 @@ use App\Models\Book;
 use App\Models\Inventory;
 use App\Models\Review;
 use App\Models\StoreOrder;
+use App\Models\Profile;
 use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\Reserve;
 use App\Http\Controllers\Admin\OrderController;
+
 
 
 
@@ -26,8 +28,10 @@ class StoreController extends Controller
     private $review;
     private $reserve;
     private $storeOrder;
+    private $user;
+    private $profile;
 
-    public function __construct(User $user, Book $book, Inventory $inventory,Review $review, Reserve $reserve, StoreOrder $storeOrder)
+    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Reserve $reserve, StoreOrder $storeOrder, Profile $profile )
     {
         $this->store = $user;
         $this->book = $book;
@@ -35,7 +39,7 @@ class StoreController extends Controller
         $this->review = $review;
         $this->reserve = $reserve;
         $this->storeOrder = $storeOrder;
-
+        $this->profile = $profile;
     }
 
     public function newOrderConfirm()
@@ -352,21 +356,95 @@ class StoreController extends Controller
         return redirect()->back()->with('success', 'Orders have been successfully updated.');
     }
 
+
+    // ストアのプロフィール表示
+    // public function profile()
+    // {
+    //     $store = Auth::user(); // もしくは `$this->store`を使用
+    //     return view('users.store.profile', compact('store'));
+    //     // return view('users.store.profile');
+    // }
     public function profile()
-    {
-        return view('users.store.profile');
-    }
+{
+    $store = Auth::user(); // ログインユーザー情報
+    $profile = $store->profile; // Profile情報を取得
+    
 
-    public function edit()
-    {
-        return view('users.store.edit');
-    }
-
-
-
-
-
-
-
+    return view('users.store.profile', compact('store', 'profile'));
 }
+
+    // ストアの編集ページ表示
+    public function edit($id)
+    {
+        // 都道府県データ
+        $prefectures = [
+            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita',
+            'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma',
+            'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata',
+            'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano',
+            'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga',
+            'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama',
+            'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi',
+            'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka',
+            'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki',
+            'Kagoshima', 'Okinawa'
+        ];
+        
+        // ユーザー情報を取得
+        $store = User::with('profile')->findOrFail($id); // プロファイルも一緒に取得
+        // $store = User::findOrFail($id);
+        
+
+        return view('users.store.edit', [
+            'prefectures' => $prefectures,
+            'store' => $store,
+        ]);
+    }
+
+    // ストア情報の更新
+    public function update(Request $request, $id)
+{
+    $store = User::with('profile')->findOrFail($id);
+
+    // role_idが1または3でない場合は403エラーを返す
+    // if (!in_array($store->role_id, [1,3])) {
+    //     abort(403, 'Unauthorized action.');
+    // }
+
+    // プロファイルが存在しない場合は新規作成
+    if (!$store->profile) {
+        $store->profile()->create();
+    }
+
+    // バリデーション
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'phone' => 'required|digits_between:10,16',
+        'prefecture' => 'required',
+        'address' => 'required|string|max:255',
+        'introduction' => 'required|string|max:5000',
+        'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:1048'
+    ]);
+
+    // ユーザー情報の更新
+    $store->name = $validated['name'];
+    $store->email = $validated['email'];
+    $store->save();
+
+    // プロファイル情報の更新
+    $store->profile->phone_number = $validated['phone'];
+    $store->profile->introduction = $validated['introduction'];
+    $store->profile->address = $validated['prefecture'] . ' / ' . $validated['address'];
+
+    if ($request->hasFile('avatar')) {
+        $store->profile->avatar = 'data:image/' . $validated['avatar']->extension() . ';base64,' . base64_encode(file_get_contents($validated['avatar']));
+    }
+
+    $store->profile->save();
+
+    return back()->with('success', 'Store information has been changed.');
+}
+}
+
 

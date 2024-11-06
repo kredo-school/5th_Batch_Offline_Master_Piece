@@ -66,7 +66,7 @@
                         <div class="alert alert-success text-center mx-auto mt-1">
                             {{ session('success') }}
                         </div>
-                    @endif
+                        @endif
                     </form>
                 </div>
             </div>

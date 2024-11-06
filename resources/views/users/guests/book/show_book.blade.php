@@ -282,28 +282,28 @@
 
         <script>
             const stars = document.querySelectorAll(".star-btn"); // 星の要素を取得
-            const ratingValue = document.getElementById("rating-value"); // hidden input
+            const ratingValue = document.getElementById("star-rating"); // hidden input
             const ratingValueNumber = document.getElementById("rating-value-number"); // 数値部分のみ
-
-            let currentRating = -1; // 現在の評価を保持
-
+        
+            let currentRating = 0; // 現在の評価を保持
+        
             // 星にイベントを設定
             stars.forEach((star, index) => {
                 star.addEventListener("mouseover", () => {
                     highlightStars(index); // ハイライト更新
                 });
-
+        
                 star.addEventListener("click", () => {
-                    currentRating = index; // 現在の評価を保存
-                    ratingValue.value = currentRating + 1; // hidden inputにセット
+                    currentRating = index + 1; // 現在の評価を保存（1から始まる）
+                    ratingValue.value = currentRating; // hidden inputにセット
                     ratingValueNumber.textContent = ratingValue.value; // 数値部分のみ更新
                 });
-
+        
                 star.addEventListener("mouseout", () => {
-                    highlightStars(currentRating); // 選択済みの評価に戻す
+                    highlightStars(currentRating - 1); // 選択済みの評価に戻す
                 });
             });
-
+        
             // 星をハイライトする関数
             function highlightStars(index) {
                 stars.forEach((star, i) => {
@@ -318,6 +318,7 @@
                 });
             }
         </script>
+        
     </div>
 
     {{-- Suggestion --}}
