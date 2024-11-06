@@ -102,14 +102,23 @@ class HomeController extends Controller
         $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
-            ->select('books.id', 'books.title', 'books.price', 'books.image', 'authors.name as author_name', DB::raw('AVG(reviews.star_count) as average_rating'))
-            ->groupBy('books.id', 'books.title', 'books.price', 'books.image', 'authors.name')
+            ->select(
+                'books.id',
+                'books.title',
+                'books.price',
+                'books.image',
+                DB::raw('GROUP_CONCAT(DISTINCT authors.name SEPARATOR ", ") as author_names'),
+                DB::raw('AVG(reviews.star_count) as average_rating')
+            )
+            ->groupBy('books.id', 'books.title', 'books.price', 'books.image')
             ->orderBy('average_rating', 'desc');
-
+    
         // ジャンル指定があればフィルタリング
         if (!is_null($selected_genres)) {
-            $query->whereHas('genres', function($query) use ($selected_genres) {
-                $query->whereIn('genres.id', $selected_genres);
+            $query->whereIn('books.id', function ($subQuery) use ($selected_genres) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->whereIn('genre_id', $selected_genres);
             });
         }
 
