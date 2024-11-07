@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -35,26 +37,35 @@
 
 </head>
 
+
+
+
+
+
+
+
+
 <body class="main-bg">
     <div id="app">
         @if (!request()->is('order/confirm'))
 
-            <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white main-nav" style="height: 100px">
+            <nav class=" row navbar navbar-expand-md navbar-light shadow-sm text-white main-nav d-flex justify-content-between" style="height: 100px">
                 <div class="container">
-
+                    <div class="col-2 text-center">
                     @if (request()->is('store/*'))
                         <a class="navbar-brand" href="{{ route('store.home') }}">
                             <img src="{{ asset('images/final-logo.png') }}" alt=""
                                 class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
                         </a>
                     @else
-                        <a class="navbar-brand" href="{{ route('home') }}">
+                        <a class="navbar-brand 
+                        " href="{{ route('home') }}">
                             <img src="{{ asset('images/final-logo.png') }}" alt=""
-                                class="logo-img p-0 overflow-hidden m-0"style="height: 100px">
+                                class="logo-img  overflow-hidden m-0  "style="height: 100px">
                         </a>
                     @endif
 
-
+                    </div>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -62,266 +73,284 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+
+                    {{-- 検索バー --}}
+                    <div class=" col-7 collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
-                        <ul class="navbar-nav ms-auto">
-                            {{-- if the url request is not admin/* (!request()->is('')) --}}
-                            @guest
-                            @else
-                                @if (request()->is('guest/*'))
-                                    <form action="{{route('book.search')}}" method="get">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col pe-0 position-relative">
-                                                <input type="text" id="searchInput" name="search"
-                                                    class="form-control form-control-sm rounded searchInput"
-                                                    style="width: 400px;" placeholder="Search books...">
-                                                <span id="clearButton" class="clearButton">&times;</span>
-                                            </div>
-                                            <div class="col ps-1">
-                                                <button type="submit" class="btn btn-sm btn-warning search-icon">
-                                                    <i class="fa-solid fa-magnifying-glass text-white"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                @endif
-                            @endguest
-                        </ul>
+                        @if (request()->is('guest/*'))
+                <form action="{{ route('book.search') }}" method="get" class="d-flex align-items-center mx-auto">
+                    @csrf
+                    <div class="position-relative">
+                        <input type="text" id="searchInput" name="search" class="form-control form-control-sm rounded searchInput" style="width: 400px;" placeholder="Search books...">
+                        <span id="clearButton" class="clearButton">&times;</span>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-warning ms-2 search-icon">
+                        <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    </button>
+                </form>
+                    </div>
+            @endif
 
-                        <!-- Right Side Of Navbar -->
-                        <ul class="navbar-nav ms-auto text-center mt-4">
-                            <!-- Authentication Links -->
-                            @guest
-                                @if (Route::has('login'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">
-                                            <p class="fs-4 text-white fw-bold pe-4">Login</p>
-                                        </a>
-                                    </li>
-                                @endif
+            <!-- ナビゲーションの右端の要素 (Home, Order, ユーザー情報) -->
+            <div class="col-2 collapse navbar-collapse justify-content-center text-center " id="navbarSupportedContent">
+        
 
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">
-                                            <p class="fs-4 text-white fw-bold pe-3">Register</p>
-                                        </a>
-                                    </li>
-                                @endif
-                            @else
-                                @if (request()->is('store/*'))
-                                    <div class="d-flex pt-2 me-4 mb-4 align-items-center">
-                                        <!-- Home Link -->
-                                        <a href="{{ route('store.home') }}"
-                                            class="nav-link d-flex flex-column align-items-center mb-0 me-4">
-                                            <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                            <p class="text-white mb-0">Home</p>
-                                        </a>
-
-                                        <!-- Logout Link -->
-                                        <a class="nav-link d-flex flex-column align-items-center mb-0 me-4"
-                                            href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
-                                            <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
-                                        </a>
-
-                                        <!-- Logout Form (Hidden) -->
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
-
-                                        <!-- User Profile Dropdown -->
-                                        <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
-                                            <button id="account-dropdown"
-                                                class="btn shadow-none nav-link d-flex flex-column align-items-center"
-                                                data-bs-toggle="dropdown">
-                                                @if (Auth::user()->avatar)
-                                                    <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
-                                                        class="rounded-circle avatar-sm">
-                                                    <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                                @else
-                                                    <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                                    <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                                @endif
-                                            </button>
-
-
-                                            <div class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="account-dropdown">
-                                                {{-- Admin --}}
-                                                @can('admin')
-                                                    <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                                        <i class="fa-solid fa-user-gear"></i> Admin
-                                                    </a>
-                                                    <hr class="dropdown-divider">
-                                                @endcan
-                                                {{-- Store Page 仮置き --}}
-
-                                                @can('store')
-                                                    <a class="dropdown-item" href="{{ route('store.home') }}">
-                                                        <i class="fa-solid fa-shop"></i> Store page
-                                                    </a>
-                                                    <hr class="dropdown-divider">
-                                                @endcan
-
-                                                {{-- Profile --}}
-                                                <a href="{{ route('store.profile') }}" class="dropdown-item">
-                                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                                </a>
-
-                                                {{-- Logout --}}
-                                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                                    <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
-                                                </a>
-
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                    class="d-none">
-                                                    @csrf
-                                                </form>
+            @if (request()->is('guest/*'))
+            <ul class="navbar-nav d-flex align-items-center justify-content-start">
+                <!-- Home -->
+                <li class="nav-item me-3" title="Home">
+                    <a href="{{ route('home') }}" class="nav-link mb-0">
+                        <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
+                        <p class="text-white mb-0">Home</p>
+                    </a>
+                </li>
+            
+                <!-- Order -->
+                <li class="nav-item me-3" title="Order">
+                    <a href="{{ route('order.show') }}" class="nav-link">
+                        <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
+                        <p class="text-white mb-0">Order</p>
+                    </a>
+                </li>
+            
+                <!-- ユーザー情報 -->
+                <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
+                    <button id="account-dropdown" class="btn shadow-none nav-link align-items-center pr-5 ms-0" data-bs-toggle="dropdown">
+                        @if (Auth::user()->profile && Auth::user()->profile->avatar)
+                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm ">
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @else
+                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                        {{-- Admin --}}
+                        @can('admin')
+                            <a class="dropdown-item" href="{{ route('admin.home') }}">
+                                <i class="fa-solid fa-user-gear"></i> Admin
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                
+                        {{-- Store Page 仮置き --}}
+                        @can('store')
+                            <a class="dropdown-item" href="{{ route('store.home') }}">
+                                <i class="fa-solid fa-shop"></i> Store page
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                
+                        {{-- Profile --}}
+                        <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
+                            <i class="fa-solid fa-circle-user"></i> Profile
+                        </a>
+                
+                        {{-- Logout --}}
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
+                        </a>
+                
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            
+            </div>
+            @endif
 
 
 
-                                            </div>
-                                        </li>
-                                    </div>
-                                @elseif(request()->is('admin/*'))
-                                    <div class="pt-2 me-4">
-                                        <a class="dropdown-item" href="{{ route('logout') }}" class="mb-0 "
-                                            onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                            <i class="fa-solid fa-right-from-bracket  d-block fs-1"></i>
-                                            <p class="mt-1">{{ __('Logout') }}</p>
-                                        </a>
+<ul class="navbar-nav ms-auto text-center mt-4">
+    <!-- Authentication Links -->
+    @guest
+        @if (Route::has('login'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">
+                    <p class="fs-4 text-white fw-bold pe-4">Login</p>
+                </a>
+            </li>
+        @endif
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
-                                    </div>
+        @if (Route::has('register'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('register') }}">
+                    <p class="fs-4 text-white fw-bold pe-3">Register</p>
+                </a>
+            </li>
+        @endif
+    @else
+        @if (request()->is('store/*'))
+            <div class="d-flex pt-2 me-4 mb-4 align-items-center">
+                <!-- Home Link -->
+                <a href="{{ route('store.home') }}" class="nav-link d-flex flex-column align-items-center mb-0 me-4">
+                    <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
+                    <p class="text-white mb-0">Home</p>
+                </a>
 
-                                    <li class="nav-item dropdown">
+                <!-- Logout Link -->
+                <a class="nav-link d-flex flex-column align-items-center mb-0 me-4"
+                   href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
+                    <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
+                </a>
 
-                                        <button id="account-dropdown" class="btn shadow-none nav-link"
-                                            data-bs-toggle="dropdown">
-                                            @if (Auth::user()->avatar)
-                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
-                                                    class="rounded-circle avatar-sm">
-                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                            @else
-                                                <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                            @endif
+                <!-- Logout Form (Hidden) -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
 
-                                        </button>
+                <!-- User Profile Dropdown -->
+                <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
+                    <button id="account-dropdown" class="btn shadow-none nav-link d-flex flex-column align-items-center" data-bs-toggle="dropdown">
+                        @if (Auth::user()->profile && Auth::user()->profile->avatar)
+                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @else
+                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                        @can('admin')
+                            <a class="dropdown-item" href="{{ route('admin.home') }}">
+                                <i class="fa-solid fa-user-gear"></i> Admin
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                        @can('store')
+                            <a class="dropdown-item" href="{{ route('store.home') }}">
+                                <i class="fa-solid fa-shop"></i> Store page
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                        <a href="{{ route('store.profile') }}" class="dropdown-item">
+                            <i class="fa-solid fa-circle-user"></i> Profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            </div>
+        @elseif(request()->is('admin/*'))
+            <div class="d-flex pt-2 me-4 mb-4 align-items-center">
+                <a class="nav-link d-flex flex-column align-items-center mb-0 me-4"
+                   href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
+                    <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
 
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                <li class="nav-item dropdown">
+                    <button id="account-dropdown" class="btn shadow-none nav-link" data-bs-toggle="dropdown">
+                        @if (Auth::user()->profile && Auth::user()->profile->avatar)
+                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @else
+                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                        @can('admin')
+                            <a class="dropdown-item" href="{{ route('admin.home') }}">
+                                <i class="fa-solid fa-user-gear"></i> Admin
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                        @can('store')
+                            <a class="dropdown-item" href="{{ url('/store/home') }}">
+                                <i class="fa-solid fa-shop"></i> Store page
+                            </a>
+                            <hr>
+                        @endcan
+                        <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
+                            <i class="fa-solid fa-circle-user"></i> Profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            </div>
+        @elseif(request()->is('order/*'))
+            <div class="d-flex pt-2 me-4 mb-4 align-items-center">
+                <!-- Order Link -->
+                
 
+                <a href="{{ route('home') }}" class="nav-link d-flex flex-column align-items-center mb-0 me-4">
+                            <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
+                            <p class="text-white mb-0">Home</p>
+                        </a>
 
-                                            {{-- Admin --}}
-                                            @can('admin')
-                                                <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                                    <i class="fa-solid fa-user-gear"></i> Admin Home
-                                                </a>
-                                                <hr class="dropdown-divider">
-                                            @endcan
-                                            {{-- Store Page 仮置き --}}
+                <!-- Logout Link -->
+                <a class="nav-link d-flex flex-column align-items-center mb-0 me-4"
+                   href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa-solid fa-right-from-bracket text-white fs-1"></i>
+                    <p class="text-white mb-0 mt-1">{{ __('Logout') }}</p>
+                </a>
 
-                                            @can('admin')
-                                                <a class="dropdown-item" href="{{ route('store.home') }}">
-                                                    <i class="fa-solid fa-shop"></i> Store page
-                                                </a>
-                                                <hr class="dropdown-divider">
-                                            @endcan
+                <!-- Logout Form (Hidden) -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
 
-                                            {{-- Profile --}}
-                                            <a href="{{ route('home') }}" class="dropdown-item">
-                                                <i class="fa-solid fa-circle-user"></i> Guest page
-                                            </a>
+                <!-- User Profile Dropdown -->
+                <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
+                    <button id="account-dropdown" class="btn shadow-none nav-link d-flex flex-column align-items-center" data-bs-toggle="dropdown">
+                        @if (Auth::user()->profile && Auth::user()->profile->avatar)
+                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @else
+                            <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
+                            <p class="text-white mb-0">{{ Auth::user()->name }}</p>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
+                        @can('admin')
+                            <a class="dropdown-item" href="{{ route('admin.home') }}">
+                                <i class="fa-solid fa-user-gear"></i> Admin
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                        @can('store')
+                            <a class="dropdown-item" href="{{ route('store.home') }}">
+                                <i class="fa-solid fa-shop"></i> Store page
+                            </a>
+                            <hr class="dropdown-divider">
+                        @endcan
+                        <a href="{{ route('profile.show', Auth::user()->id) }}"  class="dropdown-item">
+                            <i class="fa-solid fa-circle-user"></i> Profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            </div>
+        @endif
+    @endguest
 
-                                        </div>
-                                    </li>
-                                @else
-                                    {{-- Home --}}
-                                    <li class="nav-item me-3" title="Home">
-                                        <a href="{{ route('home') }}" class="nav-link mb-0">
-                                            <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
-                                            <p class="text-white mb-0">Home</p>
-                                        </a>
-                                    </li>
-
-                                    {{-- order --}}
-                                    <li class="nav-item me-3" title="Order">
-                                        <a href="{{ route('order.show') }}" class="nav-link">
-                                            <i class="fa-solid fa-cart-shopping text-white fs-1"></i>
-                                            <p class="text-white mb-0">Order</p>
-                                        </a>
-                                    </li>
-
-                                    {{-- user profile --}}
-                                    {{-- Account --}}
-                                    <li class="nav-item dropdown">
-
-                                        <button id="account-dropdown" class="btn shadow-none nav-link"
-                                            data-bs-toggle="dropdown">
-                                            @if (Auth::user()->avatar)
-                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
-                                                    class="rounded-circle avatar-sm">
-                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                            @else
-                                                <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
-                                                <p class="text-white mb-0">{{ Auth::user()->name }}</p>
-                                            @endif
-
-                                        </button>
-
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
-                                            {{-- Admin --}}
-                                            @can('admin')
-                                                <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                                    <i class="fa-solid fa-user-gear"></i> Admin
-                                                </a>
-                                                <hr class="dropdown-divider">
-                                            @endcan
-                                            {{-- Store Page 仮置き --}}
-                                            @can('store')
-                                                <a class="dropdown-item" href="{{ url('/store/home') }}">
-                                                    <i class="fa-solid fa-shop"></i> Store page
-                                                </a>
-                                                <hr>
-                                            @endcan
-                                            {{-- Profile --}}
-                                            <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
-                                                <i class="fa-solid fa-circle-user"></i> Profile
-                                            </a>
-
-                                            {{-- Logout --}}
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                                <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                class="d-none">
-                                                @csrf
-                                            </form>
-
-
-
-                                        </div>
-                                    </li>
-                                @endif
-                            @endguest
-                        </ul>
+</ul>
                     </div>
                 </div>
             </nav>
         @endif
-        @guest
+    @guest
         @else
             @if (request()->is('thread/*'))
                 <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">

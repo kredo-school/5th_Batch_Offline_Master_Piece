@@ -836,3 +836,16 @@ main
 {
     min-height: calc(100vh - 140px);
 }
+
+/* avatar　大きさ調整 */
+.avatar-sm{
+    width: 40px;  /* お好みのサイズに調整 */
+    height: 42px; /* お好みのサイズに調整 */
+    
+
+}
+
+
+
+
+
