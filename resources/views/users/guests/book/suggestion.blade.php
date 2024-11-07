@@ -97,6 +97,8 @@
                                         $fullStars = floor($averageStarCount); // 満点の数
                                         $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
                                         $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
+                                        $reviewCount = $book->reviews->count();
+
                                     @endphp
                                         {{-- 満点の星を表示 --}}
                                         @for ($i = 0; $i < $fullStars; $i++)
@@ -114,6 +116,11 @@
                                     @endfor
 
                                     {{ number_format($averageStarCount, 1) }}/5.0
+                                    @if ($reviewCount > 0)
+                                        <p class="ms-2">({{ $reviewCount }})</p>
+                                    @else
+                                        <p class="ms-2">(0)</p>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
