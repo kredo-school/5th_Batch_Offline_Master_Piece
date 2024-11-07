@@ -135,7 +135,8 @@ class BookController extends Controller
 
     public function bookNew(Request $request)
     {
-        // dd($request->all());
+        
+
 
         $all_genres = $this->genre->all();
 
@@ -343,6 +344,7 @@ class BookController extends Controller
     
     public function bookInventory(Request $request, $id)
     {
+    
         $book = $this->book->findOrFail($id);
 
         // 選択された都道府県（デフォルトは "All Area"）
@@ -403,13 +405,21 @@ class BookController extends Controller
 
     public function addReserved(Request $request, $id)
     {
-        // dd($request->all(), Auth::user());
+        // dd($request->all());
 
-        $request->validate([
-            'store_ids' => 'required|array',
-            'quantities' => 'required|array',
+        $rules = [];
 
-        ]);
+        // 各store_idごとに動的なバリデーションルールを作成
+        foreach ($request->input('store_ids', []) as $storeId) {
+            $rules["quantities.$storeId"] = 'nullable|integer|min:1';
+        }
+
+        $validated = $request->validate($rules);
+
+        // 全ての数量が null または 0 の場合のエラーメッセージ
+        if (collect($validated['quantities'])->filter(fn($quantity) => $quantity !== null && $quantity > 0)->isEmpty()) {
+            return redirect()->back()->withErrors(['quantities' => 'Please put QUANTITY in at least one store.']);
+        }
 
         $book_id = $id;
 
