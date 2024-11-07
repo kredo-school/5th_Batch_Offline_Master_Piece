@@ -28,7 +28,7 @@ class StoreBookRequest extends FormRequest
             'description' => 'required|string',
             'publication_date' => 'required|date',
             'publisher' => 'required|string|max:255',
-            'isbn_code' => 'required|string|max:13', // ISBNコードの最大長13文字
+            'isbn_code' => 'required|string|digits:13',
             'price' => 'required|numeric|min:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 画像ファイル（オプション）
 
