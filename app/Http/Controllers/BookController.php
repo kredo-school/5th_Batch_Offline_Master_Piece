@@ -411,10 +411,17 @@ class BookController extends Controller
 
         // 各store_idごとに動的なバリデーションルールを作成
         foreach ($request->input('store_ids', []) as $storeId) {
-            $rules["quantities.$storeId"] = 'nullable|integer|min:1';
+            $rules["quantities.$storeId"] = 'nullable|integer|min:1|max:100';
         }
 
-        $validated = $request->validate($rules);
+        // カスタムエラーメッセージを設定
+        $messages = [
+            'quantities.*.max' => 'The quantity for this store must not be greater than 100.',
+            'quantities.*.min' => 'The quantity for this store must be at least 1.',
+            'quantities.*.integer' => 'The quantity for this store must be a valid number.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
 
         // 全ての数量が null または 0 の場合のエラーメッセージ
         if (collect($validated['quantities'])->filter(fn($quantity) => $quantity !== null && $quantity > 0)->isEmpty()) {
