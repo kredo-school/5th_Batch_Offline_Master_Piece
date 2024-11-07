@@ -166,6 +166,13 @@
                                                     <hr class="dropdown-divider">
                                                 @endcan
 
+                                                @can('store')
+                                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                                        <i class="fa-solid fa-user-group"></i> Guest page
+                                                    </a>
+                                                    <hr class="dropdown-divider">
+                                                @endcan
+
                                                 {{-- Profile --}}
                                                 <a href="{{ route('store.profile') }}" class="dropdown-item">
                                                     <i class="fa-solid fa-circle-user"></i> Profile
@@ -236,10 +243,11 @@
                                                 </a>
                                                 <hr class="dropdown-divider">
                                             @endcan
+                                            
 
                                             {{-- Profile --}}
                                             <a href="{{ route('home') }}" class="dropdown-item">
-                                                <i class="fa-solid fa-circle-user"></i> Guest page
+                                                <i class="fa-solid fa-user-group"></i> Guest page
                                             </a>
 
                                         </div>
@@ -291,7 +299,7 @@
                                                 <a class="dropdown-item" href="{{ url('/store/home') }}">
                                                     <i class="fa-solid fa-shop"></i> Store page
                                                 </a>
-                                                <hr>
+                                                <hr class="dropdown-divider">
                                             @endcan
                                             {{-- Profile --}}
                                             <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">

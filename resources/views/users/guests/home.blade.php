@@ -299,8 +299,8 @@
 
             {{-- advertisement --}}
             <div class="mt-5">
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="mt-2">
+                @for ($i = 0; $i < 4; $i++)
+                    <div class="mt-3">
                         <a href="#" class="text-decoration-none text-white">
                             <div class="bg-adv mx-auto">
                                 <p class="h1 ">Advertisement</p>

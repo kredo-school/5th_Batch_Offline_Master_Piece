@@ -216,9 +216,14 @@ class StoreController extends Controller
         return view('users.store.cashier.receipt');
     }
 
-    public function storeSearch()
+    public function storeSearch(Request $request)
     {
-        return view('users.store.books.search');
+        $query = $request->input('search');
+        // 書籍をタイトルや著者名などで検索する例
+        $books = Book::where('title', 'LIKE', "%{$query}%")
+        ->orWhere('author_name', 'LIKE', "%{$query}%")
+        ->get();
+        return view('users.store.books.search', compact('books'));
     }
 
     public function inventory()
