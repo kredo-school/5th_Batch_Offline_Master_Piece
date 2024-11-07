@@ -154,6 +154,10 @@
                                 <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
                                     class="form-control quantity-input" placeholder="Quantity" min="0" >
                                 
+                                @error('quantities.' . $store->id)
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                                
                                 @if ($errors->has('quantities'))
                                     <div class="text-danger">{{ $errors->first('quantities') }}</div>
                                 @endif

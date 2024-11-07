@@ -108,6 +108,7 @@ Route::group(['middleware' => 'auth'], function ()
 
             Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
             Route::patch('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            
             Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
             Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
             Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
