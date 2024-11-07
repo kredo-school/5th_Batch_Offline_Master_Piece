@@ -56,27 +56,28 @@
 
                             <div class="col-6 fs-32 ms-5 ps-5">
                                 <p class="fs-32">{{$inventory->book->title}}</p>
-                                <p class="h4">{{$inventory->book->author_name}}</p>
+                                <p class="h3">{{$inventory->book->author_name}}</p>
                                 <div class="fs24 text-danger">Stock: {{$inventory->stock}}</div>
 
                                 <!-- 各bookごとのフォーム -->
                                 
-
                                     <!-- 発注数の入力 -->
-                                    <input type="number" name="amount[]" class="form-control w-25 float-end" value="{{ old('amount') }}" min="1">
+                                    <div class="mt-4">
+                                    <label for="quantity" class="form-label fs-5 me-0">Enter order quantity</label>
+                                    <input type="number" name="amount[]" class="form-control w-25 float-end me-3" value="{{ old('amount') }}" min="1">
                                     <input type="hidden" name="book_id[]" value="{{ $inventory->book_id }}">
+                                    </div>
 
                                     @error('amount')
                                         <p class="text-danger small">{{$message}}</p>
                                     @enderror
-
-                                     <!-- 削除ボタンmodal -->
-                                    <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
-                                    data-bs-target="#delete-order-modal-{{ $inventory->book_id }}">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-
-                                    
+                            </div>
+                            <div class="col-2">
+                                <!-- 削除ボタンmodal -->
+                                <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
+                                data-bs-target="#delete-order-modal-{{ $inventory->book_id }}">
+                                <i class="fa-solid fa-trash-can mt-2"></i>
+                                </a>   
                             </div>
                         </div>
                         @if (!$loop->last)
@@ -87,7 +88,7 @@
                     @endif
                 </div>
                 <!-- 更新ボタン -->
-                <div class="ms-auto">
+                <div class="ms-auto text-end">
                 <button type="submit" class="btn Goto-inventory pt-3 fs-4" name="action" value="update">
                     <i class="fa-solid fa-plus"></i> Add
                 </button>

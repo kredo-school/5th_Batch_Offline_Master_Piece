@@ -78,9 +78,10 @@
                                                     data-bs-target="#delete-order-modal-{{ $order->book->id }}">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
-                                                <p class="h1 bold">Stock:
+                                                <p class="h3 pe-0 ps-4">Stock:
+                                                    <br>
                                                     {{ $order->book->inventory->first() ? $order->book->inventory->first()->stock : 'No stock data' }}
-                                                </p>                                                   
+                                                </p>                                                 
                                                     
                                             </div>
         
@@ -91,7 +92,7 @@
                                                 <div class="row mt-auto">
                                                     
                                                     <div class=" mb-5">
-                                                        <p class="h2 ">Quantity:{{$order->quantity}} </p>
+                                                        <p class="h3 ps-4 pt-4 text-danger">Quantity: {{$order->quantity}} </p>
                                                     </div>
                                                 </div>
                                             </div>

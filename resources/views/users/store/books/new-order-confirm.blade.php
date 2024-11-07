@@ -35,7 +35,7 @@
                                         <img src="{{ $order->book->image }}" alt="{{ $order->book->id }}" class="w-100 shadow">
                                     </a>
                                 </div>
-                                <div class="col-6 fs-32">
+                                <div class="col-5 fs-32 ms-3">
                                     <p>
                                         <a href="{{ route('book.show_book', $order->book->id) }}" class="text-decoration-none">
                                             <p class="fs-32">{{ $order->book->title }}</p>
@@ -67,13 +67,14 @@
                                     {{ number_format($averageStarCount, 1) }}/5.0
                                     <p class="text-danger fs-32 mt-2">¥ {{ floor($order->book->price) }}</p>
                                 </div>
-                                <div class="col-3">
-                                    <div class="h-75 d-flex flex-column justify-content-between">
+                                <div class="col-3 pe-0">
+                                    <div class="h-75 d-flex flex-column justify-content-between mt-3">
                                         <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
                                            data-bs-target="#delete-order-modal-{{ $order->book->id }}">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
-                                        <p class="h1 bold">Stock:
+                                        <p class="h3 pe-0 ps-4">Stock:
+                                            <br>
                                             {{ $order->book->inventory->first() ? $order->book->inventory->first()->stock : 'No stock data' }}
                                         </p>
                                     </div>
@@ -81,21 +82,22 @@
                                     <!-- 数量調整のフィールド -->
                                     <div class="h-25 pt-4">
                                         <input type="hidden" name="orders[{{ $index }}][book_id]" value="{{ $order->book->id }}">
-                                        <div class="row mt-auto">
-                                            <div class="col-3 text-end">
+                                        <div class="row mt-auto d-flex justify-content-between align-items-center text-end me-0 ps-2">
+                                            <div class="col-auto pe-0">
                                                 <button type="button" class="btn text-danger btn-decrease">
                                                     <i class="fa-solid fa-minus h3"></i>
                                                 </button>
                                             </div>
-                                            <div class="col-6 text-center">
+                                            <div class="col-5">
                                                 <input type="number" name="orders[{{ $index }}][quantity]" id="quantityInput_{{ $index }}" class="form-control" value="{{ old('orders.' . $index . '.quantity', $order->quantity) }}" min="1">
                                             </div>
-                                            <div class="col-3 ps-0">
+                                            <div class="col-auto ps-0">
                                                 <button type="button" class="btn text-primary btn-increase">
                                                     <i class="fa-solid fa-plus h3"></i>
                                                 </button>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
