@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
             Route::get('/home', [HomeController::class, 'index'])->name('home');
             Route::match(['get', 'post'], '/genrehome', [HomeController::class, 'genreHome'])->name('genreHome');
+            Route::match(['get', 'post'], '/genrehome/fromfooter/{genre_id}', [HomeController::class, 'genreHomeFromFooter'])->name('genreHome.fromfooter');
             Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
                 Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
                 Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');

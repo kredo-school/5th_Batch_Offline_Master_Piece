@@ -72,7 +72,7 @@ class HomeController extends Controller
                 ->pluck('book_id')
                 ->toArray();
         }
-    
+
         if (empty($purchasedBooks)) {
             // 購入履歴またはジャンル指定がない場合は、人気のある本を取得
             $suggestionedBooks = Book::with('authors')
@@ -87,10 +87,10 @@ class HomeController extends Controller
                 ->limit(20)
                 ->get();
         }
-    
+
         return $suggestionedBooks;
     }
-    
+
 
     /**
      * ランキング本を取得するメソッド
@@ -112,7 +112,7 @@ class HomeController extends Controller
             )
             ->groupBy('books.id', 'books.title', 'books.price', 'books.image')
             ->orderBy('average_rating', 'desc');
-    
+
         // ジャンル指定があればフィルタリング
         if (!is_null($selected_genres)) {
             $query->whereIn('books.id', function ($subQuery) use ($selected_genres) {
@@ -121,8 +121,16 @@ class HomeController extends Controller
                     ->whereIn('genre_id', $selected_genres);
             });
         }
-    
-        return $query->limit(20)->get();
+
+        $rankedBooks = $query->limit(20)->get();
+
+        // 重複する本をidで排除（同じidの本は最初の1件だけを残す）
+        $rankedBooks = $rankedBooks->groupBy('id')->map(function ($group) {
+            return $group->first();
+        })->values();
+
+        return $rankedBooks;
+
     }
 
     /**
@@ -160,20 +168,29 @@ class HomeController extends Controller
             // GETリクエストでアクセスされた場合、別のページにリダイレクトする
             return redirect()->route('home'); // 適切なフォームページにリダイレクト
         }
-    
+
         $request->validate([
             'genres' => 'required|array',
         ]);
-    
+
         // ジャンルに基づいた本を取得
         $selected_genres = $request->genres;
         $suggestionedBooks = $this->bookSuggestion($selected_genres);
         $rankedBooks = $this->bookRanking($selected_genres);
         $newedBooks = $this->bookNew($selected_genres);
         $threads = Thread::latest()->limit(5)->get();
-    
+
         return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads','selected_genres'));
     }
-    
 
+    public function genreHomeFromFooter($genre_id)
+    {
+        $selected_genres[] = $genre_id;
+        $suggestionedBooks = $this->bookSuggestion($selected_genres);
+        $rankedBooks = $this->bookRanking($selected_genres);
+        $newedBooks = $this->bookNew($selected_genres);
+        $threads = Thread::latest()->limit(5)->get();
+
+        return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads','selected_genres'));
+    }
 }
