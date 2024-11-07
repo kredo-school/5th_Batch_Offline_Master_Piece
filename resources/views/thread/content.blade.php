@@ -7,7 +7,7 @@
     @include('thread.header')
 
     <div class="row ms-3">
-        <div class="col-10">
+        <div id="comments-section" class="col-10">
             <div class="card w-100 mb-5">
                 <div class="card-header bg-white border-bottom-0">
                     <div class="text-end">
@@ -190,9 +190,11 @@
         </div>
         {{-- advertisement --}}
         <div class="col-2">
-            @for ($i = 0; $i < 6; $i++)
-                <a href="#">
-                    <img src="{{ asset('images/93e1a9cf543ecd9d8bdaf98c51dc65a5.jpg') }}" alt=""class="thread-adv w-100 mb-3">
+            @for ($i = 0; $i < max(1,count($comments)) / 2; $i++)
+                <a href="#" class="text-decoration-none text-white">
+                    <div class="thread-adv mb-3 bg-adv w-100">
+                        <p class="h2">Advertisement</p>
+                    </div>
                 </a>
             @endfor
         </div>

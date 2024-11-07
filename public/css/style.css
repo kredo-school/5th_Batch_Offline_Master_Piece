@@ -844,3 +844,9 @@ main
 {
     min-height: calc(100vh - 140px);
 }
+
+/* thread adv */
+.advertisement-container {
+    flex-grow: 1; /* 残りのスペースを広告で埋める */
+    overflow-y: auto; /* 広告が増えすぎた場合にスクロール可能に */
+}
