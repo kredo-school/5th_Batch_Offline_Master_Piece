@@ -153,6 +153,10 @@
                                 <!-- 店舗ごとの数量入力 -->
                                 <input type="number" name="quantities[{{ $store->id }}]" data-inventory="{{ $inventory }}" 
                                     class="form-control quantity-input" placeholder="Quantity" min="0" >
+                                
+                                @if ($errors->has('quantities'))
+                                    <div class="text-danger">{{ $errors->first('quantities') }}</div>
+                                @endif
                             </div>
                         </div>
                         <hr>
