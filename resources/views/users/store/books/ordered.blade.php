@@ -4,46 +4,6 @@
 
 @section('content')
 
-<div class="d-flex justify-content-center">
-    <form action="{{ route('store.books.search') }}" class="d-flex">
-        @csrf
-        <div class="row ms-auto">
-            <div class="col pe-0 position-relative">
-                <input type="text" id="searchInput" name="search" class="form-control rounded"
-                    style="width: 400px" placeholder="Search books...">
-                <span id="clearButton" class="clearButton" style="display: none;">&times;</span>
-            </div>
-            <div class="col ps-1">
-                <button type="submit" class="btn btn-warning search-icon" style="height: 37.3px;">
-                    <i class="fa-solid fa-magnifying-glass text-white"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');  // 正しいIDを使用
-        const clearBtn = document.getElementById('clearButton');
-
-        // 入力フィールドのイベントリスナーを設定
-        searchInput.addEventListener('input', function() {
-            if (searchInput.value.length > 0) {
-                clearBtn.style.display = 'inline';  // テキストがあるときはバツ印を表示
-            } else {
-                clearBtn.style.display = 'none';    // テキストがないときは非表示
-            }
-        });
-
-        // バツ印をクリックしたときの処理
-        clearBtn.addEventListener('click', function() {
-            searchInput.value = '';  // 入力フィールドをクリア
-            clearBtn.style.display = 'none';  // バツ印を非表示
-            searchInput.focus();  // フィールドにフォーカスを戻す
-        });
-    });
-</script>
 {{--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー--}}
 <div class="container">
     <div class="row">

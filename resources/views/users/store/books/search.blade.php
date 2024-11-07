@@ -64,6 +64,7 @@
                     });
                 });
             </script>
+            
         @if ($books->isEmpty())
             <div class="mt-5 fw-bold text-center"><h4>No books found.</h4></div>
         @else

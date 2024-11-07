@@ -5,34 +5,54 @@
 @section('content')
 <div>
     <!-- 検索フォーム -->
-    <form action="{{ route('store.books.search') }}" method="get">
-        @csrf
-        <div class="row align-items-center">
-            <div class="col-4">
-                <a href="{{route('store.bookList')}}" class="fw-bold text-decoration-none main-text btn border-0">
-                    <div class="h2 fw-semibold">
-                        <i class="fa-solid fa-caret-left"></i>
-                        <div class="d-inline main-text">Back</div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-4">
-                <div class="d-flex justify-content-center">
-                    <div class="row ms-auto">
-                        <div class="col pe-0 position-relative">
-                            <input type="text" id="searchInput" name="search" class="form-control rounded" style="width: 400px" placeholder="Search books...">
-                            <span id="clearButton" class="clearButton">&times;</span>
-                        </div>
-                        <div class="col ps-1">
-                            <button type="submit" class="btn btn-warning search-icon" style="height: 37.3px;">
-                                <i class="fa-solid fa-magnifying-glass text-white"></i>
-                            </button>
-                        </div>
-                    </div>
+    <?php
+    function highlightKeyword($text, $keyword)
+{
+    // 正規表現で指定されたキーワードをハイライト（例：<mark>タグで囲む）
+    return preg_replace('/(' . preg_quote($keyword, '/') . ')/i', '<mark>$1</mark>', $text);
+}
+
+    ?>
+    <div class="d-flex justify-content-center mt-3" >
+        <form action="{{ route('store.books.search') }}" class="d-flex">
+            @csrf
+            <div class="row ms-auto">
+                <div class="col pe-0 position-relative">
+                    <input type="text" id="searchInput" name="search" class="form-control rounded"
+                        style="width: 400px" placeholder="Search books...">
+                    <span id="clearButton" class="clearButton" >&times;</span>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const searchInput = document.getElementById('searchInput');
+                            const clearBtn = document.getElementById('clearButton');
+
+                            // 入力フィールドのイベントリスナーを設定
+                            searchInput.addEventListener('input', function() {
+                                if (searchInput.value.length > 0) {
+                                    clearBtn.style.display = 'inline';  // テキストがあるときはバツ印を表示
+                                } else {
+                                    clearBtn.style.display = 'none';    // テキストがないときは非表示
+                                }
+                            });
+
+                            // バツ印をクリックしたときの処理
+                            clearBtn.addEventListener('click', function() {
+                                searchInput.value = '';  // 入力フィールドをクリア
+                                clearBtn.style.display = 'none';  // バツ印を非表示
+                                searchInput.focus();  // フィールドにフォーカスを戻す
+                            });
+                        });
+                    </script>
+
+                </div>
+                <div class="col ps-1">
+                    <button type="submit" class="btn btn-warning search-icon" style="height: 37.3px;">
+                        <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    </button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 <!-- Inventoryと発注数追加用の全体フォーム -->
