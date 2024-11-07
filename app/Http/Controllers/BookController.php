@@ -135,7 +135,8 @@ class BookController extends Controller
 
     public function bookNew(Request $request)
     {
-        // dd($request->all());
+        
+
 
         $all_genres = $this->genre->all();
 

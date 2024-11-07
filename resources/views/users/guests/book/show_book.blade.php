@@ -64,6 +64,8 @@
                                 $fullStars = floor($averageStarCount); // 満点の数
                                 $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
                                 $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
+                                $reviewCount = $book->reviews->count();
+
                             @endphp
                             {{-- 満点の星を表示 --}}
                             @for ($i = 0; $i < $fullStars; $i++)
@@ -81,6 +83,13 @@
                             @endfor
 
                             {{ number_format($averageStarCount, 1) }}/5.0
+
+                        </div>
+                        @if ($reviewCount > 0)
+                            <p class="ms-2 h5">({{ $reviewCount }})</p>
+                        @else
+                            <p class="ms-2 h5">(0)</p>
+                        @endif
                     </button>
                 </h3>
 
@@ -388,23 +397,30 @@
                                                             $fullStars = floor($averageStarCount); // 満点の数
                                                             $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
                                                             $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
-                                                        @endphp
-                                                        {{-- 満点の星を表示 --}}
-                                                        @for ($i = 0; $i < $fullStars; $i++)
-                                                            <i class="fa-solid fa-star text-warning"></i>
-                                                        @endfor
+                                                            $reviewCount = $book->reviews->count();
 
+                                                        @endphp
+                                                            {{-- 満点の星を表示 --}}
+                                                            @for ($i = 0; $i < $fullStars; $i++)
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            @endfor
+                                                            
                                                         {{-- 半点の星を表示 --}}
                                                         @if ($halfStar)
                                                             <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                        @endif
-
-                                                        {{-- 未満の星を表示 --}}
-                                                        @for ($i = 0; $i < $emptyStars; $i++)
+                                                            @endif
+                                                            
+                                                            {{-- 未満の星を表示 --}}
+                                                            @for ($i = 0; $i < $emptyStars; $i++)
                                                             <i class="fa-regular fa-star text-warning"></i>
                                                         @endfor
 
                                                         {{ number_format($averageStarCount, 1) }}/5.0
+                                                        @if ($reviewCount > 0)
+                                                            <p class="ms-2">({{ $reviewCount }})</p>
+                                                        @else
+                                                            <p class="ms-2">(0)</p>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -500,30 +516,34 @@
                                                         <tr>
                                                             <td class="star-ration-list d-flex ms-5">
                                                                 @php
-                                                                    $averageStarCount = $book->reviews->avg(
-                                                                        'star_count',
-                                                                    );
+                                                                    $averageStarCount = $book->reviews->avg('star_count');
                                                                     $fullStars = floor($averageStarCount); // 満点の数
                                                                     $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
                                                                     $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
-                                                                @endphp
-                                                                {{-- 満点の星を表示 --}}
-                                                                @for ($i = 0; $i < $fullStars; $i++)
-                                                                    <i class="fa-solid fa-star text-warning"></i>
-                                                                @endfor
+                                                                    $reviewCount = $book->reviews->count();
 
+                                                                @endphp
+                                                                    {{-- 満点の星を表示 --}}
+                                                                    @for ($i = 0; $i < $fullStars; $i++)
+                                                                    <i class="fa-solid fa-star text-warning"></i>
+                                                                    @endfor
+                                                                    
                                                                 {{-- 半点の星を表示 --}}
                                                                 @if ($halfStar)
-                                                                    <i
-                                                                        class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                                @endif
-
-                                                                {{-- 未満の星を表示 --}}
-                                                                @for ($i = 0; $i < $emptyStars; $i++)
+                                                                    <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                                                    @endif
+                                                                    
+                                                                    {{-- 未満の星を表示 --}}
+                                                                    @for ($i = 0; $i < $emptyStars; $i++)
                                                                     <i class="fa-regular fa-star text-warning"></i>
                                                                 @endfor
 
                                                                 {{ number_format($averageStarCount, 1) }}/5.0
+                                                                @if ($reviewCount > 0)
+                                                                    <p class="ms-2">({{ $reviewCount }})</p>
+                                                                @else
+                                                                    <p class="ms-2">(0)</p>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
