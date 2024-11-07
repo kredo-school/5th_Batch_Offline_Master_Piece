@@ -49,20 +49,25 @@
     <div class="row">
         <div class="col-7 mx-auto">
             <div class="bg-white rounded my-5 px-5 overflow-auto profile-list " style="height: 1100px">
-                <h2 class="h1 fw-bold text-grey mt-3">History</h2><br>
+                <h2 class="h1 fw-bold text-grey mt-4">History</h2><br>
 
 
                 @if($all_inventories)
                 @foreach ($all_inventories as $inventory)
                     @if ($inventory->stock && $inventory->stock > 0)
                         <div class="row mt-4">
-                            <div class="col-3 mt-3">
-                                <a href="{{ route('book.show_book', $inventory->book->id) }}" class="text-decoration-none ">
+                            <div class="col-3 mt-4">
+                                <span class="pb-0">Order date</span>
+                                <p class="mt-0 pt-0">{{$inventory->updated_at}}</p>
+                                <p class="mt-5"><a href="{{ route('book.show_book', $inventory->book->id) }}" class="text-decoration-none">
                                     <img src="{{ $inventory->book->image }}" alt="{{ $inventory->book->id }}"
                                         class="w-100 shadow">
-                                </a>
+                                </a></p>
+                                <p class="h2 mt-5 ms-1 text-danger">Stock:
+                                    {{ $inventory->book->inventory->first() ? $inventory->book->inventory->first()->stock : 'No stock data' }}
+                                </p>
                             </div>
-                            <div class="col-6 fs-32">
+                            <div class="col-9 ps-5 fs-32 ">
                                 <p>
                                     <a href="{{ route('book.show_book', $inventory->book->id) }}"
                                         class="text-decoration-none">
@@ -96,29 +101,14 @@
                                 {{ number_format($averageStarCount, 1) }}/5.0
                                 <p class="text-danger fs-32 mt-2">¥ {{ floor($inventory->book->price) }}</p>
                             </div>
-                            <div class="col-3">
+                            {{-- <div class="col-3">
                                 <div class="h-75 d-flex flex-column justify-content-between">
-                                    {{-- <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
-                                        data-bs-target="#delete-inventory-modal-{{ $inventory->book->id }}">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a> --}}
                                     <p class="h2">Stock:
                                         {{ $inventory->book->inventory->first() ? $inventory->book->inventory->first()->stock : 'No stock data' }}
                                     </p>
                                 </div>
 
-                                <!-- 数量調整のフィールド -->
-                                {{-- <div class="h-25 pt-1">
-                                    <input type="hidden" name="inventorys[{{ $index }}][book_id]"
-                                        value="{{ $inventory->book->id }}">
-                                    <div class="row mt-auto">
-                                        
-                                        <div class=" mb-5">
-                                            <p class="h2 ">Quantity:{{$inventory->quantity}} </p>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                            </div>
+                            </div> --}}
                         </div>
                         <hr>
                     @endif
