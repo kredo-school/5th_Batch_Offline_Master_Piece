@@ -618,6 +618,11 @@
     color: #32BF61;
 }
 
+.container-list{
+    width: 450px;
+    height: auto;
+}
+
 /* thread */
 .thread-title
 {
