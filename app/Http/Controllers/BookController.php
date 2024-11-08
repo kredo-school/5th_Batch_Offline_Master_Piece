@@ -42,23 +42,23 @@ class BookController extends Controller
     public function bookSuggestion(Request $request)
     {
         $userId = Auth::id();
-    
+
         // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
-    
+
         // 全ジャンルを取得
         $all_genres = $this->genre->all();
-    
+
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
-    
+
         // クエリの準備
         $query = Book::with('authors', 'reviews');
-    
+
         if ($selectedGenreId) {
             // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
@@ -72,7 +72,7 @@ class BookController extends Controller
                 ->whereIn('book_id', $purchasedBooks)
                 ->pluck('genre_id')
                 ->toArray();
-    
+
             $query->whereIn('books.id', function ($subQuery) use ($genres) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
@@ -82,14 +82,14 @@ class BookController extends Controller
             // 購入履歴がない場合、人気の本を新しい順に取得
             $query->orderBy('publication_date', 'desc');
         }
-    
+
         // 本を最大20件取得
         $suggestedBooks = $query->limit(30)->get();
-    
+
         // ビューにデータを渡す
         return view('users.guests.book.suggestion', compact('suggestedBooks','all_genres','selectedGenreId'));
     }
-    
+
 
 
 
@@ -97,7 +97,7 @@ class BookController extends Controller
     public function bookRanking(Request $request)
     {
         $all_genres = $this->genre->all();
-        
+
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
@@ -135,16 +135,15 @@ class BookController extends Controller
 
     public function bookNew(Request $request)
     {
-        
+
 
 
         $all_genres = $this->genre->all();
 
-    
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
-        
+
         $query = $this->book->with('authors', 'reviews');
 
 
@@ -163,13 +162,13 @@ class BookController extends Controller
                     ->whereIn('genre_id', $selectedGenreId);
             });
             $query->orderBy('publication_date', 'desc');
-            
+
         } else {
             $query->orderBy('publication_date', 'desc');
         }
 
-        $newedBooks = $query->limit(30)->get(); 
-    
+        $newedBooks = $query->limit(30)->get();
+
         return view('users.guests.book.new', compact('newedBooks','all_genres', 'selectedGenreId'));
     }
 
@@ -197,8 +196,8 @@ class BookController extends Controller
         $reviews = $this->review
             ->where('book_id', $id)
             ->with('book');
-            
-        
+
+
         $prefectures = [
             'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
             'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka',
@@ -207,7 +206,7 @@ class BookController extends Controller
             'Miyazaki', 'Kagoshima', 'Okinawa'
         ];
 
-        
+
         $sort = $request->get('sort', 'created_at');
 
         switch ($sort) {
@@ -224,25 +223,25 @@ class BookController extends Controller
 
         // クエリを実行してデータを取得
         $reviews = $reviews->get();
-        
+
         // Suggestion
         $userId = Auth::id();
-    
+
         // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
-    
+
         // 全ジャンルを取得
         $all_genres = $this->genre->all();
-    
+
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genre');
-    
+
         // クエリの準備
         $query = Book::with('authors', 'reviews');
-    
+
         if ($selectedGenreId) {
             // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
@@ -256,7 +255,7 @@ class BookController extends Controller
                 ->whereIn('book_id', $purchasedBooks)
                 ->pluck('genre_id')
                 ->toArray();
-    
+
             $query->whereIn('books.id', function ($subQuery) use ($genres) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
@@ -266,7 +265,7 @@ class BookController extends Controller
             // 購入履歴がない場合、人気の本を新しい順に取得
             $query->orderBy('publication_date', 'desc');
         }
-    
+
         // 本を最大20件取得
         $suggestedBooks = $query->limit(30)->get();
 
@@ -335,16 +334,16 @@ class BookController extends Controller
     {
         $review = $this->review->findOrFail($id);
         $review->delete();
-        
+
 
         return redirect()->back();
     }
 
 
-    
+
     public function bookInventory(Request $request, $id)
     {
-    
+
         $book = $this->book->findOrFail($id);
 
         // 選択された都道府県（デフォルトは "All Area"）
@@ -400,7 +399,7 @@ class BookController extends Controller
     }
 
 
-    
+
 
 
     public function addReserved(Request $request, $id)
@@ -435,14 +434,14 @@ class BookController extends Controller
 
             if ($amount > 0) {
                 $reserve = new Reserve();
-                $reserve->guest_id = Auth::user()->id;  
+                $reserve->guest_id = Auth::user()->id;
                 $reserve->book_id = $book_id;
                 $reserve->store_id = $storeId;
                 $reserve->quantity = $amount;
-                $reserve->reservation_number = null; 
-                $reserve->save();  
+                $reserve->reservation_number = null;
+                $reserve->save();
             }
-    
+
         }
 
         return redirect()->route('order.show')->with('success', 'Reservation successful!');
@@ -451,7 +450,7 @@ class BookController extends Controller
     public function authorShow($id)
     {
         $author = $this->author->findOrFail($id);
-        
+
 
         return view('users.guests.book.show_author',compact('author'));
     }
@@ -503,18 +502,39 @@ class BookController extends Controller
 
 
 
-    public function find(Request $request)
+    // public function find(Request $request)
+    // {
+    //     $isbnCode = $request->input('isbn_code');
+    //     $book = Book::where('isbn_code', $isbnCode)->first();
+
+    //     if ($book) {
+    //         return response()->json([
+    //             'title' => $book->title,
+    //             'price' => $book->price,
+    //         ]);
+    //     } else {
+    //         return response()->json(['message' => 'Book not found'], 404);
+    //     }
+    // }
+
+    public function findBook(Request $request)
     {
-        $isbnCode = $request->input('isbn_code');
-        $book = Book::where('isbn_code', $isbnCode)->first();
+        // ISBNコードのバリデーション
+        $request->validate([
+            'isbn_code' => 'required|string'
+        ]);
+
+        // ISBNコードで書籍を検索
+        $book = Book::where('isbn_code', $request->isbn_code)->first();
 
         if ($book) {
             return response()->json([
                 'title' => $book->title,
                 'price' => $book->price,
+                'book_id' => $book->id,
             ]);
         } else {
-            return response()->json(['message' => 'Book not found'], 404);
+            return response()->json(['error' => 'Book not found'], 404);
         }
     }
 
