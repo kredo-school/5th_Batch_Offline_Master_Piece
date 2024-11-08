@@ -193,8 +193,10 @@ class StoreController extends Controller
 
     public function bookList()
     {
-        // 1. Inventoryテーブルに存在するbook_idを取得
-        $inventory_books = Inventory::pluck('book_id')->toArray(); // Inventory にある book_id を配列として取得
+        $storeId = Auth::user()->id;
+        $inventory_books =  Inventory::where('store_id', $storeId)
+                            ->pluck('book_id')
+                            ->toArray();
 
         // 2. Inventoryに存在しないbook_idの本を取得
         $all_books = Book::whereNotIn('id', $inventory_books)->get();
