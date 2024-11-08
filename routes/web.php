@@ -137,6 +137,8 @@ Route::group(['middleware' => 'auth'], function ()
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
+        Route::get('/receipt', [StoreController::class, 'getReceipt'])->name('getReceipt');
+        Route::post('/checkout', [StoreController::class, 'checkout'])->name('checkout');
 
         // store edit周辺
 
@@ -153,7 +155,8 @@ Route::group(['middleware' => 'auth'], function ()
     // ストア情報の更新
     Route::patch('/{id}', [StoreController::class, 'update'])->name('update');
 
-        Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        // Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
+        Route::post('/books/find', [BookController::class, 'findBook'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
     });
 

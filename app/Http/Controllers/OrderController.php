@@ -22,9 +22,9 @@ class OrderController extends Controller
 
     public function NewConfirmShow(){
         $bookinfo = $this->order
-    ->join('author_books', 'author_books.book_id', '=', 'store_orders.book_id') // もしstore_ordersの中にbook_idがあるなら
-    ->join('books', 'books.id', '=', 'author_books.book_id') // こちらを正しいテーブル名に
-    ->join('authors', 'author_books.author_id', '=', 'authors.id')
+    ->join('authors_books', 'authors_books.book_id', '=', 'store_orders.book_id') // もしstore_ordersの中にbook_idがあるなら
+    ->join('books', 'books.id', '=', 'authors_books.book_id') // こちらを正しいテーブル名に
+    ->join('authors', 'authors_books.author_id', '=', 'authors.id')
     ->select('books.*', 'authors.name as author_name') // 必要なカラムを選択
     ->get();
 
