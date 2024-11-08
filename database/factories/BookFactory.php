@@ -24,7 +24,7 @@ class BookFactory extends Factory
             'publication_date' => $this->faker->date(),
             'publisher' => $this->faker->company(),
             'isbn_code' => $this->faker->unique()->isbn13(),
-            'price' => $this->faker->randomFloat(2, 10, 100),
+            'price' => $this->faker->numberBetween(10, 100),
             'image' => $this->faker->imageUrl(),
         ];
     }

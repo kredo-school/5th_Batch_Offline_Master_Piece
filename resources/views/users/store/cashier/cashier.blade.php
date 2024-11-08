@@ -304,7 +304,7 @@
                             .then(data => {
                                 if (data.success) {
                                     alert('Checkout completed successfully');
-                                    window.location.href = '/store/receipt';
+
                                 } else {
                                     alert('Error during checkout');
                                 }
@@ -315,6 +315,7 @@
                             });
                         });
                     });
+
                 </script>
 
                 <div style="display: flex; justify-content: flex-end;">
