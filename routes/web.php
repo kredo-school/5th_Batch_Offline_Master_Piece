@@ -153,16 +153,10 @@ Route::group(['middleware' => 'auth'], function () {
             // ストア情報の更新
             Route::patch('/{id}', [StoreController::class, 'update'])->name('update');
 
-<<<<<<< HEAD
-            Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
-            Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-        });
-=======
         // Route::post('/books/find', [BookController::class, 'find'])->name('books.find');
         Route::post('/books/find', [BookController::class, 'findBook'])->name('books.find');
         Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
     });
->>>>>>> main
 
         Route::group(['prefix' => 'bookmark', 'as' => 'bookmark.'], function () {
             Route::post('/{book_id}/store', [BookmarkController::class, 'store'])->name('store');

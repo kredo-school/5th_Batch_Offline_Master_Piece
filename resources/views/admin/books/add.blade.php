@@ -17,6 +17,23 @@
             <form action="{{ route('admin.books.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-header bg-white">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @elseif (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @elseif (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                     <div class="row mt-3 mb-3">
                         <div class="col text-center">
                             <label for="book-cover" class="form-label fw-semibold">Book Cover</label><br>
