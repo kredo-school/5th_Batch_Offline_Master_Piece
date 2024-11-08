@@ -9,6 +9,17 @@ class Receipt extends Model
 {
     use HasFactory;
 
+    protected $table = "receipts";
+    protected $fillable = [
+        'user_id',
+        'store_id',
+        'quantity',
+        'total_amount',
+        'received_amount',
+        'change_amount',
+        'payment_method'
+    ];
+
     public function receiptBook()
     {
         return $this->hasMany(ReceiptBook::class);
