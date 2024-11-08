@@ -27,7 +27,7 @@
 </div>
 
 <!--Active Modal -->
-<div class="modal fade" id="active-store-modal{{$store->id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+<div class="modal fade" id="active-store-modal-{{$store->id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content border-primary">
