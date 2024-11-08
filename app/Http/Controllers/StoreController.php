@@ -65,6 +65,7 @@ class StoreController extends Controller
             $inventory->store_id = $storeOrder->user_id; 
             $inventory->stock = $inventory->exists ? $inventory->stock + $storeOrder->quantity : $storeOrder->quantity;
             $inventory->save();
+            $storeOrder->delete();
         }
     
         // 最新の在庫情報を取得

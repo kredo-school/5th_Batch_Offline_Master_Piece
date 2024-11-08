@@ -89,18 +89,8 @@ class OrderController extends Controller
                 ] // amountを更新
             );
 
-            // $this->order->book_id = $book_id;
-            // $this->order->store_id =  Auth::user()->id;
-            // $this->order->amount = $amount;
-            // $this->order->save();
-            // dd($request);
 
-        } else {
-            // amountが0の場合はレコードを削除
-            Inventory::where('store_id', Auth::user()->id)
-                      ->where('book_id', $book_id)
-                      ->delete();
-        }
+        } 
     }
 
     return redirect()->route('store.newOrderConfirm'); // 新規発注確認画面へリダイレクト
