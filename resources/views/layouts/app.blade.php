@@ -166,6 +166,13 @@
                                                     <hr class="dropdown-divider">
                                                 @endcan
 
+                                                @can('store')
+                                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                                        <i class="fa-solid fa-user-group"></i> Guest page
+                                                    </a>
+                                                    <hr class="dropdown-divider">
+                                                @endcan
+
                                                 {{-- Profile --}}
                                                 <a href="{{ route('store.profile') }}" class="dropdown-item">
                                                     <i class="fa-solid fa-circle-user"></i> Profile
@@ -236,10 +243,11 @@
                                                 </a>
                                                 <hr class="dropdown-divider">
                                             @endcan
+                                            
 
                                             {{-- Profile --}}
                                             <a href="{{ route('home') }}" class="dropdown-item">
-                                                <i class="fa-solid fa-circle-user"></i> Guest page
+                                                <i class="fa-solid fa-user-group"></i> Guest page
                                             </a>
 
                                         </div>
@@ -291,7 +299,7 @@
                                                 <a class="dropdown-item" href="{{ url('/store/home') }}">
                                                     <i class="fa-solid fa-shop"></i> Store page
                                                 </a>
-                                                <hr>
+                                                <hr class="dropdown-divider">
                                             @endcan
                                             {{-- Profile --}}
                                             <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
@@ -410,16 +418,4 @@
 
     {{-- jQuery ライブラリ  --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-    {{-- sort in the same page --}}
-    <script>
-        document.getElementById('genreSelect').addEventListener('change', function() {
-            const genreId = this.value;
-            if (genreId) {
-                window.location.href = `/thread/home?genre_id=${genreId}`; // ジャンルIDをクエリパラメータに追加してURLを生成
-            } else {
-                window.location.href = '/thread/home'; // ジャンルが未選択の場合は全ての本を表示するページに戻る
-            }
-        });
-    </script>
 

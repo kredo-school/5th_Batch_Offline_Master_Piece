@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
             Route::get('/home', [HomeController::class, 'index'])->name('home');
             Route::match(['get', 'post'], '/genrehome', [HomeController::class, 'genreHome'])->name('genreHome');
+            Route::match(['get', 'post'], '/genrehome/fromfooter/{genre_id}', [HomeController::class, 'genreHomeFromFooter'])->name('genreHome.fromfooter');
             Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
                 Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
                 Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
@@ -106,7 +107,8 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
 
             Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
-            Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            Route::patch('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            
             Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
             Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
             Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
@@ -118,7 +120,7 @@ Route::group(['middleware' => 'auth'], function ()
         });
 
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
-        Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        // Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
         Route::get('/new-confirm/order', [OrderController::class, 'NewConfirmShow'])->name('NewConfirmShow');
 
@@ -130,7 +132,7 @@ Route::group(['middleware' => 'auth'], function ()
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
         Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
@@ -211,8 +213,12 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
             // reports
-            Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
-            Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
+            Route::group(['prefix' => 'reports', 'as' => 'reports.'], function(){
+                Route::get('/index',[ReportsController::class,'index'])->name('index');
+                Route::get('/search',[ReportsController::class,'search'])->name('search');
+                Route::post('/store',[ReportsController::class,'store'])->name('store');
+                Route::delete('/reason/destroy/{reason}',[ReportsController::class,'reasonDestroy'])->name('reason.destroy');
+            });
         });
 
 

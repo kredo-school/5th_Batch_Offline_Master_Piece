@@ -21,6 +21,12 @@
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list">
                 <h2 class="h1 fw-bold text-grey mt-3">Order</h2>
+                @if ($user->histories->isEmpty())
+
+                <div class="d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <p class="text-center h1">No data yet</p>
+                </div>
+                @else
 
                 @foreach ($user->histories as $history)
                     <div class="row mt-4">
@@ -31,11 +37,11 @@
                             </a>
                         </div>
                         <div class="col-6 fs-32">
-                                <a href="{{ route('book.show_book', $history->book->id) }}" class="text-decoration-none">
+                                <a href="{{ route('book.show_book', $history->book->id) }}" class="text-decoration-none text-dark">
                                     <p class="fs-32">{{ $history->book->title }}</p>
                                 </a>
                                 @foreach ($history->book->authors as $author)
-                                    <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none">
+                                    <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none text-dark">
                                         <p class="h4">{{ $author->name }}</p>
                                     </a>
                                 @endforeach
@@ -85,7 +91,7 @@
 
                             </div>
                             <div class="h-25 pt-3">
-                                <a href="{{ route('book.store_list') }}" class="btn btn-orange bottom-0 w-100">Select
+                                <a href="{{ route('book.inventory', $history->book->id)  }}" class="btn btn-orange bottom-0 w-100">Select
                                     Store</a>
                             </div>
 
@@ -98,7 +104,7 @@
                     <hr>
                 @endforeach
 
-
+                @endif
 
 
             </div>

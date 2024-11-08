@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Models\Reason;
 
 class ReportController extends Controller
 {
@@ -19,12 +20,12 @@ class ReportController extends Controller
     public function report(Request $request, Comment $comment)
     {
         $request->validate([
-            'spam' => 'required'
+            'reason' => 'required'
         ]);
 
         $this->report->comment_id = $comment->id;
         $this->report->guest_id = $comment->user->id;
-        $this->report->reason_id = $request->spam;
+        $this->report->reason_id = $request->reason;
         $this->report->save();
 
         return redirect()->back();
@@ -80,8 +81,4 @@ class ReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Report $report)
-    {
-        //
-    }
 }

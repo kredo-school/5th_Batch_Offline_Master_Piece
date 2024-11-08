@@ -20,7 +20,7 @@
                         <input type="text" id="searchInput" name="search"
                             class="form-control form-control-sm searchInput" 
                             style="height: calc(2em + .75rem + 2px); width: 400px;"
-                            value="{{ request('search') }}" placeholder="Search genres...">
+                            value="{{ request('search') }}" placeholder="Search Stores...">
                             <span id="clearButton" class="clearButton">&times;</span>
                     </div>
                     <div class="col ps-1">

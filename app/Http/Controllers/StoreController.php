@@ -17,6 +17,7 @@ use App\Models\Reserve;
 use App\Models\Receipt;
 use App\Models\ReceiptBook;
 
+use App\Http\Controllers\Admin\OrderController;
 
 
 
@@ -29,20 +30,19 @@ class StoreController extends Controller
     private $inventory;
     private $review;
     private $reserve;
-
+    private $storeOrder;
     private $user;
     private $profile;
     private $receipt;
 
-    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Profile $profile, Reserve $reserve, Receipt $receipt)
+    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Profile $profile, Reserve $reserve,StoreOrder $storeOrder, Receipt $receipt)
     {
         $this->store = $user;
         $this->book = $book;
         $this->inventory = $inventory;
         $this->review = $review;
         $this->reserve = $reserve;
-
-        $this->user = $user;
+        $this->storeOrder = $storeOrder;
         $this->profile = $profile;
         $this->receipt = $receipt;
     }
@@ -53,15 +53,32 @@ class StoreController extends Controller
         return view('users.store.books.new-order-confirm', compact('user'));
     }
 
-    public function orderConfirm()
-    {
-        return view('users.store.books.order-confirm');
-    }
+    // public function orderConfirm()
+    // {
+    //     return view('users.store.books.order-confirm');
+    // }
+
 
     public function ordered()
     {
-        return view('users.store.books.ordered');
+        $user = Auth::user();
+        $all_storeOrders = $this->storeOrder->all();
+
+        // 在庫の更新
+        foreach ($all_storeOrders as $storeOrder) {
+            $inventory = $this->inventory->firstOrNew(['book_id' => $storeOrder->book_id]);
+            $inventory->store_id = $storeOrder->user_id;
+            $inventory->stock = $inventory->exists ? $inventory->stock + $storeOrder->quantity : $storeOrder->quantity;
+            $inventory->save();
+        }
+
+        // 最新の在庫情報を取得
+        $all_inventories = $user->inventories;
+
+        return view('users.store.books.ordered', compact('user', 'all_inventories', 'all_storeOrders'));
     }
+
+
 
     public function analysis(Request $request)
     {
@@ -204,9 +221,14 @@ class StoreController extends Controller
         return view('users.store.cashier.receipt');
     }
 
-    public function storeSearch()
+    public function storeSearch(Request $request)
     {
-        return view('users.store.books.search');
+        $query = $request->input('search');
+        // 書籍をタイトルや著者名などで検索する例
+        $books = Book::where('title', 'LIKE', "%{$query}%")
+        ->orWhere('author_name', 'LIKE', "%{$query}%")
+        ->get();
+        return view('users.store.books.search', compact('books'));
     }
 
     public function inventory()
@@ -283,11 +305,26 @@ class StoreController extends Controller
 
         // リダイレクト先の設定
         if (str_contains($referer, '/store/new-confirm')) {
-            return redirect()->route('store.newOrderConfirm', compact('user'));
+            return redirect()->route('store.orderConfirm', compact('user'));
         } else {
-            return redirect()->back()->with('success', 'Orders have been successfully updated.');
+            return redirect()->route('store.orderConfirm')->with('success', 'Orders have been successfully updated.');
         }
 
+    }
+
+    public function OrderConfirm()
+    {
+        $user = Auth::user();
+
+        $all_storeOrders = $this->storeOrder->all();
+        $total_quantity = 0;
+        $total_price = 0;
+        foreach($all_storeOrders as $storeOrder){
+            $total_quantity += $storeOrder->quantity;
+            $total_price += $storeOrder->quantity * $storeOrder->book->price;
+        }
+
+        return view('users.store.books.order-confirm', compact('user','total_quantity','total_price'));
     }
 
     public function deleteOrder($id)
@@ -331,12 +368,20 @@ class StoreController extends Controller
 
 
     // ストアのプロフィール表示
+    // public function profile()
+    // {
+    //     $store = Auth::user(); // もしくは `$this->store`を使用
+    //     return view('users.store.profile', compact('store'));
+    //     // return view('users.store.profile');
+    // }
     public function profile()
-    {
-        $store = Auth::user(); // もしくは `$this->store`を使用
-        return view('users.store.profile', compact('store'));
-        // return view('users.store.profile');
-    }
+{
+    $store = Auth::user(); // ログインユーザー情報
+    $profile = $store->profile; // Profile情報を取得
+
+
+    return view('users.store.profile', compact('store', 'profile'));
+}
 
     // ストアの編集ページ表示
     public function edit($id)
@@ -385,7 +430,7 @@ class StoreController extends Controller
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email',
-        'phone' => 'required|digits_between:10,15',
+        'phone' => 'required|digits_between:10,16',
         'prefecture' => 'required',
         'address' => 'required|string|max:255',
         'introduction' => 'required|string|max:5000',

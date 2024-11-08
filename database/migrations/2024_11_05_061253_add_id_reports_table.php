@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::table('reports', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('reason_id')->after('guest_id');
-
-            $table->foreign('reason_id')->references('id')->on('reasons');
+            $table->id()->first();
         });
     }
 
@@ -26,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('reports', function (Blueprint $table) {
             //
+            $table->dropColumn('id');
         });
     }
 };

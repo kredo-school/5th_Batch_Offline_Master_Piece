@@ -53,7 +53,8 @@ class BookController extends Controller
         $all_genres = $this->genre->all();
 
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
-        $selectedGenreId = $request->input('genre');
+        $selectedGenreId = $request->input('genres', []);
+
 
         // クエリの準備
         $query = Book::with('authors', 'reviews');
@@ -63,7 +64,7 @@ class BookController extends Controller
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
-                    ->where('genre_id', $selectedGenreId);
+                    ->whereIn('genre_id', $selectedGenreId);
             });
         } elseif (!empty($purchasedBooks)) {
             // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
@@ -83,7 +84,7 @@ class BookController extends Controller
         }
 
         // 本を最大20件取得
-        $suggestedBooks = $query->limit(20)->get();
+        $suggestedBooks = $query->limit(30)->get();
 
         // ビューにデータを渡す
         return view('users.guests.book.suggestion', compact('suggestedBooks','all_genres','selectedGenreId'));
@@ -98,7 +99,7 @@ class BookController extends Controller
         $all_genres = $this->genre->all();
 
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
-        $selectedGenreId = $request->input('genre');
+        $selectedGenreId = $request->input('genres', []);
 
         // 基本となるクエリを設定
         $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
@@ -112,7 +113,7 @@ class BookController extends Controller
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
-                    ->where('genre_id', $selectedGenreId);
+                    ->whereIn('genre_id', $selectedGenreId);
             });
         }
 
@@ -122,34 +123,51 @@ class BookController extends Controller
             ->limit(20)
             ->get();
 
+        // idでグループ化して、最初の1件だけを残す
+        $rankedBooks = $rankedBooks->groupBy('id')->map(function ($group) {
+            return $group->first(); // 同じidの本があれば、最初の1件を取得
+        })->values(); // インデックスを振り直す
+
+
         return view('users.guests.book.ranking', compact('rankedBooks', 'all_genres', 'selectedGenreId'));
     }
 
 
     public function bookNew(Request $request)
     {
+
+
+
         $all_genres = $this->genre->all();
 
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
-        $selectedGenreId = $request->input('genre');
+        $selectedGenreId = $request->input('genres', []);
+
 
         $query = $this->book->with('authors', 'reviews');
 
+
+        if (!empty($selectedGenreId) && !in_array('all', $selectedGenreId)) {
+            $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->whereIn('genre_id', $selectedGenreId); // 複数ジャンルに対応
+            });
+        }
         if ($selectedGenreId) {
             // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
-                    ->where('genre_id', $selectedGenreId);
+                    ->whereIn('genre_id', $selectedGenreId);
             });
-
             $query->orderBy('publication_date', 'desc');
 
         } else {
             $query->orderBy('publication_date', 'desc');
         }
 
-        $newedBooks = $query->limit(20)->get();
+        $newedBooks = $query->limit(30)->get();
 
         return view('users.guests.book.new', compact('newedBooks','all_genres', 'selectedGenreId'));
     }
@@ -249,7 +267,7 @@ class BookController extends Controller
         }
 
         // 本を最大20件取得
-        $suggestedBooks = $query->limit(20)->get();
+        $suggestedBooks = $query->limit(30)->get();
 
 
 
@@ -294,7 +312,7 @@ class BookController extends Controller
         $request->validate([
             'review_title' => 'required|min:1|max:30',
             'review_content' => 'required|min:1|max:1000',
-            'star-rating' => 'required',
+            'star-rating' => 'required|integer|min:1|max:5'
         ]);
 
         $book_id = $id;
@@ -305,7 +323,7 @@ class BookController extends Controller
         $this->review->title = $request->review_title;
         $this->review->body  = $request->review_content;
         $this->review->book_id  = $book_id;
-        $this->review->star_count = $request->rating;
+        $this->review->star_count = $request->input('star-rating');
 
         $this->review->save();
 
@@ -325,6 +343,7 @@ class BookController extends Controller
 
     public function bookInventory(Request $request, $id)
     {
+
         $book = $this->book->findOrFail($id);
 
         // 選択された都道府県（デフォルトは "All Area"）
@@ -342,6 +361,10 @@ class BookController extends Controller
         // 店舗名の検索
         ->when($searchQuery, function ($query) use ($searchQuery) {
             return $query->where('name', 'LIKE', "%{$searchQuery}%");
+        })
+        ->whereHas('inventories', function ($query) use ($id) {
+            $query->where('book_id', $id) // 指定された本IDが在庫にある
+                  ->whereNotNull('store_id'); // store_idがnullでないものを取得
         })
         // 関連するstoreBooksとそのbookを取得
         ->with(['inventories' => function ($query) {
@@ -381,13 +404,28 @@ class BookController extends Controller
 
     public function addReserved(Request $request, $id)
     {
-        // dd($request->all(), Auth::user());
+        // dd($request->all());
 
-        $request->validate([
-            'store_ids' => 'required|array',
-            'quantities' => 'required|array',
+        $rules = [];
 
-        ]);
+        // 各store_idごとに動的なバリデーションルールを作成
+        foreach ($request->input('store_ids', []) as $storeId) {
+            $rules["quantities.$storeId"] = 'nullable|integer|min:1|max:100';
+        }
+
+        // カスタムエラーメッセージを設定
+        $messages = [
+            'quantities.*.max' => 'The quantity for this store must not be greater than 100.',
+            'quantities.*.min' => 'The quantity for this store must be at least 1.',
+            'quantities.*.integer' => 'The quantity for this store must be a valid number.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
+
+        // 全ての数量が null または 0 の場合のエラーメッセージ
+        if (collect($validated['quantities'])->filter(fn($quantity) => $quantity !== null && $quantity > 0)->isEmpty()) {
+            return redirect()->back()->withErrors(['quantities' => 'Please put QUANTITY in at least one store.']);
+        }
 
         $book_id = $id;
 
@@ -408,17 +446,6 @@ class BookController extends Controller
 
         return redirect()->route('order.show')->with('success', 'Reservation successful!');
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public function authorShow($id)
     {

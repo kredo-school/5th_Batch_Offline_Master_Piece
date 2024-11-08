@@ -1,5 +1,5 @@
 <div class="modal fade" id="genre-modal">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content border-0  genre-modal-bg w-75 p-3">
             <div class="modal-header border-secoondaryr">
                 <h5 class="modal-title text-secondary ps-4 p-0">
@@ -8,7 +8,7 @@
             </div>
             <form action="{{route('genreHome')}}" method="post">
                 @csrf
-                <div class="modal-body text-secondary mx-auto d-flex flex-column flex-wrap" style="height: 200px;">
+                <div class="modal-body text-secondary mx-auto d-flex flex-column flex-wrap" style="height: 300px;">
 
                     @foreach ($all_genres as $genre)
                         <div class="form-check">
@@ -23,7 +23,7 @@
 
                 </div>
                 <div class="text-end">
-                    <input type="checkbox" id="selectAll" form-check-input>
+                    <input type="checkbox" id="selectAll" class="form-check-input">
                     <label class="form-check-label" for="selectAll">Select All</label>
 
                 </div>
@@ -38,7 +38,7 @@
     document.getElementById('selectAll').addEventListener('click', function(event) {
         const checkboxes = document.querySelectorAll('.checkbox-item');
         const isChecked = event.target.checked;
-        
+
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = isChecked;
         });
@@ -46,7 +46,7 @@
 
     // 個別のチェックボックスが外されたら「全選択」も外れる機能
     const individualCheckboxes = document.querySelectorAll('.checkbox-item');
-    
+
     individualCheckboxes.forEach(function(checkbox) {
         checkbox.addEventListener('click', function() {
             const allChecked = document.querySelectorAll('.checkbox-item:checked').length === individualCheckboxes.length;
