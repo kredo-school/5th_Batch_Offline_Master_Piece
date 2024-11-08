@@ -14,6 +14,9 @@ use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\Reserve;
+use App\Models\Receipt;
+use App\Models\ReceiptBook;
+
 use App\Http\Controllers\Admin\OrderController;
 
 
@@ -30,8 +33,9 @@ class StoreController extends Controller
     private $storeOrder;
     private $user;
     private $profile;
+    private $receipt;
 
-    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Reserve $reserve, StoreOrder $storeOrder, Profile $profile )
+    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Profile $profile, Reserve $reserve,StoreOrder $storeOrder, Receipt $receipt)
     {
         $this->store = $user;
         $this->book = $book;
@@ -40,6 +44,7 @@ class StoreController extends Controller
         $this->reserve = $reserve;
         $this->storeOrder = $storeOrder;
         $this->profile = $profile;
+        $this->receipt = $receipt;
     }
 
     public function newOrderConfirm()
@@ -58,22 +63,22 @@ class StoreController extends Controller
     {
         $user = Auth::user();
         $all_storeOrders = $this->storeOrder->all();
-    
+
         // 在庫の更新
         foreach ($all_storeOrders as $storeOrder) {
             $inventory = $this->inventory->firstOrNew(['book_id' => $storeOrder->book_id]);
-            $inventory->store_id = $storeOrder->user_id; 
+            $inventory->store_id = $storeOrder->user_id;
             $inventory->stock = $inventory->exists ? $inventory->stock + $storeOrder->quantity : $storeOrder->quantity;
             $inventory->save();
             $storeOrder->delete();
         }
-    
+
         // 最新の在庫情報を取得
         $all_inventories = $user->inventories;
-    
+
         return view('users.store.books.ordered', compact('user', 'all_inventories', 'all_storeOrders'));
     }
-    
+
 
 
     public function analysis(Request $request)
@@ -374,7 +379,7 @@ class StoreController extends Controller
 {
     $store = Auth::user(); // ログインユーザー情報
     $profile = $store->profile; // Profile情報を取得
-    
+
 
     return view('users.store.profile', compact('store', 'profile'));
 }
@@ -395,11 +400,11 @@ class StoreController extends Controller
             'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki',
             'Kagoshima', 'Okinawa'
         ];
-        
+
         // ユーザー情報を取得
         $store = User::with('profile')->findOrFail($id); // プロファイルも一緒に取得
         // $store = User::findOrFail($id);
-        
+
 
         return view('users.store.edit', [
             'prefectures' => $prefectures,
@@ -451,6 +456,45 @@ class StoreController extends Controller
 
     return back()->with('success', 'Store information has been changed.');
 }
+
+    public function checkout(Request $request)
+    {
+        $data = $request->validate([
+            'user_id'           => 'required|exists:users,id',
+            'total_amount'      => 'required|numeric',
+            'received_amount'   => 'required|numeric',
+            'change_amount'     => 'required|numeric',
+            'payment_method'    => 'required|string',
+            'books'             => 'required|array'
+        ]);
+
+        $receipt = Receipt::create([
+            'user_id'           => $data['user_id'],
+            'store_id'          => auth()->id(),
+            'quantity'          => array_sum(array_column($data['books'], 'quantity')),
+            'total_amount'      => $data['total_amount'],
+            'received_amount'   => $data['received_amount'],
+            'change_amount'     => $data['change_amount'],
+            'payment_method'    => $data['payment_method']
+        ]);
+
+        foreach ($data['books'] as $book) {
+            ReceiptBook::create([
+                'receipt_id' => $receipt->id,
+                'book_id' => $book['book_id'],
+                'quantity' => $book['quantity']
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getReceipt()
+    {
+        $receipts = $this->receipt->with('receiptBook.book')->get();
+        $latestData = $this->receipt->with('receiptBook.book')->orderBy('created_at', 'desc')->first();
+        return view('users.store.cashier.receipt', compact('receipts','latestData'));
+    }
 }
 
 
