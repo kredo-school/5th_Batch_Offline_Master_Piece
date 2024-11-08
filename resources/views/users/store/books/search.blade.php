@@ -82,7 +82,7 @@
                         <th style="width: 15%;">ISBN</th>
                     </thead>
                     <tbody>
-                        
+
                         @foreach ($books as $book)
                             <tr onclick="window.location='{{ route('store.bookInformation', $book->id) }}';" style="cursor: pointer;">
                                 <td style="width: 5%;">{{ $loop->iteration }}</td>
@@ -91,8 +91,8 @@
                                 </td>
                                 <td style="width: 15%;">{!! highlightKeyword($book->title, $searchQuery) !!}</td>
                                 <td style="width: 15%;">
-                                    @foreach ($book->authors_books as $authors_books)
-                                        {!! highlightKeyword($authors_books->author->name, $searchQuery) !!}
+                                    @foreach ($book->authors as $author_books)
+                                        {!! highlightKeyword($author_books->name, $searchQuery) !!}
                                     @endforeach
                                 </td>
                                 <td style="width: 15%;">{!! highlightKeyword($book->publisher, $searchQuery) !!}</td>

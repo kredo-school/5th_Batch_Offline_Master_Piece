@@ -14,6 +14,9 @@ use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\Reserve;
+use App\Models\Receipt;
+use App\Models\ReceiptBook;
+
 
 
 
@@ -29,8 +32,9 @@ class StoreController extends Controller
 
     private $user;
     private $profile;
+    private $receipt;
 
-    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Profile $profile, Reserve $reserve)
+    public function __construct(User $user, Book $book, Inventory $inventory, Review $review, Profile $profile, Reserve $reserve, Receipt $receipt)
     {
         $this->store = $user;
         $this->book = $book;
@@ -40,6 +44,7 @@ class StoreController extends Controller
 
         $this->user = $user;
         $this->profile = $profile;
+        $this->receipt = $receipt;
     }
 
     public function newOrderConfirm()
@@ -349,11 +354,11 @@ class StoreController extends Controller
             'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki',
             'Kagoshima', 'Okinawa'
         ];
-        
+
         // ユーザー情報を取得
         $store = User::with('profile')->findOrFail($id); // プロファイルも一緒に取得
         // $store = User::findOrFail($id);
-        
+
 
         return view('users.store.edit', [
             'prefectures' => $prefectures,
@@ -405,6 +410,45 @@ class StoreController extends Controller
 
     return back()->with('success', 'Store information has been changed.');
 }
+
+    public function checkout(Request $request)
+    {
+        $data = $request->validate([
+            'user_id'           => 'required|exists:users,id',
+            'total_amount'      => 'required|numeric',
+            'received_amount'   => 'required|numeric',
+            'change_amount'     => 'required|numeric',
+            'payment_method'    => 'required|string',
+            'books'             => 'required|array'
+        ]);
+
+        $receipt = Receipt::create([
+            'user_id'           => $data['user_id'],
+            'store_id'          => auth()->id(),
+            'quantity'          => array_sum(array_column($data['books'], 'quantity')),
+            'total_amount'      => $data['total_amount'],
+            'received_amount'   => $data['received_amount'],
+            'change_amount'     => $data['change_amount'],
+            'payment_method'    => $data['payment_method']
+        ]);
+
+        foreach ($data['books'] as $book) {
+            ReceiptBook::create([
+                'receipt_id' => $receipt->id,
+                'book_id' => $book['book_id'],
+                'quantity' => $book['quantity']
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getReceipt()
+    {
+        $receipts = $this->receipt->with('receiptBook.book')->get();
+        $latestData = $this->receipt->with('receiptBook.book')->orderBy('created_at', 'desc')->first();
+        return view('users.store.cashier.receipt', compact('receipts','latestData'));
+    }
 }
 
 

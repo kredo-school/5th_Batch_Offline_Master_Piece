@@ -85,10 +85,10 @@ class HomeController extends Controller
                 ->limit(20)
                 ->get();
         }
-    
+
         return $suggestionedBooks;
     }
-    
+
 
     /**
      * ランキング本を取得するメソッド
@@ -147,20 +147,20 @@ class HomeController extends Controller
             // GETリクエストでアクセスされた場合、別のページにリダイレクトする
             return redirect()->route('home'); // 適切なフォームページにリダイレクト
         }
-    
+
         $request->validate([
             'genres' => 'required|array',
         ]);
-    
+
         // ジャンルに基づいた本を取得
         $selected_genres = $request->genres;
         $suggestionedBooks = $this->bookSuggestion($selected_genres);
         $rankedBooks = $this->bookRanking($selected_genres);
         $newedBooks = $this->bookNew($selected_genres);
         $threads = Thread::latest()->limit(5)->get();
-    
+
         return view('users.guests.home', compact('suggestionedBooks', 'rankedBooks', 'newedBooks','threads'));
     }
-    
+
 
 }

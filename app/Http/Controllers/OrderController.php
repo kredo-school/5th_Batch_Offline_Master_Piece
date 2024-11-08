@@ -22,9 +22,9 @@ class OrderController extends Controller
 
     public function NewConfirmShow(){
         $bookinfo = $this->order
-    ->join('author_books', 'author_books.book_id', '=', 'store_orders.book_id') // もしstore_ordersの中にbook_idがあるなら
-    ->join('books', 'books.id', '=', 'author_books.book_id') // こちらを正しいテーブル名に
-    ->join('authors', 'author_books.author_id', '=', 'authors.id')
+    ->join('authors_books', 'authors_books.book_id', '=', 'store_orders.book_id') // もしstore_ordersの中にbook_idがあるなら
+    ->join('books', 'books.id', '=', 'authors_books.book_id') // こちらを正しいテーブル名に
+    ->join('authors', 'authors_books.author_id', '=', 'authors.id')
     ->select('books.*', 'authors.name as author_name') // 必要なカラムを選択
     ->get();
 
@@ -62,7 +62,7 @@ class OrderController extends Controller
             $inventory->stock = 0;
             $inventory->save();
         }
-        
+
         return redirect()->route('store.inventory');
     }
 
@@ -70,7 +70,7 @@ class OrderController extends Controller
 
     public function addToNewconfirm(StoreInventoryRequest $request)
 {
-   
+
     $validated = $request->validated();
     Log::info('count');
     Log::info(count($validated['book_id']));
@@ -83,7 +83,7 @@ class OrderController extends Controller
         if($amount > 0) {
             // 正のamountならレコードを保存または更新
             StoreOrder::create(
-                [   'book_id' => $book_id, 
+                [   'book_id' => $book_id,
                     'user_id' => Auth::user()->id, // 条件に基づきレコードを探す
                     'quantity' => $amount,
                 ] // amountを更新
@@ -128,13 +128,13 @@ class OrderController extends Controller
 
 public function deleteInventory($book_id)
 {
-   
+
     Inventory::where('store_id', Auth::user()->id)
               ->where('book_id', $book_id)
               ->delete();
 
     // dd($book_id);
-    
+
     return redirect()->route('store.inventory'); // 在庫画面にリダイレクト
 }
 
