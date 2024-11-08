@@ -92,7 +92,10 @@
                                         <p class="h4">{{$book->author_name}}</p>
                                     </div>
                                     <div class="mt-5">
-                                        <div class="form-check float-end">
+                                        <div class="form-check">
+                                            <label for="{{$book->title}}" class="form-check-label fs-5 mt-3">
+                                                Add this book to order list
+                                            </label>
                                             <input type="checkbox" value="{{$book->id}}" name="book_id[]" id="{{$book->title}}" class="form-check-input">
                                         </div>
                    

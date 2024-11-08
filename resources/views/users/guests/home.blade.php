@@ -17,7 +17,7 @@
                     </div>
                     <div class="col text-end ">
                         <p class="text-end mt-3 mb-0">
-                            <a href="{{ route('book.ranking') }}" class="text-grey fs-24">
+                            <a href="{{ route('book.ranking', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="col text-end ">
                         <p class="text-end mt-3 mb-0">
-                            <a href="{{ route('book.suggestion') }}" class="text-grey fs-24">
+                            <a href="{{ route('book.suggestion', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
@@ -196,7 +196,7 @@
                         <p class="text-end mt-3 mb-0">
                         <form action="{{ route('book.new') }}" method="get">
                             <input type="hidden" name="genre" value="">
-                            <a href="" class="text-grey fs-24">
+                            <a href="{{ route('book.new', ['genres' => $selected_genres]) }}" class="text-grey fs-24">
                                 more <span class="h4"><i class="fa-solid fa-chevron-right"></i><i
                                         class="fa-solid fa-chevron-right"></i></span>
                             </a>
@@ -299,8 +299,8 @@
 
             {{-- advertisement --}}
             <div class="mt-5">
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="mt-2">
+                @for ($i = 0; $i < 4; $i++)
+                    <div class="mt-3">
                         <a href="#" class="text-decoration-none text-white">
                             <div class="bg-adv mx-auto">
                                 <p class="h1 ">Advertisement</p>

@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('store', function ($user) {
             # Checks if user has store role ID.
-            return $user->role_id === User::STORE_ROLE_ID ||$user->role_id === User::ADMIN_ROLE_ID;
+            return $user->role_id === User::STORE_ROLE_ID || $user->role_id === User::ADMIN_ROLE_ID;
         });
 
         Paginator::useBootstrap();
@@ -49,5 +49,16 @@ class AppServiceProvider extends ServiceProvider
 
         // for footer
         View::share('all_genres', Genre::all());
+
+        View::share('regions', [
+            'Hokkaido' => ['Hokkaido'],
+            'Tohoku' => ['Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima'],
+            'Kanto' => ['Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa'],
+            'Chubu' => ['Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi'],
+            'Kansai' => ['Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama'],
+            'Chugoku' => ['Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi'],
+            'Shikoku' => ['Tokushima', 'Kagawa', 'Ehime', 'Kochi'],
+            'Kyushu' => ['Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa']
+        ]);
     }
 }

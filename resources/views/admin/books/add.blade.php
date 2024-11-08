@@ -19,23 +19,6 @@
                 <div class="card-header bg-white">
                     <div class="row mt-3 mb-3">
                         <div class="col text-center">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @elseif (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @elseif (session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             <label for="book-cover" class="form-label fw-semibold">Book Cover</label><br>
                             <i class="fa-solid fa-book book-lg"></i>
                             <input type="file" name="image" id="book-cover" class="form-control w-50 mx-auto mt-4" value="{{old('image')}}">

@@ -83,3 +83,16 @@
         @endif
     </div>
 </div>
+
+
+{{-- sort in the same page --}}
+<script>
+    document.getElementById('genreSelect').addEventListener('change', function() {
+        const genreId = this.value;
+        if (genreId) {
+            window.location.href = `/thread/home?genre_id=${genreId}`; // ジャンルIDをクエリパラメータに追加してURLを生成
+        } else {
+            window.location.href = '/thread/home'; // ジャンルが未選択の場合は全てのスレッドを表示するページに戻る
+        }
+    });
+</script>

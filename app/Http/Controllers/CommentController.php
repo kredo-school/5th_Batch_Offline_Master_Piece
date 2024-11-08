@@ -8,14 +8,11 @@ use App\Models\Thread;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Http\Requests\ThreadCommentRequest;
 
 class CommentController extends Controller
 {
-    use SoftDeletes;
-
     private $comment;
     public function __construct(Comment $comment)
     {
@@ -132,6 +129,12 @@ class CommentController extends Controller
         //
         $comment = $this->comment->find($id);
         $comment->delete();
+
+        if($comment->reports){
+            foreach($comment->reports as $report){
+                $report->delete();
+            }
+        }
 
         return redirect()->back();
     }

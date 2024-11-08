@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('reports', function (Blueprint $table) {
-            //
-            $table->unsignedBigInteger('reason_id')->after('guest_id');
-
-            $table->foreign('reason_id')->references('id')->on('reasons');
+        Schema::table('store_orders', function (Blueprint $table) {
+            $table->string('ordered')->nullable()->after('quantity');
         });
     }
 
@@ -24,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('reports', function (Blueprint $table) {
-            //
+        Schema::table('store_orders', function (Blueprint $table) {
+            $table->dropColumn('ordered');
         });
     }
 };

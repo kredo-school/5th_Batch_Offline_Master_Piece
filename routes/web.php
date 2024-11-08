@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/policy', [HomeController::class, 'policy'])->name('policy');
             Route::get('/home', [HomeController::class, 'index'])->name('home');
             Route::match(['get', 'post'], '/genrehome', [HomeController::class, 'genreHome'])->name('genreHome');
+            Route::match(['get', 'post'], '/genrehome/fromfooter/{genre_id}', [HomeController::class, 'genreHomeFromFooter'])->name('genreHome.fromfooter');
             Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
                 Route::get('/{id}/show',[ProfileController::class,'show'])->name('show');
                 Route::get('/{id}/bookmark',[ProfileController::class,'bookmark'])->name('bookmark');
@@ -106,7 +107,8 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/new-confirm/order', [OrderController::class, 'storeNewConfirmShow'])->name('storeNewConfirmShow');
 
             Route::get('/confirm', [StoreController::class, 'orderConfirm'])->name('orderConfirm');
-            Route::get('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            Route::patch('/ordered', [StoreController::class, 'ordered'])->name('ordered');
+            
             Route::get('/analysis', [StoreController::class, 'analysis'])->name('analysis');
             Route::get('/confirm/reservation/list', [StoreController::class, 'reservationList'])->name('reservationList');
             Route::get('/confirm/reservation/show/{reserve_id}', [StoreController::class, 'reservationShow'])->name('reservationShow');
@@ -116,31 +118,31 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
             // Route::get('/inventory/backend', [InventoryController::class, 'index'])->name('inventory.index');
         });
-        
+
     Route::group(['prefix' => 'store', 'as' => 'store.','middleware' =>'store'], function () {
-        Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
+        // Route::get('/new-confirm', [OrderController::class, 'newOrderConfirm'])->name('newOrderConfirm');
 
         Route::get('/new-confirm/order', [OrderController::class, 'NewConfirmShow'])->name('NewConfirmShow');
 
         Route::post('/addToNewconfirm', [OrderController::class, 'addToNewconfirm'])->name('addToNewconfirm');
         Route::delete('/deleteOrder/{book_id}', [OrderController::class, 'deleteInventory'])->name('deleteInventory');
-        
+
         // Route::patch('/updateAndDelete', [OrderController::class, 'updateAndDelete'])->name('updateAndDelete');
         Route::get('/home', [StoreController::class, 'home'])->name('home');
         Route::get('/cashier', [StoreController::class, 'cashier'])->name('cashier');
         Route::get('/receipt', [StoreController::class, 'receipt'])->name('receipt');
         Route::get('/book/information/{id}',[StoreController::class, 'bookInformation'])->name('bookInformation');
-        Route::post('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
+        Route::patch('/addOrUpdateOrders', [StoreController::class, 'addOrUpdateOrders'])->name('addOrUpdateOrders');
         Route::patch('/orders/update', [StoreController::class, 'updateOrders'])->name('updateOrders');
         Route::delete('/orders/{id}/destroy', [StoreController::class, 'deleteOrder'])->name('deleteOrder');
 
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
-        
+
         // store edit周辺
 
         // Route::get('/profile',[StoreController::class,'profile'])->name('profile');
         // Route::get('/edit',[StoreController::class,'edit'])->name('edit');
-       
+
     // ストアのプロフィール表示
     Route::get('/profile', [StoreController::class, 'profile'])->name('profile');
 
@@ -161,7 +163,7 @@ Route::group(['middleware' => 'auth'], function ()
             });
 
         Route::get('/inventory', [StoreController::class, 'inventory'])->name('inventory');
-        
+
 
 
         });
@@ -208,8 +210,12 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
             // reports
-            Route::get('/reports/index',[ReportsController::class,'index'])->name('reports.index');
-            Route::get('/reports/search',[ReportsController::class,'search'])->name('reports.search');
+            Route::group(['prefix' => 'reports', 'as' => 'reports.'], function(){
+                Route::get('/index',[ReportsController::class,'index'])->name('index');
+                Route::get('/search',[ReportsController::class,'search'])->name('search');
+                Route::post('/store',[ReportsController::class,'store'])->name('store');
+                Route::delete('/reason/destroy/{reason}',[ReportsController::class,'reasonDestroy'])->name('reason.destroy');
+            });
         });
 
 
@@ -221,7 +227,7 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'admin'], function () {
         Route::get('/home', [AdminController::class, 'index'])->name('home');
-        
+
         // genres
         Route::get('/genre/show',[GenresController::class,'index'])->name('genres.show');
         Route::post('/genre/create',[GenresController::class,'create'])->name('genres.create');
@@ -252,11 +258,11 @@ Route::group(['middleware' => 'auth'], function ()
         Route::delete('/stores/{user}/destroy', [StoresController::class, 'destroy'])->name('stores.destroy');
         Route::post('/stores/{user}/restore', [StoresController::class, 'restore'])->name('stores.restore');
         Route::get('/stores/search',[StoresController::class,'search'])->name('stores.search');
-        
+
         Route::post('/stores/register', [StoresController::class, 'register'])->name('stores.register');
         Route::get('/stores/list', [StoresController::class, 'show'])->name('stores.list');
 
 
-        
+
 });
 

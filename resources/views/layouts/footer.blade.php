@@ -16,9 +16,8 @@
                 <p>Genre</p>
                 <ul class="list-container" style="grid-template-columns: repeat(3, 1fr);">
                     @foreach ($all_genres as $genre)
-                        <li><a href="" >{{ $genre->name }}</a></li>
+                        <li><a href="{{route('genreHome.fromfooter', $genre->id)}}">{{ $genre->name }}</a></li>
                     @endforeach
-
                     <li><a href="#">Others</a></li>
                 </ul>
             </div>
@@ -31,86 +30,26 @@
                             <li><a href="{{ route('guest.show.store', $store->id) }}">{{ $store->name }}</a></li>
                         @endforeach --}}
 
-                    <li><a href="#">Hokkaido</a></li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Tohoku</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Aomori</a></li>
-                            <li><a href="#">Iwate</a></li>
-                            <li><a href="#">Miyagi</a></li>
-                            <li><a href="#">Akita</a></li>
-                            <li><a href="#">Yamagata</a></li>
-                            <li><a href="#">Fukushima</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Kanto</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Ibaraki</a></li>
-                            <li><a href="#">Tochigi</a></li>
-                            <li><a href="#">Gunma</a></li>
-                            <li><a href="#">Saitama</a></li>
-                            <li><a href="#">Chiba</a></li>
-                            <li><a href="#">Tokyo</a></li>
-                            <li><a href="#">Kanagawa</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Chubu</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Niigata</a></li>
-                            <li><a href="#">Toyama</a></li>
-                            <li><a href="#">Ishikawa</a></li>
-                            <li><a href="#">Fukui</a></li>
-                            <li><a href="#">Yamanashi</a></li>
-                            <li><a href="#">Nagano</a></li>
-                            <li><a href="#">Gifu</a></li>
-                            <li><a href="#">Shizuoka</a></li>
-                            <li><a href="#">Aichi</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Kansai</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Mie</a></li>
-                            <li><a href="#">Shiga</a></li>
-                            <li><a href="#">Kyoto</a></li>
-                            <li><a href="#">Osaka</a></li>
-                            <li><a href="#">Hyogo</a></li>
-                            <li><a href="#">Nara</a></li>
-                            <li><a href="#">Wakayama</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Chugoku</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Tottori</a></li>
-                            <li><a href="#">Shimane</a></li>
-                            <li><a href="#">Okayama</a></li>
-                            <li><a href="#">Hiroshima</a></li>
-                            <li><a href="#">Yamaguchi</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Shikoku</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Tokushima</a></li>
-                            <li><a href="#">Kagawa</a></li>
-                            <li><a href="#">Ehime</a></li>
-                            <li><a href="#">Kochi</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-area-menu">
-                        <span class="d-inline-block">Kyushu</span>
-                        <ul class="area-menu">
-                            <li><a href="#">Fukuoka</a></li>
-                            <li><a href="#">Saga</a></li>
-                            <li><a href="#">Nagasaki</a></li>
-                            <li><a href="#">Kumamoto</a></li>
-                            <li><a href="#">Oita</a></li>
-                            <li><a href="#">Miyazaki</a></li>
-                            <li><a href="#">Kagoshima</a></li>
-                            <li><a href="#">Okinawa</a></li>
+                    <!-- regionsを使ってループ -->
+                    <!-- Hokkaidoだけ外で表示 -->
+                @if (isset($regions['Hokkaido']))
+                    <li><a href="{{ route('book.store_list', ['area' => 'Hokkaido']) }}">Hokkaido</a></li>
+                @endif
+
+                @foreach ($regions as $region => $prefectures)
+                    @if ($region !== 'Hokkaido')
+                        <li class="has-area-menu">
+                            <span class="d-inline-block">{{ $region }}</span>
+                            <ul class="area-menu">
+                                @foreach ($prefectures as $prefecture)
+                                    <li><a href="{{ route('book.store_list', ['area' => $prefecture]) }}">{{ $prefecture }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                @endforeach
+
+
                         </ul>
                     </li>
                 </ul>
@@ -171,6 +110,7 @@
         margin-top: auto; /* これでフッターが画面下に固定される */
         padding: 20px;
         text-align: center;
+        padding-bottom: 0px;
     }
 
     .footer-logo{
@@ -323,6 +263,3 @@
     z-index: -1; /* 背景の影が吹き出しの後ろに表示されるようにする */
 }
 </style>
-
-
-

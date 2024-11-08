@@ -103,7 +103,7 @@
 
                     <label for="phone_number" class="form-label mt-4">Phone number <span
                             class="text-danger">*</span></label>
-                    <input type="number" name="phone_number" id="phone_number" placeholder="Phone number"
+                    <input type="tel" name="phone_number" id="phone_number" placeholder="Phone number 10-16 digits"
                         value="{{ old('phone_number') }}" class="form-control">
                     @error('phone_number')
                         <p class="text-danger small">{{ $message }}</p>

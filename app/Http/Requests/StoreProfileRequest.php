@@ -27,7 +27,7 @@ class StoreProfileRequest extends FormRequest
             'last_name' => 'required|max:50',
             'gender' => 'required',
             'birthday' => 'required',
-            'phone_number' => 'required',
+            'phone_number' => 'required|digits_between:10,16',
             'address' => 'required',
             'introduction' => 'max:200',
             'avatar' => 'mimes:jpg,jpeg,gif,png|max:1048'
