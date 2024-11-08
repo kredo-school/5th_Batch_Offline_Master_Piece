@@ -21,10 +21,10 @@
                     <div class="row">
                         <div class="col">
                             <p class="text-secondary mb-0">
-                                @if ($genres->isNotEmpty())
+                                @if ($thread->genres->isNotEmpty())
                                     Genre:
-                                    @foreach ($genres as $genre_id)
-                                        {{$genre_id->genre->name}}
+                                    @foreach ($thread->genres as $genre)
+                                        {{$genre->name}}
                                     @endforeach
                                 @endif
                             </p>

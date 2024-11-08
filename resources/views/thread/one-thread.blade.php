@@ -9,8 +9,8 @@
                 <div class="col-2 h5 text-secondary text-end mb-0">Date: {{date('m/d/Y', strtotime($thread->created_at))}}</div>
             </div>
             <p class="text-secondary small mx-2 mb-0">
-                @foreach ($thread->genre_threads as $genre_id)
-                    <span class="me-2">{{$genre_id->genre->name}}</span>
+                @foreach ($thread->genres as $genre)
+                        <span class="me-2">{{$genre->name}}</span>
                 @endforeach
             </p>
 
