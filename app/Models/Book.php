@@ -30,7 +30,7 @@ class Book extends Model
 
     public function authors_books()
     {
-        return $this->belongsToMany(Author::class, 'author_books', 'book_id', 'author_id');
+        return $this->belongsToMany(Author::class, 'author_books', 'author_id', 'book_id');
     }
 
     public function genres()
@@ -108,4 +108,8 @@ class Book extends Model
         return $this->belongsTo(User::class, 'store_id');
     }
 
+    public function receipt_book()
+    {
+        return $this->belongsToMany(ReceiptBook::class, 'receipt_book', 'book_id', 'receipt_id')->withPivot('quantity');
+    }
 }

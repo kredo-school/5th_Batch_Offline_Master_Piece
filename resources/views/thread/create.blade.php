@@ -7,8 +7,12 @@
         <div class="row">
             {{-- advertisement --}}
             <div class="col-2">
-                @for($i = 0; $i < 2; $i++)
-                    <img src="{{asset('images/93e1a9cf543ecd9d8bdaf98c51dc65a5.jpg')}}" alt="" class="w-100 mb-3">
+                @for ($i = 0; $i < 2; $i++)
+                    <a href="#" class="text-decoration-none text-white">
+                        <div class="thread-adv mb-3 bg-adv w-100 ">
+                            <p class="h2">Advertisement</p>
+                        </div>
+                    </a>
                 @endfor
             </div>
             <div class="col-8">
@@ -57,8 +61,12 @@
             </div>
             {{-- advertisement --}}
             <div class="col-2">
-                @for($i = 0; $i < 2; $i++)
-                    <img src="{{asset('images/93e1a9cf543ecd9d8bdaf98c51dc65a5.jpg')}}" alt="" class="w-100 mb-3">
+                @for ($i = 0; $i < 2; $i++)
+                    <a href="#" class="text-decoration-none text-white">
+                        <div class="thread-adv mb-3 bg-adv w-100 ">
+                            <p class="h2">Advertisement</p>
+                        </div>
+                    </a>
                 @endfor
             </div>
         </div>
