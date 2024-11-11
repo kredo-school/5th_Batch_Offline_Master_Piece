@@ -348,6 +348,10 @@
     font-size: 10rem;
 }
 
+.bookcover{
+    width: 180px;
+}
+
 .fs-40
 {
     font-size: 40px;
@@ -465,6 +469,24 @@
 .carousel-control-next-icon {
     width: 30px; /* アイコンの幅を調整 */
     height: 30px; /* アイコンの高さを調整 */
+}
+
+/* 通常のインジケーターの色を薄い灰色に設定 */
+.carousel-indicators button {
+    background-color: #333333 !important; /* 薄い灰色 */
+    opacity: 0.5;
+}
+/* アクティブなインジケーターの色を黒に設定 */
+.carousel-indicators .active {
+    background-color: black;
+    opacity: 1;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -30px; /* インジケーターを下に移動する距離を調整 */
+    /* left: 50%;
+    transform: translateX(-50%); */
 }
 
 /* navbar */

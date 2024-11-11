@@ -12,14 +12,14 @@
             <div class="p-4 d-flex justify-content-around">
                 <a href="{{ route('profile.show', $user->id) }}"
                     class="fw-bold text-decoration-none fs-40 text-dark">Review</a>
-                {{-- @can('admin') --}}
-                <a href="{{ route('profile.bookmark', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                <a href="{{ route('profile.order', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
-                <a href="{{ route('profile.comment', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
-                {{-- @endcan --}}
+                @if(Auth::id() == $user->id || Auth::user()->role_id == 1)
+                    <a href="{{ route('profile.bookmark', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
+                    <a href="{{ route('profile.order', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
+                    <a href="{{ route('profile.comment', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
+                @endif
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list shadow">
                 <h2 class="h1 fw-bold text-grey mt-3">Review</h2>
@@ -33,16 +33,16 @@
                     @foreach ($user->reviews as $review)
                         <div class="row mt-4">
                             <p class="text-muted mb-0">{{ $review->created_at }}</p>
-                            <div class="col-3">
+                            <div class="col-lg-3">
                                 <a href="{{ route('book.show_book', $review->book->id) }}" class="text-decoration-none">
                                     <img src="{{ $review->book->image }}" alt="{{ $review->book->id }}"
-                                        class="w-100 shadow">
+                                        class="bookcover img-fluid  shadow">
                                 </a>
                                 <a href="{{ route('book.show_book', $review->book->id) }}" class="text-decoration-none">
                                     <p class="h4 mt-2">{{ $review->book->title }}</p>
                                 </a>
                             </div>
-                            <div class="col-9 fs-32">
+                            <div class="col-lg-9 fs-32">
                                 <p>
                                     @php
                                         $fullStars = floor($review->star_count); // 満点の数
