@@ -8,7 +8,7 @@
                     </h5>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this <span class="fw-bold">Comment</span>?
+                    Are you sure you want to delete this this comment?
                 </div>
                 <div class="modal-footer border-0">
                     <form action="{{ route('comment.destroy', $comment->id) }}" method="post">

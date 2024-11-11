@@ -9,23 +9,17 @@
 
     <div class="row justify-content-center mt-2">
         <div class="col-8 mt-3">
-            <div class="row p-4 d-flex">
-                <div class="col-md-6 col-xl-3 text-center">
-                    <a href="{{ route('profile.show', $user->id) }}"
-                        class="fw-bold text-decoration-none fs-40 text-grey ">Review</a>
-                </div>
-                <div class="col-md-6 col-xl-3 text-center">
+            <div class="p-4 d-flex justify-content-around">
+                <a href="{{ route('profile.show', $user->id) }}"
+                    class="fw-bold text-decoration-none fs-40 text-grey">Review</a>
+                @if(Auth::id() == $user->id || Auth::user()->role_id == 1)
                     <a href="{{ route('profile.bookmark', $user->id) }}"
                         class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                </div>
-                <div class="col-md-6 col-xl-3 text-center">
                     <a href="{{ route('profile.order', $user->id) }}"
                         class="fw-bold text-decoration-none fs-40 text-dark">Order</a>
-                </div>
-                <div class="col-md-6 col-xl-3 text-center">
                     <a href="{{ route('profile.comment', $user->id) }}"
                         class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
-                </div>
+                @endif
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list">
                 <h2 class="h1 fw-bold text-grey mt-3">Order</h2>
