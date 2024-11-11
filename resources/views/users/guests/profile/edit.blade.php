@@ -13,7 +13,7 @@
 
     <div class="row justify-content-center mt-2">
         <div class="col-7 row  mt-2 p-5 shadow bg-white rounded">
-            <div class="col-5">
+            <div class="col-md-5">
                 <form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
@@ -35,7 +35,7 @@
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
             </div>
-            <div class="col-7 px-4">
+            <div class="col-md-7">
                 <label for="first_name" class="form-label">First name <span class="text-danger">*</span></label>
                 <input type="text" name="first_name" id="first_name" placeholder="First name"
                     value="{{ old('first_name', optional($user->profile)->first_name) }}" class="form-control">
@@ -88,14 +88,17 @@
                     <p class="text-danger small">{{ $message }}</p>
                 @enderror
             </div>
-            <label for="introduction" class="form-label mt-4">Introduction</label>
-            <textarea name="introduction" id="" cols="30" rows="10" class="form-control"
-                placeholder="Introduction">{{ old('introduction', optional($user->profile)->introduction) }}</textarea>
-            @error('introduction')
-                <p class="text-danger small">{{ $message }}</p>
-            @enderror
+            <div class="col">
 
-            <button type="submit" class="btn btn-orange mt-4">Update</button>
+                <label for="introduction" class="form-label mt-4">Introduction</label>
+                <textarea name="introduction" id="" cols="30" rows="10" class="form-control"
+                    placeholder="Introduction">{{ old('introduction', optional($user->profile)->introduction) }}</textarea>
+                @error('introduction')
+                    <p class="text-danger small">{{ $message }}</p>
+                @enderror
+    
+                <button type="submit" class="btn btn-orange mt-4 w-100">Update</button>
+            </div>
 
 
             </form>

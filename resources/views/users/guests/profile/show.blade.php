@@ -33,16 +33,16 @@
                     @foreach ($user->reviews as $review)
                         <div class="row mt-4">
                             <p class="text-muted mb-0">{{ $review->created_at }}</p>
-                            <div class="col-3">
+                            <div class="col-lg-3">
                                 <a href="{{ route('book.show_book', $review->book->id) }}" class="text-decoration-none">
                                     <img src="{{ $review->book->image }}" alt="{{ $review->book->id }}"
-                                        class="w-100 shadow">
+                                        class="bookcover img-fluid  shadow">
                                 </a>
                                 <a href="{{ route('book.show_book', $review->book->id) }}" class="text-decoration-none">
                                     <p class="h4 mt-2">{{ $review->book->title }}</p>
                                 </a>
                             </div>
-                            <div class="col-9 fs-32">
+                            <div class="col-lg-9 fs-32">
                                 <p>
                                     @php
                                         $fullStars = floor($review->star_count); // 満点の数
