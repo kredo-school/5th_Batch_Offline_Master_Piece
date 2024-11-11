@@ -143,6 +143,8 @@
                                 Highest Rating</option>
                             <option value="lowest-rating" {{ request('sort') == 'lowest-rating' ? 'selected' : '' }}>Lowest
                                 Rating</option>
+                            <option value="most-good-buttons" {{ request('sort') == 'lowest-rating' ? 'selected' : '' }}>most good buttons
+                                </option>
                         </select>
                     </form>
                 </div>

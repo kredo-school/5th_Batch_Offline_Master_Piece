@@ -43,15 +43,17 @@
                                                 ?>
                                                 @if ($loop->iteration <= 3)
                                                     <div class="h1">
-                                                        {{-- star color --}}
-                                                        @if ($loop->iteration == 1)
+                                                        {{-- 1位から3位にのみ王冠を表示 --}}
+                                                        @if ($overallIteration == 1)
                                                             <i class="fa-solid fa-crown" style="color: gold"></i>
                                                             {{ $overallIteration }}
-                                                        @elseif ($loop->iteration == 2)
+                                                        @elseif ($overallIteration == 2)
                                                             <i class="fa-solid fa-crown" style="color: silver"></i>
                                                             {{ $overallIteration }}
-                                                        @elseif ($loop->iteration == 3)
+                                                        @elseif ($overallIteration == 3)
                                                             <i class="fa-solid fa-crown" style="color: #9A6229"></i>
+                                                            {{ $overallIteration }}
+                                                        @else
                                                             {{ $overallIteration }}
                                                         @endif
                                                     </div>
