@@ -53,6 +53,8 @@
                                                         @elseif ($overallIteration == 3)
                                                             <i class="fa-solid fa-crown" style="color: #9A6229"></i>
                                                             {{ $overallIteration }}
+                                                        @else
+                                                            {{ $overallIteration }}
                                                         @endif
                                                     </div>
                                                 @else

@@ -26,8 +26,9 @@ class BookController extends Controller
     private $reserve;
     private $inventory;
     private $genre;
+    private $like;
 
-    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory, Genre $genre)
+    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory, Genre $genre, Like $like)
     {
         $this->book = $book;
         $this->author = $author;
@@ -37,6 +38,7 @@ class BookController extends Controller
         $this->store = $store;
         $this->inventory = $inventory;
         $this->genre = $genre;
+        $this->like = $like;
     }
 
     public function bookSuggestion(Request $request)
@@ -215,6 +217,19 @@ class BookController extends Controller
                 break;
             case 'lowest-rating':
                 $reviews->orderBy('star_count', 'asc');
+                break;
+            case 'most-good-buttons':
+                // likesデータを取得
+                $likes = DB::table('likes')
+                ->select('review_id', DB::raw('count(*) as total_likes'))
+                ->groupBy('review_id');
+    
+                // likesが0のレビューも含めて、likes数で並べ替え
+                $reviews->leftJoinSub(
+                    $likes, 'likes', function ($join) {
+                        $join->on('reviews.id', '=', 'likes.review_id');
+                    })
+                    ->orderByRaw('COALESCE(likes.total_likes, 0) DESC');
                 break;
             default:
                 $reviews->orderBy('created_at', 'desc');
@@ -431,19 +446,31 @@ class BookController extends Controller
 
         foreach ($request->store_ids as $storeId) {
             $amount = $request->quantities[$storeId] ?? 0;
-
+    
             if ($amount > 0) {
-                $reserve = new Reserve();
-                $reserve->guest_id = Auth::user()->id;
-                $reserve->book_id = $book_id;
-                $reserve->store_id = $storeId;
-                $reserve->quantity = $amount;
-                $reserve->reservation_number = null;
-                $reserve->save();
+                // 既存の予約を確認
+                $existingReserve = Reserve::where('guest_id', Auth::user()->id)
+                    ->where('book_id', $book_id)
+                    ->where('store_id', $storeId)
+                    ->first();
+    
+                if ($existingReserve) {
+                    // 既存の予約があれば数量を合算して更新
+                    $existingReserve->quantity += $amount;
+                    $existingReserve->save();
+                } else {
+                    // 予約がなければ新規作成
+                    $reserve = new Reserve();
+                    $reserve->guest_id = Auth::user()->id;
+                    $reserve->book_id = $book_id;
+                    $reserve->store_id = $storeId;
+                    $reserve->quantity = $amount;
+                    $reserve->reservation_number = null;
+                    $reserve->save();
+                }
             }
-
         }
-
+    
         return redirect()->route('order.show')->with('success', 'Reservation successful!');
     }
 
