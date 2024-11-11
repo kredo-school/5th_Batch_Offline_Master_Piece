@@ -96,7 +96,7 @@
     <tr>
         <td colspan="6" class="text-center">No stores found</td>
     </tr>
-@else
+        @else
     @foreach ($stores as $store)
     <tr>
         <td>
@@ -137,7 +137,7 @@
                     <i class="fa-regular fa-face-smile text-primary"></i> Active
                 </a>
             @endif
-            </td>
+        </td>
             </tr>
             @include('admin.stores.modals.status')
             @endforeach
