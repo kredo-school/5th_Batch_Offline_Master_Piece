@@ -12,14 +12,14 @@
             <div class="p-4 d-flex justify-content-around">
                 <a href="{{ route('profile.show', $user->id) }}"
                     class="fw-bold text-decoration-none fs-40 text-dark">Review</a>
-                {{-- @can('admin') --}}
-                <a href="{{ route('profile.bookmark', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                <a href="{{ route('profile.order', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
-                <a href="{{ route('profile.comment', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
-                {{-- @endcan --}}
+                @if(Auth::id() == $user->id || Auth::user()->role_id == 1)
+                    <a href="{{ route('profile.bookmark', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
+                    <a href="{{ route('profile.order', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
+                    <a href="{{ route('profile.comment', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Comment</a>
+                @endif
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list shadow">
                 <h2 class="h1 fw-bold text-grey mt-3">Review</h2>
