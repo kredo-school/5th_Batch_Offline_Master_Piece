@@ -18,102 +18,115 @@
             <div class="col-8 mt-1">
                 <div class="bg-white rounded my-5 px-5 overflow-auto profile-list" style="height: 1100px">
                     <h2 class="h1 fw-bold text-grey mt-3">Confirm and Add Order Books</h2><br>
-    
+
                     @php
                         $uniqueBookIds = [];
                     @endphp
-    
+
                     @foreach ($user->storeOrders as $index => $order)
-                        @if ($order->quantity && $order->quantity > 0 && !in_array($order->book->id, $uniqueBookIds))
-                            @php
-                                $uniqueBookIds[] = $order->book->id;
-                            @endphp
-    
-                            <div class="row mt-4">
-                                <div class="col-3 mt-3">
-                                    <a href="{{ route('book.show_book', $order->book->id) }}" class="text-decoration-none">
-                                        <img src="{{ $order->book->image }}" alt="{{ $order->book->id }}" class="w-100 shadow">
-                                    </a>
-                                </div>
-                                <div class="col-5 fs-32 ms-3">
-                                    <p>
-                                        <a href="{{ route('book.show_book', $order->book->id) }}" class="text-decoration-none">
-                                            <p class="fs-32">{{ $order->book->title }}</p>
+                        @if ($order->book)
+                            @if ($order->quantity && $order->quantity > 0 && !in_array($order->book->id, $uniqueBookIds))
+                                @php
+                                    $uniqueBookIds[] = $order->book->id;
+                                @endphp
+
+                                <div class="row mt-4">
+                                    <div class="col-3 mt-3">
+                                        <a href="{{ route('book.show_book', $order->book->id) }}"
+                                            class="text-decoration-none">
+                                            <img src="{{ $order->book->image }}" alt="{{ $order->book->id }}"
+                                                class="w-100 shadow">
                                         </a>
-                                        @foreach ($order->book->authors as $author)
-                                            <a href="{{ route('book.author_show', $author->id) }}" class="text-decoration-none text-dark">
-                                                <p class="h4">{{ $author->name }}</p>
+                                    </div>
+                                    <div class="col-5 fs-32 ms-3">
+                                        <p>
+                                            <a href="{{ route('book.show_book', $order->book->id) }}"
+                                                class="text-decoration-none">
+                                                <p class="fs-32">{{ $order->book->title }}</p>
                                             </a>
-                                        @endforeach
-                                    </p>
-                                    @php
-                                        $averageStarCount = $order->book->reviews->avg('star_count');
-                                        $fullStars = floor($averageStarCount);
-                                        $halfStar = $averageStarCount - $fullStars >= 0.1;
-                                        $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
-                                    @endphp
-    
-                                    {{-- 星評価の表示 --}}
-                                    @for ($i = 0; $i < $fullStars; $i++)
-                                        <i class="fa-solid fa-star text-warning"></i>
-                                    @endfor
-                                    @if ($halfStar)
-                                        <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                    @endif
-                                    @for ($i = 0; $i < $emptyStars; $i++)
-                                        <i class="fa-regular fa-star text-warning"></i>
-                                    @endfor
-    
-                                    {{ number_format($averageStarCount, 1) }}/5.0
-                                    <p class="text-danger fs-32 mt-2">¥ {{ floor($order->book->price) }}</p>
-                                </div>
-                                <div class="col-3 pe-0">
-                                    <div class="h-75 d-flex flex-column justify-content-between mt-3">
-                                        <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
-                                           data-bs-target="#delete-order-modal-{{ $order->book->id }}">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                        <p class="h3 pe-0 ps-4">Stock:
-                                            <br>
-                                            {{ $order->book->inventory->first() ? $order->book->inventory->first()->stock : 'No stock data' }}
+                                            @foreach ($order->book->authors as $author)
+                                                <a href="{{ route('book.author_show', $author->id) }}"
+                                                    class="text-decoration-none text-dark">
+                                                    <p class="h4">{{ $author->name }}</p>
+                                                </a>
+                                            @endforeach
                                         </p>
+                                        @php
+                                            $averageStarCount = $order->book->reviews->avg('star_count');
+                                            $fullStars = floor($averageStarCount);
+                                            $halfStar = $averageStarCount - $fullStars >= 0.1;
+                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                        @endphp
+
+                                        {{-- 星評価の表示 --}}
+                                        @for ($i = 0; $i < $fullStars; $i++)
+                                            <i class="fa-solid fa-star text-warning"></i>
+                                        @endfor
+                                        @if ($halfStar)
+                                            <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                                        @endif
+                                        @for ($i = 0; $i < $emptyStars; $i++)
+                                            <i class="fa-regular fa-star text-warning"></i>
+                                        @endfor
+
+                                        {{ number_format($averageStarCount, 1) }}/5.0
+                                        <p class="text-danger fs-32 mt-2">¥ {{ floor($order->book->price) }}</p>
                                     </div>
-    
-                                    <!-- 数量調整のフィールド -->
-                                    <div class="h-25 pt-4">
-                                        <input type="hidden" name="orders[{{ $index }}][book_id]" value="{{ $order->book->id }}">
-                                        <div class="row mt-auto d-flex justify-content-between align-items-center text-end me-0 ps-2">
-                                            <div class="col-auto pe-0">
-                                                <button type="button" class="btn text-danger btn-decrease">
-                                                    <i class="fa-solid fa-minus h3"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-5">
-                                                <input type="number" name="orders[{{ $index }}][quantity]" id="quantityInput_{{ $index }}" class="form-control" value="{{ old('orders.' . $index . '.quantity', $order->quantity) }}" min="1">
-                                            </div>
-                                            <div class="col-auto ps-0">
-                                                <button type="button" class="btn text-primary btn-increase">
-                                                    <i class="fa-solid fa-plus h3"></i>
-                                                </button>
-                                            </div>
+                                    <div class="col-3 pe-0">
+                                        <div class="h-75 d-flex flex-column justify-content-between mt-3">
+                                            <a class="text-danger btn fs-32 p-0 text-end" data-bs-toggle="modal"
+                                                data-bs-target="#delete-order-modal-{{ $order->book->id }}">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                            <p class="h3 pe-0 ps-4">Stock:
+                                                <br>
+                                                {{ $order->book->inventory->first() ? $order->book->inventory->first()->stock : 'No stock data' }}
+                                            </p>
                                         </div>
-                                        
+
+                                        <!-- 数量調整のフィールド -->
+                                        <div class="h-25 pt-4">
+                                            <input type="hidden" name="orders[{{ $index }}][book_id]"
+                                                value="{{ $order->book->id }}">
+                                            <div
+                                                class="row mt-auto d-flex justify-content-between align-items-center text-end me-0 ps-2">
+                                                <div class="col-auto pe-0">
+                                                    <button type="button" class="btn text-danger btn-decrease">
+                                                        <i class="fa-solid fa-minus h3"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-5">
+                                                    <input type="number" name="orders[{{ $index }}][quantity]"
+                                                        id="quantityInput_{{ $index }}" class="form-control"
+                                                        value="{{ old('orders.' . $index . '.quantity', $order->quantity) }}"
+                                                        min="1">
+                                                </div>
+                                                <div class="col-auto ps-0">
+                                                    <button type="button" class="btn text-primary btn-increase">
+                                                        <i class="fa-solid fa-plus h3"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
+                                <hr>
+                            @endif
                         @endif
+
                     @endforeach
                 </div>
-    
+
                 <!-- メインフォームの送信ボタン -->
                 <div class="text-end my-5">
-                    <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to Next</button>
+                    <button type="submit" class="me-3 p-3 border-0 rounded new-order-confirm-proceed">Proceed to
+                        Next</button>
                 </div>
             </div>
         </div>
     </form>
-    
+
 
     <!-- 削除モーダル群 -->
     @foreach ($user->storeOrders as $order)
