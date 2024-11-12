@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
     private $order;
+    private $inventory;
 
-    public function __construct(StoreOrder $storeOrder)
+    public function __construct(StoreOrder $storeOrder, Inventory $inventory)
     {
         $this->order = $storeOrder;
+        $this->inventory = $inventory;
     }
 
     public function NewConfirmShow(){
@@ -99,7 +101,8 @@ class OrderController extends Controller
     public function newOrderConfirm()
     {
         $user = Auth::user();
-        return view('users.store.books.new-order-confirm', compact('user'));
+        $inventory = $this->inventory->all();
+        return view('users.store.books.new-order-confirm', compact('user','inventory'));
     }
 
 

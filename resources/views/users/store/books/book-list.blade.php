@@ -7,7 +7,7 @@
             <form action="{{ route('store.books.search') }}" method="get">
                 @csrf
                 <div class="row align-items-center">
-                    <div class="col-4">
+                    <div class="col-3">
                         <a href="{{ route('store.home')}}" class="fw-bold text-decoration-none main-text btn border-0">
                             <div class="h2 fw-semibold">
                                 <i class="fa-solid fa-caret-left"></i>
@@ -15,7 +15,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-4">
+                    <div class="col-5">
                         <div class="d-flex justify-content-center" >
                             <form action="{{ route('store.books.search') }}" class="d-flex">
                                 @csrf

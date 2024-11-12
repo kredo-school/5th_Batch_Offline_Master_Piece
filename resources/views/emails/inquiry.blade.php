@@ -33,7 +33,7 @@
         @enderror
 
         <label for="phone" class="form-label mt-2">Phone Number</label>
-        <input type="number" name="phone" id="phone" class="form-control" value="{{ old('phone', $user->profile->phone_number) }}" required>
+        <input type="tel" name="phone" id="phone" class="form-control" value="{{ old('phone', $user->profile->phone_number) }}" required>
         @error('phone')
             <p class="text-danger small">{{ $message }}</p>
         @enderror

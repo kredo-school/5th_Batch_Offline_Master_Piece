@@ -117,7 +117,7 @@
                 <li class="nav-item dropdown d-flex flex-column align-items-center mb-0">
                     <button id="account-dropdown" class="btn shadow-none nav-link align-items-center pr-5 ms-0" data-bs-toggle="dropdown">
                         @if (Auth::user()->profile && Auth::user()->profile->avatar)
-                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm ">
+                            <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-circle shadow  avatar-sm d-block mx-auto ">
                             <p class="text-white mb-0">{{ Auth::user()->name }}</p>
                         @else
                             <i class="fa-solid fa-circle-user text-white fs-1 icon-sm"></i>
@@ -321,7 +321,7 @@
 
                     {{-- role_idが3以外のユーザー向けのProfileリンク --}}
                     @if (Auth::user()->role_id != 3)
-                    <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
+                    <a href="{{ route('store.profile', Auth::user()->id) }}" class="dropdown-item">
                         <i class="fa-solid fa-circle-user"></i>Profile
                     </a>
                     @endif
@@ -344,7 +344,7 @@
             <ul class="navbar-nav d-flex align-items-center justify-content-end me-5">
             <!-- Home -->
             <li class="nav-item me-3" title="Home">
-                <a href="{{ route('home') }}" class="nav-link mb-0">
+                <a href="{{ route('admin.home') }}" class="nav-link mb-0">
                     <i class="fa-solid fa-house text-white icon-sm fs-1"></i>
                     <p class="text-white mb-0">Home</p>
                 </a>

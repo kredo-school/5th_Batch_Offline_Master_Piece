@@ -146,7 +146,7 @@ class StoreController extends Controller
             ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
             ->where('store_book.store_id', $store->id)
             ->select('books.title', 'genres.name as genre', \DB::raw('COUNT(books.id) as purchase_count'))
-            ->groupBy('books.id', 'genres.name')
+            ->groupBy('books.id','books.title', 'genres.name')
             ->orderBy('purchase_count', 'desc')
             ->take(10)
             ->get();
@@ -186,15 +186,17 @@ class StoreController extends Controller
 
         $total_price = 0;
         foreach($reserves as $reserve):
-            $total_price += $reserve->book->price;
+            $total_price += $reserve->book->price * $reserve->quantity;
         endforeach;
         return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }
 
     public function bookList()
     {
-        // 1. Inventoryテーブルに存在するbook_idを取得
-        $inventory_books = Inventory::pluck('book_id')->toArray(); // Inventory にある book_id を配列として取得
+        $storeId = Auth::user()->id;
+        $inventory_books =  Inventory::where('store_id', $storeId)
+                            ->pluck('book_id')
+                            ->toArray();
 
         // 2. Inventoryに存在しないbook_idの本を取得
         $all_books = Book::whereNotIn('id', $inventory_books)->get();
@@ -225,6 +227,7 @@ class StoreController extends Controller
     public function storeSearch(Request $request)
     {
         $query = $request->input('search');
+        $author_name = $this->book->author->name;
         // 書籍をタイトルや著者名などで検索する例
         $books = Book::where('title', 'LIKE', "%{$query}%")
         ->orWhere('author_name', 'LIKE', "%{$query}%")
@@ -234,8 +237,9 @@ class StoreController extends Controller
 
     public function inventory()
     {
+        $user = Auth::user();
         $all_inventories = $this->inventory->all();
-        return view('users.store.books.inventory')->with(compact('all_inventories'));
+        return view('users.store.books.inventory')->with(compact('user','all_inventories'));
     }
 
     public function bookInformation($id)

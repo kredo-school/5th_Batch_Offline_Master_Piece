@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::patch('/update', [ProfileController::class, 'update'])->name(name: 'update');
                 Route::get('/searchlist', [ProfileController::class, 'searchlist'])->name('searchlist');
                 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
-
+                Route::get('{user_id}/comment/sort', [CommentController::class, 'sort'])->name('sort');
             });
 
             Route::group(['prefix' => 'book', 'as' => 'book.'], function () {
@@ -87,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'comment', 'as' => 'comment.'], function () {
             Route::post('/add-comment/{thread}', [CommentController::class, 'addComment'])->name('addComment');
-            Route::get('{user_id}/sort', [CommentController::class, 'sort'])->name('sort');
             Route::delete('{id}/destroy', [CommentController::class, 'destroy'])->name('destroy');
             Route::post('/report/{comment}', [ReportController::class, 'report'])->name('report');
         });

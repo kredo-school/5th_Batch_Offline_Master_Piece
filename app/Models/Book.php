@@ -63,7 +63,7 @@ class Book extends Model
     //authors_books との conection
     public function authorBook()
     {
-        return $this->belongsToMany(Author::class,'authors_books');
+        return $this->belongsToMany(Author::class,'author_books');
     }
 
 

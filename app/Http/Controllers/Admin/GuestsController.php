@@ -18,7 +18,11 @@ class GuestsController extends Controller
         $order = $request->input('order', 'asc'); // デフォルトは昇順 'asc'
 
         // クエリの初期化
-        $query = User::withTrashed()->with(['comments.thread', 'comments.reports']); // reportsをここでロード
+        // $query = User::withTrashed()->with(['comments.thread', 'comments.reports']); 
+        // reportsをここでロード
+        $query = User::withTrashed()
+            ->with(['comments.thread', 'comments.reports'])
+            ->where('role_id', '!=', 3); // role_idが3以外のユーザーに限定
 
         // 検索条件があればクエリに適用
         if (!empty($searchTerm)) {
@@ -26,10 +30,12 @@ class GuestsController extends Controller
         }
 // ソート処理
 if ($sort == 'report') {
-    // ユーザーが持っている全てのコメントに対して、そのコメントのレポート数をカウント
-    $query = $query->withCount(['comments as reports_count' => function ($query) {
-        $query->withCount('reports');
-    }])->orderBy('reports_count', $order);
+    // コメントに紐づくレポート数をカウントし、それでソート
+    $query = $query->leftJoin('comments', 'comments.guest_id', '=', 'users.id') // 修正: commentsテーブルのguest_idを使用
+        ->leftJoin('reports', 'reports.comment_id', '=', 'comments.id') // レポートテーブルとの結合
+        ->select('users.*', DB::raw('COUNT(reports.id) as reports_count')) // レポート数をカウント
+        ->groupBy('users.id') // ユーザーごとにグループ化
+        ->orderBy('reports_count', $order); // レポート数でソート
 } elseif ($sort == 'status') {
     // ソフトデリートの状態でソート（削除されていないもの優先）
     $query = $query->orderByRaw('deleted_at IS NULL ' . ($order == 'asc' ? 'ASC' : 'DESC'));
@@ -37,6 +43,7 @@ if ($sort == 'report') {
     // 通常のソート（名前など）
     $query = $query->orderBy($sort, $order);
 }
+
 
 // ページネーション
 $all_users = $query->paginate(5);
@@ -82,7 +89,10 @@ $all_users = $query->paginate(5);
         $order = $request->input('order', 'asc');
 
         // ユーザーのクエリの初期化
-        $query = User::withTrashed()->with(['comments.thread', 'comments.reports']);
+        // $query = User::withTrashed()->with(['comments.thread', 'comments.reports']);
+        $query = User::withTrashed()
+            ->with(['comments.thread', 'comments.reports'])
+            ->where('role_id', '!=', 3); // role_idが3以外のユーザーに限定
 
         // 検索条件がある場合はそれを適用
         if (!empty($searchTerm)) {

@@ -26,17 +26,19 @@ class BookController extends Controller
     private $reserve;
     private $inventory;
     private $genre;
+    private $like;
 
-    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory, Genre $genre)
+    public function __construct(Book $book, Author $author, Review $review, User $user, Bookmark $bookmark, User $store, Reserve $reserve, Inventory $inventory, Genre $genre, Like $like)
     {
         $this->book = $book;
         $this->author = $author;
         $this->review = $review;
-        $this->user  = $user;
+        $this->user = $user;
         $this->bookmark = $bookmark;
         $this->store = $store;
         $this->inventory = $inventory;
         $this->genre = $genre;
+        $this->like = $like;
     }
 
     public function bookSuggestion(Request $request)
@@ -87,7 +89,7 @@ class BookController extends Controller
         $suggestedBooks = $query->limit(30)->get();
 
         // ビューにデータを渡す
-        return view('users.guests.book.suggestion', compact('suggestedBooks','all_genres','selectedGenreId'));
+        return view('users.guests.book.suggestion', compact('suggestedBooks', 'all_genres', 'selectedGenreId'));
     }
 
 
@@ -169,41 +171,88 @@ class BookController extends Controller
 
         $newedBooks = $query->limit(30)->get();
 
-        return view('users.guests.book.new', compact('newedBooks','all_genres', 'selectedGenreId'));
+        return view('users.guests.book.new', compact('newedBooks', 'all_genres', 'selectedGenreId'));
     }
 
 
-    public function showBook(Request $request ,$id)
+    public function showBook(Request $request, $id)
     {
         $book = $this->book->findOrFail($id);
 
         $selectedPrefecture = $request->input('address', 'All Area');
 
         $storeLists = $this->user->where('role_id', 3)
-        // 住所による絞り込み（'All Area'以外が選ばれた場合）
-        ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
-            $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
-                $query->where('address', $selectedPrefecture);
-            });
-        })
-        // 関連するstoreBooksとそのbookを取得
-        ->with(['inventories' => function ($query) {
-            $query->with('book');
-        }])
-        ->get();
+            // 住所による絞り込み（'All Area'以外が選ばれた場合）
+            ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
+                $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
+                    $query->where('address', $selectedPrefecture);
+                });
+            })
+            // 関連するstoreBooksとそのbookを取得
+            ->with([
+                'inventories' => function ($query) {
+                    $query->with('book');
+                }
+            ])
+            ->get();
 
 
         $reviews = $this->review
             ->where('book_id', $id)
+            ->whereHas('user', function ($query) {
+                $query->whereNull('deleted_at'); // ソフトデリートされていないユーザーのみを対象
+            })
             ->with('book');
 
 
         $prefectures = [
-            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama',
-            'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka',
-            'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama',
-            'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita',
-            'Miyazaki', 'Kagoshima', 'Okinawa'
+            'Hokkaido',
+            'Aomori',
+            'Iwate',
+            'Miyagi',
+            'Akita',
+            'Yamagata',
+            'Fukushima',
+            'Ibaraki',
+            'Tochigi',
+            'Gunma',
+            'Saitama',
+            'Chiba',
+            'Tokyo',
+            'Kanagawa',
+            'Niigata',
+            'Toyama',
+            'Ishikawa',
+            'Fukui',
+            'Yamanashi',
+            'Nagano',
+            'Gifu',
+            'Shizuoka',
+            'Aichi',
+            'Mie',
+            'Shiga',
+            'Kyoto',
+            'Osaka',
+            'Hyogo',
+            'Nara',
+            'Wakayama',
+            'Tottori',
+            'Shimane',
+            'Okayama',
+            'Hiroshima',
+            'Yamaguchi',
+            'Tokushima',
+            'Kagawa',
+            'Ehime',
+            'Kochi',
+            'Fukuoka',
+            'Saga',
+            'Nagasaki',
+            'Kumamoto',
+            'Oita',
+            'Miyazaki',
+            'Kagoshima',
+            'Okinawa'
         ];
 
 
@@ -215,6 +264,22 @@ class BookController extends Controller
                 break;
             case 'lowest-rating':
                 $reviews->orderBy('star_count', 'asc');
+                break;
+            case 'most-good-buttons':
+                // likesデータを取得
+                $likes = DB::table('likes')
+                    ->select('review_id', DB::raw('count(*) as total_likes'))
+                    ->groupBy('review_id');
+
+                // likesが0のレビューも含めて、likes数で並べ替え
+                $reviews->leftJoinSub(
+                    $likes,
+                    'likes',
+                    function ($join) {
+                        $join->on('reviews.id', '=', 'likes.review_id');
+                    }
+                )
+                    ->orderByRaw('COALESCE(likes.total_likes, 0) DESC');
                 break;
             default:
                 $reviews->orderBy('created_at', 'desc');
@@ -272,20 +337,20 @@ class BookController extends Controller
 
 
         $sameGenreBooks = $this->book
-        ->whereIn('books.id', function ($subQuery) use ($book) {
-            $subQuery->select('book_id')
-                ->from('genre_books')
-                ->whereIn('genre_id', function ($genreSubQuery) use ($book) {
-                    // 現在の本のジャンルを取得
-                    $genreSubQuery->select('genre_id')
-                        ->from('genre_books')
-                        ->where('book_id', $book->id);
-                });
-        })
-        ->with('genres') // ジャンル情報も取得
-        ->orderBy('publication_date', 'desc') // 最新順に並べ替え
-        ->limit(20) // 最大20件取得
-        ->get();
+            ->whereIn('books.id', function ($subQuery) use ($book) {
+                $subQuery->select('book_id')
+                    ->from('genre_books')
+                    ->whereIn('genre_id', function ($genreSubQuery) use ($book) {
+                        // 現在の本のジャンルを取得
+                        $genreSubQuery->select('genre_id')
+                            ->from('genre_books')
+                            ->where('book_id', $book->id);
+                    });
+            })
+            ->with('genres') // ジャンル情報も取得
+            ->orderBy('publication_date', 'desc') // 最新順に並べ替え
+            ->limit(20) // 最大20件取得
+            ->get();
 
         // Review Rating
         $ratingsCount = $book->reviews->count();
@@ -302,7 +367,7 @@ class BookController extends Controller
             $ratingsSummary[$key] = $ratingsCount > 0 ? ($count / $ratingsCount) * 100 : 0;
         }
 
-        return view('users.guests.book.show_book', compact('book','prefectures','suggestedBooks','sameGenreBooks','reviews','ratingsSummary', 'selectedPrefecture'));
+        return view('users.guests.book.show_book', compact('book', 'prefectures', 'suggestedBooks', 'sameGenreBooks', 'reviews', 'ratingsSummary', 'selectedPrefecture'));
     }
 
 
@@ -321,8 +386,8 @@ class BookController extends Controller
 
         $this->review->guest_id = Auth::user()->id;
         $this->review->title = $request->review_title;
-        $this->review->body  = $request->review_content;
-        $this->review->book_id  = $book_id;
+        $this->review->body = $request->review_content;
+        $this->review->book_id = $book_id;
         $this->review->star_count = $request->input('star-rating');
 
         $this->review->save();
@@ -352,34 +417,78 @@ class BookController extends Controller
 
         // 店舗リストのクエリ構築
         $storeLists = $this->user->where('role_id', 3)
-        // 住所による絞り込み（'All Area'以外が選ばれた場合）
-        ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
-            $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
-                $query->where('address', $selectedPrefecture);
-            });
-        })
-        // 店舗名の検索
-        ->when($searchQuery, function ($query) use ($searchQuery) {
-            return $query->where('name', 'LIKE', "%{$searchQuery}%");
-        })
-        ->whereHas('inventories', function ($query) use ($id) {
-            $query->where('book_id', $id) // 指定された本IDが在庫にある
-                  ->whereNotNull('store_id'); // store_idがnullでないものを取得
-        })
-        // 関連するstoreBooksとそのbookを取得
-        ->with(['inventories' => function ($query) {
-            $query->with('book');
-        }])
-        ->get();
+            // 住所による絞り込み（'All Area'以外が選ばれた場合）
+            ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
+                $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
+                    $query->where('address', $selectedPrefecture);
+                });
+            })
+            // 店舗名の検索
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                return $query->where('name', 'LIKE', "%{$searchQuery}%");
+            })
+            ->whereHas('inventories', function ($query) use ($id) {
+                $query->where('book_id', $id) // 指定された本IDが在庫にある
+                    ->whereNotNull('store_id'); // store_idがnullでないものを取得
+            })
+            // 関連するstoreBooksとそのbookを取得
+            ->with([
+                'inventories' => function ($query) {
+                    $query->with('book');
+                }
+            ])
+            ->get();
 
 
         // 都道府県リスト
         $prefectures = [
-            'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma',
-            'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano',
-            'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori',
-            'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga',
-            'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'
+            'Hokkaido',
+            'Aomori',
+            'Iwate',
+            'Miyagi',
+            'Akita',
+            'Yamagata',
+            'Fukushima',
+            'Ibaraki',
+            'Tochigi',
+            'Gunma',
+            'Saitama',
+            'Chiba',
+            'Tokyo',
+            'Kanagawa',
+            'Niigata',
+            'Toyama',
+            'Ishikawa',
+            'Fukui',
+            'Yamanashi',
+            'Nagano',
+            'Gifu',
+            'Shizuoka',
+            'Aichi',
+            'Mie',
+            'Shiga',
+            'Kyoto',
+            'Osaka',
+            'Hyogo',
+            'Nara',
+            'Wakayama',
+            'Tottori',
+            'Shimane',
+            'Okayama',
+            'Hiroshima',
+            'Yamaguchi',
+            'Tokushima',
+            'Kagawa',
+            'Ehime',
+            'Kochi',
+            'Fukuoka',
+            'Saga',
+            'Nagasaki',
+            'Kumamoto',
+            'Oita',
+            'Miyazaki',
+            'Kagoshima',
+            'Okinawa'
         ];
 
         // store_id を取得
@@ -394,7 +503,12 @@ class BookController extends Controller
 
         // ビューにデータを渡す
         return view('users.guests.book.book_inventory', compact(
-            'book', 'prefectures', 'storeLists', 'inventories', 'selectedPrefecture', 'searchQuery'
+            'book',
+            'prefectures',
+            'storeLists',
+            'inventories',
+            'selectedPrefecture',
+            'searchQuery'
         ));
     }
 
@@ -433,15 +547,27 @@ class BookController extends Controller
             $amount = $request->quantities[$storeId] ?? 0;
 
             if ($amount > 0) {
-                $reserve = new Reserve();
-                $reserve->guest_id = Auth::user()->id;
-                $reserve->book_id = $book_id;
-                $reserve->store_id = $storeId;
-                $reserve->quantity = $amount;
-                $reserve->reservation_number = null;
-                $reserve->save();
-            }
+                // 既存の予約を確認
+                $existingReserve = Reserve::where('guest_id', Auth::user()->id)
+                    ->where('book_id', $book_id)
+                    ->where('store_id', $storeId)
+                    ->first();
 
+                if ($existingReserve) {
+                    // 既存の予約があれば数量を合算して更新
+                    $existingReserve->quantity += $amount;
+                    $existingReserve->save();
+                } else {
+                    // 予約がなければ新規作成
+                    $reserve = new Reserve();
+                    $reserve->guest_id = Auth::user()->id;
+                    $reserve->book_id = $book_id;
+                    $reserve->store_id = $storeId;
+                    $reserve->quantity = $amount;
+                    $reserve->reservation_number = null;
+                    $reserve->save();
+                }
+            }
         }
 
         return redirect()->route('order.show')->with('success', 'Reservation successful!');
@@ -452,14 +578,14 @@ class BookController extends Controller
         $author = $this->author->findOrFail($id);
 
 
-        return view('users.guests.book.show_author',compact('author'));
+        return view('users.guests.book.show_author', compact('author'));
     }
 
     public function searchAuthor(Request $request)
     {
-        $search_authors = $this->author->where('name', 'like', '%'.$request->search.'%')->get();
+        $search_authors = $this->author->where('name', 'like', '%' . $request->search . '%')->get();
 
-        return view('users.guests.book.author_list',compact('search_authors','request'));
+        return view('users.guests.book.author_list', compact('search_authors', 'request'));
 
     }
 

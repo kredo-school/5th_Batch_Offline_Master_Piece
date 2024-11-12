@@ -143,6 +143,9 @@
                                 Highest Rating</option>
                             <option value="lowest-rating" {{ request('sort') == 'lowest-rating' ? 'selected' : '' }}>Lowest
                                 Rating</option>
+                            <option value="most-good-buttons" {{ request('sort') == 'lowest-rating' ? 'selected' : '' }}>
+                                most good buttons
+                            </option>
                         </select>
                     </form>
                 </div>
@@ -166,17 +169,21 @@
             @if ($reviews && $reviews->isNotEmpty())
                 @foreach ($reviews as $review)
                     <div class="row mt-4">
-                        <a href="{{ route('profile.show', $review->user->id) }}" class="text-decoration-none text-dark">
-                            <div class="text-center d-flex ">
-                                @if (optional($review->user->profile)->avatar)
-                                    <img src="{{ optional($review->user->profile)->avatar }}" alt="{{ $review->user->id }}"
-                                        class="rounded-circle shadow p-1 review-avatar d-block ">
-                                @else
-                                    <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar-img"></i>
-                                @endif
-                                <p class="fs-32 ms-3 my-auto">{{ $review->user->name }}</p>
-                            </div>
-                        </a>
+                        @if ($review->user)
+                            <a href="{{ route('profile.show', $review->user->id) }}"
+                                class="text-decoration-none text-dark">
+                                <div class="text-center d-flex ">
+                                    @if (optional($review->user->profile)->avatar)
+                                        <img src="{{ optional($review->user->profile)->avatar }}"
+                                            alt="{{ $review->user->id }}"
+                                            class="rounded-circle shadow p-1 review-avatar d-block ">
+                                    @else
+                                        <i class="fa-solid fa-circle-user p-1 text-secondary review-avatar-img"></i>
+                                    @endif
+                                    <p class="fs-32 ms-3 my-auto">{{ $review->user->name }}</p>
+                                </div>
+                            </a>
+                        @endif
                     </div>
                     <div class="row my-auto">
                         <div class="col-4 fs-24">
@@ -202,15 +209,16 @@
                             {{ $review->title }}
                         </div>
                         <div class="col-2">
-                            <form action="{{route('book.review_delete', $review->id)}}" method="post">
+                            <form action="{{ route('book.review_delete', $review->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                @if(Auth::check() && Auth::id() === $review->user->id)
-                                    <button class="text-danger border-0 bg-white fs-32"><i class="fa-regular fa-trash-can"></i></button>
+                                @if (Auth::check() && Auth::id() === $review->user->id)
+                                    <button class="text-danger border-0 bg-white fs-32"><i
+                                            class="fa-regular fa-trash-can"></i></button>
                                 @endif
                             </form>
                         </div>
-                        
+
                         <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     </div>
                     <div class="row">
@@ -219,8 +227,8 @@
                         </div>
                         <div class="col-2">
                             <div class="text-end d-flex">
-                                @if($review->isLiked())
-                                    <form action="{{route('book.like.destroy', $review->id)}}" method="post">
+                                @if ($review->isLiked())
+                                    <form action="{{ route('book.like.destroy', $review->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn  shadow-none p-0">
@@ -228,14 +236,14 @@
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{route('book.like.store', $review->id)}}" method="post">
+                                    <form action="{{ route('book.like.store', $review->id) }}" method="post">
                                         @csrf
                                         <button type="submit" class="btn shadow-none p-0">
                                             <i class="fa-regular fa-thumbs-up fs-32"></i>
                                         </button>
                                     </form>
                                 @endif
-                                <span class="fs-32 ms-2 mt-0">{{$review->likes->count()}}</span>
+                                <span class="fs-32 ms-2 mt-0">{{ $review->likes->count() }}</span>
                             </div>
                         </div>
                     </div>
@@ -272,12 +280,14 @@
                             @enderror
                         </h6>
                     </div>
-                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide" placeholder="Title:"></textarea>
+                    <textarea name="review_title" id="review_title" rows="1" class="form-control border-0 review-wide"
+                        placeholder="Title:"></textarea>
                     @error('review_title')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
                     <hr>
-                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide" placeholder="Content:"></textarea>
+                    <textarea name="review_content" id="review_content" rows="4" class="form-control border-0 review-wide"
+                        placeholder="Content:"></textarea>
                     @error('review_content')
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
@@ -287,32 +297,32 @@
                 <input type="submit" value="Post Review" class="btn mt-3 btn-orange px-5">
             </div>
         </form>
-        
+
 
         <script>
             const stars = document.querySelectorAll(".star-btn"); // 星の要素を取得
             const ratingValue = document.getElementById("star-rating"); // hidden input
             const ratingValueNumber = document.getElementById("rating-value-number"); // 数値部分のみ
-        
+
             let currentRating = 0; // 現在の評価を保持
-        
+
             // 星にイベントを設定
             stars.forEach((star, index) => {
                 star.addEventListener("mouseover", () => {
                     highlightStars(index); // ハイライト更新
                 });
-        
+
                 star.addEventListener("click", () => {
                     currentRating = index + 1; // 現在の評価を保存（1から始まる）
                     ratingValue.value = currentRating; // hidden inputにセット
                     ratingValueNumber.textContent = ratingValue.value; // 数値部分のみ更新
                 });
-        
+
                 star.addEventListener("mouseout", () => {
                     highlightStars(currentRating - 1); // 選択済みの評価に戻す
                 });
             });
-        
+
             // 星をハイライトする関数
             function highlightStars(index) {
                 stars.forEach((star, i) => {
@@ -327,7 +337,7 @@
                 });
             }
         </script>
-        
+
     </div>
 
     {{-- Suggestion --}}
@@ -400,18 +410,18 @@
                                                             $reviewCount = $book->reviews->count();
 
                                                         @endphp
-                                                            {{-- 満点の星を表示 --}}
-                                                            @for ($i = 0; $i < $fullStars; $i++)
+                                                        {{-- 満点の星を表示 --}}
+                                                        @for ($i = 0; $i < $fullStars; $i++)
                                                             <i class="fa-solid fa-star text-warning"></i>
-                                                            @endfor
-                                                            
+                                                        @endfor
+
                                                         {{-- 半点の星を表示 --}}
                                                         @if ($halfStar)
                                                             <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                            @endif
-                                                            
-                                                            {{-- 未満の星を表示 --}}
-                                                            @for ($i = 0; $i < $emptyStars; $i++)
+                                                        @endif
+
+                                                        {{-- 未満の星を表示 --}}
+                                                        @for ($i = 0; $i < $emptyStars; $i++)
                                                             <i class="fa-regular fa-star text-warning"></i>
                                                         @endfor
 
@@ -516,25 +526,28 @@
                                                         <tr>
                                                             <td class="star-ration-list d-flex ms-5">
                                                                 @php
-                                                                    $averageStarCount = $book->reviews->avg('star_count');
+                                                                    $averageStarCount = $book->reviews->avg(
+                                                                        'star_count',
+                                                                    );
                                                                     $fullStars = floor($averageStarCount); // 満点の数
                                                                     $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
                                                                     $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
                                                                     $reviewCount = $book->reviews->count();
 
                                                                 @endphp
-                                                                    {{-- 満点の星を表示 --}}
-                                                                    @for ($i = 0; $i < $fullStars; $i++)
+                                                                {{-- 満点の星を表示 --}}
+                                                                @for ($i = 0; $i < $fullStars; $i++)
                                                                     <i class="fa-solid fa-star text-warning"></i>
-                                                                    @endfor
-                                                                    
+                                                                @endfor
+
                                                                 {{-- 半点の星を表示 --}}
                                                                 @if ($halfStar)
-                                                                    <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                                                                    @endif
-                                                                    
-                                                                    {{-- 未満の星を表示 --}}
-                                                                    @for ($i = 0; $i < $emptyStars; $i++)
+                                                                    <i
+                                                                        class="fa-solid fa-star-half-stroke text-warning"></i>
+                                                                @endif
+
+                                                                {{-- 未満の星を表示 --}}
+                                                                @for ($i = 0; $i < $emptyStars; $i++)
                                                                     <i class="fa-regular fa-star text-warning"></i>
                                                                 @endfor
 

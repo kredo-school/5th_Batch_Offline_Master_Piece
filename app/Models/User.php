@@ -135,7 +135,7 @@ class User extends Authenticatable
 
     public function store_reserved()
     {
-        return $this->hasMany(Reserve::class, 'store_id')->whereNotNull('reservation_number');
+        return $this->hasMany(Reserve::class, 'store_id')->whereNotNull('reservation_number')->latest();
     }
 
     public function isBookmarked($thread_id)
