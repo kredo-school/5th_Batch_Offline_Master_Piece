@@ -87,7 +87,7 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
-            <th class="text-center">Status</th>
+            <th>Status</th>
         </tr>
     </thead>
 
@@ -127,7 +127,7 @@
                 <p class="text-danger">Not available</p>
             @endif
         </td>
-        <td class="text-center">
+        <td>
             @if ($store->trashed())
                 <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-store-modal-{{ $store->id }}">
                     <i class="fa-regular fa-face-frown text-danger"></i> Inactive

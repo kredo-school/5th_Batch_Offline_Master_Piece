@@ -63,10 +63,10 @@
             @csrf
                 <div class="bg-white rounded my-5 ps-5 overflow-auto profile-list" style="height: 1100px">
                     <h2 class="h1 fw-bold text-grey mt-3">Inventory</h2><br>
-                    @if($all_inventories)
+                    @if($user->inventories)
 
                     <!-- Inventoryのループ -->
-                    @foreach($all_inventories as $inventory)
+                    @foreach($user->inventories as $inventory)
                         <div class="row mt-4">
                             <div class="col-3">
                                 <a href="{{ route('store.bookInformation', $inventory->book->id)}}" class="text-decoration-none">
@@ -115,7 +115,7 @@
                 </div>
             </form>
 
-              <!-- 削除モーダル群 -->
+            <!-- 削除モーダル群 -->
     @foreach ($all_inventories as $inventory)
     <!-- 各削除モーダル -->
     @include('users.store.books.modals.delete-inventory')

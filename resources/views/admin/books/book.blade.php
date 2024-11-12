@@ -137,7 +137,7 @@
                                 No genre
                             @endif
                         </td>
-                        <td class="text-center">
+                        <td>
                             @if ($book->trashed())
                                 <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-book-modal-{{ $book->id }}">
                                     <i class="fa-regular fa-face-frown text-danger"></i> Inactive
