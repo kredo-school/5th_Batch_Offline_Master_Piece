@@ -13,12 +13,19 @@
                         @include('thread.one-thread')
                     @endforeach
 
+                    <div class="justify-content-center d-flex">
+                        {{$search_threads->links()}}
+                    </div>
+
                 @elseif($threads->isNotEmpty())
 
                     @foreach($threads as $thread)
                         @include('thread.one-thread')
                     @endforeach
 
+                    <div class="justify-content-center d-flex">
+                        {{$threads->links()}}
+                    </div>
                 @endif
 
             </div>
