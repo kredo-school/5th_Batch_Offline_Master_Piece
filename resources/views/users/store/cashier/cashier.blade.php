@@ -122,7 +122,7 @@
                                 <div class="cashier-total-price">Total Qty:
                                     <span id="total-qty" class="align-items-end" style="float: right; margin-right: 17px;">0</span><hr>
                                 </div>
-                                <div class="cashier-total-price">Total Price:
+                                <div class="cashier-total-price">Total Price (Tax 10%):
                                     <span id="total-amount" class="align-items-end" style="float: right; margin-right: 17px;">¥ 0.00</span><hr>
                                 </div>
                                 <div class="cashier-total-price d-flex justify-content-end align-items-center">
@@ -131,7 +131,7 @@
                                         <input type="number" id="received-amount" class="fw-bold rounded-pill text-end" style="font-size: 1.5rem; border: none; width: 70%;">
                                     </form>
                                 </div>
-                                <button type="button" id="checkout-button" class="btn btn-danger cashier-submit-button" style="position: absolute; bottom: 8%; left: 25%; width: 50%;">
+                                <button type="button" id="checkout-button" class="btn btn-danger cashier-submit-button" style="position: absolute; bottom: 5%; left: 25%; width: 50%;">
                                     Checkout
                                 </button>
                             </div>
@@ -146,30 +146,100 @@
                     </div>
                 </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const isbnForm = document.getElementById('isbn-form');
-                        const isbnInput = document.getElementById('isbn_code');
-                        const bookList = document.getElementById('book-list');
-                        const totalAmountElement = document.getElementById('total-amount'); // 合計金額の要素
-                        const receivedAmountInput = document.getElementById('received-amount'); // 預かり金額の入力フィールド
-                        const changeAmountElement = document.getElementById('change-amount'); // お釣りの表示要素
-                        const checkoutButton = document.getElementById('checkout-button'); // Checkoutボタン
-                        const paymentMethod = document.getElementById('payment-method'); // 支払い方法の選択
-                        const userIdInput = document.querySelector('input[name="user_id"]');
+                <div style="display: flex; justify-content: flex-end;">
+                    <a href="{{ route('store.getReceipt') }}" class="cashier-button d-block text-decoration-none text-center" style="width: 15%; border-radius: 16px;">
+                        Receipt <i class="fa-solid fa-caret-right"></i>
+                    </a>
+                </div>
+            </div>
 
-                        // ISBNフォームの送信処理
-                        isbnForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            const isbnCode = isbnInput.value.trim();
+            <script>
+                // グローバル変数として定義
+                const receivedAmountInput = document.getElementById('received-amount');
+                const totalAmountElement = document.getElementById('total-amount');
+                const changeAmountElement = document.getElementById('change-amount');
+                const checkoutButton = document.getElementById('checkout-button');
+                const errorMessageElement = document.createElement("div"); // エラーメッセージ表示用の要素を作成
+
+                // エラーメッセージ用スタイル
+                errorMessageElement.style.color = "red";
+                errorMessageElement.style.fontSize = "0.9em";
+                errorMessageElement.style.marginTop = "5px";
+                checkoutButton.parentNode.insertBefore(errorMessageElement, checkoutButton); // ボタンの上にエラーメッセージを追加
+
+                function updateTotal(input) {
+                    const bookLi = input.closest('.table-row');
+                    const priceElement = bookLi.querySelector('.book-price');
+                    const totalPriceElement = bookLi.querySelector('.total-price');
+
+                    const price = parseFloat(priceElement.textContent);
+                    const quantity = parseInt(input.value);
+
+                    const total = price * quantity;
+                    totalPriceElement.textContent = '¥ ' + total.toFixed(2);
+
+                    updateTotalAmount();  // 全体の合計金額と数量を更新
+                    updateChangeAmount(); // お釣りを更新
+                }
+
+                function updateTotalAmount() {
+                    let totalAmount = 0;
+                    let totalQty = 0;
+
+                    const bookRows = document.querySelectorAll('.table-row');
+                    bookRows.forEach(row => {
+                        const totalPriceElement = row.querySelector('.total-price');
+                        const quantityElement = row.querySelector('.book-count');
+                        const totalPrice = parseFloat(totalPriceElement.textContent.replace('¥', '').trim());
+                        const quantity = parseInt(quantityElement.value);
+
+                        totalAmount += totalPrice;  // 各行の total-price を合計
+                        totalQty += quantity;       // 各行の数量を合計
+                    });
+
+                    // 税込みの合計金額を計算
+                    const totalWithTax = totalAmount * 1.1;
+
+                    // 合計数量と税込み合計金額を表示
+                    document.querySelector('#total-qty').textContent = totalQty;
+                    totalAmountElement.textContent = '¥ ' + totalWithTax.toFixed(2); // 税込み合計
+                }
+
+                function updateChangeAmount() {
+                    const receivedAmount = parseFloat(receivedAmountInput.value || 0);
+                    const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
+                    const totalAmount = parseFloat(totalAmountText);
+
+                    const change = receivedAmount - totalAmount;
+                    changeAmountElement.textContent = '¥ ' + change.toFixed(2);
+
+                    // お釣りがマイナスの場合はエラーメッセージを表示してボタンを無効化
+                    if (change < 0) {
+                        errorMessageElement.textContent = "";
+                        checkoutButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        checkoutButton.disabled = false;
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const isbnForm = document.getElementById('isbn-form');
+                    const isbnInput = document.getElementById('isbn_code');
+                    const bookList = document.getElementById('book-list');
+                    const paymentMethod = document.getElementById('payment-method');
+                    const userIdInput = document.querySelector('input[name="user_id"]');
+
+                    isbnForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const isbnCode = isbnInput.value.trim();
 
                         if (isbnCode) {
-                            // サーバーにISBNコードを送信して、対応するタイトル、価格、IDを取得
                             fetch('/store/books/find', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                                 },
                                 body: JSON.stringify({ isbn_code: isbnCode })
                             })
@@ -177,7 +247,7 @@
                             .then(data => {
                                 if (data.title && data.price && data.book_id) {
                                     addBookToList(data.title, data.price, data.book_id);
-                                    isbnInput.value = ''; // フォームをクリア
+                                    isbnInput.value = '';
                                 } else {
                                     alert('Book not found');
                                 }
@@ -185,14 +255,14 @@
                             .catch(error => {
                                 console.error('Error:', error);
                                 alert('Error occurred while fetching book data.');
-                                });
-                            }
-                        });
+                            });
+                        }
+                    });
 
                     function addBookToList(title, price, bookId) {
                         const bookLi = document.createElement('li');
                         bookLi.classList.add('table-row');
-                        bookLi.dataset.bookId = bookId; // book_idをdata属性に設定
+                        bookLi.dataset.bookId = bookId;
 
                         bookLi.innerHTML = `
                             <div>
@@ -217,113 +287,81 @@
 
                         const deleteBtn = bookLi.querySelector('.delete-btn');
                         deleteBtn.addEventListener('click', function() {
-                            bookList.removeChild(bookLi);  // リストからこの行を削除
-                            updateTotalAmount();  // 合計金額を更新
+                            bookList.removeChild(bookLi);
+                            updateTotalAmount();  // アイテム削除時も合計更新
+                            updateChangeAmount(); // お釣りを更新
                         });
 
-                        updateTotalAmount();  // 合計金額を更新
+                        updateTotalAmount();  // アイテム追加時も合計更新
+                        updateChangeAmount();  // お釣りを更新
+                    }
+
+                    receivedAmountInput.addEventListener('input', updateChangeAmount);
+
+                    paymentMethod.addEventListener('change', function() {
+                        const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
+                        const totalAmount = parseFloat(totalAmountText);
+
+                        if (paymentMethod.value !== "cash") {
+                            receivedAmountInput.value = totalAmount.toFixed(2);
+                            changeAmountElement.textContent = '¥ 0.00';
+                        } else {
+                            receivedAmountInput.value = '';
+                            changeAmountElement.textContent = '¥ 0.00';
                         }
-
-                        function updateTotal(input) {
-                            const bookLi = input.closest('.table-row');
-                            const priceElement = bookLi.querySelector('.book-price');
-                            const totalPriceElement = bookLi.querySelector('.total-price');
-
-                            const price = parseFloat(priceElement.textContent); // 価格を取得
-                            const quantity = parseInt(input.value); // 数量を取得
-
-                            const total = price * quantity;
-                            totalPriceElement.textContent = ' ¥ ' + total.toFixed(2); // 合計価格を更新
-
-                            updateTotalAmount();  // 全体の合計金額を更新
-                        }
-
-                        function updateTotalAmount() {
-                            let totalAmount = 0;
-                            let totalQty = 0;
-
-                            const bookRows = bookList.querySelectorAll('.table-row');
-                            bookRows.forEach(row => {
-                                const priceElement = row.querySelector('.book-price');
-                                const quantityElement = row.querySelector('.book-count');
-                                const price = parseFloat(priceElement.textContent);
-                                const quantity = parseInt(quantityElement.value);
-                                totalAmount += price * quantity;
-                                totalQty += quantity;
-                            });
-
-                            document.querySelector('#total-qty').textContent = totalQty;  // 合計数量を表示
-                            totalAmountElement.textContent = '¥ ' + totalAmount.toFixed(2);
-                        }
-
-                        // 支払い方法の変更処理
-                        paymentMethod.addEventListener('change', function() {
-                            const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
-                            const totalAmount = parseFloat(totalAmountText);
-
-                            if (paymentMethod.value !== "cash") {
-                                receivedAmountInput.value = totalAmount.toFixed(2); // 合計金額を預かり金額に設定
-                                changeAmountElement.textContent = '¥ 0.00';
-                            } else {
-                                receivedAmountInput.value = '';
-                                changeAmountElement.textContent = '¥ 0.00';
-                            }
-                        });
-
-                        // Checkoutボタンのクリックイベント
-                        checkoutButton.addEventListener('click', function() {
-                            const receivedAmount = parseFloat(receivedAmountInput.value);
-                            const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
-                            const totalAmount = parseFloat(totalAmountText);
-                            const change = receivedAmount - totalAmount;
-                            const userId = userIdInput.value;
-
-                            const books = [];
-                            bookList.querySelectorAll('.table-row').forEach(row => {
-                                const bookId = row.dataset.bookId;
-                                const quantity = parseInt(row.querySelector('.book-count').value);
-                                books.push({ book_id: bookId, quantity: quantity });
-                            });
-
-                            fetch('/store/checkout', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                body: JSON.stringify({
-                                    user_id: userId,
-                                    total_amount: totalAmount,
-                                    received_amount: receivedAmount,
-                                    change_amount: change,
-                                    payment_method: paymentMethod.value,
-                                    books: books
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('Checkout completed successfully');
-
-                                } else {
-                                    alert('Error during checkout');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Checkout error:', error);
-                                alert('Checkout error occurred');
-                            });
-                        });
+                        updateChangeAmount(); // 支払い方法変更時にお釣りを更新
                     });
 
-                </script>
+                    checkoutButton.addEventListener('click', function() {
+                        const receivedAmount = parseFloat(receivedAmountInput.value || 0);
+                        const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
+                        const totalAmount = parseFloat(totalAmountText);
+                        const change = receivedAmount - totalAmount;
+                        const userId = userIdInput.value || null;
 
-                <div style="display: flex; justify-content: flex-end;">
-                    <a href="{{ route('store.getReceipt') }}" class="cashier-button d-block text-decoration-none text-center" style="width: 15%; border-radius: 16px;">
-                        Receipt <i class="fa-solid fa-caret-right"></i>
-                    </a>
-                </div>
-            </div>
+                        const books = [];
+                        bookList.querySelectorAll('.table-row').forEach(row => {
+                            const bookId = row.dataset.bookId;
+                            const quantity = parseInt(row.querySelector('.book-count').value);
+                            books.push({ book_id: bookId, quantity: quantity });
+                        });
+
+                        if (!userId || books.length === 0) {
+                            alert("User ID and book list are required.");
+                            return;
+                        }
+
+                        fetch('/store/checkout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                user_id: userId,
+                                total_amount: totalAmount,
+                                received_amount: receivedAmount,
+                                change_amount: change,
+                                payment_method: paymentMethod.value,
+                                books: books
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Checkout completed successfully');
+                                location.reload();
+                            } else {
+                                alert('Error during checkout');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Checkout error:', error);
+                            alert('Checkout error occurred');
+                        });
+                    });
+                });
+            </script>
 
             <style>
                 .cashier-card{

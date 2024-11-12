@@ -33,8 +33,8 @@
                         <tbody>
                             @foreach( $latestData->receiptBook as $receipt_book )
                                 <tr>
-                                    <td>{{ $receipt_book->book->title }}</td>
-                                    <td class="text-end">{{ number_format($receipt_book->book->price) }}
+                                    <td style="display: flex; align-items: center;">{{ $receipt_book->book->title }}</td>
+                                    <td class="text-end" style="justify-content: flex-end;">{{ number_format($receipt_book->book->price) }}
                                         <br>{{ $receipt_book->quantity }}
                                     </td>
                                 </tr>
@@ -42,27 +42,27 @@
                         </tbody>
                     </table>
                         <hr>
-                        <table class="w-100 mb-5">
-                            <tr>
-                                <td>Subtotal</td>
-                                <td class="text-end">{{ number_format($latestData->total_amount) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Tax (10%)</td>
-                                <td class="text-end">{{ number_format($latestData->total_amount * 0.1) }}</td>
-                            </tr>
-                            <tr class="fw-bold fs-5">
-                                <td>Total</td>
-                                <td class="text-end">¥ {{ number_format($latestData->total_amount * 1.1) }}</td>
-                            </tr>
-                            <tr class="fw-bold">
-                                <td>{{ $latestData->payment_method }}</td>
-                                <td class="text-end">¥ {{ number_format($latestData->received_amount) }}</td>
-                            </tr>
-                            <tr class="fw-bold">
-                                <td>Change</td>
-                                <td class="text-end">¥ {{ number_format($latestData->change_amount) }}</td>
-                            </tr>
+                    <table class="w-100 mb-5">
+                        <tr>
+                            <td>Subtotal</td>
+                            <td class="text-end">{{ number_format($latestData->total_amount/1.1 )}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tax (10%)</td>
+                            <td class="text-end">{{ number_format($latestData->total_amount/11 ) }}</td>
+                        </tr>
+                        <tr class="fw-bold fs-5">
+                            <td>Total</td>
+                            <td class="text-end">¥ {{ number_format($latestData->total_amount) }}</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td>{{ $latestData->payment_method }}</td>
+                            <td class="text-end">¥ {{ number_format($latestData->received_amount) }}</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td>Change</td>
+                            <td class="text-end">¥ {{ number_format($latestData->change_amount) }}</td>
+                        </tr>
                     </table>
                 </div>
             </div>
