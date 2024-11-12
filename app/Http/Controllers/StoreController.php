@@ -227,6 +227,7 @@ class StoreController extends Controller
     public function storeSearch(Request $request)
     {
         $query = $request->input('search');
+        $author_name = $this->book->author->name;
         // 書籍をタイトルや著者名などで検索する例
         $books = Book::where('title', 'LIKE', "%{$query}%")
         ->orWhere('author_name', 'LIKE', "%{$query}%")
