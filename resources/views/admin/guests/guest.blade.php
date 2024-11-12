@@ -36,20 +36,21 @@
             <div class="col-4">
                 <form id="sortForm" action="{{ route('admin.guests.index') }}" method="get">
                     @csrf
-                <div class="d-flex justify-content-center align-items-center">
-                    <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-guest-select" name="sort">
-                        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
-                        <option value="report" {{ request('sort') == 'report' ? 'selected' : '' }}>Report</option>
-                        <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
-                    </select>
-
-                    <select class="form-select w-50" aria-label="sort-order" id="sort-order-select" name="order">
-                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
-                        <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
-                    </select>
-                </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select class="form-select w-50 me-2" aria-label="admin-sort" id="manage-guest-select" name="sort" onchange="this.form.submit()">
+                            <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
+                            <option value="report" {{ request('sort') == 'report' ? 'selected' : '' }}>Report</option>
+                            <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>Status</option>
+                        </select>
+            
+                        <select class="form-select w-50" aria-label="sort-order" id="sort-order-select" name="order" onchange="this.form.submit()">
+                            <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>↑ Ascending</option>
+                            <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>↓ Descending</option>
+                        </select>
+                    </div>
                 </form>
             </div>
+            
         </div>
         @include('admin.button')
     </div>
@@ -86,7 +87,7 @@
                 </td>
                 <td>{{ $user->email }}</td>
                 <td class="text-center text-danger">{{ $user->thread_report_count ?? 0 }}</td>
-                
+
                 <td class="text-center">
                         @if ($user->trashed())
                             <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-user-modal-{{ $user->id }}">
