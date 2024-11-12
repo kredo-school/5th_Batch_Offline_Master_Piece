@@ -18,7 +18,11 @@ class GuestsController extends Controller
         $order = $request->input('order', 'asc'); // デフォルトは昇順 'asc'
 
         // クエリの初期化
-        $query = User::withTrashed()->with(['comments.thread', 'comments.reports']); // reportsをここでロード
+        // $query = User::withTrashed()->with(['comments.thread', 'comments.reports']); 
+        // reportsをここでロード
+        $query = User::withTrashed()
+            ->with(['comments.thread', 'comments.reports'])
+            ->where('role_id', '!=', 3); // role_idが3以外のユーザーに限定
 
         // 検索条件があればクエリに適用
         if (!empty($searchTerm)) {
@@ -82,7 +86,10 @@ $all_users = $query->paginate(5);
         $order = $request->input('order', 'asc');
 
         // ユーザーのクエリの初期化
-        $query = User::withTrashed()->with(['comments.thread', 'comments.reports']);
+        // $query = User::withTrashed()->with(['comments.thread', 'comments.reports']);
+        $query = User::withTrashed()
+            ->with(['comments.thread', 'comments.reports'])
+            ->where('role_id', '!=', 3); // role_idが3以外のユーザーに限定
 
         // 検索条件がある場合はそれを適用
         if (!empty($searchTerm)) {

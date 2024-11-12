@@ -51,7 +51,7 @@
                 <p class="fs-24 fw-bold">Be patient to fill out the form below</p>
             </div>
             <div class="col-7 row  mt-2 p-5 shadow bg-white rounded">
-                <div class="col-5">
+                <div class="col-md-5">
                     <div class="mx-auto text-center">
                         <i class="fa-solid fa-circle-user icon-lg"></i>
                     </div>
@@ -69,7 +69,7 @@
                             <p class="text-danger small">{{ $message }}</p>
                         @enderror
                 </div>
-                <div class="col-7 px-4">
+                <div class="col-md-7">
                     <label for="first_name" class="form-label">First name <span class="text-danger">*</span></label>
                     <input type="text" name="first_name" id="first_name" placeholder="First name"
                         value="{{ old('first_name') }}" class="form-control">
@@ -87,8 +87,8 @@
                     <label for="gender" class="form-label mt-4">gender <span class="text-danger">*</span></label>
                     <select name="gender" id="gender" class="form-select" value="{{ old('gender') }}">
                         <option value="" hidden>Select gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
                     </select>
                     @error('gender')
                         <p class="text-danger small">{{ $message }}</p>
@@ -114,7 +114,8 @@
                         <option value="" hidden>Address</option>
                         @foreach ($prefectures as $prefecture)
                             <option value="{{ $prefecture }}"
-                                {{ optional($user->profile)->address == $prefecture ? 'selected' : '' }}>
+                                {{ optional($user->profile)->address == $prefecture ? 'selected' : '' }}
+                                {{ old('address') == $prefecture ? 'selected' : '' }}>
                                 {{ $prefecture }}
                             </option>
                         @endforeach
@@ -123,14 +124,17 @@
                         <p class="text-danger small">{{ $message }}</p>
                     @enderror
                 </div>
-                <label for="introduction" class="form-label mt-4">Introduction</label>
-                <textarea name="introduction" id="" cols="30" rows="10" class="form-control"
-                    placeholder="Introduction">{{ old('introduction') }}</textarea>
-                @error('introduction')
-                    <p class="text-danger small">{{ $message }}</p>
-                @enderror
+                <div class="col">
 
-                <button type="submit" class="btn btn-orange mt-4">Update</button>
+                    <label for="introduction" class="form-label mt-4">Introduction</label>
+                    <textarea name="introduction" id="" cols="30" rows="10" class="form-control"
+                        placeholder="Introduction">{{ old('introduction') }}</textarea>
+                    @error('introduction')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
+    
+                    <button type="submit" class="btn btn-orange mt-4 w-100">Update</button>
+                </div>
 
                 </form>
             </div>

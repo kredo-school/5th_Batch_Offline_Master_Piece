@@ -3,21 +3,14 @@
 @section('title', 'register-store')
 
 @section('content')
-{{--
-    登録したEメールに送る
-    パスワード
-    ランダムで付与できるように
-    
-    イントロなくてもいい
-    アドレスは必要
-    　一部項目はstore-editページで追加してもらう。
-
-    必要になるもの
-    ユーザー名
-    email
-    password
-    　メール送り機能とパスワード発行機能の追加ぐらい
-    --}}
+<div>
+    <a href="{{ url()->previous() }}" class="fw-bold text-decoration-none main-text btn border-0">
+        <div class="h2 fw-semibold">
+            <i class="fa-solid fa-caret-left"></i>
+            <div class="d-inline main-text">Back</div>
+        </div>
+    </a>
+</div>
     
 <!-- CSS -->
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
@@ -25,7 +18,7 @@
 
 <div class="container">
     <img src="{{ asset('/images/BB2BB7F8-CA14-4C2A-8606-2DA9E432FEB0.png') }}" alt="" class="register-img mx-auto d-block">
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-2">
         <div class="col-5">
             <div class="card card-submit mt-3 mx-auto">
                 {{-- <div class="card-header">{{ __('Register') }}</div> --}}

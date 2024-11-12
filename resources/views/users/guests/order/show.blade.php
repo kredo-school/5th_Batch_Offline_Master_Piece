@@ -76,7 +76,7 @@
                                             @method('PATCH')
 
                                             <input type="number" name="quantity[]" id="quantity" placeholder="quantity"
-                                                min="0" max="30"
+                                                min="0" max="100"
                                                 value="{{ old('quantity'.$loop->index, $reserve->quantity) }}"
                                                 class="form-control mb-5 mt-4 w-50 text-center d-inline quantity">
                                             @error('quantity'.$loop->index)

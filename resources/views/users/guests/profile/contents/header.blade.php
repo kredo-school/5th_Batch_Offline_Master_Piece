@@ -7,7 +7,7 @@
 
 <div class="row justify-content-center mt-3">
     <div class="row col-9 bg-white rounded shadow">
-        <div class="col-3 text-center pt-5">
+        <div class="col-sm-3 text-center pt-5">
             @if (optional($user->profile)->avatar)
                 <img src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}"
                     class="rounded-circle shadow p-1 avatar-lg d-block mx-auto ">
@@ -16,17 +16,14 @@
             @endif
             <p class="fw-bolder fs-32">{{$user->name}}</p>
         </div>
-        <div class="col-9 p-5">
-            <p class="fs-24 fw-bold">Introduction</p>
-            <p class="fs-24 fw-light wrap-text">{{ optional($user->profile)->introduction }}</p>
-
+        <div class="col-sm-9 p-5 row">
+            <p class="fs-24 fw-bold col-6">Introduction</p>
             @if (Auth::user()->id === $user->id)
-                <div class="text-end">
+                <div class="text-end col-6">
                     <a href="{{ route('profile.edit') }}" class="btn btn-orange ">Edit Profile</a>
                 </div>
             @endif
-
-
+            <p class="fs-24 fw-light wrap-text col-12">{{ optional($user->profile)->introduction }}</p>
 
         </div>
 

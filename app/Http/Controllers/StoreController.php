@@ -146,7 +146,7 @@ class StoreController extends Controller
             ->join('genres', 'genre_books.genre_id', '=', 'genres.id')
             ->where('store_book.store_id', $store->id)
             ->select('books.title', 'genres.name as genre', \DB::raw('COUNT(books.id) as purchase_count'))
-            ->groupBy('books.id', 'genres.name')
+            ->groupBy('books.id','books.title', 'genres.name')
             ->orderBy('purchase_count', 'desc')
             ->take(10)
             ->get();
@@ -186,7 +186,7 @@ class StoreController extends Controller
 
         $total_price = 0;
         foreach($reserves as $reserve):
-            $total_price += $reserve->book->price;
+            $total_price += $reserve->book->price * $reserve->quantity;
         endforeach;
         return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }

@@ -92,7 +92,7 @@
     </thead>
 
     <tbody>
-        @if (empty($stores))
+        @if  ($stores->isEmpty())
     <tr>
         <td colspan="6" class="text-center">No stores found</td>
     </tr>
