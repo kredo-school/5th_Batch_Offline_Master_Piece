@@ -186,7 +186,7 @@ class StoreController extends Controller
 
         $total_price = 0;
         foreach($reserves as $reserve):
-            $total_price += $reserve->book->price;
+            $total_price += $reserve->book->price * $reserve->quantity;
         endforeach;
         return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }
