@@ -64,22 +64,25 @@
                                                     </div>
                                                 @endif
                                                 <div class="text-center">
-                                                    <a href="{{ route('book.show_book', $book->id) }}">
-                                                        <img src="{{ $book->image }}" class="bookcover shadow img-list"
-                                                            alt="Image {{ $loop->iteration }}">
-                                                    </a>
-                                                    <p class="mt-4">
-                                                        <a href="{{ route('book.show_book', $book->id) }}"
-                                                            class="text-decoration-none text-primary fs-24 fw-bold">
-                                                            {{ $book->title }}
+                                                    {{-- @if ($book) --}}
+                                                        <a href="{{ route('book.show_book', $book->id) }}">
+                                                            <img src="{{ $book->image }}" class="bookcover shadow img-list"
+                                                                alt="Image {{ $loop->iteration }}">
                                                         </a>
-                                                    </p>
-                                                    <p>
-                                                        @foreach ($book->authors as $author)
-                                                            <a href="{{ route('book.author_show', $author->id) }}"
-                                                                class="text-decoration-none h4 fw-bold">{{ $author->name }}</a>
-                                                        @endforeach
-                                                    </p>
+
+                                                        <p class="mt-4">
+                                                            <a href="{{ route('book.show_book', $book->id) }}"
+                                                                class="text-decoration-none text-primary fs-24 fw-bold">
+                                                                {{ $book->title }}
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            @foreach ($book->authors as $author)
+                                                                <a href="{{ route('book.author_show', $author->id) }}"
+                                                                    class="text-decoration-none h4 fw-bold">{{ $author->name }}</a>
+                                                            @endforeach
+                                                        </p>
+                                                    {{-- @endif --}}
                                                 </div>
                                             </div>
                                         @endforeach

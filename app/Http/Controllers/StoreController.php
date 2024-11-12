@@ -186,7 +186,7 @@ class StoreController extends Controller
 
         $total_price = 0;
         foreach($reserves as $reserve):
-            $total_price += $reserve->book->price;
+            $total_price += $reserve->book->price * $reserve->quantity;
         endforeach;
         return view('users.store.reservation.confirm-reservation-show')->with(compact('reservation', 'reserves', 'total_price'));
     }
@@ -227,6 +227,7 @@ class StoreController extends Controller
     public function storeSearch(Request $request)
     {
         $query = $request->input('search');
+        $author_name = $this->book->author->name;
         // 書籍をタイトルや著者名などで検索する例
         $books = Book::where('title', 'LIKE', "%{$query}%")
         ->orWhere('author_name', 'LIKE', "%{$query}%")
@@ -236,8 +237,9 @@ class StoreController extends Controller
 
     public function inventory()
     {
+        $user = Auth::user();
         $all_inventories = $this->inventory->all();
-        return view('users.store.books.inventory')->with(compact('all_inventories'));
+        return view('users.store.books.inventory')->with(compact('user','all_inventories'));
     }
 
     public function bookInformation($id)
