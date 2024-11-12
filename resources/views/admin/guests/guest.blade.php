@@ -61,8 +61,8 @@
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
-                <th class="text-center">Report</th>
-                <th class="text-center">Status</th>
+                <th >Report</th>
+                <th >Status</th>
                 {{-- <th>Actions</th> --}}
             </tr>
         </thead>
@@ -85,9 +85,9 @@
                     <a href="{{ route('profile.show', $user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $user->name }}</a>
                 </td>
                 <td>{{ $user->email }}</td>
-                <td class="text-center text-danger">{{ $user->thread_report_count ?? 0 }}</td>
+                <td class="text-danger">{{ $user->thread_report_count ?? 0 }}</td>
                 
-                <td class="text-center">
+                <td>
                         @if ($user->trashed())
                             <a class="btn fs-24 p-0 border-0" data-bs-toggle="modal" data-bs-target="#active-user-modal-{{ $user->id }}">
                                 <i class="fa-regular fa-face-frown text-danger"></i> Inactive
