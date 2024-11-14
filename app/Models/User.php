@@ -32,6 +32,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id', //register-storeにて追加
+        'google_id',
     ];
 
     /**
