@@ -435,7 +435,7 @@ class StoreController extends Controller
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email',
-        'phone' => 'required|digits_between:10,16',
+        'phone_number' => 'required|digits_between:10,16|unique:profiles,phone_number,' . Auth::user()->profile->id,
         'prefecture' => 'required',
         'address' => 'required|string|max:255',
         'introduction' => 'required|string|max:5000',
