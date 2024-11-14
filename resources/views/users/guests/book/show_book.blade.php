@@ -158,7 +158,7 @@
                         @if ($review->user)
                             <a href="{{ route('profile.show', $review->user->id) }}"
                                 class="text-decoration-none text-dark">
-                                <div class="text-center d-flex ">
+                                <div class="text-center d-flex align-items-center">
                                     @if (optional($review->user->profile)->avatar)
                                         <img src="{{ optional($review->user->profile)->avatar }}"
                                             alt="{{ $review->user->id }}"
@@ -433,6 +433,14 @@
                     </div>
                 @endforeach
             </div>
+            {{-- Indicators --}}
+            <div class="carousel-indicators">
+                @foreach ($suggestedBooks->chunk(4) as $chunk)
+                    <button type="button" data-bs-target="#carouselRankingControls"
+                        data-bs-slide-to="{{ $loop->index }}" class="{{ $loop->first ? 'active' : '' }}"
+                        aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
+            </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselSuggestionControls"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -561,6 +569,14 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+            {{-- Indicators --}}
+            <div class="carousel-indicators">
+                @foreach ($sameGenreBooks->chunk(4) as $chunk)
+                    <button type="button" data-bs-target="#carouselRankingControls"
+                        data-bs-slide-to="{{ $loop->index }}" class="{{ $loop->first ? 'active' : '' }}"
+                        aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+                @endforeach
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselSamegenres"
                 data-bs-slide="prev">
