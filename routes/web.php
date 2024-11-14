@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\controllers\GuestOrderController;
 use App\Http\controllers\LikeController;
 use App\Http\controllers\EditController;
+use App\Http\Controllers\ReserveController;
 use App\Http\controllers\AuthController;
 
 
@@ -138,6 +139,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/receipt', [StoreController::class, 'getReceipt'])->name('getReceipt');
         Route::post('/checkout', [StoreController::class, 'checkout'])->name('checkout');
+        Route::post('/reserve-books', [ReserveController::class, 'getBooksByReservationNumber']);
+
 
             // store edit周辺
 
@@ -275,7 +278,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
 //     Route::get('auth/google/callback', 'handleGoogleCallback');
 
 // });
-Route :: get ( '/google/redirect' , [ App\Http\Controllers\AuthController :: class , 'redirectToGoogle' ])-> name ( 'google.redirect' ); 
+Route :: get ( '/google/redirect' , [ App\Http\Controllers\AuthController :: class , 'redirectToGoogle' ])-> name ( 'google.redirect' );
 Route :: get ( '/google/callback' , [ App\Http\Controllers\AuthController :: class , 'handleGoogleCallback' ])-> name ( 'google.callback' );
 
 
