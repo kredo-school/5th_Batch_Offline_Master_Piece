@@ -186,26 +186,50 @@
     margin: 40px;
 }
 
-/* show book avatar */
-.review-avatar {
-    font-size: 40px; /* このプロパティは必要ないかもしれません */
+/* show book avatar */ 
+.review-avatar-img {
     width: 80px; /* 固定サイズ */
     height: 80px; /* 固定サイズ */
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    object-fit: cover; /* アスペクト比を維持して中央に表示 */
+    border-radius: 50%; /* 完全な円形 */
+    display: inline-block; /* 親要素の影響を受けにくくする */
+}
+
+.review-avatar {
+    object-fit: cover; 
+    width: 80px; /* 固定サイズ */
+    height: 80px; /* 固定サイズ */
+    border-radius: 50%; /* 完全な円形 */
+    display: inline-block;
 }
 
 .review-avatar-img {
-    font-size: 73px; /* このプロパティは必要ないかもしれません */
-    width: 80px; /* 固定サイズ */
-    height: 80px; /* 固定サイズ */
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    object-fit: cover; /* アスペクト比を維持して中央に表示 */
+    font-size: 80px; /* アイコンのサイズを円内に合わせる */
+    line-height: 80px; /* 高さと同じ値にして中央揃え */
+    text-align: center;
+    background-color: #f0f0f0; /* 必要に応じて背景色を設定 */
+    color: #bbb; /* 必要に応じてアイコンの色 */
 }
+
+@media (max-width: 576px) {
+    .review-avatar-img {
+        width: 40px;
+        height: 40px;
+        font-size: 40px; /* 小さい画面でのアイコンサイズ調整 */
+        line-height: 40px; /* 縦方向の中央揃え */
+    }
+
+    .review-avatar{
+        width: 40px;
+        height: 40px;
+        font-size: 20px; /* 小さい画面でのアイコンサイズ調整 */
+        line-height: 40px; /* 縦方向の中央揃え */
+    }
+
+    .fs-32 {
+        font-size: 32px; /* 小さい画面でのテキストサイズ調整 */
+    }
+}
+
 
 
 .show-bookimg{
@@ -883,6 +907,10 @@ main
     height: 42px; /* お好みのサイズに調整 */
     
 
+    /* width: 10rem;
+    height: 10rem; */
+    object-fit: cover;
+    /* border-radius: 50%; */
 }
 
 
