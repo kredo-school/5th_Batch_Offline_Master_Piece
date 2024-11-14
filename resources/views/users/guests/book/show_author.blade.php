@@ -16,25 +16,24 @@
 
     <form action="{{route('book.searchAuthor')}}" method="get">
         <div class="row justify-content-center mb-5">
-            <div class="col-5">
-                <form action="#" style="width: 500px" class="d-flex">
+            <div class="col-12 col-md-6">
+                <div class="d-flex justify-content-center" style="max-width: 500px; margin: 0 auto;">
                     @csrf
-                    <div class="row ms-auto">
-                        <div class="col pe-0 position-relative">
-                            <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
-                                style="width: 400px" placeholder="Search authors...">
-                            <span id="clearButton" class="clearButton">&times;</span>
-                        </div>
-                        <div class="col ps-1">
-                            <button type="submit" class="btn btn-secondary">
-                                Search
-                            </button>
-                        </div>
+                    <div class="me-2 flex-grow-1 position-relative">
+                        <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
+                            placeholder="Search authors..." style="width: 100%;">
+                        <span id="clearButton" class="clearButton" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">&times;</span>
                     </div>
-                </form>
+                    <button type="submit" class="btn btn-secondary">
+                        Search
+                    </button>
+                </div>
             </div>
         </div>
     </form>
+    
+    
 
     <div class="container-body p-5" style="overflow-y: auto; height: 650px;">
         <div class="ms-3">
@@ -42,12 +41,12 @@
 
             @foreach ($author->books as $book)
                 <div class="row mt-5">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <a href="{{ route('book.show_book', $book->id) }}">
                             <img src="{{ $book->image }}" alt="{{ $book->id }}" class="w-100 shadow">
                         </a>
                     </div>
-                    <div class="col-6 fs-32">
+                    <div class="col-md-6 fs-32">
                         <p>
                             <a href="{{ route('book.show_book', $book->id) }}" class="link-book">
                                 <p class="fs-32">{{ $book->title }}</p>
@@ -79,7 +78,7 @@
                         {{ number_format($averageStarCount, 1) }}/5.0
                         <p class="text-danger fs-32 mt-5">¥ {{ floor($book->price) }}</p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <div class="h-75 text-end">
                             @if ($book->isBookmarked())
                                 <form action="{{ route('bookmark.destroy', $book->id) }}" method="post">

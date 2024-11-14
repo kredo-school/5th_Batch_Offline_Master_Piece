@@ -56,15 +56,15 @@
                                 <div class="card-body bg-white">
                                     <hr>
                                     <div class="row mb-3">
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-12">
                                             {{-- book image --}}
                                             <div class="text-center">
                                                 <a href="{{ route('book.show_book', $reserve->book->id) }}"><img
                                                         src="{{ $reserve->book->image }}" alt="{{ $reserve->book->id }}"
-                                                        class="w-75 shadow img-list"></a>
+                                                        class="shadow img-list"></a>
                                             </div>
                                         </div>
-                                        <div class="col-6 fs-32">
+                                        <div class="col-lg-6 col-md-12 fs-32">
                                             {{-- book infomation --}}
                                             <p class="fs-32"><a href="{{ route('book.show_book', $reserve->book->id) }}"
                                                     class="text-decoration-none text-dark">{{ $reserve->book->title }}</a>
@@ -104,7 +104,7 @@
                                                     data-price="{{ $reserve->book->price }}">{{ number_format($reserve->book->price) }}</span>
                                             </p>
                                         </div>
-                                        <div class="col-3 d-flex align-items-end ps-0">
+                                        <div class="col-lg-3 col-md-auto d-flex align-items-end ps-0">
 
                                             <div class="d-block w-100 me-3">
                                                 <div class="row h3 mb-3">
@@ -173,25 +173,25 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col text-end">
-                        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary w-50 p-3">
-                            <div class="h3 m-0"><i class="fa-solid fa-arrow-left"></i> Back</div>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <form action="{{ route('order.reserve') }}" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn btn-orange w-50 p-3">
-                                <div class="h3 m-0">Reserve <i class="fa-solid fa-arrow-right"></i></div>
-                            </button>
-                        </form>
-                    </div>
-                </div>
 
             </div>
 
+        </div>
+        <div class="row">
+            <div class="col text-end">
+                <a href="{{ url()->previous() }}" class="btn btn-outline-secondary w-50 p-3">
+                    <div class="h3 m-0"><i class="fa-solid fa-arrow-left"></i> Back</div>
+                </a>
+            </div>
+            <div class="col">
+                <form action="{{ route('order.reserve') }}" method="post">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-orange w-50 p-3">
+                        <div class="h3 m-0">Reserve <i class="fa-solid fa-arrow-right"></i></div>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 @endsection
