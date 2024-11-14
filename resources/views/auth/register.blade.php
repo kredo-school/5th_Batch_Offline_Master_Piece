@@ -57,6 +57,13 @@
                                 {{ __('Register') }}
                             </button>
                         </div>
+
+                        <div class="justify-content-center d-flex">
+                            {{-- <a href="{{ route('auth.google') }}"  > --}}
+                                <a href="{{ route('google.redirect') }}"  >
+                                <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" >
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
