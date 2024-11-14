@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'last_name' => 'required|max:50',
             'gender' => 'required',
             'birthday' => 'required|date',
-            'phone_number' => 'required|digits_between:10,16',
+            'phone_number' => 'required|digits_between:10,16|unique:profiles,phone_number,' . Auth::user()->profile->id,
             'address' => 'required',
             'introduction' => 'max:200',
             'avatar' => 'mimes:jpg,jpeg,gif,png|max:1048'

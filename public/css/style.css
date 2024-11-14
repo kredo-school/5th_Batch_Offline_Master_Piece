@@ -907,6 +907,10 @@ main
     height: 42px; /* お好みのサイズに調整 */
     
 
+    /* width: 10rem;
+    height: 10rem; */
+    object-fit: cover;
+    /* border-radius: 50%; */
 }
 
 

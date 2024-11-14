@@ -127,10 +127,13 @@
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                         {{-- Admin --}}
                         @can('admin')
-                            <a class="dropdown-item" href="{{ route('admin.home') }}">
-                                <i class="fa-solid fa-user-gear"></i> Admin
-                            </a>
-                            <hr class="dropdown-divider">
+                        <a class="dropdown-item" href="{{ route('admin.home') }}">
+                            <i class="fa-solid fa-user-gear"></i> Admin
+                        </a>
+                        <a class="dropdown-item" href="{{ route('home') }}">
+                        <i class="fa-solid fa-house-user"></i> Guest
+                        </a>
+                        <hr class="dropdown-divider">
                         @endcan
                 
                         {{-- Store Page 仮置き --}}
@@ -204,10 +207,13 @@
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                 {{-- Admin --}}
                 @can('admin')
-                    <a class="dropdown-item" href="{{ route('admin.home') }}">
-                        <i class="fa-solid fa-user-gear"></i> Admin
-                    </a>
-                    <hr class="dropdown-divider">
+                <a class="dropdown-item" href="{{ route('admin.home') }}">
+                    <i class="fa-solid fa-user-gear"></i> Admin
+                </a>
+                <a class="dropdown-item" href="{{ route('home') }}">
+                <i class="fa-solid fa-house-user"></i> Guest
+                </a>
+                <hr class="dropdown-divider">
                 @endcan
         
                 {{-- Store Page 仮置き --}}
@@ -300,6 +306,9 @@
                         <a class="dropdown-item" href="{{ route('admin.home') }}">
                             <i class="fa-solid fa-user-gear"></i> Admin
                         </a>
+                        <a class="dropdown-item" href="{{ route('home') }}">
+                        <i class="fa-solid fa-house-user"></i> Guest
+                        </a>
                         <hr class="dropdown-divider">
                     @endcan
             
@@ -378,10 +387,13 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-dropdown">
                     {{-- Admin --}}
                     @can('admin')
-                        <a class="dropdown-item" href="{{ route('admin.home') }}">
-                            <i class="fa-solid fa-user-gear"></i> Admin
-                        </a>
-                        <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="{{ route('admin.home') }}">
+                        <i class="fa-solid fa-user-gear"></i> Admin
+                    </a>
+                    <a class="dropdown-item" href="{{ route('home') }}">
+                    <i class="fa-solid fa-house-user"></i> Guest
+                    </a>
+                    <hr class="dropdown-divider">
                     @endcan
             
                     {{-- Store Page 仮置き --}}
@@ -459,6 +471,7 @@
             </a>
             <hr class="dropdown-divider">
         @endcan
+
 
         {{-- Store Page 仮置き --}}
         @can('store')
