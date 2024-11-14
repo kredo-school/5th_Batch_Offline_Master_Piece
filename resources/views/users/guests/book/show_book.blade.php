@@ -17,123 +17,109 @@
 
     <div class="container-body">
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
                 <a href="{{ route('book.show_book', $book->id) }}" class="show-bookimg">
                     <img src="{{ $book->image }}" alt="book image {{ $book->id }}" class="img-fluid">
                 </a>
             </div>
-            <div class="col-8">
+                <div class="col-md-8">
                 <div class="row">
                     <div class="col-10">
-                        <h1 class="fw-bold d-flex">Title: {{ $book->title }}</h1>
+                        <h1 class="fw-bold">Title: {{ $book->title }}</h1>
                     </div>
-                    <div class="col-2">
-                        <div class="text-end">
-                            @if ($book->isBookmarked())
-                                <form action="{{ route('bookmark.destroy', $book->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn p-0">
-                                        <i class="fa-solid fa-bookmark text-warning h1"></i>
-                                    </button>
-                                </form>
-                            @else
-                                <form action="{{ route('bookmark.store', $book->id) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn p-0">
-                                        <i class="fa-regular fa-bookmark text-warning h1"></i>
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
+                    <div class="col-2 text-end">
+                        @if ($book->isBookmarked())
+                            <form action="{{ route('bookmark.destroy', $book->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn p-0">
+                                    <i class="fa-solid fa-bookmark text-warning h1"></i>
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('bookmark.store', $book->id) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn p-0">
+                                    <i class="fa-regular fa-bookmark text-warning h1"></i>
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
-                <h3>Author: @foreach ($book->authors as $author)
+    
+                <h3>Author: 
+                    @foreach ($book->authors as $author)
                         <a href="{{ route('book.author_show', $author->id) }}" class="link-book">{{ $author->name }}</a>
                     @endforeach
                 </h3>
                 <h3>Publisher: {{ $book->publisher }}</h3>
                 <h3>Publish year: {{ $book->publication_date }}</h3>
                 <h3>Description: {{ $book->description }}</h3>
+    
                 <h3 class="d-flex">Rate:
-                    <!-- Button trigger modal -->
                     <button type="button" class="btn d-flex" data-bs-toggle="modal" data-bs-target="#reviewBook">
                         <div class="star-ration ms-2 fa-lg">
                             @php
                                 $averageStarCount = $book->reviews->avg('star_count');
-                                $fullStars = floor($averageStarCount); // 満点の数
-                                $halfStar = $averageStarCount - $fullStars >= 0.1; // 半点があるか
-                                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // 残りの星
+                                $fullStars = floor($averageStarCount);
+                                $halfStar = $averageStarCount - $fullStars >= 0.1;
+                                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
                                 $reviewCount = $book->reviews->count();
-
                             @endphp
-                            {{-- 満点の星を表示 --}}
                             @for ($i = 0; $i < $fullStars; $i++)
                                 <i class="fa-solid fa-star text-warning"></i>
                             @endfor
-
-                            {{-- 半点の星を表示 --}}
                             @if ($halfStar)
                                 <i class="fa-solid fa-star-half-stroke text-warning"></i>
                             @endif
-
-                            {{-- 未満の星を表示 --}}
                             @for ($i = 0; $i < $emptyStars; $i++)
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
-
                             {{ number_format($averageStarCount, 1) }}/5.0
-
                         </div>
-                        @if ($reviewCount > 0)
-                            <p class="ms-2 h5">({{ $reviewCount }})</p>
-                        @else
-                            <p class="ms-2 h5">(0)</p>
-                        @endif
+                        <p class="ms-2 h5">({{ $reviewCount }})</p>
                     </button>
                 </h3>
-
+    
                 @include('users.guests.book.modals.review_book')
-
-                <h3 class="d-flex">Price:<div class="text-danger"> ¥ {{ floor($book->price) }}</div>
-                </h3>
-                <h3>Genre: @foreach ($book->genres as $genre)
+    
+                <h3 class="d-flex">Price: <div class="text-danger">¥ {{ floor($book->price) }}</div></h3>
+                <h3>Genre: 
+                    @foreach ($book->genres as $genre)
                         {{ $genre->name }}
                     @endforeach
                 </h3>
                 <form action="{{ route('book.inventory', $book->id) }}" method="get">
                     @csrf
-                    <div class="row">
-                        <div class="col gap-5">
-                            <select name="address" class="form-select w-90 ms-3">
-                                <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area
-                                </option>
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-2">
+                            <select name="address" class="form-select">
+                                <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area</option>
                                 @foreach ($prefectures as $prefecture)
-                                    <option value="{{ $prefecture }}"
-                                        {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
+                                    <option value="{{ $prefecture }}" {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
                                         {{ $prefecture }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="col">
-                            <input type="submit" value="Select Store" class="btn btn-orange w-100">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-orange w-100">Select Store</button>
                         </div>
                     </div>
+                </form>
             </div>
         </div>
-        </form>
     </div>
+    
 
     {{-- Review List --}}
     <div class="container-body review-list">
         <div class="d-flex align-items-center">
             <div class="row w-100 d-flex">
-                <div class="col">
+                <div class="col-md-9">
                     <h2 class="main-text fw-bold">Review</h2>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <form action="{{ route('book.show_book', $book->id) }}" method="get">
                         <select name="sort" id="sort" class="form-select w-100" onchange="this.form.submit()">
                             <option value=""hidden>sort</option>
@@ -186,7 +172,7 @@
                         @endif
                     </div>
                     <div class="row my-auto">
-                        <div class="col-4 fs-24">
+                        <div class="col-md-4 fs-24">
                             @php
                                 $fullStars = floor($review->star_count);
                                 $halfStar = $review->star_count - $fullStars >= 0.1;
@@ -205,10 +191,10 @@
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
                         </div>
-                        <div class="col ms-5 fw-bold fs-24 d-flex">
+                        <div class="col-md-6 ms-5 fw-bold fs-24 d-flex">
                             {{ $review->title }}
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2">
                             <form action="{{ route('book.review_delete', $review->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -263,18 +249,19 @@
                 <label for="write-review" class="form-label fw-bold fs-32 mt-3">Write your review</label>
                 <div class="border border-1 border-black p-3">
                     <div class="row">
-                        <h6 class="d-flex ms-2">Rate:
-                            <div class="star-rating ms-3">
+                        <h6 class="col-md-1">Rate:</h6>
+                            <h6 class="star-rating ms-3 col-3">
                                 <span class="star-btn" data-value="1"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="2"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="3"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="4"><i class="fa-regular fa-star"></i></span>
                                 <span class="star-btn" data-value="5"><i class="fa-regular fa-star"></i></span>
-                            </div>
+                            </h6>
                             <input type="hidden" name="star-rating" id="star-rating" value="">
-                            <div class="ms-3 my-auto rating-value-number">
+                            <h6 class="ms-3 my-auto rating-value-number col-md-2">
                                 <span id="rating-value-number">0</span> /5.0
-                            </div>
+                            </h6>
+                            <div class="col-md-6"></div>
                             @error('star-rating')
                                 <p class="text-danger small ms-3 my-auto">{{ $message }}</p>
                             @enderror
@@ -297,7 +284,6 @@
                 <input type="submit" value="Post Review" class="btn mt-3 btn-orange px-5">
             </div>
         </form>
-
 
         <script>
             const stars = document.querySelectorAll(".star-btn"); // 星の要素を取得
@@ -362,7 +348,7 @@
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                         <div class="row">
                             @foreach ($chunk as $book)
-                                <div class="col-3">
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <?php
                                     // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
                                     $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;
@@ -483,7 +469,7 @@
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <div class="row">
                                 @foreach ($chunk as $book)
-                                    <div class="col-3">
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <?php
                                         // ループの親ループのカウントを取得して、ページごとにカウントが進むように調整
                                         $overallIteration = ($loop->parent->iteration - 1) * 4 + $loop->iteration;

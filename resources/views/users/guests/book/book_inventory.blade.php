@@ -16,13 +16,13 @@
     <div class="container-body">
         <div class="row">
             <div class="col-1"></div>
-            <div class="col-3">
+            <div class="col-md-3">
                 <a href="{{ route('book.show_book', $book->id) }}">
                     <img src="{{ $book->image }}" alt="book image {{$book->id}}" class="w-100 shadow">
                 </a>
             </div>
             <div class="col-1"></div>
-            <div class="col-7 fs-32">
+            <div class="col-md-7 fs-32">
                 <p>
                     <a href="{{ route('book.show_book', $book->id) }}" class="link-book">
                         <div class="fs-32">{{ $book->title }}</div>
@@ -64,42 +64,40 @@
 
 
     <div class="row mb-5 d-flex justify-content-center mx-auto w-75">
-        <div class="col">
-            <div>
-                <form id="filterForm" action="{{ route('book.inventory', $book->id) }}" method="get">
-                    @csrf
-                    <select name="address" class="form-select w-75 ms-3" onchange="this.form.submit()" id="area">
-                        <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area</option>
-                        @foreach ($prefectures as $prefecture)
-                            <option value="{{ $prefecture }}" {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
-                                {{ $prefecture }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
+        <!-- Select Form -->
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <form id="filterForm" action="{{ route('book.inventory', $book->id) }}" method="get">
+                @csrf
+                <select name="address" class="form-select w-100" onchange="this.form.submit()" id="area">
+                    <option value="All Area" {{ $selectedPrefecture == 'All Area' ? 'selected' : '' }}>All Area</option>
+                    @foreach ($prefectures as $prefecture)
+                        <option value="{{ $prefecture }}" {{ $selectedPrefecture == $prefecture ? 'selected' : '' }}>
+                            {{ $prefecture }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
         </div>
     
-        <div class="col">
-            <div>
-                <form action="{{ route('book.inventory', $book->id) }}" method="get">
-                    @csrf
-                    <div class="row ms-auto">
-                        <div class="col pe-0 position-relative">
-                            <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
-                                value="{{ $searchQuery }}" style="width: 400px" placeholder="Search stores...">
-                            <span id="clearButton" class="clearButton" onclick="clearSearch()">&times;</span>
-                        </div>
-                        <div class="col ps-1">
-                            <button type="submit" class="btn btn-warning search-icon">
-                                <i class="fa-solid fa-magnifying-glass text-white"></i>
-                            </button>
-                        </div>
+        <!-- Search Form -->
+        <div class="col-12 col-md-6">
+            <form action="{{ route('book.inventory', $book->id) }}" method="get">
+                @csrf
+                <div class="d-flex">
+                    <div class="position-relative flex-grow-1 me-2">
+                        <input type="text" id="searchInput" name="search" class="form-control rounded searchInput"
+                            value="{{ $searchQuery }}" placeholder="Search stores...">
+                        <span id="clearButton" class="clearButton" onclick="clearSearch()" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">&times;</span>
                     </div>
-                </form>
-            </div>
+                    <button type="submit" class="btn btn-warning search-icon">
+                        <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+    
     
     <script>
         function clearSearch() {
@@ -119,7 +117,7 @@
                     <div class="row ms-3">
                         <!-- store_id を配列で保持 -->
                         <input type="hidden" name="store_ids[]" value="{{ $store->id }}">
-                            <div class="col-4 d-flex justify-content-center align-items-center">
+                            <div class="col-md-4 d-flex justify-content-center align-items-center">
                                 <a href="{{ route('book.store_show', $store->id) }}" class="link-book img-store-inventory">
                                     @if (optional($store->profile)->avatar)
                                         <img src="{{ optional($store->profile)->avatar }}" alt="store name: {{ $store->name }}" class="img-store-inventory">
@@ -130,7 +128,7 @@
                             </div>
 
 
-                            <div class="col-4 my-auto text-black">
+                            <div class="col-md-4 my-auto text-black">
                                 <a href="{{ route('book.store_show', $store->id) }}" class="link-book">
                                     <h3>{{ $store->name }}</h3>
                                     <h5>{{ optional($store->profile)->phone_number }}</h5>
@@ -138,7 +136,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4 my-auto">
+                            <div class="col-md-4 my-auto">
                                 @php
                                     $inventory = $inventories[$store->id]->stock ?? 0;
                                 @endphp
