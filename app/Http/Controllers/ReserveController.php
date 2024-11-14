@@ -67,4 +67,28 @@ class ReserveController extends Controller
     {
         //
     }
+
+    public function getBooksByReservationNumber(Request $request)
+    {
+        $reservationNumber = $request->input('reservation_number');
+
+        // reservation_numberに一致するすべてのレコードを取得
+        $reserves = Reserve::where('reservation_number', $reservationNumber)->with('book')->get();
+
+        if ($reserves->isEmpty()) {
+            return response()->json(['error' => 'No books found for the provided reservation number.'], 404);
+        }
+
+        // 必要な情報のみ抽出して返す
+        $bookData = $reserves->map(function ($reserve) {
+            return [
+                'book_id' => $reserve->book->id,
+                'title' => $reserve->book->title,
+                'price' => $reserve->book->price,
+                'quantity' => $reserve->quantity,
+            ];
+        });
+
+        return response()->json($bookData);
+    }
 }

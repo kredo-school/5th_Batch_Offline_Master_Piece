@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\controllers\GuestOrderController;
 use App\Http\controllers\LikeController;
 use App\Http\controllers\EditController;
+use App\Http\Controllers\ReserveController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -136,6 +137,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/search', [StoreController::class, 'storeSearch'])->name('search');
         Route::get('/receipt', [StoreController::class, 'getReceipt'])->name('getReceipt');
         Route::post('/checkout', [StoreController::class, 'checkout'])->name('checkout');
+        Route::post('/reserve-books', [ReserveController::class, 'getBooksByReservationNumber']);
+
 
             // store edit周辺
 
