@@ -273,22 +273,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], f
 
 // ソーシャルログイン
 
-// route::controller(AuthController::class)->group(function(){
-//     Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
-//     Route::get('auth/google/callback', 'handleGoogleCallback');
-
-// });
 Route :: get ( '/google/redirect' , [ App\Http\Controllers\AuthController :: class , 'redirectToGoogle' ])-> name ( 'google.redirect' );
 Route :: get ( '/google/callback' , [ App\Http\Controllers\AuthController :: class , 'handleGoogleCallback' ])-> name ( 'google.callback' );
 
 
 
 
-// googleのもの
-// Route::controller(AuthController::class)->group(function(){
-//     Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
-//     Route::get('auth/google/callback', 'handleGoogleCallback');
-
-// githubのもの
-// Route::get('login/github', [AuthController::class, 'redirectToGithub']);
-// Route::get('login/github/callback', [AuthController::class, 'handleGithubCallback']);
