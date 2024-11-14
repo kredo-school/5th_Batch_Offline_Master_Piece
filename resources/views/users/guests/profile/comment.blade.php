@@ -9,16 +9,24 @@
 
     <div class="row justify-content-center mt-2">
         <div class="col-8 mt-3">
-            <div class="p-4 d-flex justify-content-around">
-                <a href="{{ route('profile.show', $user->id) }}"
-                    class="fw-bold text-decoration-none fs-40 text-grey">Review</a>
-                @if(Auth::id() == $user->id || Auth::user()->role_id == 1)
-                    <a href="{{ route('profile.bookmark', $user->id) }}"
-                        class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
-                    <a href="{{ route('profile.order', $user->id) }}"
-                        class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
-                    <a href="{{ route('profile.comment', $user->id) }}"
-                        class="fw-bold text-decoration-none fs-40 text-dark">Comment</a>
+            <div class="p-4 row">
+                <div class="col-md-6 col-lg-3 col-12 text-center">
+                    <a href="{{ route('profile.show', $user->id) }}"
+                        class="fw-bold text-decoration-none fs-40 text-grey">Review</a>
+                </div>
+                @if (Auth::id() == $user->id || Auth::user()->role_id == 1)
+                    <div class="col-md-6 col-lg-3 col-12 text-center">
+                        <a href="{{ route('profile.bookmark', $user->id) }}"
+                            class="fw-bold text-decoration-none fs-40 text-grey">Bookmark</a>
+                    </div>
+                    <div class="col-md-6 col-lg-3 col-12 text-center">
+                        <a href="{{ route('profile.order', $user->id) }}"
+                            class="fw-bold text-decoration-none fs-40 text-grey">Order</a>
+                    </div>
+                    <div class="col-md-6 col-lg-3 col-12 text-center">
+                        <a href="{{ route('profile.comment', $user->id) }}"
+                            class="fw-bold text-decoration-none fs-40 text-dark">Comment</a>
+                    </div>
                 @endif
             </div>
             <div class="bg-white rounded mt-2 px-5 overflow-auto profile-list">
