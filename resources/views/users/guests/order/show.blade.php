@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="row mt-5">
-            <div class="col-9">
+            <div class="col-lg-9 col-md-9">
 
                 <div class="card ms-5">
                     <div class="card-body card-size overflow-auto bg-white">
@@ -13,14 +13,14 @@
                         <div class="mx-3">
                             @forelse (Auth::user()->reserves as $reserve)
                                 <div class="row mb-3">
-                                    <div class="col-3">
+                                    <div class="col-md-12 col-lg-3">
                                         {{-- book image --}}
                                         <div class="text-center">
                                             <a href="{{route('book.show_book', $reserve->book->id)}}"><img src="{{ $reserve->book->image }}" alt="{{$reserve->book->id}}"
-                                                    class="w-75 shadow img-list"></a>
+                                                    class="shadow img-list"></a>
                                         </div>
                                     </div>
-                                    <div class="col-6 fs-32">
+                                    <div class="col-md-12 col-lg-6 fs-32">
                                         {{-- book infomation --}}
                                         <p class="fs-32"><a href="{{route('book.show_book', $reserve->book->id)}}"
                                                 class="text-decoration-none text-dark">{{ $reserve->book->title }}</a>
@@ -59,7 +59,7 @@
                                         <p class="text-danger fs-32 mt-5">¥ <span class="price" data-price="{{$reserve->book->price}}">{{number_format($reserve->book->price)}}</span>
                                         </p>
                                     </div>
-                                    <div class="col-3 text-end">
+                                    <div class="col-md-12 col-lg-3 text-end">
                                         {{-- store,quantity,delete --}}
 
                                         {{-- IDを送る --}}
@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-lg-3 col-md-3">
                 {{-- total --}}
                 @if (Auth::user()->reserves->isNotEmpty())
                     <div class="card text-center mb-2">
