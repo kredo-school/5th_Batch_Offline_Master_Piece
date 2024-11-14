@@ -45,31 +45,24 @@ class BookController extends Controller
     {
         $userId = Auth::id();
 
-        // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
 
-        // 全ジャンルを取得
         $all_genres = $this->genre->all();
 
-        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
-
-        // クエリの準備
         $query = Book::with('authors', 'reviews');
 
         if ($selectedGenreId) {
-            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $selectedGenreId);
             });
         } elseif (!empty($purchasedBooks)) {
-            // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
                 ->pluck('genre_id')
@@ -81,14 +74,11 @@ class BookController extends Controller
                     ->whereIn('genre_id', $genres);
             });
         } else {
-            // 購入履歴がない場合、人気の本を新しい順に取得
             $query->orderBy('publication_date', 'desc');
         }
 
-        // 本を最大20件取得
         $suggestedBooks = $query->limit(30)->get();
 
-        // ビューにデータを渡す
         return view('users.guests.book.suggestion', compact('suggestedBooks', 'all_genres', 'selectedGenreId'));
     }
 
@@ -103,7 +93,6 @@ class BookController extends Controller
         // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
-        // 基本となるクエリを設定
         $query = Book::join('reviews', 'books.id', '=', 'reviews.book_id')
             ->join('author_books', 'books.id', '=', 'author_books.book_id')
             ->join('authors', 'author_books.author_id', '=', 'authors.id')
@@ -119,7 +108,6 @@ class BookController extends Controller
             });
         }
 
-        // 評価順に並べ替え
         $rankedBooks = $query
             ->orderBy('average_rating', 'desc')
             ->limit(20)
@@ -128,8 +116,7 @@ class BookController extends Controller
         // idでグループ化して、最初の1件だけを残す
         $rankedBooks = $rankedBooks->groupBy('id')->map(function ($group) {
             return $group->first(); // 同じidの本があれば、最初の1件を取得
-        })->values(); // インデックスを振り直す
-
+        })->values();
 
         return view('users.guests.book.ranking', compact('rankedBooks', 'all_genres', 'selectedGenreId'));
     }
@@ -138,33 +125,26 @@ class BookController extends Controller
     public function bookNew(Request $request)
     {
 
-
-
         $all_genres = $this->genre->all();
 
-        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genres', []);
 
-
         $query = $this->book->with('authors', 'reviews');
-
 
         if (!empty($selectedGenreId) && !in_array('all', $selectedGenreId)) {
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
-                    ->whereIn('genre_id', $selectedGenreId); // 複数ジャンルに対応
+                    ->whereIn('genre_id', $selectedGenreId);
             });
         }
         if ($selectedGenreId) {
-            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $selectedGenreId);
             });
             $query->orderBy('publication_date', 'desc');
-
         } else {
             $query->orderBy('publication_date', 'desc');
         }
@@ -182,13 +162,11 @@ class BookController extends Controller
         $selectedPrefecture = $request->input('address', 'All Area');
 
         $storeLists = $this->user->where('role_id', 3)
-            // 住所による絞り込み（'All Area'以外が選ばれた場合）
             ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
                 $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
                     $query->where('address', $selectedPrefecture);
                 });
             })
-            // 関連するstoreBooksとそのbookを取得
             ->with([
                 'inventories' => function ($query) {
                     $query->with('book');
@@ -196,14 +174,12 @@ class BookController extends Controller
             ])
             ->get();
 
-
         $reviews = $this->review
             ->where('book_id', $id)
             ->whereHas('user', function ($query) {
                 $query->whereNull('deleted_at'); // ソフトデリートされていないユーザーのみを対象
             })
             ->with('book');
-
 
         $prefectures = [
             'Hokkaido',
@@ -255,7 +231,6 @@ class BookController extends Controller
             'Okinawa'
         ];
 
-
         $sort = $request->get('sort', 'created_at');
 
         switch ($sort) {
@@ -270,8 +245,6 @@ class BookController extends Controller
                 $likes = DB::table('likes')
                     ->select('review_id', DB::raw('count(*) as total_likes'))
                     ->groupBy('review_id');
-
-                // likesが0のレビューも含めて、likes数で並べ替え
                 $reviews->leftJoinSub(
                     $likes,
                     'likes',
@@ -286,73 +259,60 @@ class BookController extends Controller
                 break;
         }
 
-        // クエリを実行してデータを取得
         $reviews = $reviews->get();
 
         // Suggestion
         $userId = Auth::id();
 
-        // 購入済みの本のIDを取得
         $purchasedBooks = DB::table('reserves')
             ->where('guest_id', $userId)
             ->pluck('book_id')
             ->toArray();
 
-        // 全ジャンルを取得
         $all_genres = $this->genre->all();
 
-        // リクエストから選択されたジャンルIDを取得（nullの場合は "All genre" とみなす）
         $selectedGenreId = $request->input('genre');
 
-        // クエリの準備
         $query = Book::with('authors', 'reviews');
 
         if ($selectedGenreId) {
-            // 特定のジャンルが選ばれた場合、そのジャンルに属する本を取得
             $query->whereIn('books.id', function ($subQuery) use ($selectedGenreId) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
                     ->where('genre_id', $selectedGenreId);
             });
         } elseif (!empty($purchasedBooks)) {
-            // 購入履歴がある場合、その履歴から関連するジャンルの本を取得
             $genres = DB::table('genre_books')
                 ->whereIn('book_id', $purchasedBooks)
                 ->pluck('genre_id')
                 ->toArray();
-
             $query->whereIn('books.id', function ($subQuery) use ($genres) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', $genres);
             });
         } else {
-            // 購入履歴がない場合、人気の本を新しい順に取得
             $query->orderBy('publication_date', 'desc');
         }
 
-        // 本を最大20件取得
         $suggestedBooks = $query->limit(30)->get();
-
-
 
         $sameGenreBooks = $this->book
             ->whereIn('books.id', function ($subQuery) use ($book) {
                 $subQuery->select('book_id')
                     ->from('genre_books')
                     ->whereIn('genre_id', function ($genreSubQuery) use ($book) {
-                        // 現在の本のジャンルを取得
                         $genreSubQuery->select('genre_id')
                             ->from('genre_books')
                             ->where('book_id', $book->id);
                     });
             })
-            ->with('genres') // ジャンル情報も取得
-            ->orderBy('publication_date', 'desc') // 最新順に並べ替え
-            ->limit(20) // 最大20件取得
+            ->with('genres')
+            ->orderBy('publication_date', 'desc')
+            ->limit(30)
             ->get();
 
-        // Review Rating
+        // Pop up Review Rating
         $ratingsCount = $book->reviews->count();
 
         $ratingsSummary = [
@@ -383,13 +343,11 @@ class BookController extends Controller
         $book_id = $id;
 
         $this->review = new Review();
-
         $this->review->guest_id = Auth::user()->id;
         $this->review->title = $request->review_title;
         $this->review->body = $request->review_content;
         $this->review->book_id = $book_id;
         $this->review->star_count = $request->input('star-rating');
-
         $this->review->save();
 
         return redirect()->back();
@@ -399,7 +357,6 @@ class BookController extends Controller
     {
         $review = $this->review->findOrFail($id);
         $review->delete();
-
 
         return redirect()->back();
     }
@@ -411,27 +368,23 @@ class BookController extends Controller
 
         $book = $this->book->findOrFail($id);
 
-        // 選択された都道府県（デフォルトは "All Area"）
         $selectedPrefecture = $request->input('address', 'All Area');
+
         $searchQuery = $request->input('search', '');
 
-        // 店舗リストのクエリ構築
         $storeLists = $this->user->where('role_id', 3)
-            // 住所による絞り込み（'All Area'以外が選ばれた場合）
             ->when($selectedPrefecture !== 'All Area', function ($query) use ($selectedPrefecture) {
                 $query->whereHas('profile', function ($query) use ($selectedPrefecture) {
                     $query->where('address', $selectedPrefecture);
                 });
             })
-            // 店舗名の検索
             ->when($searchQuery, function ($query) use ($searchQuery) {
                 return $query->where('name', 'LIKE', "%{$searchQuery}%");
             })
             ->whereHas('inventories', function ($query) use ($id) {
-                $query->where('book_id', $id) // 指定された本IDが在庫にある
-                    ->whereNotNull('store_id'); // store_idがnullでないものを取得
+                $query->where('book_id', $id)
+                    ->whereNotNull('store_id');
             })
-            // 関連するstoreBooksとそのbookを取得
             ->with([
                 'inventories' => function ($query) {
                     $query->with('book');
@@ -439,8 +392,6 @@ class BookController extends Controller
             ])
             ->get();
 
-
-        // 都道府県リスト
         $prefectures = [
             'Hokkaido',
             'Aomori',
@@ -491,7 +442,6 @@ class BookController extends Controller
             'Okinawa'
         ];
 
-        // store_id を取得
         $storeIds = $storeLists->pluck('id');
 
 
@@ -500,8 +450,6 @@ class BookController extends Controller
             ->get()
             ->keyBy('store_id');
 
-
-        // ビューにデータを渡す
         return view('users.guests.book.book_inventory', compact(
             'book',
             'prefectures',
@@ -512,22 +460,14 @@ class BookController extends Controller
         ));
     }
 
-
-
-
-
     public function addReserved(Request $request, $id)
     {
-        // dd($request->all());
-
         $rules = [];
 
-        // 各store_idごとに動的なバリデーションルールを作成
         foreach ($request->input('store_ids', []) as $storeId) {
             $rules["quantities.$storeId"] = 'nullable|integer|min:1|max:100';
         }
 
-        // カスタムエラーメッセージを設定
         $messages = [
             'quantities.*.max' => 'The quantity for this store must not be greater than 100.',
             'quantities.*.min' => 'The quantity for this store must be at least 1.',
@@ -536,7 +476,6 @@ class BookController extends Controller
 
         $validated = $request->validate($rules, $messages);
 
-        // 全ての数量が null または 0 の場合のエラーメッセージ
         if (collect($validated['quantities'])->filter(fn($quantity) => $quantity !== null && $quantity > 0)->isEmpty()) {
             return redirect()->back()->withErrors(['quantities' => 'Please put QUANTITY in at least one store.']);
         }
@@ -547,18 +486,16 @@ class BookController extends Controller
             $amount = $request->quantities[$storeId] ?? 0;
 
             if ($amount > 0) {
-                // 既存の予約を確認
                 $existingReserve = Reserve::where('guest_id', Auth::user()->id)
                     ->where('book_id', $book_id)
                     ->where('store_id', $storeId)
+                    ->whereNull('reservation_number')
                     ->first();
 
                 if ($existingReserve) {
-                    // 既存の予約があれば数量を合算して更新
                     $existingReserve->quantity += $amount;
                     $existingReserve->save();
                 } else {
-                    // 予約がなければ新規作成
                     $reserve = new Reserve();
                     $reserve->guest_id = Auth::user()->id;
                     $reserve->book_id = $book_id;
@@ -576,7 +513,6 @@ class BookController extends Controller
     public function authorShow($id)
     {
         $author = $this->author->findOrFail($id);
-
 
         return view('users.guests.book.show_author', compact('author'));
     }

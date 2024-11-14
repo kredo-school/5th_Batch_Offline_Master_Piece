@@ -32,6 +32,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id', //register-storeにて追加
+        'google_id',
     ];
 
     /**
@@ -141,10 +142,5 @@ class User extends Authenticatable
     public function isBookmarked($thread_id)
     {
         return $this->hasMany(ThreadBookmark::class, 'guest_id')->where('thread_id', $thread_id)->exists();
-    }
-
-    public function thread_bookmarks()
-    {
-        return $this->belongsToMany(User::class, 'thread_bookmarks', 'guest_id', 'thread_id');
     }
 }

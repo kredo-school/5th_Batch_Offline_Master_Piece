@@ -113,7 +113,7 @@
                         </div>
                     </div>
 
-                        <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Select Store <i
+                        <button type="submit" name="action" value="update" class="btn btn-warning w-100 p-2">Confirm Order <i
                                 class="fa-solid fa-arrow-right"></i></button>
                     </form>
                 @endif

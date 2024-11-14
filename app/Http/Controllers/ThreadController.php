@@ -16,6 +16,7 @@ use App\Http\Requests\ThreadSearchRequest;
 use App\Http\Requests\ThreadCommentRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ThreadController extends Controller
 {
@@ -33,43 +34,45 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function home(ThreadSearchRequest $request)
     {
         // genre
         $genre_id = $request->genre_id;
 
-        if($request->bookmark == 'true'){
+        if ($request->bookmark == 'true') {
             $thread_ids = $this->thread_bookmark->where('guest_id', Auth::id())->pluck('thread_id');
-            $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
-            $search_threads = collect();
-        }else{
-            if($genre_id){
+            $threads = $this->thread->whereIn('id', $thread_ids)->latest()->paginate(10);
+            $search_threads = new LengthAwarePaginator([], 0, 10); // 空のページネーターを作成
+        } else {
+            if ($genre_id) {
                 $thread_ids = ThreadGenre::where('genre_id', $genre_id)->pluck('thread_id');
-
-                if($thread_ids){
-                    $threads = $this->thread->whereIn('id', $thread_ids)->latest()->get();
-                }
-            }else{
-                $threads = $this->thread->latest()->get();
+                $threads = $this->thread->whereIn('id', $thread_ids)->latest()->paginate(10);
+            } else {
+                $threads = $this->thread->latest()->paginate(10);
             }
-
 
             // search
             $validated = $request->validated();
-            if(isset($validated['search'])){
-                $search_threads = $this->thread->where('title', 'like', '%'.$validated['search'].'%')->get();
-            }else{
-                $search_threads = collect();
+            if (!empty($validated['search'])) {
+                $search_threads = $this->thread->where('title', 'like', '%'.$validated['search'].'%')->paginate(10);
+            } else {
+                // 検索結果がない場合のみ空のページネーターを作成
+                $search_threads = new LengthAwarePaginator([], 0, 10);
             }
         }
 
-        // other
-        $all_comments =  $this->comment->latest()->get();
-        $all_genres =  $this->genre->all();
+        // ページネーションリンクにフィルタを追加
+        $threads->appends($request->only(['genre_id', 'search', 'bookmark']));
+        $search_threads->appends($request->only(['search']));
 
+        // other
+        $all_comments = $this->comment->latest()->get();
+        $all_genres = $this->genre->all();
 
         return view('thread.home')->with(compact('threads', 'all_comments', 'all_genres', 'search_threads', 'genre_id', 'request'));
     }
+
 
     /**
      * Show the form for creating a new resource.

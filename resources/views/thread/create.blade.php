@@ -28,8 +28,8 @@
                     <div class="mb-3">
                         @foreach ($all_genres as $genre)
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" name="genre[]" id="{{$genre->name}}" value="{{$genre->id}}" class="form-check-input">
-                                <label for="{{$genre->name}}" class="form-check-label main-text fw-semibold">{{$genre->name}}</label>
+                                <input type="checkbox" name="genre[]" id="{{$genre->id}}" value="{{$genre->id}}" class="form-check-input" {{is_array(old('genre')) && in_array($genre->id, old('genre')) ? 'checked': ''}}>
+                                <label for="{{$genre->id}}" class="form-check-label main-text fw-semibold">{{$genre->name}}</label>
                             </div>
                         @endforeach
                         @error('genre')
@@ -48,10 +48,10 @@
                     <div id="image-info" class="form-text mb-5">
                         <p class="mb-0">Acceptable formats: jpeg, jpg, png, gif only.</p>
                         <p class="mt-0">Maximum file size is 1048kb.</p>
+                        @error('image')
+                            <p class="text-danger small">{{$message}}</p>
+                        @enderror
                     </div>
-                    @error('image')
-                        <p class="text-danger small">{{$message}}</p>
-                    @enderror
 
                     <input type="submit" value="POST" name="btn_submit" class="btn btn-orange w-50 mx-auto d-block mb-5">
                     @error('btn_submit')
