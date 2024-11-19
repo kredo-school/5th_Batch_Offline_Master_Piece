@@ -19,17 +19,29 @@
                     <th>Reserved date</th>
                 </thead>
                 <tbody>
-                    @foreach (Auth::user()->store_reserved as $reserve)
+                    @foreach ($storeReserved as $reserve)
                         @if (!in_array($reserve->reservation_number, $reservationNumber))
-                            <tr>
-                                <td><a href="{{ route('store.reservationShow', $reserve->id) }}">{{$reserve->reservation_number}}</a></td>
-                                <td>
-                                    {{ date('Y/m/d', strtotime($reserve->receiving_date)) }}
-                                </td>
-                                <td>
-                                    {{ date('Y/m/d', strtotime($reserve->updated_at)) }}
-                                </td>
-                            </tr>
+                            @if ($reserve->deleted_at)
+                                <tr class="table-secondary">
+                                    <td><a href="{{ route('store.reservationShow', $reserve->id) }}"><i class="fa-solid fa-check"></i> {{$reserve->reservation_number}}</a></td>
+                                    <td>
+                                        {{ date('Y/m/d', strtotime($reserve->receiving_date)) }}
+                                    </td>
+                                    <td>
+                                        {{ date('Y/m/d', strtotime($reserve->updated_at)) }}
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td><a href="{{ route('store.reservationShow', $reserve->id) }}">{{$reserve->reservation_number}}</a></td>
+                                    <td>
+                                        {{ date('Y/m/d', strtotime($reserve->receiving_date)) }}
+                                    </td>
+                                    <td>
+                                        {{ date('Y/m/d', strtotime($reserve->updated_at)) }}
+                                    </td>
+                                </tr>
+                            @endif
                         @endif
 
                         @php
@@ -40,6 +52,11 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="justify-content-center d-flex">
+                {{ $storeReserved->links() }}
+            </div>
+
         </div>
     </div>
 @endsection
