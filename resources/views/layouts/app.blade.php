@@ -67,7 +67,7 @@
 
                     </div>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>
@@ -548,22 +548,50 @@
             @include('layouts.modals.genre')
 
             @if (request()->is('guest/*'))
-                <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav">
-                    <div class="row mx-auto">
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('book.new') }}"
+                <nav class="navbar navbar-expand-md navbar-light shadow-sm text-white sub-nav row justify-content-center ">
+                    <div class="col-9 row justify-content-between">
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('book.new') }}"
+                                class="text-menu text-decoration-none">New</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="" class="text-menu text-decoration-none"
+                            data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('book.ranking') }}"
+                            class="text-menu text-decoration-none">Ranking</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('book.suggestion') }}"
+                            class="text-menu text-decoration-none">Suggestion</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('thread.home') }}"
+                            class="text-menu text-decoration-none">Thread</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('book.store_list') }}"
+                            class="text-menu text-decoration-none">Store</a>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-auto mt-3 fs-5 ">
+                            <a href="{{ route('inquiry') }}"
+                            class="text-menu text-decoration-none">Inquiry</a>
+                        </div>
+                        {{-- <p class="col-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('book.new') }}"
                                 class="text-menu text-decoration-none">New</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="" class="text-menu text-decoration-none"
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="" class="text-menu text-decoration-none"
                                 data-bs-toggle="modal" data-bs-target="#genre-modal">Genre</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('book.ranking') }}"
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('book.ranking') }}"
                                 class="text-menu text-decoration-none">Ranking</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('book.suggestion') }}"
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('book.suggestion') }}"
                                 class="text-menu text-decoration-none">Suggestion</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('thread.home') }}"
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('thread.home') }}"
                                 class="text-menu text-decoration-none">Thread</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('book.store_list') }}"
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('book.store_list') }}"
                                 class="text-menu text-decoration-none">Store</a></p>
-                        <p class="col px-5 mt-3 fs-5 "><a href="{{ route('inquiry') }}"
-                                class="text-menu text-decoration-none">Inquiry</a></p>
+                        <p class="col-sm-6 col-md-3 col-lg mt-3 fs-5 "><a href="{{ route('inquiry') }}"
+                                class="text-menu text-decoration-none">Inquiry</a></p> --}}
                     </div>
                 </nav>
             @endif
