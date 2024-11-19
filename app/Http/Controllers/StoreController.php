@@ -176,13 +176,14 @@ class StoreController extends Controller
     public function reservationList()
     {
         $reservationNumber = [];
-        return view('users.store.reservation.confirm-reservation-list')->with(compact('reservationNumber'));
+        $storeReserved = Auth::user()->store_reserved()->paginate(10);
+        return view('users.store.reservation.confirm-reservation-list')->with(compact('reservationNumber', 'storeReserved'));
     }
 
     public function reservationShow($reserve_id)
     {
-        $reservation = $this->reserve->findOrFail($reserve_id);
-        $reserves = $this->reserve->where('reservation_number', $reservation->reservation_number)->get();
+        $reservation = $this->reserve->withTrashed()->findOrFail($reserve_id);
+        $reserves = $this->reserve->withTrashed()->where('reservation_number', $reservation->reservation_number)->get();
 
         $total_price = 0;
         foreach($reserves as $reserve):
