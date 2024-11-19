@@ -171,7 +171,7 @@
                             </a>
                         @endif
                     </div>
-                    <div class="row my-auto">
+                    <div class="row my-auto d-flex">
                         <div class="col-md-4 fs-24">
                             @php
                                 $fullStars = floor($review->star_count);
@@ -191,22 +191,23 @@
                                 <i class="fa-regular fa-star text-warning"></i>
                             @endfor
                         </div>
-                        <div class="col-md-6 ms-5 fw-bold fs-24 d-flex">
-                            {{ $review->title }}
+                        <div class="col-md-8 fw-bold fs-24 d-flex">
+                            <div class="col-md-11">
+                                {{ $review->title }}
+                            </div>
+                            <div class="col-md-1 ms-2">
+                                <form action="{{ route('book.review_delete', $review->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    @if (Auth::check() && Auth::id() === $review->user->id)
+                                        <button class="text-danger border-0 bg-white fs-32"><i
+                                                class="fa-regular fa-trash-can"></i></button>
+                                    @endif
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <form action="{{ route('book.review_delete', $review->id) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                @if (Auth::check() && Auth::id() === $review->user->id)
-                                    <button class="text-danger border-0 bg-white fs-32"><i
-                                            class="fa-regular fa-trash-can"></i></button>
-                                @endif
-                            </form>
-                        </div>
-
-                        <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     </div>
+                    <p class="text-muted mb-0">{{ $review->created_at }}</p>
                     <div class="row">
                         <div class="col-10">
                             <p class="h4 wrap-text mt-3">{{ $review->body }}</p>

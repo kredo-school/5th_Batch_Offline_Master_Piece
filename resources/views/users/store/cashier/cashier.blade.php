@@ -55,42 +55,51 @@
                                 <div class="d-flex justify-content-center position-relative">
                                     <form id="isbn-form" class="d-flex w-75">
                                         @csrf
-                                        <input type="text" id="isbn_code" name="isbn_code" class="form-control rounded-pill" placeholder="ISBN code..." style="margin-right: 8px;">
-                                        <input type="text" id="reservation_number" name="reservation_number" class="form-control rounded-pill" placeholder="Reservation number..." style="margin-right: 8px;">
-                                        <span id="clear-button" class="clear-button fw-light">&times;</span>
+                                        <div class="position-relative me-2">
+                                            <input type="text" id="isbn_code" name="isbn_code" class="form-control rounded-pill" placeholder="ISBN code...">
+                                            <span id="clear-isbn" class="clear-button fw-light" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none;">&times;</span>
+                                        </div>
+                                        <div class="position-relative me-2">
+                                            <input type="text" id="reservation_number" name="reservation_number" class="form-control rounded-pill" placeholder="Reservation number...">
+                                            <span id="clear-reservation" class="clear-button fw-light" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none;">&times;</span>
+                                        </div>
                                         <button type="submit" class="btn btn-orange rounded-pill">Add</button>
                                     </form>
                                 </div>
-                                                                <script>
-                                    // 正しいIDを取得
-                                    const searchInput = document.getElementById('isbn_code');  // IDを変更
-                                    const clearBtn = document.getElementById('clear-button');
-
-                                    // 入力フィールドのイベントリスナーを設定
-                                    searchInput.addEventListener('input', function() {
-                                        if (searchInput.value.length > 0) {
-                                            clearBtn.style.display = 'inline';  // テキストがあるときはバツ印を表示
-                                        } else {
-                                            clearBtn.style.display = 'none';    // テキストがないときは非表示
-                                        }
-                                    });
-
-                                    // バツ印をクリックしたときの処理
-                                    clearBtn.addEventListener('click', function() {
-                                        searchInput.value = '';  // 入力フィールドをクリア
-                                        clearBtn.style.display = 'none';  // バツ印を非表示
-                                        searchInput.focus();  // フィールドにフォーカスを戻す
-                                    });
-                                </script>
-
                                 <ul id="book-list" class="table-list mt-3"></ul>
-
                             </div>
-                            {{-- <p style="position: absolute; bottom: 2%; left: 25%; width: 50%;">
-                                <button type="submit" class="btn btn-primary cashier-submit-button">Subtotal</button>
-                            </p> --}}
                         </div>
                     </div>
+
+                    <script>
+                        // ISBNコードと予約番号の入力フィールドとクリアボタンを取得
+                        const isbnInput = document.getElementById('isbn_code');
+                        const reservationInput = document.getElementById('reservation_number');
+                        const clearIsbn = document.getElementById('clear-isbn');
+                        const clearReservation = document.getElementById('clear-reservation');
+
+                        // ISBNコード入力のクリアボタンのイベント
+                        isbnInput.addEventListener('input', function () {
+                            clearIsbn.style.display = isbnInput.value.length > 0 ? 'inline' : 'none';
+                        });
+
+                        clearIsbn.addEventListener('click', function () {
+                            isbnInput.value = '';
+                            clearIsbn.style.display = 'none';
+                            isbnInput.focus();
+                        });
+
+                        // 予約番号入力のクリアボタンのイベント
+                        reservationInput.addEventListener('input', function () {
+                            clearReservation.style.display = reservationInput.value.length > 0 ? 'inline' : 'none';
+                        });
+
+                        clearReservation.addEventListener('click', function () {
+                            reservationInput.value = '';
+                            clearReservation.style.display = 'none';
+                            reservationInput.focus();
+                        });
+                    </script>
 
                     <div class="col mx-3">
                         <div>
@@ -154,7 +163,7 @@
             </div>
 
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function () {
                     // グローバル変数の定義
                     const isbnForm = document.getElementById('isbn-form');
                     const isbnCodeInput = document.getElementById('isbn_code');
@@ -174,15 +183,14 @@
                     errorMessageElement.style.marginTop = "5px";
                     checkoutButton.parentNode.insertBefore(errorMessageElement, checkoutButton);
 
-                    // isbn-formの送信イベントを処理
-                    isbnForm.addEventListener('submit', function(e) {
+                    // ISBNフォーム送信イベントを処理
+                    isbnForm.addEventListener('submit', function (e) {
                         e.preventDefault();
 
                         const isbnCode = isbnCodeInput.value.trim();
                         const reservationNumber = reservationNumberInput.value.trim();
 
                         if (isbnCode) {
-                            // ISBNコードが入力されている場合
                             fetch('/store/books/find', {
                                 method: 'POST',
                                 headers: {
@@ -191,21 +199,20 @@
                                 },
                                 body: JSON.stringify({ isbn_code: isbnCode })
                             })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.title && data.price && data.book_id) {
-                                    addBookToList(data.title, data.price, data.book_id, 1);
-                                    isbnCodeInput.value = ''; // ISBNコードフィールドをクリア
-                                } else {
-                                    alert('Book not found');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Error occurred while fetching book data.');
-                            });
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.title && data.price && data.book_id) {
+                                        addBookToList(data.title, data.price, data.book_id, 1);
+                                        isbnCodeInput.value = ''; // ISBNコードフィールドをクリア
+                                    } else {
+                                        alert('Book not found');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Error occurred while fetching book data.');
+                                });
                         } else if (reservationNumber) {
-                            // reservation_numberが入力されている場合
                             fetch('/store/reserve-books', {
                                 method: 'POST',
                                 headers: {
@@ -214,24 +221,23 @@
                                 },
                                 body: JSON.stringify({ reservation_number: reservationNumber })
                             })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('No books found for the provided reservation number.');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                data.forEach(book => {
-                                    addBookToList(book.title, book.price, book.book_id, book.quantity);
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('No books found for the provided reservation number.');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    data.forEach(book => {
+                                        addBookToList(book.title, book.price, book.book_id, book.quantity);
+                                    });
+                                    reservationNumberInput.value = ''; // 予約番号フィールドをクリア
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert(error.message);
                                 });
-                                reservationNumberInput.value = ''; // 予約番号フィールドをクリア
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert(error.message);
-                            });
                         } else {
-                            // どちらも入力されていない場合
                             alert('Please enter either an ISBN code or a reservation number.');
                         }
                     });
@@ -251,7 +257,7 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span> × </span>
-                                        <input type="number" value="${quantity}" min="1" class="book-count rounded-pill fw-bold" onchange="updateTotal(this)">
+                                        <input type="number" value="${quantity}" min="1" class="book-count rounded-pill fw-bold">
                                         <button class="delete-btn btn ms-2"><i class="fa-regular fa-trash-can"></i></button>
                                     </div>
                                 </div>
@@ -263,8 +269,15 @@
 
                         bookList.appendChild(bookLi);
 
+                        const inputElement = bookLi.querySelector('.book-count');
                         const deleteBtn = bookLi.querySelector('.delete-btn');
-                        deleteBtn.addEventListener('click', function() {
+
+                        // イベントリスナーを追加
+                        inputElement.addEventListener('change', function () {
+                            updateTotal(inputElement);
+                        });
+
+                        deleteBtn.addEventListener('click', function () {
                             bookList.removeChild(bookLi);
                             updateTotalAmount();
                             updateChangeAmount();
@@ -274,7 +287,7 @@
                         updateChangeAmount();
                     }
 
-                    // 合計金額と数量を更新する関数
+                    // 個別アイテムの合計を更新する関数
                     function updateTotal(input) {
                         const bookLi = input.closest('.table-row');
                         const priceElement = bookLi.querySelector('.book-price');
@@ -333,7 +346,7 @@
                     receivedAmountInput.addEventListener('input', updateChangeAmount);
 
                     // 支払い方法変更時のイベント
-                    paymentMethod.addEventListener('change', function() {
+                    paymentMethod.addEventListener('change', function () {
                         const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
                         const totalAmount = parseFloat(totalAmountText);
 
@@ -348,40 +361,40 @@
                     });
 
                     // チェックアウトボタンのクリックイベント
-                    checkoutButton.addEventListener('click', function() {
-                        const receivedAmount = parseFloat(receivedAmountInput.value || 0);
-                        const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
-                        const totalAmount = parseFloat(totalAmountText);
-                        const change = receivedAmount - totalAmount;
-                        const userId = userIdInput.value || null;
+                    checkoutButton.addEventListener('click', function () {
+                    const receivedAmount = parseFloat(receivedAmountInput.value || 0);
+                    const totalAmountText = totalAmountElement.textContent.replace('¥', '').trim();
+                    const totalAmount = parseFloat(totalAmountText);
+                    const change = receivedAmount - totalAmount;
+                    const userId = userIdInput.value || null;
 
-                        const books = [];
-                        bookList.querySelectorAll('.table-row').forEach(row => {
-                            const bookId = row.dataset.bookId;
-                            const quantity = parseInt(row.querySelector('.book-count').value);
-                            books.push({ book_id: bookId, quantity: quantity });
-                        });
+                    const books = [];
+                    bookList.querySelectorAll('.table-row').forEach(row => {
+                        const bookId = row.dataset.bookId;
+                        const quantity = parseInt(row.querySelector('.book-count').value);
+                        books.push({ book_id: bookId, quantity: quantity });
+                    });
 
-                        if (!userId || books.length === 0) {
-                            alert("User ID and book list are required.");
-                            return;
-                        }
+                    if (!userId || books.length === 0) {
+                        alert("User ID and book list are required.");
+                        return;
+                    }
 
-                        fetch('/store/checkout', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({
-                                user_id: userId,
-                                total_amount: totalAmount,
-                                received_amount: receivedAmount,
-                                change_amount: change,
-                                payment_method: paymentMethod.value,
-                                books: books
-                            })
+                    fetch('/store/checkout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            total_amount: totalAmount,
+                            received_amount: receivedAmount,
+                            change_amount: change,
+                            payment_method: paymentMethod.value,
+                            books: books
                         })
+                    })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
@@ -398,7 +411,6 @@
                     });
                 });
             </script>
-
 
             <style>
                 .cashier-card{

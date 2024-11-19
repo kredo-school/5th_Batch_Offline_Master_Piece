@@ -6,12 +6,12 @@
     <div>
         <!-- 検索フォーム -->
         <?php
-        function highlightKeyword($text, $keyword)
-        {
-            // 正規表現で指定されたキーワードをハイライト（例：<mark>タグで囲む）
-            return preg_replace('/(' . preg_quote($keyword, '/') . ')/i', '<mark>$1</mark>', $text);
-        }
-        
+        // function highlightKeyword($text, $keyword)
+        // {
+        //     // 正規表現で指定されたキーワードをハイライト（例：<mark>タグで囲む）
+        //     return preg_replace('/(' . preg_quote($keyword, '/') . ')/i', '<mark>$1</mark>', $text);
+        // }
+
         ?>
         <div class="d-flex justify-content-center mt-3">
             <form action="{{ route('store.books.search') }}" class="d-flex">
